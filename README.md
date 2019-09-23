@@ -41,18 +41,22 @@ Luego si deseas correr solo el frontend
 ```
 yarn start
 ```
+Y listo! El proyecto esta corriendo en el puerto 3000
+puedes ir a http://localhost:3000/ en tu navegador y observarlo. 
+
+
 Si deseas solo correr el backend
 ```
 yarn run serve
 ```
+El backend se encuentra en el puerto 5000. Usa http://localhost:5000/ si deseas probarlo con Postman
 
 Si deseas correr tanto frontend como backend 
 ``` 
 yarn run dev
 ```
 
-Y listo! El proyecto esta corriendo en el puerto 3000
-puedes ir a http://localhost:3000/ en tu navegador y observarlo. 
+
 
 
 ### Instalar una dependencia
