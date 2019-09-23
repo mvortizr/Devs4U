@@ -48,4 +48,4 @@ puedes ir a http://localhost:3000/ en tu navegador y observarlo.
 ### Instalar una dependencia
 
 Teclea 
-``` yarn add nombreDependencia ``
+``` yarn add nombreDependencia ```
