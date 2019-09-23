@@ -49,3 +49,7 @@ puedes ir a http://localhost:3000/ en tu navegador y observarlo.
 
 Teclea 
 ``` yarn add nombreDependencia ```
+
+### Sobre las dependencias en el backend
+Express: ayuda a hacer las request http en node, simplificandola. Especialmente utilizaremos su middleware y su router
+BodyParser: permite parsear el body de un request
