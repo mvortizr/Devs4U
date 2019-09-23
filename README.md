@@ -32,17 +32,31 @@ y en https://nodejs.org/en/
 Abre la consola git bash dentro de la carpeta devs4u.
 
 Si es la primera vez que abres el proyecto tipea 
-``` yarn install```
+``` 
+yarn install
+```
 para instalar las dependencias
 
 Luego si deseas correr solo el frontend
-```	yarn start```
-
-Si deseas correr tanto frontend como backend (Aun no funciona wait)
-``` yarn run dev```
-
+```
+yarn start
+```
 Y listo! El proyecto esta corriendo en el puerto 3000
 puedes ir a http://localhost:3000/ en tu navegador y observarlo. 
+
+
+Si deseas solo correr el backend
+```
+yarn run serve
+```
+El backend se encuentra en el puerto 5000. Usa http://localhost:5000/ si deseas probarlo con Postman
+
+Si deseas correr tanto frontend como backend 
+``` 
+yarn run dev
+```
+
+
 
 
 ### Instalar una dependencia
