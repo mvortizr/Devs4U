@@ -29,7 +29,7 @@ Se necesita tener instalado yarn y node en sus últimas versiones (LTS).
 Puedes descargarlos en: https://yarnpkg.com/en/docs/install#windows-stable
 y en https://nodejs.org/en/
 
-Abre la consola en donde
+Abre la consola git bash dentro de la carpeta devs4u.
 
 Si es la primera vez que abres el proyecto tipea 
 ``` yarn install```
@@ -51,5 +51,5 @@ Teclea
 ``` yarn add nombreDependencia ```
 
 ### Sobre las dependencias en el backend
-Express: ayuda a hacer las request http en node, simplificandola. Especialmente utilizaremos su middleware y su router
-BodyParser: permite parsear el body de un request
+**Express**: ayuda a hacer las request http en node, simplificandola. Especialmente utilizaremos su middleware y su router
+**BodyParser**: permite parsear el body de un request
