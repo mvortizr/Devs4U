@@ -1,8 +1,9 @@
 {
-  "name": "devs4u",
+  "name": "Devs4u",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "concurrently": "^4.1.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.2"
@@ -10,12 +11,15 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "serve": "nodemon ./server/server.js",
+    "dev": "concurrently --kill-others \"yarn run serve\" \"yarn start\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "http://localhost:5000/",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -27,5 +31,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "pretty-quick --staged",
+      "eslint src/ --fix",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
   }
 }
