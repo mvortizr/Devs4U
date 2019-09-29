@@ -1,6 +1,7 @@
 import React from 'react';
 import {TextField, Button, Typography, Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
     marginGrid: {
@@ -21,6 +22,16 @@ const Login = props => {
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
     };
+
+    const handleSubmit = () => {
+        console.log('Im fired login');
+        axios.post('/login', values)
+            .then((response) => {
+                  console.log('login response',response)
+            }, (error) => {
+                console.log(error);
+            });   
+    }
     
     return(
         <>
@@ -37,11 +48,7 @@ const Login = props => {
                             Inicia sesión 
                         </Typography>
                     </Grid>
-                    <Grid item xs={12}>
-                        <Typography component="h5" variant="h5">
-                            como {props.role}
-                         </Typography>
-                    </Grid>
+                    
                     <Grid item xs={12}>
                         <TextField
                             label="Correo"
@@ -64,7 +71,7 @@ const Login = props => {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Button variant="contained" color="primary">        
+                        <Button variant="contained" color="primary" onClick={handleSubmit}>        
                             Iniciar Sesión
                         </Button>
                     </Grid>

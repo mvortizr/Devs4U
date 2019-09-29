@@ -1,13 +1,22 @@
 import React from 'react';
+import { BrowserRouter as  Router, Switch, Route} from "react-router-dom";
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
 import Login from './pages/Login';
-import Registration from './pages/Registration';
+import Registration from './pages/Registration'
 
+
+/* TODO manejar los roles*/
 function App() {
   return (
-  	<>
-    <Login role="desarrollador"/>
-    <Registration role="contratista"/>
-    </>
+    <Router>
+	    <Switch>
+	      <Route exact path="/" render={ ()=> <Home/>}/>
+	      <Route exact path='/login' render={ ()=> <Login/>}/>
+	      <Route exact path='/register' render={ ()=> <Registration/>}/>
+	      <Route component={NotFound} />
+	    </Switch>
+    </Router>
   );
 }
 

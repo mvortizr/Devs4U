@@ -5,30 +5,28 @@ const cors = require('cors');
 const path = require ('path');
 const app = express();
 const passport = require('passport');
-const session = require('express-session');
-
-require('../config/passport')(passport);
+const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 
 const router = require('./routes/index');
 
 const publicPath = path.join(__dirname, '..', 'public');
 
-
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(publicPath)));
+app.use(cookieSession({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
+require('../config/passport')(passport);
 
-
-app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true,
-  //cookie: { secure: true }
-}))
     
 app.set('PORT', process.env.PORT || 5000);
 

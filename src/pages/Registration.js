@@ -1,6 +1,7 @@
 import React from 'react';
 import {TextField, Button, Typography, Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
     marginGrid: {
@@ -23,6 +24,16 @@ const Registration = props => {
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
     };
+
+    const handleSubmit = () => {
+        console.log('Im fired reg');
+        axios.post('/register', values)
+            .then((response) => {
+                  console.log('reg response',response)
+            }, (error) => {
+                console.log(error);
+            });   
+    }
     
     return(
         <>
@@ -39,12 +50,7 @@ const Registration = props => {
                             Registrate
                         </Typography>
                     </Grid>
-                    <Grid item xs={12}>
-                        <Typography component="h5" variant="h5">
-                            como {props.role}
-                         </Typography>
-                    </Grid>
-
+               
                     <Grid item xs={12}>
                         <TextField
                             label="Nombre"
@@ -90,7 +96,7 @@ const Registration = props => {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Button variant="contained" color="primary">        
+                        <Button variant="contained" color="primary" onClick={handleSubmit}>        
                             Registrate
                         </Button>
                     </Grid>
