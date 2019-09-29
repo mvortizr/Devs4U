@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
 const Login = props => {
 
    const [values, setValues] = React.useState({
-        mail: '',
+        email: '',
         password: '',
     });
    
@@ -24,8 +24,6 @@ const Login = props => {
     
     return(
         <>
-                
-
             <Grid
                 container
                 direction="column"
@@ -46,11 +44,12 @@ const Login = props => {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            label="Nombre"
+                            label="Correo"
                             margin="normal"
                             autoComplete="email"
                             type="email"
-                            onChange={handleChange('mail')}
+                            value={values.email}
+                            onChange={handleChange('email')}
                         />
                     </Grid>
 
@@ -72,7 +71,6 @@ const Login = props => {
                 </Grid>
             </>
         );
-
 
 }
 
