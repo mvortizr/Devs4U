@@ -159,7 +159,7 @@ const Registration = props => {
                 required
                 fullWidth
                 name="password"
-                label="Repita la contraseña"
+                label="Confirmar contraseña"
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -178,7 +178,7 @@ const Registration = props => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/login" variant="body2">
                 ¿Ya tiene una cuenta? Inicia Sesión
               </Link>
             </Grid>
