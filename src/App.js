@@ -5,7 +5,6 @@ import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import Registration from './pages/Registration'
 
-
 /* TODO manejar los roles*/
 function App() {
   return (
