@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import DashboardFree from './pages/DashboardFree';
+import DashboardCont from './pages/DashboardCont';
 import Registration from './pages/Registration';
 
 
@@ -15,7 +16,8 @@ function App() {
 	      <Route exact path="/" render={ ()=> <Home/>}/>
 	      <Route exact path='/login' render={ ()=> <Login/>}/>
 	      <Route exact path='/register' render={ ()=> <Registration/>}/>
-		  <Route exact path='/dashboard' render={ ()=> <DashboardFree/>}/>
+		  <Route exact path='/dashboardfreelancer' render={ ()=> <DashboardFree/>}/>
+		  <Route exact path='/dashboardcontratista' render={ ()=> <DashboardCont/>}/>
 	      <Route component={NotFound} />
 	    </Switch>
     </Router>

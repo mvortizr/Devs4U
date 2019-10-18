@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './ListaItemsFree';
+import { mainListItems, secondaryListItems } from './ListaItemsCont';
 
 function Copyright() {
   return (
@@ -203,10 +203,10 @@ export default function Dashboard() {
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Aplicación para Oracle
+                      Pablito Pérez
                     </Typography>
                     <Typography>
-                      Necesitamos de un desarrollador que domine Python, Javascript, Java...
+                      Desarrollador en Java, Python, Mysql...
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -217,53 +217,6 @@ export default function Dashboard() {
                 </Card>
               </Grid>
               
-
-              <Grid item xs={8} sm={6} md={6}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Aplicación para Oracle
-                    </Typography>
-                    <Typography>
-                      Necesitamos de un desarrollador que domine Python, Javascript, Java...
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      Más Información
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-
-              <Grid item xs={8} sm={6} md={6}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Aplicación para Oracle
-                    </Typography>
-                    <Typography>
-                      Necesitamos de un desarrollador que domine Python, Javascript, Java...
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      Más Información
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-
           </Grid>      
         </Container>
         <Copyright />
