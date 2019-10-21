@@ -5,8 +5,7 @@ import axios from 'axios';
 
 import logo from './images/fondoLogin.jpg';
 
-//Quería importar esta librería para el símbolo del candado
-//import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(theme => ({
@@ -86,13 +85,22 @@ const Login = props => {
                 console.log(error);
             });   
     }
+    /*
+    const changeColor = () => {
+      if (${options[variant] == "contained"){
+        ${options[variant] == "outlined";
+      }
+      if(${options[variant] == "outlined"){
+        ${options[variant] == "contained";
+      } 
+    };
+    */
     
     return(
-      
-        <Container component="main" maxWidth="xm">
-        <CssBaseline />
 
         <main>
+
+          <CssBaseline />
           {/* Main featured post */}
           <Paper className={classes.mainFeaturedPost}>
             {/* Increase the priority of the hero background image */}
@@ -183,9 +191,8 @@ const Login = props => {
           <Copyright />
         </Box>
         </Paper>
-        </main>
-      </Container>
 
+        </main>
 
 
     );
