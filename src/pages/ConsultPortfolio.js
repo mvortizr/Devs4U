@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import CameraIcon from '@material-ui/icons/PhotoCamera';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
 
 function Copyright() {
@@ -124,23 +125,17 @@ const useStyles = makeStyles(theme => ({
   cardContent: {
     flexGrow: 1,
   },
-
-  markdown: {
-    ...theme.typography.body2,
-    padding: theme.spacing(3, 0),
+  button: {
+    margin: theme.spacing(1),
   },
+  delete:{
+    color:"#DC0300 "
+  }
 }));
-
-
-const archives = [
-  'Trabajo 1',
-  'Trabajo 2',
-  'Trabajo 3',
-];
-
 
 export default function Dashboard() {
   const classes = useStyles();
+  var cards = [1, 2, 3, 4, 5, 6];
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -155,7 +150,6 @@ export default function Dashboard() {
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
-
           <IconButton
             edge="start"
             color="inherit"
@@ -166,15 +160,12 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Perfil
+            Mi Portafolio
           </Typography>
-
-          <Button variant="contained" className={classes.button} href="/deleteprofilefree">
-            Eliminar Perfil
+          <Button variant="contained" className={classes.button}>
+            Agregar proyecto
           </Button>
-
           <IconButton color="inherit">
-            {/*badgeContent muestra la cantidad de notificaciones*/}
             <Badge badgeContent={0} color="secondary">
               <NotificationsIcon />
             </Badge>
@@ -199,95 +190,44 @@ export default function Dashboard() {
         <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
+        <div className={classes.heroContent}>
+          <Container maxWidth="sm">
+            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom > 
+              Proyectos en tu Portafolio
+            </Typography>
+          </Container>
+        </div>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
-
-
-        <Grid container spacing={5} className={classes.mainGrid}>
-            {/* Main content */}
-            <Grid item xs={12} md={8}>
-              <Typography variant="h4" gutterBottom>
-                Nombre del Usuario
-              </Typography>
-              <Divider />
-
-              <Typography variant="h6" gutterBottom>
-                Aquí va imagen
-              </Typography>
-
-              <Typography variant="h6" gutterBottom>
-                Sobre mí:
-              </Typography>
-
-              <Typography paragraph>
-                   XXXXXXXXXXXXXXXXXXXXXXXXXXXX
-                </Typography>
-
-              <Typography variant="h6" gutterBottom>
-                Lenguajes de Programación que domino:
-              </Typography>
-
-              <Typography paragraph>
-              <li className={classes.listItem}>
-                    <Typography component="span"/> Holaaaa
-                </li>
-                <li className={classes.listItem}>
-                    <Typography component="span"/> Holis
-                </li>
-              </Typography>
-
-              <Typography variant="h6" gutterBottom>
-                Idiomas:
-              </Typography>
-
-              <Typography paragraph>
-              <li className={classes.listItem}>
-                    <Typography component="span"/> Holaaaa
-                </li>
-                <li className={classes.listItem}>
-                    <Typography component="span"/> Holis
-                </li>
-              </Typography>
-
-            </Grid>
-            {/* End main content */}
-            {/* Sidebar */}
-            <Grid item xs={12} md={4}>
-              <Paper elevation={0} className={classes.sidebarAboutBox}>
-                <Typography variant="h6" gutterBottom>
-                  Información General
-                </Typography>
-
-                <Typography paragraph>
-                    <strong>Residencia:</strong> Caracas, Venezuela
-                </Typography>
-                <Typography paragraph>
-                    <strong>Horas de Trabajo:</strong> +40
-                </Typography>
-                <Typography paragraph>
-                    <strong>Experiencia:</strong> 1 año
-                </Typography>
-                  
-              </Paper>
-
-              <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
-                Portafolio
-              </Typography>
-              {archives.map(archive => (
-                <Link display="block" variant="body1" href="#" key={archive}>
-                  {archive}
-                </Link>
-              ))}
-
-              <Button variant="contained" color="primary" className={classes.button} href="/consultportfolio">
-                Mi Portafolio
-              </Button>
-
-
-            </Grid>
-            {/* End sidebar */}
-          </Grid>
-
+          {/* End hero unit */}
+          <Grid container spacing={4}>
+            {cards.map(card => (
+              <Grid item key={card} xs={12} sm={6} md={4}>
+                <Card className={classes.card}>
+                  <CardContent className={classes.cardContent}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Título del Proyecto
+                    </Typography>
+                    <Typography>
+                      Descripción del proyecto.
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      <Link href="/consultprojectfree" variant="body2">
+                        Consultar
+                      </Link>
+                    </Button>
+                    <Button size="small" className={classes.delete}>
+                      <Link href="/removeprojectportfolio" variant="body2" className={classes.delete}>
+                        Eliminar
+                      </Link>
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>     
         </Container>
         <Copyright />
       </main>

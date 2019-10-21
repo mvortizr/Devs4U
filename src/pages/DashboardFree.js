@@ -2,8 +2,9 @@ import React from 'react';
 import clsx from 'clsx';
 import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Card, CardActions, CardMedia, CardContent, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import {ChevronLeft as ChevronLeftIcon, 
+  Photocamera as CameraIcon,
+Menu as MenuIcon} from '@material-ui/icons';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
 

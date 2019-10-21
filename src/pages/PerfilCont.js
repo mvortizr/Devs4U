@@ -129,6 +129,11 @@ const useStyles = makeStyles(theme => ({
     ...theme.typography.body2,
     padding: theme.spacing(3, 0),
   },
+
+  button: {
+    margin: theme.spacing(1),
+  },
+
 }));
 
 const archives = [
@@ -167,6 +172,11 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Perfil
           </Typography>
+
+          <Button variant="contained" className={classes.button} href="/deleteprofilecont">
+            Eliminar Perfil
+          </Button>
+
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}
             <Badge badgeContent={0} color="secondary">

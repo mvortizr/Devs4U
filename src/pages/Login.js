@@ -2,17 +2,51 @@ import React from 'react';
 import {TextField, Button, Typography, Grid, Avatar, CssBaseline, FormControlLabel, Checkbox, Box, Container, Paper} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputBase from '@material-ui/core/InputBase';
+import {
+  fade,
+  withStyles,
+} from '@material-ui/core/styles';
 
 import logo from './images/fondoLogin.jpg';
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Link from '@material-ui/core/Link';
 
+const BootstrapInput = withStyles(theme => ({
+  root: {
+    'label + &': {
+      marginTop: '10px',
+    },
+  },
+  input: {
+    borderRadius: 4,
+    position: 'relative',
+    backgroundColor: theme.palette.common.white,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    width: '500px',
+    padding: '10px 12px',
+    margin:'15px 5px'
+    // Use the system font instead of the default Roboto font.
+  },
+}))(InputBase);
+
 const useStyles = makeStyles(theme => ({
 
     '@global': {
         body: {
-          backgroundColor: theme.palette.common.white,
+          position: 'relative',
+          backgroundColor: theme.palette.grey[800],
+          color: theme.palette.common.white,
+          marginBottom: theme.spacing(4),
+          backgroundImage: 'url(https://source.unsplash.com/weekly?water)',
+          //No puedo colocar la imagen logo
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
         },
       },
       paper: {
@@ -28,34 +62,32 @@ const useStyles = makeStyles(theme => ({
       form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
+        color: "#ffff"
       },
       submit: {
         margin: theme.spacing(3, 0, 2),
       },
       marginGrid: {
         marginTop: theme.spacing(5),
-    },
-
-    mainFeaturedPost: {
-      position: 'relative',
-      backgroundColor: theme.palette.grey[800],
-      color: theme.palette.common.white,
-      marginBottom: theme.spacing(4),
-      backgroundImage: 'url(https://source.unsplash.com/user/erondu)',
-      //No puedo colocar la imagen logo
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-    }
+      },
+      text:{
+        color:"#ffff"
+      },
+      mainFeaturedPost: {
+        position: 'relative',
+        backgroundColor: theme.palette.grey[0],
+        color: theme.palette.common.white,
+        marginBottom: theme.spacing(4),
+        backgroundColor: 'rgba(62, 58, 50, 0.8)',
+      }
 }));
 
 function Copyright() {
     return (
-      <Typography variant="body2" color="textSecondary" align="center">
+      <Typography variant="body2" color="initial" align="center">
         {'Copyright © '}
-        <Link color="inherit" href="https://material-ui.com/">
           Devs4U
-        </Link>{' '}
+        {' '}
         {new Date().getFullYear()}
         {'.'}
       </Typography>
@@ -84,7 +116,8 @@ const Login = props => {
             }, (error) => {
                 console.log(error);
             });   
-    }
+    };
+
     /*
     const changeColor = () => {
       if (${options[variant] == "contained"){
@@ -97,6 +130,11 @@ const Login = props => {
     */
     
     return(
+
+      
+        <Container component="main" maxWidth="sm">
+        <CssBaseline />
+
 
         <main>
 
@@ -120,21 +158,21 @@ const Login = props => {
             Iniciar Sesión
           </Typography>
         
-        <Grid container spacing={2} justify="center">
+        {/* <Grid container spacing={2} justify="center">
           <Grid item>
-            <Button variant="contained" color="primary">
+            <Button variant="outlined" color="inherit">
               Iniciar Sesión como Freelancer
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="outlined" color="primary">
+            <Button variant="outlined" color="inherit">
               Iniciar Sesión como Contratista
             </Button>
           </Grid>
-        </Grid>
+        </Grid> */}
 
           <form className={classes.form} noValidate>
-            <TextField
+            {/* <TextField
               variant="outlined"
               margin="normal"
               required
@@ -157,9 +195,23 @@ const Login = props => {
               id="password"
               autoComplete="current-password"
               onChange={handleChange('password')}
-            />
+            /> */}
+
+            <FormControl >
+              <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
+                Correo Electrónico
+              </InputLabel>
+              <BootstrapInput id="email" />
+            </FormControl>
+            <FormControl >
+              <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
+                Contraseña
+              </InputLabel>
+              <BootstrapInput id="password" />
+            </FormControl>
+
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox value="remember" color="primary" className={classes.text}/>}
               label="Recordarme"
             />
             <Button
@@ -175,12 +227,12 @@ const Login = props => {
 
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" className={classes.text}>
                   ¿Olvidaste tu contraseña?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/register" variant="body2">
+                <Link href="/register" variant="body2" className={classes.text}>
                   {"¿No tienes una cuenta? Regístrate"}
                 </Link>
               </Grid>
@@ -193,8 +245,7 @@ const Login = props => {
         </Paper>
 
         </main>
-
-
+        </Container>
     );
 }
 

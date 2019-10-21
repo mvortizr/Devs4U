@@ -5,15 +5,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './ListaItemsFree';
+import CameraIcon from '@material-ui/icons/PhotoCamera';
+import { mainListItems, secondaryListItems } from './ListaItemsCont';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
         Devs4U
-      </Link>{' '}
+      {' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -124,20 +124,18 @@ const useStyles = makeStyles(theme => ({
   cardContent: {
     flexGrow: 1,
   },
-
-  markdown: {
-    ...theme.typography.body2,
-    padding: theme.spacing(3, 0),
+  button1:{
+    marginRight:"300px",
+    marginTop:"40px"
+  },
+  button2:{
+    marginTop:"40px"
+  },
+  layout: {
+    border: '1px solid #ced4da',
+    marginLeft:'350px'
   },
 }));
-
-
-const archives = [
-  'Trabajo 1',
-  'Trabajo 2',
-  'Trabajo 3',
-];
-
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -155,7 +153,6 @@ export default function Dashboard() {
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
-
           <IconButton
             edge="start"
             color="inherit"
@@ -166,15 +163,9 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Perfil
+            Título del Proyecto
           </Typography>
-
-          <Button variant="contained" className={classes.button} href="/deleteprofilefree">
-            Eliminar Perfil
-          </Button>
-
           <IconButton color="inherit">
-            {/*badgeContent muestra la cantidad de notificaciones*/}
             <Badge badgeContent={0} color="secondary">
               <NotificationsIcon />
             </Badge>
@@ -198,96 +189,20 @@ export default function Dashboard() {
         <Divider />
         <List>{secondaryListItems}</List>
       </Drawer>
-      <main className={classes.content}>
+      <main className={classes.layout}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
-
-
-        <Grid container spacing={5} className={classes.mainGrid}>
-            {/* Main content */}
-            <Grid item xs={12} md={8}>
-              <Typography variant="h4" gutterBottom>
-                Nombre del Usuario
-              </Typography>
-              <Divider />
-
-              <Typography variant="h6" gutterBottom>
-                Aquí va imagen
-              </Typography>
-
-              <Typography variant="h6" gutterBottom>
-                Sobre mí:
-              </Typography>
-
-              <Typography paragraph>
-                   XXXXXXXXXXXXXXXXXXXXXXXXXXXX
-                </Typography>
-
-              <Typography variant="h6" gutterBottom>
-                Lenguajes de Programación que domino:
-              </Typography>
-
-              <Typography paragraph>
-              <li className={classes.listItem}>
-                    <Typography component="span"/> Holaaaa
-                </li>
-                <li className={classes.listItem}>
-                    <Typography component="span"/> Holis
-                </li>
-              </Typography>
-
-              <Typography variant="h6" gutterBottom>
-                Idiomas:
-              </Typography>
-
-              <Typography paragraph>
-              <li className={classes.listItem}>
-                    <Typography component="span"/> Holaaaa
-                </li>
-                <li className={classes.listItem}>
-                    <Typography component="span"/> Holis
-                </li>
-              </Typography>
-
-            </Grid>
-            {/* End main content */}
-            {/* Sidebar */}
-            <Grid item xs={12} md={4}>
-              <Paper elevation={0} className={classes.sidebarAboutBox}>
-                <Typography variant="h6" gutterBottom>
-                  Información General
-                </Typography>
-
-                <Typography paragraph>
-                    <strong>Residencia:</strong> Caracas, Venezuela
-                </Typography>
-                <Typography paragraph>
-                    <strong>Horas de Trabajo:</strong> +40
-                </Typography>
-                <Typography paragraph>
-                    <strong>Experiencia:</strong> 1 año
-                </Typography>
-                  
-              </Paper>
-
-              <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
-                Portafolio
-              </Typography>
-              {archives.map(archive => (
-                <Link display="block" variant="body1" href="#" key={archive}>
-                  {archive}
-                </Link>
-              ))}
-
-              <Button variant="contained" color="primary" className={classes.button} href="/consultportfolio">
-                Mi Portafolio
-              </Button>
-
-
-            </Grid>
-            {/* End sidebar */}
-          </Grid>
-
+          <React.Fragment>
+            <Typography variant="h5" gutterBottom>
+              ¿Está seguro que desea cancelar el proyecto?
+            </Typography>
+            <Button size="large" variant="contained" href="/consultprojectcont" className={classes.button1}>
+                Cancelar
+            </Button>
+            <Button size="large" variant="contained" href="/dashboardcont" className={classes.button2}>
+                Si
+            </Button>
+          </React.Fragment>   
         </Container>
         <Copyright />
       </main>

@@ -13,7 +13,7 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button component="a" href="/dashboard">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
@@ -43,13 +43,17 @@ export const mainListItems = (
 export const secondaryListItems = (
   <div>
     <ListSubheader inset>Opciones de Usuario</ListSubheader>
-    <ListItem button>
+
+
+    <ListItem button component="a" href="/profilecont">
+
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Perfil" />
     </ListItem>
-    <ListItem button>
+
+    <ListItem button component="a" href="/login">
       <ListItemIcon>
         <ExitToAppIcon />
       </ListItemIcon>
