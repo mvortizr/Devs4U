@@ -10,10 +10,10 @@ const Home= () =>{
              Devs4U
          </Typography>
           <Button variant="contained" color="primary"  component={Link} to="/register" >        
-             Registrate
+             Registrarse
           </Button>
           <Button variant="contained" color="primary"  component={Link} to="/login">        
-             Inicia sesión
+             Iniciar sesión
           </Button>
 		</>
 
