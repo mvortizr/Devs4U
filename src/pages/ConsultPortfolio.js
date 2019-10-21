@@ -124,11 +124,18 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: {
     flexGrow: 1,
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+  delete:{
+    color:"#DC0300 "
   }
 }));
 
 export default function Dashboard() {
   const classes = useStyles();
+  var cards = [1, 2, 3, 4, 5, 6];
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -153,10 +160,13 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Panel de Control
+            Mi Portafolio
           </Typography>
+          <Button variant="contained" className={classes.button}>
+            Agregar proyecto
+          </Button>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            <Badge badgeContent={0} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -180,46 +190,44 @@ export default function Dashboard() {
         <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
+        <div className={classes.heroContent}>
+          <Container maxWidth="sm">
+            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom > 
+              Proyectos en tu Portafolio
+            </Typography>
+          </Container>
+        </div>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            
-            {/*
-              En la plantilla original, para que salieran varios "trabajos", colocaron:
-              {cards.map(card => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
-                  ...
-                </Grid>
-              ))}
-            */}
-              <Grid item xs={12} sm={8} md={5}>
+            {cards.map(card => (
+              <Grid item key={card} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      Título del Proyecto
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the content.
+                      Descripción del proyecto.
                     </Typography>
                   </CardContent>
                   <CardActions>
                     <Button size="small" color="primary">
-                      View
+                      <Link href="/consultprojectfree" variant="body2">
+                        Consultar
+                      </Link>
                     </Button>
-                    <Button size="small" color="primary">
-                      Edit
+                    <Button size="small" className={classes.delete}>
+                      <Link href="/removeprojectportfolio" variant="body2" className={classes.delete}>
+                        Eliminar
+                      </Link>
                     </Button>
                   </CardActions>
                 </Card>
               </Grid>
-              
-          </Grid>      
+            ))}
+          </Grid>     
         </Container>
         <Copyright />
       </main>

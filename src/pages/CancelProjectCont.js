@@ -6,15 +6,14 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
-import { mainListItems, secondaryListItems } from './ListaItemsFree';
+import { mainListItems, secondaryListItems } from './ListaItemsCont';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
         Devs4U
-      </Link>{' '}
+      {' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -124,7 +123,18 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: {
     flexGrow: 1,
-  }
+  },
+  button1:{
+    marginRight:"300px",
+    marginTop:"40px"
+  },
+  button2:{
+    marginTop:"40px"
+  },
+  layout: {
+    border: '1px solid #ced4da',
+    marginLeft:'350px'
+  },
 }));
 
 export default function Dashboard() {
@@ -153,10 +163,10 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Panel de Control
+            Título del Proyecto
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            <Badge badgeContent={0} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -179,47 +189,20 @@ export default function Dashboard() {
         <Divider />
         <List>{secondaryListItems}</List>
       </Drawer>
-      <main className={classes.content}>
+      <main className={classes.layout}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
-          <Grid container spacing={4}>
-            
-            {/*
-              En la plantilla original, para que salieran varios "trabajos", colocaron:
-              {cards.map(card => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
-                  ...
-                </Grid>
-              ))}
-            */}
-              <Grid item xs={12} sm={8} md={5}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Heading
-                    </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe the content.
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-              
-          </Grid>      
+          <React.Fragment>
+            <Typography variant="h5" gutterBottom>
+              ¿Está seguro que desea cancelar el proyecto?
+            </Typography>
+            <Button size="large" variant="contained" href="/consultprojectcont" className={classes.button1}>
+                Cancelar
+            </Button>
+            <Button size="large" variant="contained" href="/dashboardcont" className={classes.button2}>
+                Si
+            </Button>
+          </React.Fragment>   
         </Container>
         <Copyright />
       </main>

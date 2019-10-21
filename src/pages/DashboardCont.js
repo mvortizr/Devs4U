@@ -5,8 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import { mainListItems, secondaryListItems } from './ListaItemsFree';
+import { mainListItems, secondaryListItems } from './ListaItemsCont';
 
 function Copyright() {
   return (
@@ -143,6 +142,7 @@ export default function Dashboard() {
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
+
           <IconButton
             edge="start"
             color="inherit"
@@ -156,7 +156,8 @@ export default function Dashboard() {
             Panel de Control
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            {/*badgeContent muestra la cantidad de notificaciones*/}
+            <Badge badgeContent={0} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -191,9 +192,9 @@ export default function Dashboard() {
                 <Grid item key={card} xs={12} sm={6} md={4}>
                   ...
                 </Grid>
-              ))}
+              ))};
             */}
-              <Grid item xs={12} sm={8} md={5}>
+              <Grid item xs={8} sm={6} md={6}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
@@ -202,18 +203,15 @@ export default function Dashboard() {
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      Pablito Pérez
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the content.
+                      Desarrollador en Java, Python, Mysql...
                     </Typography>
                   </CardContent>
                   <CardActions>
                     <Button size="small" color="primary">
-                      View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
+                      Más Información
                     </Button>
                   </CardActions>
                 </Card>

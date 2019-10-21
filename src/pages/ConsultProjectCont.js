@@ -5,8 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import { mainListItems, secondaryListItems } from './ListaItemsFree';
+import { mainListItems, secondaryListItems } from './ListaItemsCont';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
 
 function Copyright() {
   return (
@@ -124,8 +126,21 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: {
     flexGrow: 1,
-  }
+  },
+  markdown: {
+    ...theme.typography.body2,
+    padding: theme.spacing(3, 0),
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+  button2: {
+    margin: theme.spacing(1),
+  },
 }));
+
+const steps = ['Negociación', '1era Iteración', '2da Iteración', '3era Iteración', 'Finalizado'];
+
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -143,6 +158,7 @@ export default function Dashboard() {
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
+
           <IconButton
             edge="start"
             color="inherit"
@@ -153,10 +169,11 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Panel de Control
+            Título del Proyecto
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            {/*badgeContent muestra la cantidad de notificaciones*/}
+            <Badge badgeContent={0} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -182,44 +199,75 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
-          <Grid container spacing={4}>
-            
-            {/*
-              En la plantilla original, para que salieran varios "trabajos", colocaron:
-              {cards.map(card => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
-                  ...
-                </Grid>
+          <div>
+            <Stepper className={classes.stepper}>
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
               ))}
-            */}
-              <Grid item xs={12} sm={8} md={5}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Heading
-                    </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe the content.
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-              
-          </Grid>      
+            </Stepper>
+          </div>
+          <Grid container spacing={5} className={classes.mainGrid}>
+            {/* Main content */}
+            <Grid item xs={12} md={8}>
+              <Typography variant="h4" gutterBottom>
+                Título del Proyecto
+              </Typography>
+              <Divider />
+              <Typography variant="h6" gutterBottom>
+                Descripción del Proyecto:
+              </Typography>
+
+              <Typography paragraph>
+                   XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                </Typography>
+
+              <Typography variant="h6" gutterBottom>
+                Lenguaje de Programación:
+              </Typography>
+
+              <Typography paragraph>
+              <li className={classes.listItem}>
+                    <Typography component="span"/> Lenguaje
+                </li>
+                <li className={classes.listItem}>
+                    <Typography component="span"/> Lenguaje
+                </li>
+              </Typography>
+
+            </Grid>
+            {/* End main content */}
+            {/* Sidebar */}
+            <Grid item xs={12} md={4}>
+              <Paper elevation={0} className={classes.sidebarAboutBox}>
+                <Typography variant="h6" gutterBottom>
+                  Información General
+                </Typography>
+                <Typography paragraph>
+                    <strong>Desarrollador:</strong> Pepito
+                </Typography>
+                <Typography paragraph>
+                    <strong>Fecha de inicio:</strong> XX/XX/XXXX
+                </Typography>
+                <Typography paragraph>
+                    <strong>Fecha de entrega:</strong> XX/XX/XXXX
+                </Typography>
+                <Typography paragraph>
+                    <strong>Lenaguaje:</strong> Pascal
+                </Typography>
+                <Button variant="contained" color="primary" className={classes.button}>
+                  Modificar proyecto
+                </Button>
+                <Button variant="contained" color="primary" className={classes.button} href="/cancelprojectcont">
+                  Cancelar proyecto
+                </Button>
+                  
+              </Paper>
+            </Grid>
+            {/* End sidebar */}
+          </Grid>
+
         </Container>
         <Copyright />
       </main>

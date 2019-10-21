@@ -10,10 +10,11 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import WorkIcon from '@material-ui/icons/Work';
 import ChatIcon from '@material-ui/icons/Chat';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import Link from '@material-ui/core/Link'
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button component="a" href="/dashboard">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
@@ -43,13 +44,13 @@ export const mainListItems = (
 export const secondaryListItems = (
   <div>
     <ListSubheader inset>Opciones de Usuario</ListSubheader>
-    <ListItem button>
+    <ListItem button component="a" href="/profilefree">
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Perfil" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component="a" href="/login">
       <ListItemIcon>
         <ExitToAppIcon />
       </ListItemIcon>
