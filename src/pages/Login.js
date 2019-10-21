@@ -1,7 +1,9 @@
 import React from 'react';
-import {TextField, Button, Typography, Grid, Avatar, CssBaseline, FormControlLabel, Checkbox, Box, Container} from '@material-ui/core';
+import {TextField, Button, Typography, Grid, Avatar, CssBaseline, FormControlLabel, Checkbox, Box, Container, Paper} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+
+import logo from './images/fondoLogin.jpg';
 
 //Quería importar esta librería para el símbolo del candado
 //import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -33,6 +35,18 @@ const useStyles = makeStyles(theme => ({
       },
       marginGrid: {
         marginTop: theme.spacing(5),
+    },
+
+    mainFeaturedPost: {
+      position: 'relative',
+      backgroundColor: theme.palette.grey[800],
+      color: theme.palette.common.white,
+      marginBottom: theme.spacing(4),
+      backgroundImage: 'url(https://source.unsplash.com/user/erondu)',
+      //No puedo colocar la imagen logo
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
     }
 }));
 
@@ -74,8 +88,22 @@ const Login = props => {
     }
     
     return(
+      
         <Container component="main" maxWidth="xm">
         <CssBaseline />
+
+        <main>
+          {/* Main featured post */}
+          <Paper className={classes.mainFeaturedPost}>
+            {/* Increase the priority of the hero background image */}
+            {
+              <img
+                style={{ display: 'none' }}
+                src={logo}
+                alt="background"
+              />
+            }
+
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             
@@ -83,6 +111,20 @@ const Login = props => {
           <Typography component="h1" variant="h5">
             Iniciar Sesión
           </Typography>
+        
+        <Grid container spacing={2} justify="center">
+          <Grid item>
+            <Button variant="contained" color="primary">
+              Iniciar Sesión como Freelancer
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button variant="outlined" color="primary">
+              Iniciar Sesión como Contratista
+            </Button>
+          </Grid>
+        </Grid>
+
           <form className={classes.form} noValidate>
             <TextField
               variant="outlined"
@@ -140,54 +182,13 @@ const Login = props => {
         <Box mt={8}>
           <Copyright />
         </Box>
+        </Paper>
+        </main>
       </Container>
-        /*
-        <>
-            <Grid
-                container
-                direction="column"
-                justify="flex-start"
-                alignItems="center"
-                className={classes.marginGrid}
-                spacing={2}
-            >
-                    <Grid item xs={12}>
-                        <Typography component="h3" variant="h3">
-                            Inicia sesión 
-                        </Typography>
-                    </Grid>
-                    
-                    <Grid item xs={12}>
-                        <TextField
-                            label="Correo"
-                            margin="normal"
-                            autoComplete="email"
-                            type="email"
-                            value={values.email}
-                            onChange={handleChange('email')}
-                        />
-                    </Grid>
 
-                    <Grid item xs={12}>
-                        <TextField
-                            label="Contraseña"
-                            margin="normal"
-                            autoComplete="password"
-                            type="password"
-                            onChange={handleChange('password')}
-                        />
-                    </Grid>
 
-                    <Grid item xs={12}>
-                        <Button variant="contained" color="primary" onClick={handleSubmit}>        
-                            Iniciar Sesión
-                        </Button>
-                    </Grid>
-                </Grid>
-            </>
-            */
-        );
 
+    );
 }
 
 export default Login;
