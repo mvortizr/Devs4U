@@ -13,7 +13,7 @@ module.exports={
 
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(req.body.password, salt, (err, hash) => {
-                if (err) throw err;
+                if (err) {throw err; res.send({error:true})} 
                 model.User.create({ 
                     firstName:req.body.firstName,
                     lastName:req.body.lastName,
@@ -27,6 +27,7 @@ module.exports={
                     email=req.body.email;//Email del usuario para buscarlo
                     if(req.body.rol=='developer') developerController.associate(email); //function to associate the developer information
                     console.log('usuario creado');
+                    res.send({success:true});
                     //res.redirect('/login');
                 })
             })
@@ -36,17 +37,26 @@ module.exports={
      *Log in to the system
      */
     login(req, res, next){
-        passport.authenticate('local', {
-            successRedirect: '/dashboard',
-            failureRedirect: '/login' 
-        })(req, res, next);
+         
+         passport.authenticate('local', function(err, user, info) {      
+            if (err) { return next(err); }
+            if (!user) { return res.send({error:true}); }
+            req.logIn(user, function(err) {
+              if (err) { return next(err); }
+              return res.send({user: user})
+            });
+          })(req, res, next);
     },
     /**
      *Log out to the system
      */
     logout(req, res){
         req.logout();
-        res.redirect('/login');
+        req.session = null;
+        res.send({success:true}) 
+        
+        console.log('loggin out');
+        //res.redirect('/login');
     },
     /**
         * Update the specified resource in storage.
@@ -71,6 +81,14 @@ module.exports={
                 }
             })
     },
+
+    checkAuthentication(req,res){
+      console.log('req user', req.user);
+      if(req.isAuthenticated()){
+        res.send({user: req.user});
+
+      }
+    }
 
 
             /**

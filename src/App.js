@@ -40,7 +40,7 @@ function App() {
 		  <Route exact path='/password/set' render={ ()=> <RecContrasena/>}/>
 		  <Route exact path='/password/recover' render={ ()=> <RecContraMail/>}/>
 		  {/* Dashboard */}
-		  <Route exact path='/dashboard/freelancer' render={ ()=> <DashboardFree/>}/>
+		  <Route exact path='/dashboard/developer' render={ ()=> <DashboardFree/>}/>
 		  <Route exact path='/dashboard/contractor' render={ ()=> <DashboardCont/>}/>
 		  {/*Profile*/}
 		  <Route exact path='/profile/freelancer' render={ ()=> <PerfilFree/>}/>

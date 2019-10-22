@@ -5,8 +5,10 @@ const userController=require('../controllers/UserController');
 
 router.post('/register',userController.register);
 router.post('/login',userController.login);
+router.post('/logout',userController.logout);
 
 router.post('/edit',userController.update);
+router.post('/check/auth', userController.checkAuthentication);
 //app.get('/dashboard',ensureAuthenticated,userController.showDashboard)
 //app.get('/logout',userController.logout)
 

@@ -62,14 +62,8 @@ export const secondaryListItems = (
       </ListItem>
     </Link>
 
-    <Link to="/" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
-    <ListItem button>
-      <ListItemIcon>
-        <ExitToAppIcon />
-      </ListItemIcon>
-      <ListItemText primary="Cerrar Sesión" />
-    </ListItem>
-    </Link>
+   
+ 
 
   </div>
 );

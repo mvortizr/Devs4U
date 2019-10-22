@@ -13,7 +13,8 @@ import {
 } from '@material-ui/core/styles';
 
 import Link from '@material-ui/core/Link';
-import {Link as DomLink}from "react-router-dom";
+import {Link as DomLink, Redirect}from "react-router-dom";
+
 
 //Quería importar esta librería para el símbolo del candado
 //import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -122,17 +123,28 @@ const Registration = props => {
         setValues({ ...values, [name]: event.target.value });
     };
 
+    const[redirect, setRedirect]=React.useState(false);
+    const showDialog = (message) => {
+      alert(message);
+    }
+
     const handleSubmit = () => {
        
         let query = values;
         query.rol = select;
 
         console.log('query', query);
-
-
         axios.post('/register', query)
             .then((response) => {
                   console.log('registration response',response)
+                  if (!response.data.error) {
+                      console.log('successful signup');
+                      showDialog('Te has registrado exitosamente');
+                      setRedirect(true);
+                  } else {
+                      console.log('unsuccesful signup');
+                      showDialog('Ha ocurrido un error en tu registro');
+                  }
             }, (error) => {
                 console.log(error);
             }); 
@@ -159,6 +171,7 @@ const Registration = props => {
       <CssBaseline />
        {console.log(values)}
        {console.log(select)}
+       {redirect && <Redirect to={`/`} push={true} />}
       <main>
       <Paper className={classes.mainFeaturedPost}>
       <div className={classes.paper}>
@@ -282,7 +295,7 @@ const Registration = props => {
           >
             Registrarse
           </Button>
-          <Grid container justify="center">
+          <Grid container justify="center">         
             <Grid item>
             <DomLink to="/login" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
               <Link variant="body2" className={classes.text}>

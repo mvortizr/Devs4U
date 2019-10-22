@@ -8,6 +8,13 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsCont';
 import {Link as DomLink}from "react-router-dom";
 import Searchbar from '../components/Searchbar';
+import axios from 'axios';
+import { useHistory } from "react-router-dom"
+
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 function Copyright() {
   return (
@@ -131,6 +138,7 @@ const useStyles = makeStyles(theme => ({
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  let history = useHistory();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -138,6 +146,17 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const handleLogOut = ()=> {
+  
+  console.log('logging out frontend');
+  axios.post('/logout')
+            .then(() => {
+                history.push('/');
+            }, (error) => {
+                console.log(error);
+  });
+  }   
 
   return (
     <div className={classes.root}>
@@ -182,6 +201,14 @@ export default function Dashboard() {
         <List>{mainListItems}</List>
         <Divider />
         <List>{secondaryListItems}</List>
+        <List>
+            <ListItem button>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Cerrar Sesión" onClick={handleLogOut}/>
+            </ListItem>
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

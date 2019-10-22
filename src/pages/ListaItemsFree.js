@@ -10,12 +10,16 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import WorkIcon from '@material-ui/icons/Work';
 import ChatIcon from '@material-ui/icons/Chat';
 import {Link}from "react-router-dom";
+import axios from 'axios';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import { useHistory } from "react-router-dom";
 //import Link from '@material-ui/core/Link'
+
+
 
 export const mainListItems = (
   <div>
-  <Link to="/dashboard/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+  <Link to="/dashboard/developer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
@@ -60,13 +64,6 @@ export const secondaryListItems = (
       <ListItemText primary="Perfil" />
     </ListItem>
     </Link>
-     <Link to="/" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
-    <ListItem button>
-      <ListItemIcon>
-        <ExitToAppIcon />
-      </ListItemIcon>
-      <ListItemText primary="Cerrar Sesión" />
-    </ListItem>
-    </Link>
+    
   </div>
 );

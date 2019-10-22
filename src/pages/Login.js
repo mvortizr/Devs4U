@@ -9,7 +9,7 @@ import {
   fade,
   withStyles,
 } from '@material-ui/core/styles';
-import {Link as DomLink}from "react-router-dom";
+import {Link as DomLink, Redirect}from "react-router-dom";
 
 import logo from './images/fondoLogin.jpg';
 
@@ -102,7 +102,14 @@ const Login = props => {
         email: '',
         password: '',
     });
+
+    const[redirect, setRedirect]=React.useState(false);
+    const showDialog = (message) => {
+      alert(message);
+    }
    
+    const[role,setRole] =React.useState('');
+
     const classes = useStyles();
 
     /*Funcion vincula el estado del componente con el valor de los campos*/
@@ -110,15 +117,40 @@ const Login = props => {
         setValues({ ...values, [name]: event.target.value });
     };
 
+    React.useEffect(() => {
+      console.log('hola');
+      axios.post('/check/auth')
+            .then((response) => {
+                  console.log('check auth',response)
+                  if (response.data.user) {
+                      setRole(response.data.user.rol);
+                      setRedirect(true);
+                  } 
+            }, (error) => {
+                console.log(error);
+        });
+    }, []);
+  
+
     const handleSubmit = () => {
         console.log('Im fired login');
         axios.post('/login', values)
             .then((response) => {
                   console.log('login response',response)
+                  if (response.data.user) {
+                      console.log('successful login');
+                      showDialog('Has iniciado sesión exitosamente');
+                      setRole(response.data.user.rol);
+                      setRedirect(true);
+                  } else {
+                      console.log('unsuccesful signup');
+                      showDialog('Ha ocurrido un error en tu inicio de sesion');
+                  }
             }, (error) => {
                 console.log(error);
             });   
     };
+
 
     /*
     const changeColor = () => {
@@ -138,6 +170,7 @@ const Login = props => {
         <CssBaseline />
 
          {console.log(values)}
+          {redirect && <Redirect to={`/dashboard/${role}`} push={true} />}
         <main>
 
           <CssBaseline />

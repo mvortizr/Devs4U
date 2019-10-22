@@ -7,7 +7,7 @@ module.exports={
              email:email
             }
           }).then(function(user){
-              model.developer.create({
+              model.Developer.create({
                   userId:user[0].id,
                   workHours:0,
                   developerType:'',
@@ -18,7 +18,7 @@ module.exports={
     update(req,res){
 
         //Falta las validaciones
-      model.developer.update({
+      model.Developer.update({
         workHours:req.body.workHours,
         developerType:req.body.developerType,
         expierece:req.body.expierece
