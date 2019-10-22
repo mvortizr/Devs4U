@@ -173,6 +173,10 @@ export default function Dashboard() {
             Perfil
           </Typography>
 
+          <Button variant="contained" className={classes.button} href="/modificarperfilcont">
+            Modificar Perfil
+          </Button>
+
           <Button variant="contained" className={classes.button} href="/deleteprofilecont">
             Eliminar Perfil
           </Button>

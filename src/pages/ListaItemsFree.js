@@ -14,7 +14,7 @@ import Link from '@material-ui/core/Link'
 
 export const mainListItems = (
   <div>
-    <ListItem button component="a" href="/dashboard">
+    <ListItem button component="a" href="/dashboard/freelancer">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
@@ -32,7 +32,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Chats de Negocios" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component="a" href="/portafolio">
       <ListItemIcon>
         <AssignmentTurnedInIcon />
       </ListItemIcon>
@@ -44,13 +44,13 @@ export const mainListItems = (
 export const secondaryListItems = (
   <div>
     <ListSubheader inset>Opciones de Usuario</ListSubheader>
-    <ListItem button component="a" href="/profilefree">
+    <ListItem button component="a" href="/profile/freelancer">
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Perfil" />
     </ListItem>
-    <ListItem button component="a" href="/login">
+    <ListItem button component="a" href="/">
       <ListItemIcon>
         <ExitToAppIcon />
       </ListItemIcon>

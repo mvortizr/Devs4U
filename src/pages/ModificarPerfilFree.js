@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Card, CardActions, CardMedia, CardContent, Button} from '@material-ui/core';
+import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Button, TextField} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -129,9 +129,6 @@ const useStyles = makeStyles(theme => ({
     ...theme.typography.body2,
     padding: theme.spacing(3, 0),
   },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
 }));
 
 
@@ -172,12 +169,8 @@ export default function Dashboard() {
             Perfil
           </Typography>
 
-          <Button variant="contained" className={classes.button} href="/modificarperfilfree">
-            Modificar Perfil
-          </Button>
-
-          <Button variant="contained" className={classes.button} href="/deleteprofilefree">
-            Eliminar Perfil
+          <Button variant="contained" color="secondary" className={classes.button} href="/profile/freelancer">
+            Guardar Cambios
           </Button>
 
           <IconButton color="inherit">
@@ -213,9 +206,12 @@ export default function Dashboard() {
         <Grid container spacing={5} className={classes.mainGrid}>
             {/* Main content */}
             <Grid item xs={12} md={8}>
-              <Typography variant="h4" gutterBottom>
-                Nombre del Usuario
-              </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                id="nombre"
+                label="Nombre del Usuario"
+              />
               <Divider />
 
               {/*
@@ -225,15 +221,25 @@ export default function Dashboard() {
                    title="Image title"
               />
               */}
-              <Divider />
+
+              <Typography variant="h6" gutterBottom>
+
+                {/*Falta colocarle  un input de tipo file para adjuntar imagen de perfil*/}
+
+                Adjuntar imagen
+              </Typography>
 
               <Typography variant="h6" gutterBottom>
                 Sobre mí:
               </Typography>
 
-              <Typography paragraph>
-                   Información Personal
-                </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                id="personal"
+                label="Información Personal"
+              />
+              <Divider />
 
               <Typography variant="h6" gutterBottom>
                 Lenguajes de Programación que domino:
@@ -241,11 +247,22 @@ export default function Dashboard() {
 
               <Typography paragraph>
               <li className={classes.listItem}>
-                    <Typography component="span"/> Lenguaje 1
-                </li>
-                <li className={classes.listItem}>
-                    <Typography component="span"/> Lenguaje 2
-                </li>
+                <TextField
+                variant="outlined"
+                fullWidth
+                id="lenguaje1"
+                label="Lenguaje 1"
+                />
+              <Divider />
+              </li>
+              <li className={classes.listItem}>
+                <TextField
+                variant="outlined"
+                fullWidth
+                id="lenguaje2"
+                label="Lenguaje 2"
+                />
+              </li>
               </Typography>
 
               <Typography variant="h6" gutterBottom>
@@ -254,11 +271,21 @@ export default function Dashboard() {
 
               <Typography paragraph>
               <li className={classes.listItem}>
-                    <Typography component="span"/> Holaaaa
-                </li>
-                <li className={classes.listItem}>
-                    <Typography component="span"/> Holis
-                </li>
+                <TextField
+                variant="outlined"
+                fullWidth
+                id="idioma2"
+                label="Idioma 1"
+                />
+              </li>
+              <li className={classes.listItem}>
+                <TextField
+                variant="outlined"
+                fullWidth
+                id="idioma2"
+                label="Idioma 2"
+                />
+              </li>
               </Typography>
 
             </Grid>
@@ -271,13 +298,31 @@ export default function Dashboard() {
                 </Typography>
 
                 <Typography paragraph>
-                    <strong>Residencia:</strong> Caracas, Venezuela
+                    <strong>Residencia:</strong> 
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="residencia"
+                    label="Caracas, Venezuela"
+                    />
                 </Typography>
                 <Typography paragraph>
-                    <strong>Horas de Trabajo:</strong> +40
+                    <strong>Horas de Trabajo:</strong> 
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="horasTrabajo"
+                    label="+40"
+                    />
                 </Typography>
                 <Typography paragraph>
-                    <strong>Experiencia:</strong> 1 año
+                    <strong>Experiencia:</strong>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="experiencia"
+                    label="1 año"
+                    />
                 </Typography>
                   
               </Paper>
@@ -291,7 +336,7 @@ export default function Dashboard() {
                 </Link>
               ))}
 
-              <Button variant="contained" color="primary" className={classes.button} href="/portafolio">
+              <Button variant="contained" color="primary" className={classes.button} href="/consultportfolio">
                 Mi Portafolio
               </Button>
 

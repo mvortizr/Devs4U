@@ -15,8 +15,9 @@ import DeleteProfileFree from './pages/DeleteProfileFree';
 import DeleteProfileCont from './pages/DeleteProfileCont';
 import PerfilCont from './pages/PerfilCont';
 import PerfilFree from './pages/PerfilFree';
-
-
+import RecContrasena from './pages/RecContrasena';
+import ModPerFree from './pages/ModificarPerfilFree';
+import ModPerCont from './pages/ModificarPerfilCont';
 
 /* TODO manejar los roles*/
 function App() {
@@ -25,9 +26,11 @@ function App() {
 	    <Switch>
 
 		  {/*Login and Register*/}
-	      <Route exact path='/login' render={ ()=> <Login/>}/>
 	      <Route exact path='/' render={ ()=> <Login/>}/>
+		  <Route exact path='/login' render={ ()=> <Login/>}/>
 	      <Route exact path='/register' render={ ()=> <Registration/>}/>
+		  {/*Recuperar Contraseña*/}
+		  <Route exact path='/recuperarcontrasena' render={ ()=> <RecContrasena/>}/>
 		  {/* Dashboard */}
 		  <Route exact path='/dashboard/freelancer' render={ ()=> <DashboardFree/>}/>
 		  <Route exact path='/dashboard/contractor' render={ ()=> <DashboardCont/>}/>
@@ -36,6 +39,8 @@ function App() {
 		  <Route exact path='/profile/contractor' render={ ()=> <PerfilCont/>}/>
 		  <Route exact path='/deleteprofilefree' render={ ()=> <DeleteProfileFree/>}/>
 		  <Route exact path='/deleteprofilecont' render={ ()=> <DeleteProfileCont/>}/>
+		  <Route exact path='/modificarperfilfree' render={ ()=> <ModPerFree/>}/>
+		  <Route exact path='/modificarperfilcont' render={ ()=> <ModPerCont/>}/>
 		  {/*Project*/}
 		  <Route exact path='/cancelprojectfree' render={ ()=> <CancelProjectFree/>}/>
 		  <Route exact path='/cancelprojectcont' render={ ()=> <CancelProjectCont/>}/>
@@ -43,9 +48,9 @@ function App() {
           <Route exact path='/project/contractor' render={ ()=> <ConsultProjectCont/>}/>
 		  {/*Portfolio*/}
 		  <Route exact path='/removeprojectportfolio' render={ ()=> <RemoveProjectPortfolio/>}/>
-		  <Route exact path='/portfolio' render={ ()=> <ConsultPortfolio/>}/>
-          {/*Not Found*/}
+		  <Route exact path='/portafolio' render={ ()=> <ConsultPortfolio/>}/>
 
+          {/*Not Found*/}
 	      <Route component={NotFound} />
 	    </Switch>
     </Router>
