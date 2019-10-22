@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core/styles';
 
 import Link from '@material-ui/core/Link';
+import {Link as DomLink}from "react-router-dom";
 
 //Quería importar esta librería para el símbolo del candado
 //import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -283,9 +284,11 @@ const Registration = props => {
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <Link href="/login" variant="body2" className={classes.text}>
+            <DomLink to="/login" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+              <Link variant="body2" className={classes.text}>
                 ¿Ya tiene una cuenta? Inicia Sesión
               </Link>
+            </DomLink>
             </Grid>
           </Grid>
         </form>

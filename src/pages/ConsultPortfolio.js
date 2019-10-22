@@ -7,6 +7,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
+import EliminarProyectoDialog from '../components/Dialog';
+import {Link as DomLink}from "react-router-dom";
 
 function Copyright() {
   return (
@@ -145,6 +147,19 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+//Dialog Eliminar
+  const [openDialog, setOpenDialog] = React.useState(false);
+  //const[selectedProject, setSelectedProject] = React.useState('');
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  
+//
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -190,13 +205,6 @@ export default function Dashboard() {
         <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
-        <div className={classes.heroContent}>
-          <Container maxWidth="sm">
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom > 
-              Proyectos en tu Portafolio
-            </Typography>
-          </Container>
-        </div>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
@@ -213,13 +221,20 @@ export default function Dashboard() {
                     </Typography>
                   </CardContent>
                   <CardActions>
+                  <DomLink to="/portafolio/consultar" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                     <Button size="small" color="primary">
-                      <Link href="/consultprojectfree" variant="body2">
+                      <Link  variant="body2">
                         Consultar
                       </Link>
                     </Button>
-                    <Button size="small" className={classes.delete}>
-                      <Link href="/removeprojectportfolio" variant="body2" className={classes.delete}>
+                  </DomLink>
+                     <Button size="small" color="primary">
+                      <Link  variant="body2">
+                        Modificar
+                      </Link>
+                    </Button>
+                    <Button size="small" className={classes.delete} onClick={handleClickOpenDialog}>
+                      <Link variant="body2" className={classes.delete}>
                         Eliminar
                       </Link>
                     </Button>
@@ -230,6 +245,7 @@ export default function Dashboard() {
           </Grid>     
         </Container>
         <Copyright />
+        <EliminarProyectoDialog content="¿Está seguro que desea cancelar el proyecto de su portafolio?" title="Eliminar proyecto" handleCloseDialog={handleCloseDialog} open={openDialog}/>
       </main>
     </div>
   );

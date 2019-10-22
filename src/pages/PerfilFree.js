@@ -6,6 +6,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
+import EliminarPerfilDialog from '../components/Dialog';
+import {Link as DomLink}from "react-router-dom";
+
 
 function Copyright() {
   return (
@@ -135,12 +138,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const archives = [
-  'Trabajo 1',
-  'Trabajo 2',
-  'Trabajo 3',
-];
-
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -152,6 +149,19 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+
+  //Dialog Eliminar
+  const [openDialog, setOpenDialog] = React.useState(false);
+  //const[selectedProject, setSelectedProject] = React.useState('');
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -171,12 +181,13 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Perfil
           </Typography>
-
-          <Button variant="contained" className={classes.button} href="/modificarperfilfree">
+          <DomLink to="/profile/modify/free" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+          <Button variant="contained" className={classes.button} >
             Modificar Perfil
           </Button>
+          </DomLink>
 
-          <Button variant="contained" className={classes.button} href="/deleteprofilefree">
+          <Button variant="contained" className={classes.button} onClick={handleClickOpenDialog}>
             Eliminar Perfil
           </Button>
 
@@ -282,24 +293,18 @@ export default function Dashboard() {
                   
               </Paper>
 
-              <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
-                Portafolio
-              </Typography>
-              {archives.map(archive => (
-                <Link display="block" variant="body1" href="#" key={archive}>
-                  {archive}
-                </Link>
-              ))}
+              <DomLink to="/portafolio" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
 
-              <Button variant="contained" color="primary" className={classes.button} href="/portafolio">
+              <Button variant="contained" color="primary" className={classes.button} >
                 Mi Portafolio
               </Button>
+              </DomLink>
 
 
             </Grid>
             {/* End sidebar */}
           </Grid>
-
+          <EliminarPerfilDialog content="¿Está seguro que deseas eliminar tu perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} open={openDialog}/>
         </Container>
         <Copyright />
       </main>

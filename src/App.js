@@ -24,6 +24,7 @@ import GestProjectFreelancer from './pages/GestProjectFree';
 import PerfilConsulFree from './pages/PerfilConsulFree';
 import ConsultPortfolioCont from './pages/ConsultPortfolioCont';
 import ConsultProjectViewCont from './pages/ConsultProjectViewCont'
+import ConsultProjectPortfolio from './pages/ConsultProjectPortfolio';
 
 /* TODO manejar los roles*/
 function App() {
@@ -44,16 +45,14 @@ function App() {
 		  {/*Profile*/}
 		  <Route exact path='/profile/freelancer' render={ ()=> <PerfilFree/>}/>
 		  <Route exact path='/profile/contractor' render={ ()=> <PerfilCont/>}/>
-
-		  <Route exact path='/profile/delete' render={ ()=> <DeleteProfileFree/>}/>
-		  <Route exact path='/profile/delete' render={ ()=> <DeleteProfileCont/>}/>
-		  <Route exact path='/profile/modify/free' render={ ()=> <ModPerFree/>}/>
+			<Route exact path='/profile/modify/free' render={ ()=> <ModPerFree/>}/>
 		  <Route exact path='/profile/modify/cont' render={ ()=> <ModPerCont/>}/>
 			
-		{/*Consulta Perfiles*/}
+		{/*Consulta de Perfil freelancer*/}
 		 <Route exact path='/profile/consult/freelancer' render={ ()=> <PerfilConsulFree/>}/>
 		 <Route exact path='/profile/consult/freelancer/portfolio' render={ ()=> <ConsultPortfolioCont/>}/>
 		 <Route exact path='/project/view/contractor' render={ ()=> <ConsultProjectViewCont/>}/>
+
 		  {/*Project*/}
 		  <Route exact path='/project/free/cancel' render={ ()=> <CancelProjectFree/>}/>
 		  <Route exact path='/project/free/cancel' render={ ()=> <CancelProjectCont/>}/>
@@ -61,12 +60,18 @@ function App() {
 		  <Route exact path='/project/manage/freelancer' render={ ()=> <GestProjectFreelancer/>}/>
 		  <Route exact path='/project/manage/contractor' render={ ()=> <GestProjectContract/>}/>
           <Route exact path='/project/contractor' render={ ()=> <ConsultProjectCont/>}/>
-		  {/*Portfolio*/}
-		  <Route exact path='/removeprojectportfolio' render={ ()=> <RemoveProjectPortfolio/>}/>
+		  
+		  {/*Portfolio*/}		  
 		  <Route exact path='/portafolio' render={ ()=> <ConsultPortfolio/>}/>
+		  <Route exact path='/portafolio/consultar' render={ ()=> <ConsultProjectPortfolio/>}/>
 
           {/*Not Found*/}
 	      <Route component={NotFound} />
+
+	  		{/*No las usare*/}
+	  		<Route exact path='/removeprojectportfolio' render={ ()=> <RemoveProjectPortfolio/>}/>
+	  		<Route exact path='/profile/delete' render={ ()=> <DeleteProfileFree/>}/>
+		  <Route exact path='/profile/delete' render={ ()=> <DeleteProfileCont/>}/>
 	    </Switch>
     </Router>
   );

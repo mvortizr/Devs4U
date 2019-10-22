@@ -9,6 +9,7 @@ import {
   fade,
   withStyles,
 } from '@material-ui/core/styles';
+import {Link as DomLink}from "react-router-dom";
 
 import logo from './images/fondoLogin.jpg';
 
@@ -228,14 +229,18 @@ const Login = props => {
 
             <Grid container>
               <Grid item xs>
-                <Link href="/password/recover" variant="body2" className={classes.text}>
+              <DomLink to="/password/recover" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                <Link variant="body2" className={classes.text}>
                   ¿Olvidaste tu contraseña?
                 </Link>
+              </DomLink>
               </Grid>
               <Grid item>
-                <Link href="/register" variant="body2" className={classes.text}>
+               <DomLink to="/register" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                <Link variant="body2" className={classes.text}>
                   {"¿No tienes una cuenta? Regístrate"}
                 </Link>
+                </DomLink>
               </Grid>
             </Grid>
           </form>

@@ -212,59 +212,19 @@ export default function Dashboard() {
                     </Typography>
                   </CardContent>
                   <CardActions>
+                  <DomLink to="/project/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                     <Button size="small" color="primary">
                       Más Información
                     </Button>
+                  </DomLink>
                   </CardActions>
                 </Card>
               </Grid>
               
 
-              <Grid item xs={8} sm={6} md={6}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Aplicación para Oracle
-                    </Typography>
-                    <Typography>
-                      Necesitamos de un desarrollador que domine Python, Javascript, Java...
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      Más Información
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
+              
 
-              <Grid item xs={8} sm={6} md={6}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Aplicación para Oracle
-                    </Typography>
-                    <Typography>
-                      Necesitamos de un desarrollador que domine Python, Javascript, Java...
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      Más Información
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
+             
 
           </Grid>      
         </Container>

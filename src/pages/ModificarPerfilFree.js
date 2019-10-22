@@ -6,6 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
+import {Link as DomLink}from "react-router-dom";
 
 function Copyright() {
   return (
@@ -168,10 +169,11 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Perfil
           </Typography>
-
-          <Button variant="contained" color="secondary" className={classes.button} href="/profile/freelancer">
+           <DomLink to="/profile/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+          <Button variant="contained" color="secondary" className={classes.button} >
             Guardar Cambios
           </Button>
+          </DomLink>
 
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}
@@ -327,19 +329,7 @@ export default function Dashboard() {
                   
               </Paper>
 
-              <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
-                Portafolio
-              </Typography>
-              {archives.map(archive => (
-                <Link display="block" variant="body1" href="#" key={archive}>
-                  {archive}
-                </Link>
-              ))}
-
-              <Button variant="contained" color="primary" className={classes.button} href="/consultportfolio">
-                Mi Portafolio
-              </Button>
-
+            
 
             </Grid>
             {/* End sidebar */}
