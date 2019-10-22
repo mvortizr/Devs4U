@@ -6,7 +6,7 @@ const userController=require('../controllers/UserController');
 router.post('/register',userController.register);
 router.post('/login',userController.login);
 
-app.post('/edit',userController.update);
+router.post('/edit',userController.update);
 //app.get('/dashboard',ensureAuthenticated,userController.showDashboard)
 //app.get('/logout',userController.logout)
 

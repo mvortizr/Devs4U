@@ -6,6 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsCont';
+import {Link as DomLink}from "react-router-dom";
 
 function Copyright() {
   return (
@@ -153,7 +154,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Panel de Control
+            Devs4U
           </Typography>
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}
@@ -206,17 +207,18 @@ export default function Dashboard() {
                       Pablito Pérez
                     </Typography>
                     <Typography>
-                      Desarrollador en Java, Python, Mysql...
+                      Estado: Disponible
                     </Typography>
                   </CardContent>
                   <CardActions>
+                  <DomLink to="/profile/consult/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                     <Button size="small" color="primary">
-                      Más Información
+                      Ver perfil
                     </Button>
+                  </DomLink>
                   </CardActions>
                 </Card>
               </Grid>
-              
           </Grid>      
         </Container>
         <Copyright />

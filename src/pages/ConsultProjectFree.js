@@ -9,7 +9,6 @@ import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -251,10 +250,10 @@ export default function Dashboard() {
                     <strong>Fecha de entrega:</strong> XX/XX/XXXX
                 </Typography>
                 <Typography paragraph>
-                    <strong>Lenaguaje:</strong> Pascal
+                    <strong>Lenguajes:</strong> Pascal
                 </Typography>
-                <Button variant="contained" color="primary" className={classes.button} href="/cancelprojectfree">
-                  Cancelar proyecto
+                <Button variant="contained" color="primary" className={classes.button} >
+                  Postularse a proyecto
                 </Button>
                   
               </Paper>

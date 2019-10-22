@@ -105,7 +105,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
+    //backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
   },
   heroButtons: {
@@ -133,12 +133,7 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
   },
-  button2: {
-    margin: theme.spacing(1),
-  },
 }));
-
-const steps = ['Negociación', '1era Iteración', '2da Iteración', '3era Iteración', 'Finalizado'];
 
 
 export default function Dashboard() {
@@ -198,15 +193,7 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
-          <div>
-            <Stepper className={classes.stepper}>
-              {steps.map(label => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </div>
+          
           <Grid container spacing={5} className={classes.mainGrid}>
             {/* Main content */}
             <Grid item xs={12} md={8}>
@@ -244,7 +231,7 @@ export default function Dashboard() {
                   Información General
                 </Typography>
                 <Typography paragraph>
-                    <strong>Desarrollador:</strong> Pepito
+                    <strong>Contratista:</strong> Pepito
                 </Typography>
                 <Typography paragraph>
                     <strong>Fecha de inicio:</strong> XX/XX/XXXX
@@ -253,13 +240,13 @@ export default function Dashboard() {
                     <strong>Fecha de entrega:</strong> XX/XX/XXXX
                 </Typography>
                 <Typography paragraph>
-                    <strong>Lenaguaje:</strong> Pascal
+                    <strong>Lenguajes:</strong> Pascal
                 </Typography>
-                <Button variant="contained" color="primary" className={classes.button}>
-                  Modificar proyecto
+                <Button variant="contained" color="primary" className={classes.button} >
+                  Ver código
                 </Button>
-                <Button variant="contained" color="primary" className={classes.button} href="/cancelprojectcont">
-                  Cancelar proyecto
+                <Button variant="contained" color="primary" className={classes.button} >
+                  Ver en vivo
                 </Button>
                   
               </Paper>

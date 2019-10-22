@@ -6,7 +6,7 @@ const languageController=require('../controllers/LanguageController');
 const skillController=require('../controllers/SkillController');
 
 module.exports={
-     /**
+     /***
      * Store a newly created resource in storage.
      */
     register(req,res){
@@ -26,8 +26,8 @@ module.exports={
                 }).then(function(){
                     email=req.body.email;//Email del usuario para buscarlo
                     if(req.body.rol=='developer') developerController.associate(email); //function to associate the developer information
-                    console.log('usuario creado')
-                    res.redirect('/login');
+                    console.log('usuario creado');
+                    //res.redirect('/login');
                 })
             })
         })

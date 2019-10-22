@@ -9,52 +9,64 @@ import LayersIcon from '@material-ui/icons/Layers';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import WorkIcon from '@material-ui/icons/Work';
 import ChatIcon from '@material-ui/icons/Chat';
+import {Link}from "react-router-dom";
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-import Link from '@material-ui/core/Link'
+//import Link from '@material-ui/core/Link'
 
 export const mainListItems = (
   <div>
-    <ListItem button component="a" href="/dashboard/freelancer">
+  <Link to="/dashboard/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+    <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Panel de Control" />
+      <ListItemText primary="Inicio" />
     </ListItem>
+  </Link>
+  <Link to="/project/manage/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListItem button>
       <ListItemIcon>
         <WorkIcon />
       </ListItemIcon>
-      <ListItemText primary="Trabajos Ofrecidos" />
+      <ListItemText primary="Proyectos" />
     </ListItem>
-    <ListItem button>
+   </Link>
+    {/*<ListItem button>
       <ListItemIcon>
         <ChatIcon />
       </ListItemIcon>
-      <ListItemText primary="Chats de Negocios" />
-    </ListItem>
-    <ListItem button component="a" href="/portafolio">
+      <ListItemText primary="Postulacion" />
+    </ListItem>*/}
+    <Link to="/portafolio" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+    <ListItem button>
       <ListItemIcon>
         <AssignmentTurnedInIcon />
       </ListItemIcon>
-      <ListItemText primary="Trabajos Realizados" />
+      <ListItemText primary="Portafolio" />
     </ListItem>
+      </Link>
   </div>
+
 );
 
 export const secondaryListItems = (
   <div>
+  <Link to="/profile/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListSubheader inset>Opciones de Usuario</ListSubheader>
-    <ListItem button component="a" href="/profile/freelancer">
+    <ListItem button>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Perfil" />
     </ListItem>
-    <ListItem button component="a" href="/">
+    </Link>
+     <Link to="/" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+    <ListItem button>
       <ListItemIcon>
         <ExitToAppIcon />
       </ListItemIcon>
       <ListItemText primary="Cerrar Sesión" />
     </ListItem>
+    </Link>
   </div>
 );

@@ -18,6 +18,12 @@ import PerfilFree from './pages/PerfilFree';
 import RecContrasena from './pages/RecContrasena';
 import ModPerFree from './pages/ModificarPerfilFree';
 import ModPerCont from './pages/ModificarPerfilCont';
+import RecContraMail from './pages/RecContraMail';
+import GestProjectContract from './pages/GestProjectContract';
+import GestProjectFreelancer from './pages/GestProjectFree';
+import PerfilConsulFree from './pages/PerfilConsulFree';
+import ConsultPortfolioCont from './pages/ConsultPortfolioCont';
+import ConsultProjectViewCont from './pages/ConsultProjectViewCont'
 
 /* TODO manejar los roles*/
 function App() {
@@ -30,21 +36,30 @@ function App() {
 		  <Route exact path='/login' render={ ()=> <Login/>}/>
 	      <Route exact path='/register' render={ ()=> <Registration/>}/>
 		  {/*Recuperar Contraseña*/}
-		  <Route exact path='/recuperarcontrasena' render={ ()=> <RecContrasena/>}/>
+		  <Route exact path='/password/set' render={ ()=> <RecContrasena/>}/>
+		  <Route exact path='/password/recover' render={ ()=> <RecContraMail/>}/>
 		  {/* Dashboard */}
 		  <Route exact path='/dashboard/freelancer' render={ ()=> <DashboardFree/>}/>
 		  <Route exact path='/dashboard/contractor' render={ ()=> <DashboardCont/>}/>
 		  {/*Profile*/}
 		  <Route exact path='/profile/freelancer' render={ ()=> <PerfilFree/>}/>
 		  <Route exact path='/profile/contractor' render={ ()=> <PerfilCont/>}/>
-		  <Route exact path='/deleteprofilefree' render={ ()=> <DeleteProfileFree/>}/>
-		  <Route exact path='/deleteprofilecont' render={ ()=> <DeleteProfileCont/>}/>
-		  <Route exact path='/modificarperfilfree' render={ ()=> <ModPerFree/>}/>
-		  <Route exact path='/modificarperfilcont' render={ ()=> <ModPerCont/>}/>
+
+		  <Route exact path='/profile/delete' render={ ()=> <DeleteProfileFree/>}/>
+		  <Route exact path='/profile/delete' render={ ()=> <DeleteProfileCont/>}/>
+		  <Route exact path='/profile/modify/free' render={ ()=> <ModPerFree/>}/>
+		  <Route exact path='/profile/modify/cont' render={ ()=> <ModPerCont/>}/>
+			
+		{/*Consulta Perfiles*/}
+		 <Route exact path='/profile/consult/freelancer' render={ ()=> <PerfilConsulFree/>}/>
+		 <Route exact path='/profile/consult/freelancer/portfolio' render={ ()=> <ConsultPortfolioCont/>}/>
+		 <Route exact path='/project/view/contractor' render={ ()=> <ConsultProjectViewCont/>}/>
 		  {/*Project*/}
-		  <Route exact path='/cancelprojectfree' render={ ()=> <CancelProjectFree/>}/>
-		  <Route exact path='/cancelprojectcont' render={ ()=> <CancelProjectCont/>}/>
+		  <Route exact path='/project/free/cancel' render={ ()=> <CancelProjectFree/>}/>
+		  <Route exact path='/project/free/cancel' render={ ()=> <CancelProjectCont/>}/>
 		  <Route exact path='/project/freelancer' render={ ()=> <ConsultProjectFree/>}/>
+		  <Route exact path='/project/manage/freelancer' render={ ()=> <GestProjectFreelancer/>}/>
+		  <Route exact path='/project/manage/contractor' render={ ()=> <GestProjectContract/>}/>
           <Route exact path='/project/contractor' render={ ()=> <ConsultProjectCont/>}/>
 		  {/*Portfolio*/}
 		  <Route exact path='/removeprojectportfolio' render={ ()=> <RemoveProjectPortfolio/>}/>

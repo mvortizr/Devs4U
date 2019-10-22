@@ -6,9 +6,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsCont';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
+import {Link as DomLink}from "react-router-dom";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -126,19 +125,22 @@ const useStyles = makeStyles(theme => ({
   cardContent: {
     flexGrow: 1,
   },
+
   markdown: {
     ...theme.typography.body2,
     padding: theme.spacing(3, 0),
   },
-  button: {
-    margin: theme.spacing(1),
-  },
-  button2: {
-    margin: theme.spacing(1),
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
   },
 }));
 
-const steps = ['Negociación', '1era Iteración', '2da Iteración', '3era Iteración', 'Finalizado'];
+
+const archives = [
+  'Trabajo 1',
+  'Trabajo 2',
+  'Trabajo 3',
+];
 
 
 export default function Dashboard() {
@@ -168,8 +170,9 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Título del Proyecto
+            Perfil de Fulanito
           </Typography>
+
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}
             <Badge badgeContent={0} color="secondary">
@@ -198,40 +201,56 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
-          <div>
-            <Stepper className={classes.stepper}>
-              {steps.map(label => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </div>
-          <Grid container spacing={5} className={classes.mainGrid}>
+
+
+        <Grid container spacing={5} className={classes.mainGrid}>
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h4" gutterBottom>
-                Título del Proyecto
+                Nombre del Usuario
               </Typography>
               <Divider />
+
+              {/*
+              <CardMedia
+                   className={classes.cardMedia}
+                   image="./images/fotoPerfil.jpg"
+                   title="Image title"
+              />
+              */}
+              <Divider />
+
               <Typography variant="h6" gutterBottom>
-                Descripción del Proyecto:
+                Sobre mí:
               </Typography>
 
               <Typography paragraph>
-                   XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                   Información Personal
                 </Typography>
 
               <Typography variant="h6" gutterBottom>
-                Lenguaje de Programación:
+                Lenguajes de Programación que domino:
               </Typography>
 
               <Typography paragraph>
               <li className={classes.listItem}>
-                    <Typography component="span"/> Lenguaje
+                    <Typography component="span"/> Lenguaje 1
                 </li>
                 <li className={classes.listItem}>
-                    <Typography component="span"/> Lenguaje
+                    <Typography component="span"/> Lenguaje 2
+                </li>
+              </Typography>
+
+              <Typography variant="h6" gutterBottom>
+                Idiomas:
+              </Typography>
+
+              <Typography paragraph>
+              <li className={classes.listItem}>
+                    <Typography component="span"/> Holaaaa
+                </li>
+                <li className={classes.listItem}>
+                    <Typography component="span"/> Holis
                 </li>
               </Typography>
 
@@ -243,26 +262,24 @@ export default function Dashboard() {
                 <Typography variant="h6" gutterBottom>
                   Información General
                 </Typography>
+
                 <Typography paragraph>
-                    <strong>Desarrollador:</strong> Pepito
+                    <strong>Residencia:</strong> Caracas, Venezuela
                 </Typography>
                 <Typography paragraph>
-                    <strong>Fecha de inicio:</strong> XX/XX/XXXX
+                    <strong>Horas de Trabajo:</strong> +40
                 </Typography>
                 <Typography paragraph>
-                    <strong>Fecha de entrega:</strong> XX/XX/XXXX
+                    <strong>Experiencia:</strong> 1 año
                 </Typography>
-                <Typography paragraph>
-                    <strong>Lenaguaje:</strong> Pascal
-                </Typography>
-                <Button variant="contained" color="primary" className={classes.button}>
-                  Modificar proyecto
-                </Button>
-                <Button variant="contained" color="primary" className={classes.button} href="/cancelprojectcont">
-                  Cancelar proyecto
-                </Button>
                   
               </Paper>
+
+              <DomLink to="/profile/consult/freelancer/portfolio" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                <Button variant="contained" color="primary" className={classes.button}>
+                 Ver Portafolio
+                </Button>
+              </DomLink>
             </Grid>
             {/* End sidebar */}
           </Grid>

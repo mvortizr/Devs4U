@@ -6,6 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsCont';
+import {Link as DomLink}from "react-router-dom";
 
 function Copyright() {
   return (
@@ -136,12 +137,6 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const archives = [
-  'Trabajo 1',
-  'Trabajo 2',
-  'Trabajo 3',
-];
-
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -172,15 +167,16 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Perfil
           </Typography>
-
-          <Button variant="contained" className={classes.button} href="/modificarperfilcont">
-            Modificar Perfil
-          </Button>
-
-          <Button variant="contained" className={classes.button} href="/deleteprofilecont">
-            Eliminar Perfil
-          </Button>
-
+           <DomLink to="/profile/modify/cont" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+              <Button variant="contained" className={classes.button}>
+                Modificar Perfil
+              </Button>
+            </DomLink>
+        
+            <Button variant="contained" className={classes.button}>
+              Eliminar Perfil
+            </Button>
+     
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}
             <Badge badgeContent={0} color="secondary">
@@ -264,14 +260,8 @@ export default function Dashboard() {
                 </Typography>
                   
               </Paper>
-              <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
-                Trabajos contratados y finalizados
-              </Typography>
-              {archives.map(archive => (
-                <Link display="block" variant="body1" href="#" key={archive}>
-                  {archive}
-                </Link>
-              ))}
+              
+    
 
             </Grid>
             {/* End sidebar */}

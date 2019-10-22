@@ -6,6 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsCont';
+import {Link as DomLink}from "react-router-dom";
 
 function Copyright() {
   return (
@@ -172,9 +173,11 @@ export default function Dashboard() {
             Perfil
           </Typography>
 
-          <Button variant="contained" color="secondary" className={classes.button} href="/profile/contractor">
-            Guardar Cambios
-          </Button>
+          <DomLink to="/profile/contractor" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+            <Button variant="contained" color="secondary" className={classes.button}>
+              Guardar Cambios
+            </Button>
+          </DomLink>
 
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}
@@ -306,14 +309,6 @@ export default function Dashboard() {
                 </Typography>               
                   
               </Paper>
-              <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
-                Trabajos contratados y finalizados
-              </Typography>
-              {archives.map(archive => (
-                <Link display="block" variant="body1" href="#" key={archive}>
-                  {archive}
-                </Link>
-              ))}
 
             </Grid>
             {/* End sidebar */}

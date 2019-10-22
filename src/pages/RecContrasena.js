@@ -27,7 +27,7 @@ const BootstrapInput = withStyles(theme => ({
     backgroundColor: theme.palette.common.white,
     border: '1px solid #ced4da',
     fontSize: 16,
-    width: '500px',
+    width: '480px',
     padding: '10px 12px',
     margin:'15px 5px'
     // Use the system font instead of the default Roboto font.
@@ -78,6 +78,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.grey[0],
         color: theme.palette.common.white,
         marginBottom: theme.spacing(4),
+        padding:'0 10px 10px 10px',
         backgroundColor: 'rgba(62, 58, 50, 0.8)',
       }
 }));
@@ -97,8 +98,8 @@ function Copyright() {
 const Login = props => {
 
    const [values, setValues] = React.useState({
-        email: '',
         password: '',
+        recovery:'',
     });
    
     const classes = useStyles();
@@ -109,13 +110,7 @@ const Login = props => {
     };
 
     const handleSubmit = () => {
-        console.log('Im fired login');
-        axios.post('/login', values)
-            .then((response) => {
-                  console.log('login response',response)
-            }, (error) => {
-                console.log(error);
-            });   
+        
     };
     
     return(
@@ -123,7 +118,7 @@ const Login = props => {
         <Container component="main" maxWidth="sm">
         <CssBaseline />
 
-
+        {console.log(values)}
         <main>
 
           <CssBaseline />
@@ -150,30 +145,24 @@ const Login = props => {
             
             <FormControl >
               <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
-                Correo Electrónico
-              </InputLabel>
-              <BootstrapInput id="email" />
-            </FormControl>
-            <FormControl >
-              <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
                 Introduzca la nueva contraseña
               </InputLabel>
-              <BootstrapInput id="password" />
+              <BootstrapInput id="password" type="password" name="password" onChange={handleChange('password')}/>
             </FormControl>
             <FormControl >
               <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
                 Repita la nueva contraseña
               </InputLabel>
-              <BootstrapInput id="password" />
+              <BootstrapInput id="password" type="password" name="recovery" onChange={handleChange('recovery')} />
             </FormControl>
 
             <Button
-              type="submit"
+              type="button"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={handleSubmit}
+              onClick={handleSubmit()}
             >
               Recuperar Contraseña
             </Button>

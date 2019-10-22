@@ -110,28 +110,10 @@ const Login = props => {
     };
 
     const handleSubmit = () => {
-        console.log('Im fired login');
-        axios.post('/login', values)
-            .then((response) => {
-                  console.log('login response',response)
-            }, (error) => {
-                console.log(error);
-            });   
+        
     };
-
-    /*
-    const changeColor = () => {
-      if (${options[variant] == "contained"){
-        ${options[variant] == "outlined";
-      }
-      if(${options[variant] == "outlined"){
-        ${options[variant] == "contained";
-      } 
-    };
-    */
     
     return(
-
       
         <Container component="main" maxWidth="sm">
         <CssBaseline />
@@ -156,88 +138,30 @@ const Login = props => {
             
           </Avatar>
           <Typography component="h1" variant="h5">
-            Iniciar Sesión
+            Recuperar Contraseña
           </Typography>
-        
-        {/* <Grid container spacing={2} justify="center">
-          <Grid item>
-            <Button variant="outlined" color="inherit">
-              Iniciar Sesión como Freelancer
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button variant="outlined" color="inherit">
-              Iniciar Sesión como Contratista
-            </Button>
-          </Grid>
-        </Grid> */}
 
           <form className={classes.form} noValidate>
-            {/* <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Correo Electrónico"
-              name="email"
-              autoComplete="email"
-              onChange={handleChange('email')}
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Contraseña"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handleChange('password')}
-            /> */}
-
+            
             <FormControl >
               <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
                 Correo Electrónico
               </InputLabel>
               <BootstrapInput id="email" name="email" onChange={handleChange('email')}/>
             </FormControl>
-            <FormControl >
-              <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
-                Contraseña
-              </InputLabel>
-              <BootstrapInput id="password" type="password" name="password" onChange={handleChange('password')}/>
-            </FormControl>
+            
 
-            {/*<FormControlLabel
-              control={<Checkbox value="remember" color="primary" className={classes.text}/>}
-              label="Recordarme"
-            />*/}
             <Button
               type="button"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={handleSubmit}
+              onClick={handleSubmit()}
             >
-              Iniciar Sesión
+              Solicitar Link de Recuperación
             </Button>
 
-            <Grid container>
-              <Grid item xs>
-                <Link href="/password/recover" variant="body2" className={classes.text}>
-                  ¿Olvidaste tu contraseña?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/register" variant="body2" className={classes.text}>
-                  {"¿No tienes una cuenta? Regístrate"}
-                </Link>
-              </Grid>
-            </Grid>
           </form>
         </div>
         <Box mt={8}>

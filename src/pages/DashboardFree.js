@@ -7,6 +7,7 @@ import {ChevronLeft as ChevronLeftIcon,
 Menu as MenuIcon} from '@material-ui/icons';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
+import {Link as DomLink}from "react-router-dom";
 
 function Copyright() {
   return (
@@ -154,7 +155,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Panel de Control
+            Devs4U
           </Typography>
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}

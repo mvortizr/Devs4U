@@ -29,7 +29,7 @@ const BootstrapInput = withStyles(theme => ({
     backgroundColor: theme.palette.common.white,
     border: '1px solid #ced4da',
     fontSize: 16,
-    width: '500px',
+    width: '480px',
     padding: '10px 12px',
     margin:'15px 5px'
     // Use the system font instead of the default Roboto font.
@@ -76,6 +76,7 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.common.white,
       marginBottom: theme.spacing(4),
       backgroundColor: 'rgba(62, 58, 50, 0.8)',
+      padding: '0 10px 10px 10px',
       //No puedo colocar la imagen logo
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
@@ -110,6 +111,7 @@ const Registration = props => {
         firstName:'',
         lastName:'',
         password: '',
+        recovery:'',
     });
    
     const classes = useStyles();
@@ -120,27 +122,33 @@ const Registration = props => {
     };
 
     const handleSubmit = () => {
-        console.log('Im fired reg');
-        axios.post('/register', values)
+       
+        let query = values;
+        query.rol = select;
+
+        console.log('query', query);
+
+
+        axios.post('/register', query)
             .then((response) => {
-                  console.log('reg response',response)
+                  console.log('registration response',response)
             }, (error) => {
                 console.log(error);
-            });   
+            }); 
     }
 
-    const [select, setSelect] = React.useState('Freelancer');
+    const [select, setSelect] = React.useState('developer');
 
     const handleClick = (event, newSelect) => {
       setSelect(newSelect);
     };
 
     const children = [
-      <ToggleButton value="Freelancer" className={classes.button}>
-        Registrarse como usuario Freelancer
+      <ToggleButton value="developer" className={classes.button}>
+        Soy Desarrollador
       </ToggleButton>,
       <ToggleButton value="contractor" className={classes.button}>
-        Registrarse como usuario Contratista
+        Soy Contratista
       </ToggleButton>,
     ];
     
@@ -148,24 +156,17 @@ const Registration = props => {
 
     <Container component="main" maxWidth="sm">
       <CssBaseline />
+       {console.log(values)}
+       {console.log(select)}
       <main>
       <Paper className={classes.mainFeaturedPost}>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
         </Avatar>
         <Typography component="h3" variant="h5" align="center" color="white" gutterBottom>
-          Regístrate
+          Registro
         </Typography>
-        <Typography variant="h5" align="center" color="white" paragraph>
-            Puedes registrarte como usuario Freelancer o como usuario contratista
-        </Typography>
-        <Grid container spacing={2} justify="center">
-          <Grid item>
-            <ToggleButtonGroup size="medium" value={select} exclusive onChange={handleClick}>
-              {children}
-            </ToggleButtonGroup>
-          </Grid>
-        </Grid>
+        
 
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
@@ -185,7 +186,7 @@ const Registration = props => {
                 <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
                   Nombres
                 </InputLabel>
-                <BootstrapInput id="firstName" />
+                <BootstrapInput id="firstName" name="firstName" onChange={handleChange('firstName')}/>
               </FormControl>
             </Grid>
             <Grid item>
@@ -203,7 +204,7 @@ const Registration = props => {
                 <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
                   Apellidos
                 </InputLabel>
-                <BootstrapInput id="lastName" />
+                <BootstrapInput id="lastName" name="lastName"  onChange={handleChange('lastName')}/>
               </FormControl>
             </Grid>
             <Grid item>
@@ -221,7 +222,7 @@ const Registration = props => {
                 <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
                   Correo Electrónico
                 </InputLabel>
-                <BootstrapInput id="email" />
+                <BootstrapInput id="email" name="email" autoComplete="email" onChange={handleChange('email')}/>
               </FormControl>
             </Grid>
             <Grid item>
@@ -240,7 +241,7 @@ const Registration = props => {
                 <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
                   Contraseña
                 </InputLabel>
-                <BootstrapInput id="password" />
+                <BootstrapInput id="password" type="password"  onChange={handleChange('password')} autoComplete="current-password"/>
               </FormControl>
             </Grid>
             <Grid item>
@@ -258,12 +259,20 @@ const Registration = props => {
                 <InputLabel shrink htmlFor="bootstrap-input" className={classes.text}>
                   Confirmar contraseña
                 </InputLabel>
-                <BootstrapInput id="confirmpassword" />
+                <BootstrapInput id="confirmpassword" type="password" onChange={handleChange('recovery')} name="recovery" />
               </FormControl>
+            </Grid>
+
+            <Grid container spacing={2} justify="center">
+              <Grid item>
+                <ToggleButtonGroup size="medium" value={select} exclusive onChange={handleClick}>
+                  {children}
+                </ToggleButtonGroup>
+              </Grid>
             </Grid>
           </Grid>
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
