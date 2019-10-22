@@ -258,7 +258,7 @@ export default function Dashboard() {
                 <Button variant="contained" color="primary" className={classes.button}>
                   Modificar proyecto
                 </Button>
-                <Button variant="contained" color="primary" className={classes.button} href="/cancelprojectcont">
+                <Button variant="contained" color="primary" className={classes.button}>
                   Cancelar proyecto
                 </Button>
                   
@@ -269,6 +269,7 @@ export default function Dashboard() {
 
         </Container>
         <Copyright />
+       
       </main>
     </div>
   );

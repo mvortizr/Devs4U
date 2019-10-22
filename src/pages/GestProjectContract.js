@@ -7,6 +7,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
 import { mainListItems, secondaryListItems } from './ListaItemsCont';
+import EliminarProyectoDialog from '../components/Dialog';
+import {Link as DomLink}from "react-router-dom";
 
 function Copyright() {
   return (
@@ -145,6 +147,18 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  //Dialog Eliminar
+  const [openDialog, setOpenDialog] = React.useState(false);
+  //const[selectedProject, setSelectedProject] = React.useState('');
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -208,19 +222,23 @@ export default function Dashboard() {
                   </CardContent>
                   <CardActions>
                     <Button size="small" color="primary">
-
+                    <DomLink to="/project/contractor" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                       <Link variant="body2">
                         Consultar
                       </Link>
+                    </DomLink>
                     </Button>
+                   
+
                     <Button size="small" color="primary">
                       <Link variant="body2">
                         Modificar
                       </Link>
                     </Button>
-                    <Button size="small" className={classes.delete}>
+
+                    <Button size="small" className={classes.delete} onClick={handleClickOpenDialog}>
                       <Link variant="body2" className={classes.delete}>
-                        Eliminar
+                        Cancelar
                       </Link>
                     </Button>
                   </CardActions>
@@ -230,6 +248,7 @@ export default function Dashboard() {
           </Grid>     
         </Container>
         <Copyright />
+        <EliminarProyectoDialog content="¿Está seguro que desea cancelar el proyecto?" title="Eliminar proyecto" handleCloseDialog={handleCloseDialog} open={openDialog}/>
       </main>
     </div>
   );

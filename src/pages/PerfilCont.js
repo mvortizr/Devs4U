@@ -7,6 +7,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsCont';
 import {Link as DomLink}from "react-router-dom";
+import EliminarPerfilDialog from '../components/Dialog';
 
 function Copyright() {
   return (
@@ -149,6 +150,18 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  //Dialog Eliminar
+  const [openDialog, setOpenDialog] = React.useState(false);
+  //const[selectedProject, setSelectedProject] = React.useState('');
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -168,12 +181,12 @@ export default function Dashboard() {
             Perfil
           </Typography>
            <DomLink to="/profile/modify/cont" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
-              <Button variant="contained" className={classes.button}>
+              <Button variant="contained" className={classes.button} >
                 Modificar Perfil
               </Button>
             </DomLink>
         
-            <Button variant="contained" className={classes.button}>
+            <Button variant="contained" className={classes.button} onClick={handleClickOpenDialog}>
               Eliminar Perfil
             </Button>
      
@@ -266,7 +279,7 @@ export default function Dashboard() {
             </Grid>
             {/* End sidebar */}
           </Grid>
-
+           <EliminarPerfilDialog content="¿Está seguro que deseas eliminar tu perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} open={openDialog}/>
         </Container>
         <Copyright />
       </main>
