@@ -37,7 +37,6 @@ module.exports={
      *Log in to the system
      */
     login(req, res, next){
-         
          passport.authenticate('local', function(err, user, info) {      
             if (err) { return next(err); }
             if (!user) { return res.send({error:true}); }
@@ -82,13 +81,14 @@ module.exports={
             })
     },
 
+
     checkAuthentication(req,res){
       console.log('req user', req.user);
       if(req.isAuthenticated()){
         res.send({user: req.user});
 
       }
-    }
+    },
 
 
             /**
@@ -97,6 +97,15 @@ module.exports={
         /*show(req,res){
             if(req.user.rol=='developer')developerController.show(req,res);
           },
+
+    /**
+    * Display the specified resource.
+    */
+    show(req,res){
+        if(req.params.rol=='developer')developerController.show(req,res);
+        //if(req.user.rol=='contratist')console.log('soy un contratista');
+    },
+
         /**
          * Show the form for editing the specified resource.
          */

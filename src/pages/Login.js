@@ -117,6 +117,7 @@ const Login = props => {
         setValues({ ...values, [name]: event.target.value });
     };
 
+
     React.useEffect(() => {
       console.log('hola');
       axios.post('/check/auth')
@@ -132,11 +133,13 @@ const Login = props => {
     }, []);
   
 
+
     const handleSubmit = () => {
         console.log('Im fired login');
         axios.post('/login', values)
             .then((response) => {
                   console.log('login response',response)
+
                   if (response.data.user) {
                       console.log('successful login');
                       showDialog('Has iniciado sesión exitosamente');
@@ -146,6 +149,7 @@ const Login = props => {
                       console.log('unsuccesful signup');
                       showDialog('Ha ocurrido un error en tu inicio de sesion');
                   }
+
             }, (error) => {
                 console.log(error);
             });   

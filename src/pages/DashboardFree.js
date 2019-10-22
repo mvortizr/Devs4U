@@ -8,6 +8,7 @@ Menu as MenuIcon} from '@material-ui/icons';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import {Link as DomLink}from "react-router-dom";
+
 import axios from 'axios';
 import { useHistory } from "react-router-dom"
 
@@ -15,7 +16,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-
 
 function Copyright() {
   return (
@@ -158,7 +158,6 @@ export default function Dashboard() {
                 console.log(error);
   });   
 }
-
 
   return (
     <div className={classes.root}>

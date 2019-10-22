@@ -62,8 +62,5 @@ export const secondaryListItems = (
       </ListItem>
     </Link>
 
-   
- 
-
   </div>
 );

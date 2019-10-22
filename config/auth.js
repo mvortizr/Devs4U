@@ -4,7 +4,6 @@ module.exports = {
         return next();
       }
       res.send({error:true});
-      //res.send('/login');
     },
     forwardAuthenticated: function(req, res, next) {
       if (!req.isAuthenticated()) {

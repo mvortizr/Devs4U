@@ -6,8 +6,9 @@
     "host": "ec2-54-163-226-238.compute-1.amazonaws.com",
     "dialect": "postgres",
     "port": "5432",
-    "dialectOptions":{"ssl":"true"} ,
-    "max": "10"
+    "dialectOptions":{"ssl":"true"},
+    "max": "10",
+    "logging": false
   },
   "test": {
     "username": "bzocghqrlpydlb",

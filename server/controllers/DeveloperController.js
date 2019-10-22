@@ -22,7 +22,6 @@ module.exports={
         workHours:req.body.workHours,
         developerType:req.body.developerType,
         expierece:req.body.expierece
-
       },
       {returning: true, where: {userId:req.user.id} }
       ).then(function(){
@@ -34,11 +33,10 @@ module.exports={
       /**
      * Display the specified resource.
      **/
-
-    /*show(req,res){
+    show(req,res){
       model.developer.findAll({
         where: {
-         userId:req.user.id
+         userId:req.params.id
         }
       }).then(function(developer){
       model.language.findAll({
@@ -50,18 +48,19 @@ module.exports={
           where:{
             userId:developer[0].userId
           }
-        }).then(function(skills){
-         res.render('user/developerProfile',{
-            skills: skills,
-            developer:developer[0],
-            user: req.user,
-            languages: languages
-          })
-      })
+        }).then(function(skills){    
+
+        var userInfo = new Object();
+          userInfo.user=req.user;
+          userInfo.developer=developer;
+          userInfo.languages=languages;
+          userInfo.skills=skills;
+          res.json(userInfo);
+      }).catch(err => res.status(400).json('Error: ' + err));
       })
     })
-    },*/
-    
+    },
+
     /**
      * Show the form for editing the specified resource.
      **/
@@ -95,4 +94,6 @@ module.exports={
     /**
      * Update the specified resource in storage.
      */
+
 }
+

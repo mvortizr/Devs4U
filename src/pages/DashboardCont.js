@@ -138,7 +138,9 @@ const useStyles = makeStyles(theme => ({
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+
   let history = useHistory();
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -146,6 +148,7 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
 
   const handleLogOut = ()=> {
   
@@ -157,6 +160,7 @@ export default function Dashboard() {
                 console.log(error);
   });
   }   
+
 
   return (
     <div className={classes.root}>
@@ -201,6 +205,7 @@ export default function Dashboard() {
         <List>{mainListItems}</List>
         <Divider />
         <List>{secondaryListItems}</List>
+
         <List>
             <ListItem button>
               <ListItemIcon>
@@ -209,6 +214,7 @@ export default function Dashboard() {
               <ListItemText primary="Cerrar Sesión" onClick={handleLogOut}/>
             </ListItem>
         </List>
+
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

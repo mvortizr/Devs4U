@@ -134,6 +134,7 @@ const Registration = props => {
         query.rol = select;
 
         console.log('query', query);
+
         axios.post('/register', query)
             .then((response) => {
                   console.log('registration response',response)
@@ -295,6 +296,7 @@ const Registration = props => {
           >
             Registrarse
           </Button>
+
           <Grid container justify="center">         
             <Grid item>
             <DomLink to="/login" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>

@@ -10,9 +10,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import WorkIcon from '@material-ui/icons/Work';
 import ChatIcon from '@material-ui/icons/Chat';
 import {Link}from "react-router-dom";
-import axios from 'axios';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-import { useHistory } from "react-router-dom";
+
 //import Link from '@material-ui/core/Link'
 
 
@@ -64,6 +63,5 @@ export const secondaryListItems = (
       <ListItemText primary="Perfil" />
     </ListItem>
     </Link>
-    
   </div>
 );
