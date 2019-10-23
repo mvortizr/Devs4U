@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import clsx from 'clsx';
-import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Button, TextField} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './ListaItemsCont';
-import {Link as DomLink}from "react-router-dom";
-import fotoPerfil from './images/fotoPerfil.jpg';
-=======
 import React from 'react'
 import clsx from 'clsx'
 import {
@@ -35,7 +23,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import { mainListItems, secondaryListItems } from './ListaItemsCont'
 import { Link as DomLink } from 'react-router-dom'
->>>>>>> b94b1c22732a21a1dcf8001b5d045f89fbe21d9e
 
 function Copyright() {
   return (
@@ -250,13 +237,6 @@ export default function Dashboard() {
                 label="Nombre del Usuario"
               />
               <Divider />
-<<<<<<< HEAD
-              <div>
-                <img src={fotoPerfil} />
-              </div>
-              <Typography variant="h6" gutterBottom>
-
-=======
 
               {/*
               <CardMedia
@@ -267,7 +247,6 @@ export default function Dashboard() {
               */}
 
               <Typography variant="h6" gutterBottom>
->>>>>>> b94b1c22732a21a1dcf8001b5d045f89fbe21d9e
                 {/*Falta colocarle  un input de tipo file para adjuntar imagen de perfil*/}
                 Adjuntar imagen
               </Typography>

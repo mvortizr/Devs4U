@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import clsx from 'clsx';
-import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Card, CardActions, CardMedia, CardContent, Button} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './ListaItemsCont';
-import {Link as DomLink}from "react-router-dom";
-import EliminarPerfilDialog from '../components/Dialog';
-import fotoPerfil from './images/fotoPerfil.jpg';
-=======
 import React from 'react'
 import clsx from 'clsx'
 import {
@@ -36,7 +23,6 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import { mainListItems, secondaryListItems } from './ListaItemsCont'
 import { Link as DomLink } from 'react-router-dom'
 import EliminarPerfilDialog from '../components/Dialog'
->>>>>>> b94b1c22732a21a1dcf8001b5d045f89fbe21d9e
 
 function Copyright() {
   return (
@@ -263,9 +249,6 @@ export default function Dashboard() {
                 Nombre del Usuario
               </Typography>
               <Divider />
-              <div>
-                <img src={fotoPerfil} />
-              </div>
               <Typography variant="h6" gutterBottom>
                 Sobre mí:
               </Typography>

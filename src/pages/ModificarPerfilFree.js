@@ -7,7 +7,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import {Link as DomLink}from "react-router-dom";
-import fotoPerfil from './images/fotoPerfil.jpg';
 
 function Copyright() {
   return (
@@ -134,6 +133,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
+const archives = [
+  'Trabajo 1',
+  'Trabajo 2',
+  'Trabajo 3',
+];
+
+
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -143,6 +149,7 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -208,9 +215,15 @@ export default function Dashboard() {
                 label="Nombre del Usuario"
               />
               <Divider />
-              <div>
-                <img src={fotoPerfil} />
-              </div>
+
+              {/*
+              <CardMedia
+                   className={classes.cardMedia}
+                   image="./images/fotoPerfil.jpg"
+                   title="Image title"
+              />
+              */}
+
               <Typography variant="h6" gutterBottom>
 
                 {/*Falta colocarle  un input de tipo file para adjuntar imagen de perfil*/}
@@ -231,7 +244,7 @@ export default function Dashboard() {
               <Divider />
 
               <Typography variant="h6" gutterBottom>
-                Lenguajes de Programación que domino:
+                Habilidades:
               </Typography>
 
               <Typography paragraph>
@@ -239,8 +252,8 @@ export default function Dashboard() {
                 <TextField
                 variant="outlined"
                 fullWidth
-                id="lenguaje1"
-                label="Lenguaje 1"
+                id="habilidad1"
+                label="Habilidad 1"
                 />
               <Divider />
               </li>
@@ -248,8 +261,8 @@ export default function Dashboard() {
                 <TextField
                 variant="outlined"
                 fullWidth
-                id="lenguaje2"
-                label="Lenguaje 2"
+                id="habilidad2"
+                label="Habilidad 2"
                 />
               </li>
               </Typography>
@@ -311,6 +324,15 @@ export default function Dashboard() {
                     fullWidth
                     id="experiencia"
                     label="1 año"
+                    />
+                </Typography>
+                <Typography paragraph>
+                    <strong>Tipo de Desarrollador:</strong>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="tipoD"
+                    label="Q/A"
                     />
                 </Typography>
                   
