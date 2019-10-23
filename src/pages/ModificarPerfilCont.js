@@ -23,6 +23,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import { mainListItems, secondaryListItems } from './ListaItemsCont'
 import { Link as DomLink } from 'react-router-dom'
+import axios from 'axios'
 
 function Copyright() {
   return (
@@ -162,6 +163,57 @@ export default function Dashboard() {
     setOpen(false)
   }
 
+  /*FRONTEND INFO .. aqui debe mostrar los datos del usuario primero dentro de los textfields,
+  tienen que hacer que cada campo este linkeado a una variable del estado (ver registro),al usuario 
+  hacer click en el boton guardar cambios, ese estado se envia a el backend, les dejo una muestra del formato de eso
+  en dummy data*/ 
+
+  const dummyDataContractor={
+    firstName:'hola',
+    lastName:'como',
+    aboutMe: 'estas',
+    photo:'blabalbal',
+    residence:'bababa',
+    socialNetworks: JSON.stringify({facebook:'facebook.com'}), //json
+    available:'yes papo',
+    experience:'nadaaa',
+    residence:'mi casita',
+    web: 'aynotengo.com',
+    workSearch:'busco un dev bonito',
+    enterprise:'kill me inc',
+  }
+
+  const [user, setUser] = React.useState({});
+  const [newUserInfo, setNewUserInfo] = React.useState({});
+
+    React.useEffect(() => {
+       axios.post(`/profile/contractor`)
+            .then((response) => {
+                 console.log('response perfil contractor', response);
+                 setUser(response.data.user);
+            }, (error) => {
+                console.log(error);
+        });
+     
+    }, []);
+
+    const handleModification = () =>{
+    axios.post(`/profile/modify`, dummyDataContractor)
+            .then((response) => {
+                 console.log('response perfil free modify', response);
+
+                 if(response.success){
+                   //FRONTEND INFO redireccionar como lo hice en el login
+                 } else {
+                  alert('Hubo un error en su modificacion')
+                 }
+            }, (error) => {
+                console.log(error);
+        });
+  }
+
+
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -195,6 +247,7 @@ export default function Dashboard() {
             <Button
               variant="contained"
               color="secondary"
+              onClick={handleModification}
               className={classes.button}>
               Guardar Cambios
             </Button>
