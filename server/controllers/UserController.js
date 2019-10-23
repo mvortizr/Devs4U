@@ -2,8 +2,10 @@ const model=require('../../models');
 const passport=require('passport');
 const bcrypt = require('bcryptjs');
 const developerController=require('../controllers/DeveloperController');
-const languageController=require('../controllers/LanguageController');
-const skillController=require('../controllers/SkillController');
+const contractorController=require('../controllers/ContractorController');
+
+
+
 
 module.exports={
      /***
@@ -21,15 +23,21 @@ module.exports={
                     password:hash,
                     rol:req.body.rol,
                     aboutMe: '',
+                    photo:'',
+                    residence:'',
+                    socialNetworks: {},
+                    available:'',
+                    experience:'',
                     residence:'',
                     web: '',
                 }).then(function(){
                     email=req.body.email;//Email del usuario para buscarlo
-                    if(req.body.rol=='developer') developerController.associate(email); //function to associate the developer information
+                    if(req.body.rol=='developer') developerController.associate(email);
+                    else contractorController.associate(email); //function to associate the developer information
                     console.log('usuario creado');
                     res.send({success:true});
                     //res.redirect('/login');
-                })
+                }).catch(err => res.status(400).json('Error: ' + err));
             })
         })
     },
@@ -60,6 +68,7 @@ module.exports={
     /**
         * Update the specified resource in storage.
     **/ 
+    //no se ha cambiado
     update(req,res){
             model.User.update( 
                 {
@@ -86,7 +95,8 @@ module.exports={
       console.log('req user', req.user);
       if(req.isAuthenticated()){
         res.send({user: req.user});
-
+      } else{
+        res.send({error:true});
       }
     },
 

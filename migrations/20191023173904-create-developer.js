@@ -14,11 +14,14 @@ module.exports = {
       developerType: {
         type: Sequelize.STRING
       },
-      expierence: {
-        type: Sequelize.STRING
-      },
       userId: {
         type: Sequelize.INTEGER
+      },
+      languages: {
+        type: Sequelize.ARRAY(Sequelize.TEXT) 
+      },
+      skills: {
+        type: Sequelize.ARRAY(Sequelize.TEXT) 
       },
       createdAt: {
         allowNull: false,

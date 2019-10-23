@@ -29,6 +29,21 @@ module.exports = {
       rol: {
         type: Sequelize.STRING
       },
+      photo: {
+        type: Sequelize.STRING
+      },
+      residence: {
+        type: Sequelize.STRING
+      },
+      socialNetworks: {
+        type: Sequelize.JSON
+      },
+      available: {
+        type: Sequelize.STRING
+      },
+      experience: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

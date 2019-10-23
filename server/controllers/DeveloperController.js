@@ -10,8 +10,9 @@ module.exports={
               model.Developer.create({
                   userId:user[0].id,
                   workHours:0,
-                  developerType:'',
-                  expierece:''
+                  developerType:'Edita tu perfil',
+                  languages:['edita', 'tu', 'perfil'],
+                  skills:[''],
               })
           })
     },
@@ -34,32 +35,19 @@ module.exports={
      * Display the specified resource.
      **/
     show(req,res){
-      console.log('REQ ID', req.user.id);
       model.Developer.findAll({
         where: {
          userId:req.user.id
         }
-      }).then(function(developer){
-      model.Language.findAll({
-        where:{
-          userId:developer[0].userId
-        }
-      }).then(languages=>{
-        model.Skill.findAll({
-          where:{
-            userId:developer[0].userId
-          }
-        }).then(function(skills){    
-
+      })
+      .then(function(developer){    
         var userInfo = new Object();
           userInfo.user=req.user;
           userInfo.developer=developer;
-          userInfo.languages=languages;
-          userInfo.skills=skills;
           res.send(userInfo);
-      }).catch(err => res.status(400).json('Error: ' + err));
       })
-    })
+      .catch(err => res.status(400).json('Error: ' + err));
+  
     },
 
     /**
