@@ -178,7 +178,7 @@ export default function Dashboard() {
   const [user, setUser] = React.useState({});
 
   React.useEffect(() => {
-       axios.post(`/check/auth/`)
+       axios.post(`/profile/contractor`)
             .then((response) => {
                  console.log('response perfil contractor', response);
                  setUser(response.data.user);

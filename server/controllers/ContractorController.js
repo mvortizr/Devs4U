@@ -14,6 +14,22 @@ module.exports={
               })
           })
     },
+
+    show(req,res){
+      model.Contractor.findAll({
+        where: {
+         userId:req.user.id
+        }
+      })
+      .then(function(contractor){    
+        var userInfo = new Object();
+          userInfo.user=req.user;
+          userInfo.contractor=contractor;
+          res.send(userInfo);
+      })
+      .catch(err => res.status(400).json('Error: ' + err));
+  
+    },
   
 }
 

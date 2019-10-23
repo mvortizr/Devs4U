@@ -10,8 +10,8 @@ module.exports={
               model.Developer.create({
                   userId:user[0].id,
                   workHours:0,
-                  developerType:'Edita tu perfil',
-                  languages:['edita', 'tu', 'perfil'],
+                  developerType:'',
+                  languages:[''],
                   skills:[''],
               })
           })

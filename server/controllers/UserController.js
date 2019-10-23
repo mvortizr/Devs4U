@@ -113,7 +113,7 @@ module.exports={
     */
     show(req,res){
         if(req.user.rol=='developer') developerController.show(req,res);
-        //if(req.user.rol=='contratist')console.log('soy un contratista');
+        else contractorController.show(req,res);
     },
 
         /**
