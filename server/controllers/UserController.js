@@ -65,15 +65,10 @@ module.exports={
         console.log('loggin out');
         //res.redirect('/login');
     },
-    edit(req, res){
-      console.log('holis')
-    
-        //res.redirect('/login');
-    },
+
     /**
         * Update the specified resource in storage.
     **/ 
-    //no se ha cambiado
     edit (req,res){
         model.User.update({    
         firstName: req.body.firstName,
@@ -95,6 +90,15 @@ module.exports={
         
     },
 
+    delete (req,res){
+        model.User.destroy({    
+         {where: {id: req.user.id}}).then(function(){
+           if(req.user.rol=='developer') developerController.delete(req,res);
+           else contractorController.delete(req,res);   
+        }).catch(err => {res.send({req: req}); 
+        console.log(err)}
+        );      
+    },
 
     checkAuthentication(req,res){
      // console.log('req user', req.user);

@@ -22,9 +22,18 @@ module.exports={
         developerType: req.body.developerType,
         languages: req.body.languages,
         skills:req.body.skills,
-      }, {where: {id: req.user.id}}).then(function(){
+      }, {where: {userId: req.user.id}}).then(function(){
             res.send({success:true});
         }).catch(err => res.send({error:err}));
+    },
+
+    delete (req,res){
+        model.Developer.destroy({    
+         {where: {userId: req.user.id}}).then(function(){
+           res.send({success:true});
+        }).catch(err => {res.send({req: req}); 
+        console.log(err)}
+        );      
     },
 
       /**
