@@ -56,8 +56,8 @@ module.exports={
           userInfo.developer=developer;
           userInfo.languages=languages;
           userInfo.skills=skills;
-         console.log(res.json(userInfo));
-      })
+         res.json(userInfo);
+      }).catch(err => res.status(400).json('Error: ' + err));
       })
     })
     },
