@@ -8,6 +8,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import EliminarPerfilDialog from '../components/Dialog';
 import {Link as DomLink}from "react-router-dom";
+import axios from 'axios';
 
 
 function Copyright() {
@@ -150,6 +151,8 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const [user,setUser]=React.useState(undefined);
+
 
   //Dialog Eliminar
   const [openDialog, setOpenDialog] = React.useState(false);
@@ -163,9 +166,24 @@ export default function Dashboard() {
     setOpenDialog(false);
   };
 
+
+   React.useEffect(() => {
+       axios.post(`/profile/developer/`)
+            .then((response) => {
+                 console.log('response perfil', response);
+                 setUser(response.data.user);
+            }, (error) => {
+                console.log(error);
+        });
+     
+    }, []);
+  
+
   return (
+  
     <div className={classes.root}>
       <CssBaseline />
+      {console.log('user perfil',user)}
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
 

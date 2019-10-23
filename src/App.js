@@ -33,8 +33,7 @@ function App() {
 	    <Switch>
 
 		  {/*Login and Register*/}
-	      <Route exact path='/' render={ ()=> <Login/>}/>
-		  <Route exact path='/login' render={ ()=> <Login/>}/>
+	      <Route exact path='/' render={ ()=> <Login />}/>
 	      <Route exact path='/register' render={ ()=> <Registration/>}/>
 		  {/*Recuperar Contraseña*/}
 		  <Route exact path='/password/set' render={ ()=> <RecContrasena/>}/>
@@ -43,7 +42,7 @@ function App() {
 		  <Route exact path='/dashboard/developer' render={ ()=> <DashboardFree/>}/>
 		  <Route exact path='/dashboard/contractor' render={ ()=> <DashboardCont/>}/>
 		  {/*Profile*/}
-		  <Route exact path='/profile/freelancer' render={ ()=> <PerfilFree/>}/>
+		  <Route exact path='/profile/freelancer' render={ ()=> <PerfilFree />}/>
 		  <Route exact path='/profile/contractor' render={ ()=> <PerfilCont/>}/>
 			<Route exact path='/profile/modify/free' render={ ()=> <ModPerFree/>}/>
 		  <Route exact path='/profile/modify/cont' render={ ()=> <ModPerCont/>}/>

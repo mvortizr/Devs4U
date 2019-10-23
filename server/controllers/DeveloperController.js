@@ -34,9 +34,10 @@ module.exports={
      * Display the specified resource.
      **/
     show(req,res){
+      console.log('REQ ID', req.user.id);
       model.developer.findAll({
         where: {
-         userId:req.params.id
+         userId:req.user.id
         }
       }).then(function(developer){
       model.language.findAll({
@@ -55,7 +56,7 @@ module.exports={
           userInfo.developer=developer;
           userInfo.languages=languages;
           userInfo.skills=skills;
-          res.json(userInfo);
+          res.send(userInfo);
       }).catch(err => res.status(400).json('Error: ' + err));
       })
     })

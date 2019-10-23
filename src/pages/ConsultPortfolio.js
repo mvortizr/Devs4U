@@ -245,7 +245,7 @@ export default function Dashboard() {
           </Grid>     
         </Container>
         <Copyright />
-        <EliminarProyectoDialog content="¿Está seguro que desea cancelar el proyecto de su portafolio?" title="Eliminar proyecto" handleCloseDialog={handleCloseDialog} open={openDialog}/>
+        <EliminarProyectoDialog content="¿Está seguro que desea eliminar el proyecto de su portafolio?" title="Eliminar proyecto" handleCloseDialog={handleCloseDialog} open={openDialog}/>
       </main>
     </div>
   );

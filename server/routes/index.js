@@ -8,7 +8,7 @@ router.post('/login',userController.login);
 router.post('/logout',userController.logout);
 router.post('/edit',userController.update);
 router.post('/check/auth', userController.checkAuthentication);
-router.post('/profile/:id/:rol',userController.show); //Send the user information to the front.
+router.post('/profile/:rol',userController.show); //Send the user information to the front.
 
 
 

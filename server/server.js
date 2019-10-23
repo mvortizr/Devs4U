@@ -7,6 +7,7 @@ const app = express();
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
+//let database = require('../models');
 
 const router = require('./routes/index');
 

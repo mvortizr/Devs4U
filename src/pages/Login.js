@@ -96,7 +96,7 @@ function Copyright() {
     );
   }
 
-const Login = props => {
+const Login = () => {
 
    const [values, setValues] = React.useState({
         email: '',
@@ -108,8 +108,7 @@ const Login = props => {
       alert(message);
     }
    
-    const[role,setRole] =React.useState('');
-
+   const[role,setRole]= React.useState('');
     const classes = useStyles();
 
     /*Funcion vincula el estado del componente con el valor de los campos*/
@@ -125,7 +124,7 @@ const Login = props => {
                   console.log('check auth',response)
                   if (response.data.user) {
                       setRole(response.data.user.rol);
-                      setRedirect(true);
+                      setRedirect(true);                      
                   } 
             }, (error) => {
                 console.log(error);
