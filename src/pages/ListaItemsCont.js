@@ -5,12 +5,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
-import LayersIcon from '@material-ui/icons/Layers';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import WorkIcon from '@material-ui/icons/Work';
-import ChatIcon from '@material-ui/icons/Chat';
 import {Link}from "react-router-dom";
-import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 export const mainListItems = (
   <div>
