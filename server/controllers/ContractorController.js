@@ -41,7 +41,7 @@ module.exports={
     },
 
     delete (req,res){
-        model.Contractor.destroy({    
+        model.Contractor.destroy(   
          {where: {userId: req.user.id}}).then(function(){
            res.send({success:true});
         }).catch(err => {res.send({req: req}); 

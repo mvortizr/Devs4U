@@ -91,7 +91,7 @@ module.exports={
     },
 
     delete (req,res){
-        model.User.destroy({    
+        model.User.destroy(    
          {where: {id: req.user.id}}).then(function(){
            if(req.user.rol=='developer') developerController.delete(req,res);
            else contractorController.delete(req,res);   
