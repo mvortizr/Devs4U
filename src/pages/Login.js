@@ -112,11 +112,6 @@ const Login = () => {
    const[role,setRole]= React.useState('');
     const classes = useStyles();
 
-    /*Funcion vincula el estado del componente con el valor de los campos*/
-    const handleChange = name => event => {
-        setValues({ ...values, [name]: event.target.value });
-    };
-
 
     React.useEffect(() => {
       console.log('hola');
@@ -132,8 +127,6 @@ const Login = () => {
         });
     }, []);
   
-
-  const classes = useStyles()
 
   /*Funcion vincula el estado del componente con el valor de los campos*/
   const handleChange = name => event => {

@@ -35,17 +35,17 @@ module.exports={
      **/
     show(req,res){
       console.log('REQ ID', req.user.id);
-      model.developer.findAll({
+      model.Developer.findAll({
         where: {
          userId:req.user.id
         }
       }).then(function(developer){
-      model.language.findAll({
+      model.Language.findAll({
         where:{
           userId:developer[0].userId
         }
       }).then(languages=>{
-        model.skill.findAll({
+        model.Skill.findAll({
           where:{
             userId:developer[0].userId
           }

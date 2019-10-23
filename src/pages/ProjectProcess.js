@@ -1,29 +1,14 @@
-import React from 'react'
-import clsx from 'clsx'
-import {
-  Typography,
-  Drawer,
-  AppBar,
-  Toolbar,
-  List,
-  Divider,
-  IconButton,
-  Badge,
-  Grid,
-  CssBaseline,
-  Container,
-  Paper,
-  Link,
-  Button
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import NotificationsIcon from '@material-ui/icons/Notifications'
-import { mainListItems, secondaryListItems } from './ListaItemsCont'
-import { Link as DomLink } from 'react-router-dom'
-import EliminarPerfilDialog from '../components/Dialog'
-import axios from 'axios';
+import React from 'react';
+import clsx from 'clsx';
+import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Card, CardActions, CardMedia, CardContent, Button} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import { mainListItems, secondaryListItems } from './ListaItemsFree';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
 
 function Copyright() {
   return (
@@ -35,48 +20,48 @@ function Copyright() {
       {new Date().getFullYear()}
       {'.'}
     </Typography>
-  )
+  );
 }
 
-const drawerWidth = 240
+const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
   },
   toolbar: {
-    paddingRight: 24 // keep right padding when drawer closed
+    paddingRight: 24, // keep right padding when drawer closed
   },
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   menuButton: {
-    marginRight: 36
+    marginRight: 36,
   },
   menuButtonHidden: {
-    display: 'none'
+    display: 'none',
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   drawerPaper: {
     position: 'relative',
@@ -84,152 +69,104 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   drawerPaperClose: {
     overflowX: 'hidden',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9)
-    }
+      width: theme.spacing(9),
+    },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     height: '100vh',
-    overflow: 'auto'
+    overflow: 'auto',
   },
   container: {
     paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
+    paddingBottom: theme.spacing(4),
   },
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   fixedHeight: {
-    height: 240
+    height: 240,
   },
   icon: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6)
+    padding: theme.spacing(8, 0, 6),
   },
   heroButtons: {
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8)
+    paddingBottom: theme.spacing(8),
   },
   card: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   cardMedia: {
-    paddingTop: '56.25%' // 16:9
+    paddingTop: '56.25%', // 16:9
   },
   cardContent: {
-    flexGrow: 1
+    flexGrow: 1,
   },
-
   markdown: {
     ...theme.typography.body2,
-    padding: theme.spacing(3, 0)
+    padding: theme.spacing(3, 0),
   },
-
   button: {
-    margin: theme.spacing(1)
-  }
-}))
+    margin: theme.spacing(1),
+  },
+}));
+
+const steps = ['Negociación', '1era Iteración', '2da Iteración', '3era Iteración', 'Finalizado'];
 
 export default function Dashboard() {
-  const classes = useStyles()
-  const [open, setOpen] = React.useState(true)
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
   const handleDrawerClose = () => {
-    setOpen(false)
-  }
-
-  //Dialog Eliminar
-  const [openDialog, setOpenDialog] = React.useState(false)
-  //const[selectedProject, setSelectedProject] = React.useState('');
-
-  const handleClickOpenDialog = () => {
-    setOpenDialog(true)
-  }
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false)
-  }
-
-  const [user, setUser] = React.useState({});
-
-  React.useEffect(() => {
-       axios.post(`/check/auth/`)
-            .then((response) => {
-                 console.log('response perfil contractor', response);
-                 setUser(response.data.user);
-            }, (error) => {
-                console.log(error);
-        });
-     
-    }, []);
+    setOpen(false);
+  };
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      {console.log('user', user)}
-      <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
+
           <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}>
+            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+          >
             <MenuIcon />
           </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}>
-            Perfil
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+            Título del Proyecto
           </Typography>
-          <DomLink
-            to="/profile/modify/cont"
-            style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
-            <Button variant="contained" className={classes.button}>
-              Modificar Perfil
-            </Button>
-          </DomLink>
-
-          <Button
-            variant="contained"
-            className={classes.button}
-            onClick={handleClickOpenDialog}>
-            Eliminar Perfil
-          </Button>
-
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}
             <Badge badgeContent={0} color="secondary">
@@ -241,9 +178,10 @@ export default function Dashboard() {
       <Drawer
         variant="permanent"
         classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
         }}
-        open={open}>
+        open={open}
+      >
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
@@ -257,31 +195,43 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
+          <div>
+            <Stepper className={classes.stepper}>
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </div>
           <Grid container spacing={5} className={classes.mainGrid}>
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h4" gutterBottom>
-                Nombre del Usuario
+                Título del Proyecto
               </Typography>
               <Divider />
               <Typography variant="h6" gutterBottom>
-                Sobre mí:
-              </Typography>
-
-              <Typography paragraph>XXXXXXXXXXXXXXXXXXXXXXXXXXXX</Typography>
-
-              <Typography variant="h6" gutterBottom>
-                Tipos de trabajos que busco:
+                Descripción del Proyecto:
               </Typography>
 
               <Typography paragraph>
-                <li className={classes.listItem}>
-                  <Typography component="span" /> Holaaaa
+                   XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                </Typography>
+
+              <Typography variant="h6" gutterBottom>
+                Lenguaje de Programación:
+              </Typography>
+
+              <Typography paragraph>
+              <li className={classes.listItem}>
+                    <Typography component="span"/> Lenguaje
                 </li>
                 <li className={classes.listItem}>
-                  <Typography component="span" /> Holis
+                    <Typography component="span"/> Lenguaje
                 </li>
               </Typography>
+
             </Grid>
             {/* End main content */}
             {/* Sidebar */}
@@ -290,29 +240,30 @@ export default function Dashboard() {
                 <Typography variant="h6" gutterBottom>
                   Información General
                 </Typography>
-
                 <Typography paragraph>
-                  <strong>Residencia:</strong> Caracas, Venezuela
+                    <strong>Contratista:</strong> Pepito
                 </Typography>
                 <Typography paragraph>
-                  <strong>Empresa:</strong> Oracle
+                    <strong>Fecha de inicio:</strong> XX/XX/XXXX
                 </Typography>
                 <Typography paragraph>
-                  <strong>Experiencia:</strong> 10 años
+                    <strong>Fecha de entrega:</strong> XX/XX/XXXX
                 </Typography>
+                <Typography paragraph>
+                    <strong>Lenguajes:</strong> Pascal
+                </Typography>
+                <Button variant="contained" color="primary" className={classes.button} >
+                  Enviar Proyecto
+                </Button>
+                  
               </Paper>
             </Grid>
             {/* End sidebar */}
           </Grid>
-          <EliminarPerfilDialog
-            content="¿Está seguro que deseas eliminar tu perfil?"
-            title="Eliminar Perfil"
-            handleCloseDialog={handleCloseDialog}
-            open={openDialog}
-          />
+
         </Container>
         <Copyright />
       </main>
     </div>
-  )
+  );
 }

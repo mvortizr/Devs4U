@@ -29,6 +29,8 @@ import EditProject from './pages/EditProject';
 import ConsultProjectInDevelopment from './pages/ConsultProjectInDevelopment';
 import CreateProject from './pages/CreateProject';
 
+import ProjectProcess from './pages/ProjectProcess';
+
 /* TODO manejar los roles*/
 function App() {
   return (
@@ -62,9 +64,12 @@ function App() {
 		  <Route exact path='/project/manage/freelancer' render={ ()=> <GestProjectFreelancer/>}/>
 		  <Route exact path='/project/manage/contractor' render={ ()=> <GestProjectContract/>}/>
           <Route exact path='/project/contractor' render={ ()=> <ConsultProjectCont/>}/>
+
 		  <Route exact path='/project/cont/create' render={ ()=> <CreateProject/>}/>
 		  <Route exact path='/project/cont/edit' render={ ()=> <EditProject/>}/>
 		  <Route exact path='/project/manage/freelancer/consult' render={ ()=> <ConsultProjectInDevelopment/>}/>
+		  <Route exact path='/project/process' render={ ()=> <ProjectProcess/>}/>
+
 		  
 		  {/*Portfolio*/}		  
 		  <Route exact path='/portafolio' render={ ()=> <ConsultPortfolio/>}/>

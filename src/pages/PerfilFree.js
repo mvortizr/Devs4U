@@ -181,7 +181,7 @@ export default function Dashboard() {
        axios.post(`/profile/developer/`)
             .then((response) => {
                  console.log('response perfil', response);
-                 setUser(response.data.user);
+                 setUser(response.data);
             }, (error) => {
                 console.log(error);
         });

@@ -226,12 +226,14 @@ export default function Dashboard() {
 
              
               <Typography variant="h6" gutterBottom>
+
               <CalendarTodayIcon />
               Fecha Tope del proyecto: 30/10/2019
               </Typography>                
           
 
               <Typography variant="h6" gutterBottom>
+
                 Tecnologías Requeridas:
               </Typography>
 
