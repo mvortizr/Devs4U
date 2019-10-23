@@ -1,11 +1,22 @@
 import React from 'react';
 import clsx from 'clsx';
-import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Card, CardActions, CardMedia, CardContent, Button} from '@material-ui/core';
+import {
+  Typography, 
+  Drawer, 
+  AppBar, 
+  Toolbar, 
+  List, 
+  Divider, 
+  IconButton, 
+  Badge, 
+  CssBaseline, 
+  Container, 
+  Button 
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
 import { mainListItems, secondaryListItems } from './ListaItemsCont';
 
 function Copyright() {
@@ -146,7 +157,6 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>

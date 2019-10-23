@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Card, CardActions, CardMedia, CardContent, Button} from '@material-ui/core';
+import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Card, CardActions, CardMedia, CardContent, Button, Hidden} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -136,6 +136,16 @@ const useStyles = makeStyles(theme => ({
   cardMedia: {
     paddingTop: '56.25%', // 16:9
   },
+  cardMedia: {
+    width: 160,
+  },
+  markdown: {
+    ...theme.typography.body2,
+    padding: theme.spacing(3, 0),
+  },
+  button:{
+    margin:theme.spacing(1),
+  }
 }));
 
 
@@ -254,6 +264,15 @@ export default function Dashboard() {
                    title="Image title"
               />
               */}
+
+              <Hidden xsDown>
+                      <CardMedia
+                        className={classes.cardMedia}
+                /*image="https://source.unsplash.com/random"*/
+                        src="./images/fotoPerfil.jpg"
+                        title="Image title"
+                      />
+                    </Hidden>
               <Divider />
 
               <Typography variant="h6" gutterBottom>
@@ -261,19 +280,28 @@ export default function Dashboard() {
               </Typography>
 
               <Typography paragraph>
-                   Información Personal
-                </Typography>
+                 Información Personal
+              </Typography>
 
+             {/* 
+              <DomLink to="#" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+              <Button variant="contained" color="primary" className={classes.button} >
+                Visitar Web
+              </Button>
+              </DomLink>
+              <Divider />
+              */}
+              
               <Typography variant="h6" gutterBottom>
-                Lenguajes de Programación que domino:
+                Habilidades:
               </Typography>
 
               <Typography paragraph>
               <li className={classes.listItem}>
-                    <Typography component="span"/> Lenguaje 1
+                    <Typography component="span"/> Habilidad 1
                 </li>
                 <li className={classes.listItem}>
-                    <Typography component="span"/> Lenguaje 2
+                    <Typography component="span"/> Habilidad 2
                 </li>
               </Typography>
 
@@ -307,6 +335,9 @@ export default function Dashboard() {
                 </Typography>
                 <Typography paragraph>
                     <strong>Experiencia:</strong> 1 año
+                </Typography>
+                <Typography paragraph>
+                    <strong>Tipo de Desarrollador:</strong> Q/A
                 </Typography>
                   
               </Paper>

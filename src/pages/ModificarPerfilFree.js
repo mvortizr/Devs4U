@@ -244,7 +244,7 @@ export default function Dashboard() {
               <Divider />
 
               <Typography variant="h6" gutterBottom>
-                Lenguajes de Programación que domino:
+                Habilidades:
               </Typography>
 
               <Typography paragraph>
@@ -252,8 +252,8 @@ export default function Dashboard() {
                 <TextField
                 variant="outlined"
                 fullWidth
-                id="lenguaje1"
-                label="Lenguaje 1"
+                id="habilidad1"
+                label="Habilidad 1"
                 />
               <Divider />
               </li>
@@ -261,8 +261,8 @@ export default function Dashboard() {
                 <TextField
                 variant="outlined"
                 fullWidth
-                id="lenguaje2"
-                label="Lenguaje 2"
+                id="habilidad2"
+                label="Habilidad 2"
                 />
               </li>
               </Typography>
@@ -324,6 +324,15 @@ export default function Dashboard() {
                     fullWidth
                     id="experiencia"
                     label="1 año"
+                    />
+                </Typography>
+                <Typography paragraph>
+                    <strong>Tipo de Desarrollador:</strong>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="tipoD"
+                    label="Q/A"
                     />
                 </Typography>
                   

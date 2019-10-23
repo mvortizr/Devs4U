@@ -13,18 +13,14 @@ import {
   CssBaseline,
   Container,
   Link,
-  Card,
-  CardActions,
-  CardContent,
-  Button
+  Button,
+  TextField
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import { mainListItems, secondaryListItems } from './ListaItemsCont'
-import EliminarProyectoDialog from '../components/Dialog'
-import { Link as DomLink } from 'react-router-dom'
 
 function Copyright() {
   return (
@@ -101,6 +97,7 @@ const useStyles = makeStyles(theme => ({
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
+    backgroundColor: theme.palette.background.paper,
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto'
@@ -143,33 +140,27 @@ const useStyles = makeStyles(theme => ({
   cardContent: {
     flexGrow: 1
   },
-  button: {
-    margin: theme.spacing(1)
+
+  markdown: {
+    ...theme.typography.body2,
+    padding: theme.spacing(3, 0)
   },
-  delete: {
-    color: '#DC0300 '
+  button1: {
+    marginRight: '280px'
+  },
+  button2: {
+    margin: theme.spacing(1)
   }
 }))
 
 export default function Dashboard() {
   const classes = useStyles()
-  var cards = [1, 2, 3, 4, 5, 6]
   const [open, setOpen] = React.useState(true)
   const handleDrawerOpen = () => {
     setOpen(true)
   }
   const handleDrawerClose = () => {
     setOpen(false)
-  }
-
-  const [openDialog, setOpenDialog] = React.useState(false)
-
-  const handleClickOpenDialog = () => {
-    setOpenDialog(true)
-  }
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false)
   }
 
   return (
@@ -196,15 +187,11 @@ export default function Dashboard() {
             color="inherit"
             noWrap
             className={classes.title}>
-            Mis Proyectos
+            Modificar Proyecto
           </Typography>
-          <Button
-            variant="contained"
-            className={classes.button}
-            href="/project/cont/create">
-            Crear proyecto
-          </Button>
+
           <IconButton color="inherit">
+            {/*badgeContent muestra la cantidad de notificaciones*/}
             <Badge badgeContent={0} color="secondary">
               <NotificationsIcon />
             </Badge>
@@ -230,59 +217,73 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
-          <Grid container spacing={4}>
-            {cards.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Título del Proyecto
-                    </Typography>
-                    <Typography>Etapa: Negociacion</Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      <DomLink
-                        to="/project/contractor"
-                        style={{
-                          textDecoration: 'none',
-                          color: 'rgb(33,40,53)'
-                        }}>
-                        <Link variant="body2">Consultar</Link>
-                      </DomLink>
-                    </Button>
-                    <DomLink
-                      to="/project/cont/edit"
-                      style={{
-                        textDecoration: 'none',
-                        color: 'rgb(33,40,53)'
-                      }}>
-                      <Button size="small" color="primary">
-                        <Link variant="body2">Modificar</Link>
-                      </Button>
-                    </DomLink>
-                    <Button
-                      size="small"
-                      className={classes.delete}
-                      onClick={handleClickOpenDialog}>
-                      <Link variant="body2" className={classes.delete}>
-                        Cancelar
-                      </Link>
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
+          <Grid container spacing={5} className={classes.mainGrid}>
+            {/* Main content */}
+            <Grid item xs={12} md={8}>
+              <Typography variant="h6" gutterBottom>
+                Nombre del Proyecto:
+              </Typography>
+              <TextField variant="outlined" fullWidth id="nombre" />
+              <Divider />
+
+              {/*
+              <CardMedia
+                   className={classes.cardMedia}
+                   image="./images/fotoPerfil.jpg"
+                   title="Image title"
+              />
+              */}
+
+              <Typography variant="h6" gutterBottom>
+                Tipo de proyecto :
+              </Typography>
+              <TextField variant="outlined" fullWidth id="type" />
+              <Typography variant="h6" gutterBottom>
+                Disponibilidad Referida:
+              </Typography>
+              <TextField variant="outlined" fullWidth id="dispon" />
+              <Divider />
+              <Typography variant="h6" gutterBottom>
+                Descripción:
+              </Typography>
+              <TextField
+                id="descrp"
+                multiline
+                rows="4"
+                margin="normal"
+                variant="outlined"
+                fullWidth
+              />
+              <Typography variant="h6" gutterBottom>
+                Tecnologías a usar:
+              </Typography>
+              <TextField variant="outlined" fullWidth id="tecno" />
+              <Typography variant="h6" gutterBottom>
+                Entregables:
+              </Typography>
+              <TextField variant="outlined" fullWidth id="entregables" />
+              <Typography variant="h6" gutterBottom>
+                Datos Adicionales:
+              </Typography>
+              <TextField variant="outlined" fullWidth id="adicional" />
+              <Button
+                variant="contained"
+                color="inherit"
+                className={classes.button1}
+                href="/project/contractor">
+                Cancelar
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button2}
+                href="/project/contractor">
+                Guardar cambios
+              </Button>
+            </Grid>
           </Grid>
         </Container>
         <Copyright />
-        <EliminarProyectoDialog
-          content="¿Está seguro que desea cancelar el proyecto?"
-          title="Eliminar proyecto"
-          handleCloseDialog={handleCloseDialog}
-          open={openDialog}
-        />
       </main>
     </div>
   )
