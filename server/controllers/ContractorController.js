@@ -35,7 +35,7 @@ module.exports={
       model.Contractor.update({
         workSearch: req.body.workSearch,
         enterprise: req.body.enterprise,
-      }).then(function(){
+      }, {where: {id: req.user.id}}).then(function(){
             res.send({success:true});
         }).catch(err => res.status(400).send({error:err}));
     },

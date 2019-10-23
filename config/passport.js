@@ -28,7 +28,6 @@ module.exports = function(passport) {
     db.User.findOne({
       where:{id: id}
     }).then(user=>{
-      console.log(user);
       return done(null, user);
     })
   

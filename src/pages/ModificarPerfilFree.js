@@ -6,7 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
-import {Link as DomLink}from "react-router-dom";
+import { Link as DomLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 function Copyright() {
@@ -171,11 +171,12 @@ export default function Dashboard() {
     developerType:'chimbo',
     languages:['ingles','espanish'],
     skills:['comer mocos', 'react'],
-    workHours: 0,
+    workHours: 3,
   }
 
   const [user, setUser] = React.useState({});
   const [newUserInfo, setNewUserInfo] = React.useState({});
+  const[redirect, setRedirect]=React.useState(false);
 
     React.useEffect(() => {
        axios.post(`/profile/developer`)
@@ -189,12 +190,14 @@ export default function Dashboard() {
     }, []);
 
   const handleModification = () =>{
-    axios.post(`/profile/modify`, dummyDataFree)
+    axios.post('/edit', dummyDataFree)
             .then((response) => {
                  console.log('response perfil free modify', response);
 
-                 if(response.success){
-                  //redireccionar como lo hice en el login
+                if(response.data.success){
+                   //FRONTEND INFO redireccionar como lo hice en el login
+                   setRedirect(true)
+                   alert('Ha modificado su perfil con exito')
                  } else {
                   alert('Hubo un error en su modificacion')
                  }
@@ -206,6 +209,7 @@ export default function Dashboard() {
   return (
     <div className={classes.root}>
       <CssBaseline />
+      {redirect && <Redirect to={'/profile/freelancer'} push={true} />}
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
 
@@ -221,11 +225,11 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Perfil
           </Typography>
-           <DomLink to="/profile/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
-          <Button variant="contained" color="secondary" className={classes.button} onClick={handleModification} >
+           
+          <Button type="button" variant="contained" color="secondary" className={classes.button} onClick={handleModification} >
             Guardar Cambios
           </Button>
-          </DomLink>
+          
 
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}

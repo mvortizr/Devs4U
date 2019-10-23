@@ -65,28 +65,31 @@ module.exports={
         console.log('loggin out');
         //res.redirect('/login');
     },
+    edit(req, res){
+      console.log('holis')
+    
+        //res.redirect('/login');
+    },
     /**
         * Update the specified resource in storage.
     **/ 
     //no se ha cambiado
-    update(req,res){
-    
-    console.log('req.body', req.body);
-    model.User.update({    
+    edit (req,res){
+        model.User.update({    
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email:req.body.email,
         aboutMe: req.body.aboutMe,
-        web: req.body.Web,
+        web: req.body.web,
         photo: req.body.photo,
         residence: req.body.residence,
         socialNetworks: req.body.socialNetworks,
         available:req.body.available,
         experience: req.body.experience
-        }).then(function(){
-            if(req.user.rol=='developer') developerController.update(req,res);
-            else contractorController.update(req,res);       
-        }).catch(err => {res.send({error:err}); 
+        }, {where: {id: req.user.id}}).then(function(){
+           if(req.user.rol=='developer') developerController.update(req,res);
+           else contractorController.update(req,res);   
+        }).catch(err => {res.send({req: req}); 
         console.log(err)}
         );
         
@@ -94,7 +97,7 @@ module.exports={
 
 
     checkAuthentication(req,res){
-      console.log('req user', req.user);
+     // console.log('req user', req.user);
       if(req.isAuthenticated()){
         res.send({user: req.user});
       } else{

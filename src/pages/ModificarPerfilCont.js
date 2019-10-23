@@ -22,7 +22,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import { mainListItems, secondaryListItems } from './ListaItemsCont'
-import { Link as DomLink } from 'react-router-dom'
+import { Link as DomLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 function Copyright() {
@@ -185,6 +185,7 @@ export default function Dashboard() {
 
   const [user, setUser] = React.useState({});
   const [newUserInfo, setNewUserInfo] = React.useState({});
+  const[redirect, setRedirect]=React.useState(false);
 
     React.useEffect(() => {
        axios.post(`/profile/contractor`)
@@ -198,12 +199,14 @@ export default function Dashboard() {
     }, []);
 
     const handleModification = () =>{
-    axios.post(`/profile/modify`, dummyDataContractor)
+    axios.post('/edit',dummyDataContractor)
             .then((response) => {
                  console.log('response perfil free modify', response);
 
-                 if(response.success){
+                 if(response.data.success){
                    //FRONTEND INFO redireccionar como lo hice en el login
+                   setRedirect(true)
+                   alert('Ha modificado su perfil con exito')
                  } else {
                   alert('Hubo un error en su modificacion')
                  }
@@ -217,6 +220,7 @@ export default function Dashboard() {
   return (
     <div className={classes.root}>
       <CssBaseline />
+      {redirect && <Redirect to={'/profile/contractor'} push={true} />}
       <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -241,9 +245,8 @@ export default function Dashboard() {
             Perfil
           </Typography>
 
-          <DomLink
-            to="/profile/contractor"
-            style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
+         
+            
             <Button
               variant="contained"
               color="secondary"
@@ -251,7 +254,7 @@ export default function Dashboard() {
               className={classes.button}>
               Guardar Cambios
             </Button>
-          </DomLink>
+       
 
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}

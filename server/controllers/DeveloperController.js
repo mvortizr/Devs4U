@@ -22,7 +22,7 @@ module.exports={
         developerType: req.body.developerType,
         languages: req.body.languages,
         skills:req.body.skills,
-      }).then(function(){
+      }, {where: {id: req.user.id}}).then(function(){
             res.send({success:true});
         }).catch(err => res.send({error:err}));
     },
