@@ -9,6 +9,11 @@ import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -217,10 +222,17 @@ export default function Dashboard() {
 
               <Typography paragraph>
                    XXXXXXXXXXXXXXXXXXXXXXXXXXXX
-                </Typography>
+              </Typography>
+
+             
+              <Typography variant="h6" gutterBottom>
+              <CalendarTodayIcon />
+              Fecha Tope del proyecto: 30/10/2019
+              </Typography>                
+          
 
               <Typography variant="h6" gutterBottom>
-                Lenguaje de Programación:
+                Tecnologías Requeridas:
               </Typography>
 
               <Typography paragraph>
@@ -232,6 +244,22 @@ export default function Dashboard() {
                 </li>
               </Typography>
 
+              <Typography variant="h6" gutterBottom>
+                Desarrollador Encargado: por seleccionar
+              </Typography>
+
+              <Typography variant="h6" gutterBottom>
+                Datos Adicionales:
+              </Typography>
+
+              <Typography paragraph>
+              <li className={classes.listItem}>
+                    <Typography component="span"/> Dato 1
+                </li>
+                <li className={classes.listItem}>
+                    <Typography component="span"/> Dato 2
+                </li>
+              </Typography>
             </Grid>
             {/* End main content */}
             {/* Sidebar */}
@@ -252,10 +280,16 @@ export default function Dashboard() {
                 <Typography paragraph>
                     <strong>Lenguajes:</strong> Pascal
                 </Typography>
-                <Button variant="contained" color="primary" className={classes.button} >
+
+
+                {/*ARREGLAR LINK*/}
+                <Button link="./project/process" variant="contained" color="primary" className={classes.button} >
                   Postularse a proyecto
                 </Button>
                   
+                <Button link="#" variant="contained" color="primary" className={classes.button} >
+                  Ver Postulados
+                </Button>
               </Paper>
             </Grid>
             {/* End sidebar */}

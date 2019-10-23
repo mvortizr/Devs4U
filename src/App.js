@@ -25,6 +25,7 @@ import PerfilConsulFree from './pages/PerfilConsulFree';
 import ConsultPortfolioCont from './pages/ConsultPortfolioCont';
 import ConsultProjectViewCont from './pages/ConsultProjectViewCont'
 import ConsultProjectPortfolio from './pages/ConsultProjectPortfolio';
+import ProjectProcess from './pages/ProjectProcess';
 
 /* TODO manejar los roles*/
 function App() {
@@ -60,6 +61,7 @@ function App() {
 		  <Route exact path='/project/manage/freelancer' render={ ()=> <GestProjectFreelancer/>}/>
 		  <Route exact path='/project/manage/contractor' render={ ()=> <GestProjectContract/>}/>
           <Route exact path='/project/contractor' render={ ()=> <ConsultProjectCont/>}/>
+		  <Route exact path='/project/process' render={ ()=> <ProjectProcess/>}/>
 		  
 		  {/*Portfolio*/}		  
 		  <Route exact path='/portafolio' render={ ()=> <ConsultPortfolio/>}/>

@@ -1,14 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
-import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Card, CardActions, CardMedia, CardContent, Button, Hidden} from '@material-ui/core';
+import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Card, CardActions, CardMedia, CardContent, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
-import EliminarPerfilDialog from '../components/Dialog';
-import {Link as DomLink}from "react-router-dom";
-
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
 
 function Copyright() {
   return (
@@ -127,24 +127,16 @@ const useStyles = makeStyles(theme => ({
   cardContent: {
     flexGrow: 1,
   },
-
   markdown: {
     ...theme.typography.body2,
     padding: theme.spacing(3, 0),
   },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardMedia: {
-    width: 160,
-  },
-  markdown: {
-    ...theme.typography.body2,
-    padding: theme.spacing(3, 0),
+  button: {
+    margin: theme.spacing(1),
   },
 }));
 
-
+const steps = ['Negociación', '1era Iteración', '2da Iteración', '3era Iteración', 'Finalizado'];
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -156,19 +148,6 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
-
-  //Dialog Eliminar
-  const [openDialog, setOpenDialog] = React.useState(false);
-  //const[selectedProject, setSelectedProject] = React.useState('');
-
-  const handleClickOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
 
   return (
     <div className={classes.root}>
@@ -186,18 +165,8 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Perfil
+            Título del Proyecto
           </Typography>
-          <DomLink to="/profile/modify/free" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
-          <Button variant="contained" className={classes.button} >
-            Modificar Perfil
-          </Button>
-          </DomLink>
-
-          <Button variant="contained" className={classes.button} onClick={handleClickOpenDialog}>
-            Eliminar Perfil
-          </Button>
-
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}
             <Badge badgeContent={0} color="secondary">
@@ -226,74 +195,40 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
-
-
-        <Grid container spacing={5} className={classes.mainGrid}>
+          <div>
+            <Stepper className={classes.stepper}>
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </div>
+          <Grid container spacing={5} className={classes.mainGrid}>
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h4" gutterBottom>
-                Nombre del Usuario
+                Título del Proyecto
               </Typography>
               <Divider />
-
-              {/*
-              <CardMedia
-                   className={classes.cardMedia}
-                   image="./images/fotoPerfil.jpg"
-                   title="Image title"
-              />
-              */}
-
-              <Hidden xsDown>
-                      <CardMedia
-                        className={classes.cardMedia}
-                /*image="https://source.unsplash.com/random"*/
-                        src="./images/fotoPerfil.jpg"
-                        title="Image title"
-                      />
-                    </Hidden>
-              <Divider />
-
               <Typography variant="h6" gutterBottom>
-                Sobre mí:
+                Descripción del Proyecto:
               </Typography>
 
               <Typography paragraph>
-                 Información Personal
-              </Typography>
+                   XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                </Typography>
 
-             {/* 
-              <DomLink to="#" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
-              <Button variant="contained" color="primary" className={classes.button} >
-                Visitar Web
-              </Button>
-              </DomLink>
-              <Divider />
-              */}
-              
               <Typography variant="h6" gutterBottom>
-                Habilidades:
+                Lenguaje de Programación:
               </Typography>
 
               <Typography paragraph>
               <li className={classes.listItem}>
-                    <Typography component="span"/> Habilidad 1
+                    <Typography component="span"/> Lenguaje
                 </li>
                 <li className={classes.listItem}>
-                    <Typography component="span"/> Habilidad 2
-                </li>
-              </Typography>
-
-              <Typography variant="h6" gutterBottom>
-                Idiomas:
-              </Typography>
-
-              <Typography paragraph>
-              <li className={classes.listItem}>
-                    <Typography component="span"/> Holaaaa
-                </li>
-                <li className={classes.listItem}>
-                    <Typography component="span"/> Holis
+                    <Typography component="span"/> Lenguaje
                 </li>
               </Typography>
 
@@ -305,34 +240,27 @@ export default function Dashboard() {
                 <Typography variant="h6" gutterBottom>
                   Información General
                 </Typography>
-
                 <Typography paragraph>
-                    <strong>Residencia:</strong> Caracas, Venezuela
+                    <strong>Contratista:</strong> Pepito
                 </Typography>
                 <Typography paragraph>
-                    <strong>Horas de Trabajo:</strong> +40
+                    <strong>Fecha de inicio:</strong> XX/XX/XXXX
                 </Typography>
                 <Typography paragraph>
-                    <strong>Experiencia:</strong> 1 año
+                    <strong>Fecha de entrega:</strong> XX/XX/XXXX
                 </Typography>
                 <Typography paragraph>
-                    <strong>Tipo de Desarrollador:</strong> Q/A
+                    <strong>Lenguajes:</strong> Pascal
                 </Typography>
+                <Button variant="contained" color="primary" className={classes.button} >
+                  Enviar Proyecto
+                </Button>
                   
               </Paper>
-
-              <DomLink to="/portafolio" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
-
-              <Button variant="contained" color="primary" className={classes.button} >
-                Mi Portafolio
-              </Button>
-              </DomLink>
-
-
             </Grid>
             {/* End sidebar */}
           </Grid>
-          <EliminarPerfilDialog content="¿Está seguro que deseas eliminar tu perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} open={openDialog}/>
+
         </Container>
         <Copyright />
       </main>

@@ -14,8 +14,6 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 //import Link from '@material-ui/core/Link'
 
-
-
 export const mainListItems = (
   <div>
   <Link to="/dashboard/developer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
