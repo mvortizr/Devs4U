@@ -7,6 +7,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import {Link as DomLink}from "react-router-dom";
+import fotoPerfil from './images/fotoPerfil.jpg';
 
 function Copyright() {
   return (
@@ -215,15 +216,9 @@ export default function Dashboard() {
                 label="Nombre del Usuario"
               />
               <Divider />
-
-              {/*
-              <CardMedia
-                   className={classes.cardMedia}
-                   image="./images/fotoPerfil.jpg"
-                   title="Image title"
-              />
-              */}
-
+              <div>
+                <img src={fotoPerfil} />
+              </div>
               <Typography variant="h6" gutterBottom>
 
                 {/*Falta colocarle  un input de tipo file para adjuntar imagen de perfil*/}

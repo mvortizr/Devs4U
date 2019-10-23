@@ -8,6 +8,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsCont';
 import {Link as DomLink}from "react-router-dom";
 import EliminarPerfilDialog from '../components/Dialog';
+import fotoPerfil from './images/fotoPerfil.jpg';
 
 function Copyright() {
   return (
@@ -227,11 +228,9 @@ export default function Dashboard() {
                 Nombre del Usuario
               </Typography>
               <Divider />
-
-              <Typography variant="h6" gutterBottom>
-                Aquí va imagen
-              </Typography>
-
+              <div>
+                <img src={fotoPerfil} />
+              </div>
               <Typography variant="h6" gutterBottom>
                 Sobre mí:
               </Typography>

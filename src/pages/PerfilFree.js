@@ -8,6 +8,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import EliminarPerfilDialog from '../components/Dialog';
 import {Link as DomLink}from "react-router-dom";
+import fotoPerfil from './images/fotoPerfil.jpg';
 
 
 function Copyright() {
@@ -135,6 +136,9 @@ const useStyles = makeStyles(theme => ({
   cardMedia: {
     paddingTop: '56.25%', // 16:9
   },
+  button:{
+    margin: theme.spacing(1),
+  }
 }));
 
 
@@ -228,14 +232,9 @@ export default function Dashboard() {
                 Nombre del Usuario
               </Typography>
               <Divider />
-
-              {/*
-              <CardMedia
-                   className={classes.cardMedia}
-                   image="./images/fotoPerfil.jpg"
-                   title="Image title"
-              />
-              */}
+              <div>
+                <img src={fotoPerfil} />
+              </div>
               <Divider />
 
               <Typography variant="h6" gutterBottom>
