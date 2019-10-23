@@ -17,18 +17,23 @@ module.exports={
           })
     },
     update(req,res){
-
-        //Falta las validaciones
       model.Developer.update({
-        workHours:req.body.workHours,
-        developerType:req.body.developerType,
-        expierece:req.body.expierece
-      },
-      {returning: true, where: {userId:req.user.id} }
-      ).then(function(){
-        console.log('se modificaron los datos del developer')
+        workHours: req.body.workHours,
+        developerType: req.body.developerType,
+        languages: req.body.languages,
+        skills:req.body.skills,
+      }, {where: {userId: req.user.id}}).then(function(){
+            res.send({success:true});
+        }).catch(err => res.send({error:err}));
+    },
 
-      })
+    delete (req,res){
+        model.Developer.destroy(   
+         {where: {userId: req.user.id}}).then(function(){
+           res.send({success:true});
+        }).catch(err => {res.send({req: req}); 
+        console.log(err)}
+        );      
     },
 
       /**

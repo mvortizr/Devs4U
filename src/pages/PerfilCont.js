@@ -175,13 +175,18 @@ export default function Dashboard() {
     setOpenDialog(false)
   }
 
+  /*FRONTEND INFO .. Se esta haciendo una llamada al backend que devuelven los datos del usuario,
+  rendericen los componentes solo cuando tengan la respuesta del user muestren los datos en sus textfields
+  correspondientes*/ 
+
+
   const [user, setUser] = React.useState({});
 
   React.useEffect(() => {
        axios.post(`/profile/contractor`)
             .then((response) => {
                  console.log('response perfil contractor', response);
-                 setUser(response.data.user);
+                 setUser(response.data);
             }, (error) => {
                 console.log(error);
         });

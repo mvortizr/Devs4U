@@ -22,7 +22,8 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import { mainListItems, secondaryListItems } from './ListaItemsCont'
-import { Link as DomLink } from 'react-router-dom'
+import { Link as DomLink, Redirect } from 'react-router-dom'
+import axios from 'axios'
 
 function Copyright() {
   return (
@@ -162,9 +163,64 @@ export default function Dashboard() {
     setOpen(false)
   }
 
+  /*FRONTEND INFO .. aqui debe mostrar los datos del usuario primero dentro de los textfields,
+  tienen que hacer que cada campo este linkeado a una variable del estado (ver registro),al usuario 
+  hacer click en el boton guardar cambios, ese estado se envia a el backend, les dejo una muestra del formato de eso
+  en dummy data*/ 
+
+  const dummyDataContractor={
+    firstName:'hola',
+    lastName:'como',
+    aboutMe: 'estas',
+    photo:'blabalbal',
+    residence:'bababa',
+    socialNetworks: JSON.stringify({facebook:'facebook.com'}), //json
+    available:'yes papo',
+    experience:'nadaaa',
+    residence:'mi casita',
+    web: 'aynotengo.com',
+    workSearch:'busco un dev bonito',
+    enterprise:'kill me inc',
+  }
+
+  const [user, setUser] = React.useState({});
+  const [newUserInfo, setNewUserInfo] = React.useState({});
+  const[redirect, setRedirect]=React.useState(false);
+
+    React.useEffect(() => {
+       axios.post(`/profile/contractor`)
+            .then((response) => {
+                 console.log('response perfil contractor', response);
+                 setUser(response.data.user);
+            }, (error) => {
+                console.log(error);
+        });
+     
+    }, []);
+
+    const handleModification = () =>{
+    axios.post('/edit',dummyDataContractor)
+            .then((response) => {
+                 console.log('response perfil free modify', response);
+
+                 if(response.data.success){
+                   //FRONTEND INFO redireccionar como lo hice en el login
+                   setRedirect(true)
+                   alert('Ha modificado su perfil con exito')
+                 } else {
+                  alert('Hubo un error en su modificacion')
+                 }
+            }, (error) => {
+                console.log(error);
+        });
+  }
+
+
+
   return (
     <div className={classes.root}>
       <CssBaseline />
+      {redirect && <Redirect to={'/profile/contractor'} push={true} />}
       <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -189,16 +245,16 @@ export default function Dashboard() {
             Perfil
           </Typography>
 
-          <DomLink
-            to="/profile/contractor"
-            style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
+         
+            
             <Button
               variant="contained"
               color="secondary"
+              onClick={handleModification}
               className={classes.button}>
               Guardar Cambios
             </Button>
-          </DomLink>
+       
 
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}
