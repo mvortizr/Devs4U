@@ -207,7 +207,7 @@ export default function Dashboard() {
         <List>{secondaryListItems}</List>
 
         <List>
-            <ListItem button>
+            <ListItem button component="a" href="/login">
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>

@@ -196,10 +196,10 @@ export default function Dashboard() {
             <Typography variant="h5" gutterBottom>
               ¿Está seguro que desea cancelar el proyecto?
             </Typography>
-            <Button size="large" variant="contained" href="/consultprojectcont" className={classes.button1}>
+            <Button size="large" variant="contained" href="/project/contractor" className={classes.button1}>
                 Cancelar
             </Button>
-            <Button size="large" variant="contained" href="/dashboardcont" className={classes.button2}>
+            <Button size="large" variant="contained" href="/dashboard/contractor" className={classes.button2}>
                 Si
             </Button>
           </React.Fragment>   

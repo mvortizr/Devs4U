@@ -202,7 +202,7 @@ export default function Dashboard() {
         <Divider />
         <List>{secondaryListItems}</List>
         <List>
-            <ListItem button>
+            <ListItem button component="a" href="/login">
                 <ListItemIcon>
                   <ExitToAppIcon />
                 </ListItemIcon>

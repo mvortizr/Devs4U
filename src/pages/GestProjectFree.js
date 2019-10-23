@@ -217,7 +217,7 @@ export default function Dashboard() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                     <DomLink to="/project/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                     <DomLink to="/project/manage/freelancer/consult" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                     <Button size="small" color="primary">
                       <Link variant="body2">
                         Consultar

@@ -199,7 +199,7 @@ export default function Dashboard() {
             <Button size="large" variant="contained" href="/consultprojectfree" className={classes.button1}>
                 Cancelar
             </Button>
-            <Button size="large" variant="contained" href="/dashboard/freelancer" className={classes.button2}>
+            <Button size="large" variant="contained" href="/dashboard/developer" className={classes.button2}>
                 Si
             </Button>
           </React.Fragment>   

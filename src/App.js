@@ -25,6 +25,9 @@ import PerfilConsulFree from './pages/PerfilConsulFree';
 import ConsultPortfolioCont from './pages/ConsultPortfolioCont';
 import ConsultProjectViewCont from './pages/ConsultProjectViewCont'
 import ConsultProjectPortfolio from './pages/ConsultProjectPortfolio';
+import EditProject from './pages/EditProject';
+import ConsultProjectInDevelopment from './pages/ConsultProjectInDevelopment';
+import CreateProject from './pages/CreateProject';
 
 /* TODO manejar los roles*/
 function App() {
@@ -55,11 +58,14 @@ function App() {
 
 		  {/*Project*/}
 		  <Route exact path='/project/free/cancel' render={ ()=> <CancelProjectFree/>}/>
-		  <Route exact path='/project/free/cancel' render={ ()=> <CancelProjectCont/>}/>
+		  <Route exact path='/project/cont/cancel' render={ ()=> <CancelProjectCont/>}/>
 		  <Route exact path='/project/freelancer' render={ ()=> <ConsultProjectFree/>}/>
 		  <Route exact path='/project/manage/freelancer' render={ ()=> <GestProjectFreelancer/>}/>
 		  <Route exact path='/project/manage/contractor' render={ ()=> <GestProjectContract/>}/>
           <Route exact path='/project/contractor' render={ ()=> <ConsultProjectCont/>}/>
+		  <Route exact path='/project/cont/create' render={ ()=> <CreateProject/>}/>
+		  <Route exact path='/project/cont/edit' render={ ()=> <EditProject/>}/>
+		  <Route exact path='/project/manage/freelancer/consult' render={ ()=> <ConsultProjectInDevelopment/>}/>
 		  
 		  {/*Portfolio*/}		  
 		  <Route exact path='/portafolio' render={ ()=> <ConsultPortfolio/>}/>

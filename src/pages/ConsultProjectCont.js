@@ -255,10 +255,10 @@ export default function Dashboard() {
                 <Typography paragraph>
                     <strong>Lenaguaje:</strong> Pascal
                 </Typography>
-                <Button variant="contained" color="primary" className={classes.button}>
-                  Modificar proyecto
-                </Button>
-                <Button variant="contained" color="primary" className={classes.button}>
+                  <Button variant="contained" color="primary" className={classes.button} href="/project/cont/edit">
+                    Modificar proyecto
+                  </Button>
+                <Button variant="contained" color="primary" className={classes.button} href="/project/cont/cancel">
                   Cancelar proyecto
                 </Button>
                   
