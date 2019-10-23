@@ -73,14 +73,12 @@ module.exports={
                 }
             })
     },
-
-
-            /**
-         * Display the specified resource.
-         */
-        /*show(req,res){
-            if(req.user.rol=='developer')developerController.show(req,res);
-          },
+    /**
+    * Display the specified resource.
+    */
+    show(req,res){
+        if(req.user.rol=='developer')developerController.show(req,res);
+    },
         /**
          * Show the form for editing the specified resource.
          */

@@ -35,7 +35,7 @@ module.exports={
      * Display the specified resource.
      **/
 
-    /*show(req,res){
+    show(req,res){
       model.developer.findAll({
         where: {
          userId:req.user.id
@@ -51,17 +51,16 @@ module.exports={
             userId:developer[0].userId
           }
         }).then(function(skills){
-         res.render('user/developerProfile',{
-            skills: skills,
-            developer:developer[0],
-            user: req.user,
-            languages: languages
-          })
+          var userInfo = new Object();
+          userInfo.user=req.user;
+          userInfo.developer=developer;
+          userInfo.languages=languages;
+          userInfo.skills=skills;
+         console.log(res.json(userInfo));
       })
       })
     })
-    },*/
-    
+    },
     /**
      * Show the form for editing the specified resource.
      **/
