@@ -77,7 +77,8 @@ module.exports={
     * Display the specified resource.
     */
     show(req,res){
-        if(req.user.rol=='developer')developerController.show(req,res);
+        if(req.params.rol=='developer')developerController.show(req,res);
+        //if(req.user.rol=='contratist')console.log('soy un contratista');
     },
         /**
          * Show the form for editing the specified resource.

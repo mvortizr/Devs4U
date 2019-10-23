@@ -6,7 +6,7 @@ const userController=require('../controllers/UserController');
 router.post('/register',userController.register);
 router.post('/login',userController.login);
 router.post('/edit',userController.update);
-router.post('/profile',userController.show); //Send the user information to the front.
+router.post('/profile/:id/:rol',userController.show); //Send the user information to the front.
 
 
 

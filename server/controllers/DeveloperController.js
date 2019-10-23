@@ -22,7 +22,6 @@ module.exports={
         workHours:req.body.workHours,
         developerType:req.body.developerType,
         expierece:req.body.expierece
-
       },
       {returning: true, where: {userId:req.user.id} }
       ).then(function(){
@@ -38,7 +37,7 @@ module.exports={
     show(req,res){
       model.developer.findAll({
         where: {
-         userId:req.user.id
+         userId:req.params.id
         }
       }).then(function(developer){
       model.language.findAll({
@@ -56,7 +55,7 @@ module.exports={
           userInfo.developer=developer;
           userInfo.languages=languages;
           userInfo.skills=skills;
-         res.json(userInfo);
+          res.json(userInfo);
       }).catch(err => res.status(400).json('Error: ' + err));
       })
     })
