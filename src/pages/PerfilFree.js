@@ -6,8 +6,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
-import EliminarPerfilDialog from '../components/Dialog';
-import {Link as DomLink}from "react-router-dom";
+import EliminarPerfilDialog from '../components/DialogAcceptReject';
+import { Link as DomLink, Redirect } from 'react-router-dom'
 import axios from 'axios';
 
 
@@ -173,7 +173,21 @@ export default function Dashboard() {
   };
 
   const handleCloseDialog = () => {
+    console.log('hola');
     setOpenDialog(false);
+  };
+
+  const[redirect, setRedirect]=React.useState(false);
+
+  const handleDeleteProfile =() => {
+    axios.post(`/delete`)
+            .then((response) => {
+                 console.log('response delete', response);
+                 setRedirect(true);
+                 setOpenDialog(false);
+            }, (error) => {
+                console.log(error);
+    });
   };
 
 
@@ -194,6 +208,7 @@ export default function Dashboard() {
     <div className={classes.root}>
       <CssBaseline />
       {console.log('user perfil',user)}
+       {redirect && <Redirect to={'/'} push={true} />}
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
 
@@ -353,7 +368,7 @@ export default function Dashboard() {
             </Grid>
             {/* End sidebar */}
           </Grid>
-          <EliminarPerfilDialog content="¿Está seguro que deseas eliminar tu perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} open={openDialog}/>
+          <EliminarPerfilDialog content="¿Está seguro que deseas eliminar tu perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} handleDeleteProfile={handleDeleteProfile} open={openDialog}/>
         </Container>
         <Copyright />
       </main>

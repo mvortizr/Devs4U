@@ -16,6 +16,21 @@ module.exports={
               })
           })
     },
+   /* associatePortfolio(email) {
+        model.User.findAll({
+            where: {
+             email:email
+            }
+          }).then(function(user){
+              model.Portfolio.create({
+                  userId:user[0].id,
+                  workHours:0,
+                  developerType:'',
+                  languages:[''],
+                  skills:[''],
+              })
+          })
+    },*/
     update(req,res){
       model.Developer.update({
         workHours: req.body.workHours,
@@ -30,6 +45,8 @@ module.exports={
     delete (req,res){
         model.Developer.destroy(   
          {where: {userId: req.user.id}}).then(function(){
+          req.logout();
+          req.session = null;
            res.send({success:true});
         }).catch(err => {res.send({req: req}); 
         console.log(err)}

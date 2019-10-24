@@ -43,6 +43,8 @@ module.exports={
     delete (req,res){
         model.Contractor.destroy(   
          {where: {userId: req.user.id}}).then(function(){
+          req.logout();
+          req.session = null;
            res.send({success:true});
         }).catch(err => {res.send({req: req}); 
         console.log(err)}
