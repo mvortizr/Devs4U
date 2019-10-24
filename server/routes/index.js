@@ -9,7 +9,6 @@ router.post('/register',userController.register);
 router.post('/login',userController.login);
 router.post('/logout',userController.logout);
 router.post('/check/auth', userController.checkAuthentication);
-<<<<<<< HEAD
 
 
 router.get('/Gestion-Proyecto',ensureAuthenticated,function(req,res){
@@ -51,11 +50,9 @@ router.get('/request/Abrir', (req, res, next) => {
   });
 router.get('/logout',userController.logout)
 
-=======
 router.post('/profile/:rol',userController.show); 
 router.post('/edit', userController.edit);
 router.post('/delete', userController.delete);
->>>>>>> 7a09081e318acc667553fc5b7037d19548b50c56
 
 //app.get('/dashboard',ensureAuthenticated,userController.showDashboard)
 //app.get('/logout',userController.logout)
