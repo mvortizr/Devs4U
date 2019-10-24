@@ -42,25 +42,15 @@ router.post('/cancelproyect', (req, res, next) => {
   });
 
 router.get('/requestproyect',ensureAuthenticated,function(req,res){
-    lista.lista(req,res);
-    res.render('user/requestproyect');
+    lista.lista2(req,res);
+   
 })
 
-router.post('/requestproyect', (req, res, next) => {
+router.get('/request/Abrir', (req, res, next) => {
 
-    lista.lista(req.body.valor,req.params.id);
-    res.redirect('user/Gestion-Proyecto');
+    lista.lista3(req,res);
   });
 
-router.get('/modifyproyect',ensureAuthenticated,function(req,res){
-    res.render('user/modifyproyect');
-})
-
-router.post('/modifyproyect', (req, res, next) => {
-
-    lista.Actualizar(req.body.valor,req.params.id);
-    res.redirect('user/Gestion-Proyecto');
-  });
 
 router.get('/logout',userController.logout)
 
