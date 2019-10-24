@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const userController=require('../controllers/UserController');
-
+const portfolioProjectController=require('../controllers/PortfolioProjectController');
 
 //Users
 router.post('/register',userController.register);
@@ -16,6 +16,12 @@ router.post('/delete', userController.delete);
 //Projects
 router.post('project/create',projectController.create);
 
+
+// Portfolio Projects
+router.post('portfolio/project/create', portfolioProjectController.create)
+router.post('portfolio/project/update', portfolioProjectController.update)
+router.post('portfolio/project/delete', portfolioProjectController.delete)
+router.get('portfolio/project', portfolioProjectController.show)
 
 //app.get('/dashboard',ensureAuthenticated,userController.showDashboard)
 //app.get('/logout',userController.logout)
