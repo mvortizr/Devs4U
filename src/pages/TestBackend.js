@@ -14,8 +14,26 @@ const useStyles = makeStyles(theme => ({
 
 export default function ContainedButtons() {
   const classes = useStyles();
+  const dataCreatePortfolio ={
+    name: "Mi proyecto de portafolio",
+    projectType: "Debuggeo",
+    linkSee: "www.facebook.com",
+    linkCode: "www.google.com",
+    description:"lorem ipsum",
+    image: "foto"
+  }
+
+  const dataUpdatePortfolio ={
+    name: "Mi otro proyecto",
+    projectType: "Web app",
+    linkSee: "www.facebook.com",
+    linkCode: "www.google.com",
+    description:"lorem ipsum itsem",
+    image: ""
+  }
+
   const handleClick=()=>{
-  	axios.post(`/profile/contractor`)
+  	axios.post('/portfolio/project/list/0')
             .then((response) => {
                  console.log('response', response);
             }, (error) => {
@@ -24,8 +42,8 @@ export default function ContainedButtons() {
   }
 
   return (
-      <Button variant="contained" className={classes.button} onClick={handleClick}>
-        Default
+      <Button variant="contained" onClick={handleClick}>
+        CLICK
       </Button>
     );
 }

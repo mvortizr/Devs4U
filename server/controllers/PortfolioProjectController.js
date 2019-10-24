@@ -1,40 +1,28 @@
 const model = require("../../models");
 
-const getPayloadFromRequest = req => {
-  const payload = {};
-  const strings = [
-    "name",
-    "projectType",
-    "linkCode",
-    "linkSee",
-    "description",
-    "image"
-  ];
-  const numbers = ["userId"];
-
-  strings.forEach(field => {
-    payload[field] = req[field] || "";
-  });
-
-  numbers.forEach(field => {
-    payload[field] = req[field] || 0;
-  });
-
-  return payload;
-};
 
 module.exports = {
   create(req, res) {
-    model.PortfolioProject.create(getPayloadFromRequest(req))
+    console.log('creando portafolio project')
+    model.PortfolioProject.create({
+      name: req.body.name,
+      projectType: req.body.projectType,
+      linkSee: req.body.linkSee,
+      linkCode: req.body.linkCode,
+      userId: req.user.id,
+      description: req.body.description,
+      image: req.body.image
+    })
       .then(() => {
         res.status(200);
       })
-      .catch(err => res.status(400).json("Error: " + err));
+      .catch(err => console.log(err));
   },
   show(req, res) {
-    model.PortofolioProject.findAll({
+    console.log('mostrando item')
+    model.PortfolioProject.findAll({
       where: {
-        id: req.project.id
+        id: req.params.id
       }
     })
       .then(data => {
@@ -42,24 +30,50 @@ module.exports = {
       })
       .catch(err => res.status(400).json("Error: " + err));
   },
-  update(req, res) {
-    const { project } = req;
-
-    model.PortfolioProject.update(getPayloadFromRequest(req), {
-      where: { id: project.id }
+  myList(req, res) {
+    model.PortfolioProject.findAll({
+      where: {
+        userId:req.user.id
+      }
+    })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => res.status(400).json("Error: " + err));
+  },
+  list(req, res) {
+    model.PortfolioProject.findAll({
+      where: {
+        userId:req.params.id
+      }
+    })
+      .then(data => {
+        if(data) res.send(data);
+      })
+      .catch(err => res.status(400).json("Error: " + err));
+  },
+  update(req, res) {   
+    console.log('updateando proyecto')
+    model.PortfolioProject.update({
+      name: req.body.name,
+      projectType: req.body.projectType,
+      linkSee: req.body.linkSee,
+      linkCode: req.body.linkCode,
+      description: req.body.description,
+      image: req.body.image
+    }, {
+      where: { id: req.params.id }
     })
       .then(() => {
-        res.status(200);
+        res.send({success:true})
       })
       .catch(err => res.status(400).json("Error: " + err));
   },
   delete(req, res) {
-    const { project } = req;
-
     model.PortfolioProject.destroy({
-      where: { id: project.id }
+      where: { id: req.params.id }
     })
-      .then(() => res.status(200))
+      .then(() => res.send({success:true}))
       .catch(err => res.status(400).json("Error: " + err));
   }
 };

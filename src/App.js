@@ -39,7 +39,7 @@ function App() {
     <Router>
 	    <Switch>
 	    
-	    	<Route exact path='/test' render={ ()=> <TestBackend/>}/>
+	    <Route exact path='/test' render={ ()=> <TestBackend/>}/>
 
 		  {/*Login and Register*/}
 	      <Route exact path='/' render={ ()=> <Login />}/>
