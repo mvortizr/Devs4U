@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const userController=require('../controllers/UserController');
 const portfolioProjectController=require('../controllers/PortfolioProjectController');
+const projectController=require('../controllers/ProjectController');
 
 //Users
 router.post('/register',userController.register);
