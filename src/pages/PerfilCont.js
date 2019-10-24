@@ -21,9 +21,10 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import { mainListItems, secondaryListItems } from './ListaItemsCont'
-import { Link as DomLink } from 'react-router-dom'
+import { Link as DomLink, Redirect } from 'react-router-dom'
 import EliminarPerfilDialog from '../components/Dialog'
 import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Copyright() {
   return (
@@ -180,7 +181,7 @@ export default function Dashboard() {
   correspondientes*/ 
 
 
-  const [user, setUser] = React.useState({});
+  const [user, setUser] = React.useState(undefined);
 
   React.useEffect(() => {
        axios.post(`/profile/contractor`)
@@ -193,6 +194,7 @@ export default function Dashboard() {
      
     }, []);
 
+if(user){
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -266,26 +268,21 @@ export default function Dashboard() {
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h4" gutterBottom>
-                Nombre del Usuario
+                {user.user.firstName + ' ' +user.user.lastName}
               </Typography>
               <Divider />
               <Typography variant="h6" gutterBottom>
                 Sobre mí:
               </Typography>
 
-              <Typography paragraph>XXXXXXXXXXXXXXXXXXXXXXXXXXXX</Typography>
+              <Typography paragraph>{user.user.aboutMe}</Typography>
 
               <Typography variant="h6" gutterBottom>
                 Tipos de trabajos que busco:
               </Typography>
 
               <Typography paragraph>
-                <li className={classes.listItem}>
-                  <Typography component="span" /> Holaaaa
-                </li>
-                <li className={classes.listItem}>
-                  <Typography component="span" /> Holis
-                </li>
+                {user.contractor.workSearch}
               </Typography>
             </Grid>
             {/* End main content */}
@@ -297,13 +294,13 @@ export default function Dashboard() {
                 </Typography>
 
                 <Typography paragraph>
-                  <strong>Residencia:</strong> Caracas, Venezuela
+                  <strong>Residencia:</strong> {user.user.residence}
                 </Typography>
                 <Typography paragraph>
-                  <strong>Empresa:</strong> Oracle
+                  <strong>Empresa:</strong> {user.contractor.enterprise}
                 </Typography>
                 <Typography paragraph>
-                  <strong>Experiencia:</strong> 10 años
+                  <strong>Experiencia:</strong> {user.user.experience}
                 </Typography>
               </Paper>
             </Grid>
@@ -319,5 +316,7 @@ export default function Dashboard() {
         <Copyright />
       </main>
     </div>
-  )
+  );} else {
+    return  <CircularProgress />;
+  }
 }
