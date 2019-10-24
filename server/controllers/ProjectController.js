@@ -1,8 +1,6 @@
 const model=require('../../models');
 module.exports={
 
-module.exports = {
-
   myProjects(req,res) {
     model.Project.findAll({
         where: {
@@ -52,7 +50,7 @@ module.exports = {
 
 
   cancel(req, res) {
-    models.Proyecto2
+    model.Project
     .destroy({
         where: {
             contractor: req.user.id

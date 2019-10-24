@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const userController=require('../controllers/UserController');
+const projectController=require('../controllers/ProjectController');
 
 
 //Users
@@ -14,7 +15,7 @@ router.post('/edit', userController.edit);
 router.post('/delete', userController.delete);
 
 //Projects
-//router.post('project/create',projectController.create);
+router.post('project/create',projectController.create);
 
 
 //app.get('/dashboard',ensureAuthenticated,userController.showDashboard)

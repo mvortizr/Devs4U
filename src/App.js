@@ -38,6 +38,7 @@ function App() {
   return (
     <Router>
 	    <Switch>
+	    
 	    	<Route exact path='/test' render={ ()=> <TestBackend/>}/>
 
 		  {/*Login and Register*/}
