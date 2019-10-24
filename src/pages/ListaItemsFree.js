@@ -19,7 +19,7 @@ export const mainListItems = (
       <ListItemText primary="Inicio" />
     </ListItem>
   </Link>
-  {/*
+  
   <Link to="/project/manage/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListItem button>
       <ListItemIcon>
@@ -28,13 +28,14 @@ export const mainListItems = (
       <ListItemText primary="Proyectos" />
     </ListItem>
    </Link>
-    {/*<ListItem button>
+{/*
+    <ListItem button>
       <ListItemIcon>
         <ChatIcon />
       </ListItemIcon>
       <ListItemText primary="Postulacion" />
-    </ListItem>*/}
-
+    </ListItem>
+*/}
     <Link to="/portafolio" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListItem button>
       <ListItemIcon>

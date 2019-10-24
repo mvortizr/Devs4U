@@ -33,6 +33,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Copyright() {
   return (
@@ -166,6 +167,9 @@ export default function Dashboard() {
     setOpen(false)
   }
 
+
+  const [devs,setDevs] = React.useState(undefined);
+
   const handleLogOut = () => {
     console.log('logging out frontend')
     axios.post('/logout').then(
@@ -178,6 +182,18 @@ export default function Dashboard() {
     )
   }
 
+  React.useEffect(() => {
+       axios.post(`/user/see/all`)
+            .then((response) => {
+                 console.log('response perfil', response.data);
+                 setDevs(response.data);
+            }, (error) => {
+                console.log(error);
+        });
+     
+    }, []);
+
+if(devs){
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -251,8 +267,10 @@ export default function Dashboard() {
                 </Grid>
               ))};
             */}
+             {devs.map(card => (
+           
             <Grid item xs={8} sm={6} md={6}>
-              <Card className={classes.card}>
+              <Card className={classes.card} key={card.id}>
                 <CardMedia
                   className={classes.cardMedia}
                   image="https://source.unsplash.com/random"
@@ -260,25 +278,32 @@ export default function Dashboard() {
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Pablito Pérez
+                    {card.firstName + ' ' + card.lastName}
                   </Typography>
-                  <Typography>Estado: Disponible</Typography>
+                  <Typography>
+                    {card.aboutMe}
+                  </Typography>
                 </CardContent>
                 <CardActions>
                   <DomLink
-                    to="/profile/consult/freelancer"
+                    to={{pathname:`/profile/consult/freelancer/${card.id}`, idDev:card.id}}
+
                     style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
                     <Button size="small" color="primary">
-                      Ver perfil
+                      Visitar Perfil
                     </Button>
                   </DomLink>
                 </CardActions>
               </Card>
             </Grid>
+            ))}
           </Grid>
         </Container>
         <Copyright />
       </main>
     </div>
-  )
+  );
+  } else{
+    return <CircularProgress />;
+  }
 }

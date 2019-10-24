@@ -169,17 +169,17 @@ export default function Dashboard() {
   en dummy data*/ 
 
   const dummyDataContractor={
-    firstName:'hola',
-    lastName:'como',
-    aboutMe: 'estas',
+    firstName:'Juan ',
+    lastName:'Perez',
+    aboutMe: 'Soy un contratista y pago bien',
     photo:'blabalbal',
     residence:'bababa',
     socialNetworks: JSON.stringify({facebook:'facebook.com'}), //json
-    available:'yes papo',
-    experience:'nadaaa',
-    residence:'mi casita',
+    available:'Si',
+    experience:'A lot of',
+    residence:'Caracas',
     web: 'aynotengo.com',
-    workSearch:'busco un dev bonito',
+    workSearch:'Busco desarrolladores con experiencia',
     enterprise:'kill me inc',
   }
 

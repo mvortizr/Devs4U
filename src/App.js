@@ -57,7 +57,7 @@ function App() {
 		  <Route exact path='/profile/modify/cont' render={ ()=> <ModPerCont/>}/>
 			
 		{/*Consulta de Perfil freelancer*/}
-		 <Route exact path='/profile/consult/freelancer' render={ ()=> <PerfilConsulFree/>}/>
+		 <Route exact path='/profile/consult/freelancer/:id' render={ (props)=> <PerfilConsulFree {...props}/>}/>
 		 <Route exact path='/profile/consult/freelancer/portfolio' render={ ()=> <ConsultPortfolioCont/>}/>
 		 <Route exact path='/project/view/contractor' render={ ()=> <ConsultProjectViewCont/>}/>
 
