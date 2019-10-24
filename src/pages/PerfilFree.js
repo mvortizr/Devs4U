@@ -8,6 +8,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import EliminarPerfilDialog from '../components/DialogAcceptReject';
 import { Link as DomLink, Redirect } from 'react-router-dom'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import axios from 'axios';
 
 
@@ -202,7 +204,7 @@ export default function Dashboard() {
      
     }, []);
   
-
+  if(user){
   return (
   
     <div className={classes.root}>
@@ -268,7 +270,7 @@ export default function Dashboard() {
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h4" gutterBottom>
-                Nombre del Usuario
+                {user.user.firstName + ' ' +user.user.lastName}
               </Typography>
               <Divider />
 
@@ -373,5 +375,7 @@ export default function Dashboard() {
         <Copyright />
       </main>
     </div>
-  );
+  );} else {
+    return  <CircularProgress />;
+  }
 }

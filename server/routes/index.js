@@ -15,9 +15,9 @@ router.post('/edit', userController.edit);
 router.post('/delete', userController.delete);
 
 //Search user
-router.post('/user/search/:name', userController.showSearch); //need testing
-router.post('/user/see/byId/:id', userController.showId); //need testing
-router.post('/user/see/all', userController.showAll); //need testing
+router.post('/user/search', userController.showSearch); //failing
+router.post('/user/see/byId/:id', userController.showId); //done
+router.post('/user/see/all', userController.showAll); //done
 
 
 //Projects

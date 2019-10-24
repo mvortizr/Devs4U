@@ -139,14 +139,15 @@ module.exports={
       .catch(err => res.status(400).json('Error: ' + err));
     },
     showSearch(req,res){
-      model.User.findAll({
+      console.log('search')
+       model.User.findAll({
         where: {
-         rol:'developer',
-         name:req.params.name
+         rol:'developer'
         }
       })
-      .then(function(developer){    
-          res.send(developer);
+      .then(function(developer){   
+         let obj = developer.find(o => o.firstName === req.body.name);
+         res.send(obj);
       })
       .catch(err => res.status(400).json('Error: ' + err));
     },

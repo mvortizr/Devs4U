@@ -60,9 +60,13 @@ export default function ContainedButtons() {
       projectType: "hola"
   }
 
+  const searchTerm={
+    search: 'María'
+  }
+
 
   const handleClick=()=>{
-  	axios.post('/project/id/3/postulate')
+  	axios.post('/user/search',searchTerm)
             .then((response) => {
                  console.log('response', response);
             }, (error) => {
