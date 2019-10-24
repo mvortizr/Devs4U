@@ -297,7 +297,7 @@ export default function Dashboard() {
               </Typography>
 
               <Typography paragraph>
-                 Información Personal
+                 {user.user.aboutMe}
               </Typography>
 
              {/* 
@@ -314,12 +314,13 @@ export default function Dashboard() {
               </Typography>
 
               <Typography paragraph>
-              <li className={classes.listItem}>
+              {/* <li className={classes.listItem}>
                     <Typography component="span"/> Habilidad 1
                 </li>
                 <li className={classes.listItem}>
                     <Typography component="span"/> Habilidad 2
-                </li>
+                </li> */}
+                {user.user.available}
               </Typography>
 
               <Typography variant="h6" gutterBottom>
@@ -327,12 +328,13 @@ export default function Dashboard() {
               </Typography>
 
               <Typography paragraph>
-              <li className={classes.listItem}>
+              {/* <li className={classes.listItem}>
                     <Typography component="span"/> Holaaaa
                 </li>
                 <li className={classes.listItem}>
                     <Typography component="span"/> Holis
-                </li>
+                </li> */}
+                {user.developer.languages}
               </Typography>
 
             </Grid>
@@ -345,16 +347,16 @@ export default function Dashboard() {
                 </Typography>
 
                 <Typography paragraph>
-                    <strong>Residencia:</strong> Caracas, Venezuela
+                    <strong>Residencia:</strong> {user.user.residence}
                 </Typography>
                 <Typography paragraph>
-                    <strong>Horas de Trabajo:</strong> +40
+                    <strong>Horas de Trabajo:</strong> {user.developer.workHours}
                 </Typography>
                 <Typography paragraph>
-                    <strong>Experiencia:</strong> 1 año
+                    <strong>Experiencia:</strong> {user.user.experience}
                 </Typography>
                 <Typography paragraph>
-                    <strong>Tipo de Desarrollador:</strong> Q/A
+                    <strong>Tipo de Desarrollador:</strong> {user.developer.developerType}
                 </Typography>
                   
               </Paper>
