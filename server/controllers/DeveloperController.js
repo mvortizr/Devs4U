@@ -106,5 +106,50 @@ module.exports={
      * Update the specified resource in storage.
      */
 
+    showId(req,res){
+      model.User.findAll({
+        where: {
+         id:req.params.id
+        }
+      })
+      .then(function(user){    
+          model.Developer.findAll({
+              where: {
+               userId:req.params.id
+              }
+            })
+            .then(function(developer){
+              let userInfo = new Object();
+              userInfo.user=user;
+              userInfo.developer=developer;
+              res.send(userInfo);
+            }) .catch(err => res.status(400).json('Error: ' + err));
+      })
+      .catch(err => res.status(400).json('Error: ' + err));
+    },
+    showAll(req,res){
+      model.User.findAll({
+        where: {
+         rol:'developer'
+        }
+      })
+      .then(function(developer){    
+          res.send(developer);
+      })
+      .catch(err => res.status(400).json('Error: ' + err));
+    },
+    showSearch(req,res){
+      model.User.findAll({
+        where: {
+         rol:'developer',
+         name:req.params.name
+        }
+      })
+      .then(function(developer){    
+          res.send(developer);
+      })
+      .catch(err => res.status(400).json('Error: ' + err));
+    },
+
 }
 

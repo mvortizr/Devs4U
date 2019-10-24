@@ -125,6 +125,19 @@ module.exports={
         else contractorController.show(req,res);
     },
 
+/////////////////
+    showId(req,res){
+        developerController.showId(req,res);
+    },
+    showAll(req,res){
+        developerController.showAll(req,res);
+    },
+    showSearch(req,res){
+        developerController.showSearch(req,res);
+    },
+
+
+
         /**
          * Show the form for editing the specified resource.
          */

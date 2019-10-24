@@ -32,14 +32,43 @@ export default function ContainedButtons() {
     image: ""
   }
 
-  /*const handleClick=()=>{
-  	axios.post('/project/create',)
+  const dataProjectCreate = {
+      name: "Un proyecto",
+      description: "una descripcion",
+      entregables: "entregables",
+      tecnologies: ['hola','como','estas'],
+      photo:"",
+      postulados: JSON.stringify({1:'1',2:'2'}),
+      etapa:"",
+      additionals:"",
+      disponibilidad: "",
+      iteraciones:JSON.stringify({1:'1',2:'2'}) ,
+      projectType: "hola"
+  }
+
+  const dataProjectModify = {
+      name: "Otro proyecto ",
+      description: "una descripcion",
+      entregables: "entregables lalala",
+      tecnologies: ['hola','como','estas'],
+      photo:"",
+      postulados: JSON.stringify({1:'1',2:'2'}),
+      etapa:"",
+      additionals:"",
+      disponibilidad: "",
+      iteraciones:JSON.stringify({1:'1',2:'2'}) ,
+      projectType: "hola"
+  }
+
+
+  const handleClick=()=>{
+  	axios.post('/project/id/3/postulate')
             .then((response) => {
                  console.log('response', response);
             }, (error) => {
                 console.log(error);
         });
-  }*/
+  }
 
   return (
       <Button variant="contained" onClick={handleClick}>
