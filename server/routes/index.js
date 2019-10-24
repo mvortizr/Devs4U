@@ -10,7 +10,6 @@ router.post('/login',userController.login);
 router.post('/logout',userController.logout);
 router.post('/check/auth', userController.checkAuthentication);
 <<<<<<< HEAD
-router.post('/profile/:rol',userController.show); //Send the user information to the front.
 
 
 router.get('/Gestion-Proyecto',ensureAuthenticated,function(req,res){
@@ -21,11 +20,11 @@ router.get('/createproyect',ensureAuthenticated,function(req,res){
     lista.lista(req,res);
 })
 
-router.get('/contratist/:value.contratistId/Eliminar',ensureAuthenticated,function(req,res){
+router.get('/contratist/:contractor/Eliminar',ensureAuthenticated,function(req,res){
     res.render('/contratist/Eliminar');
 })
 
-router.get('/contratist/:value.contratistId/Agregar',ensureAuthenticated,function(req,res){
+router.get('/contratist/:contractor/Agregar',ensureAuthenticated,function(req,res){
     lista.storeIteracion(req,res);
 })
 
@@ -34,11 +33,11 @@ router.post('/createproyect', (req, res, next) => {
   });
 
 router.get('/cancelproyect',ensureAuthenticated,function(req,res){
-    res.render('user/cancelproyect');
+    lista.lista4(req,res);
 })
 
-router.post('/cancelproyect', (req, res, next) => {
-    res.redirect('user/Gestion-Proyecto');
+router.get('/cancelproyect/:name', (req, res, next) => {
+    lista.CancelProyect(req, res);
   });
 
 router.get('/requestproyect',ensureAuthenticated,function(req,res){
@@ -50,8 +49,6 @@ router.get('/request/Abrir', (req, res, next) => {
 
     lista.lista3(req,res);
   });
-
-
 router.get('/logout',userController.logout)
 
 =======

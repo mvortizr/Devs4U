@@ -3,73 +3,97 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 module.exports = {
 
-  lista(req,res) {
+  lista(req, res) {
     model.Project.findAll({
-        where: {
-            contractor: req.user.id
-        } 
-        //attributes: ['NM_Proyect','TP_Proyect', 'Stg_Proyect', 'Dp_req','UsedTech', 'Entregables', 'Ad_Dat', 'contratistId']
-      })
-      .then(function(result) {
-        res.render('user/createproyect', {proyecto: result});
+      where: {
+        contractor: req.user.id
+      }
     })
+      .then(function (result) {
+        console.log(req.user.id);
+        console.log(result);
+        res.render('user/createproyect', { proyecto: result });
+      })
       .catch((error) => { res.status(400).send(error); });
 
   },
 
   store(req, res) {
     model.Project.create({
-    NM_Proyect: req.body.NM_Proyect,
-    TP_Proyect: req.body.TP_Proyect,
-    Stg_Proyect: req.body.Stg_Proyect,
-    Dp_req: req.body.Dp_req,
-    UsedTech: req.body.UsedTech,
-    Entregables: req.body.Entregables,  
-    Ad_Dat: req.body.Ad_Dat,
-    contratistId: req.body.contratistId,
-    Desc: req.body.Desc
+      name: req.body.name,
+      contractor: req.body.contractor,
+      description: req.body.description,
+      entregables: req.body.entregables,
+      tecnologies: req.body.tecnologies,
+      photo: req.body.photo,
+      postulados: req.body.postulados,
+      etapa: req.body.etapa,
+      encargado: req.body.encargado,
+      additionals: req.body.additionals,
+      disponibilidad: req.body.disponibilidad,
+      iteraciones: req.body.iteraciones,
+      projectType: req.body.projectType
     }).then(function () {
       res.render('user/Gestion-Proyecto');
     })
 
   },
 
-  storeIteracion(req, res) {
-    model.Proyecto2.create({
-    ContractorCode:  req.body.ContractorCode,//Se debera cambiar a id del usuario contratista cuando se asocien la tabla
-    Begining:  req.body.Begining,
-    Ending:  req.body.Final,
-    IterationNumber:  req.body.IterationNumber,
-    IterationDesc: req.body.IterationDesc,
-    }).then(function () {
-      res.render('user/createproyect');
+  lista2(req, res) {
+    model.Project.findAll({
+
+      attributes: ['name'],
+      where: {
+        contractor: req.user.id
+      }
     })
+      .then(function (result) {
+        console.log(result);
+        res.render('user/requestproyect', { proyecto: result });
+      })
+      .catch((error) => { res.status(400).send(error); });
 
   },
+
+  lista3(req, res) {
+    model.Project.findAll({
+      where: {
+        contractor: req.user.id
+      }
+    })
+      .then(function (result) {
+        res.render('user/showrequest', { proyecto2: result });
+      })
+      .catch((error) => { res.status(400).send(error); });
+
+  },
+
+  lista4(req, res) {
+    model.Project.findAll({
+
+      attributes: ['name'],
+      where: {
+        contractor: req.user.id
+      }
+    })
+      .then(function (result) {
+        console.log(result);
+        res.render('user/cancelproyect', { proyecto: result });
+      })
+      .catch((error) => { res.status(400).send(error); });
+
+  },
+
 
   CancelProyect(req, res) {
-    models.Proyecto2
-    .destroy({
+    model.Project
+      .destroy({
         where: {
-            id: req.body.contratistId
+          name: req.params.name
         }
-    }).then(function() {
-        res.redirect('/users');
-    });
-
-  },
-
-  listaCancelar(req,res) {
-    model.Proyecto2.findAll({
-        /*where: {
-            contratistId: .req.user.id
-        }*/ 
-        attributes: ['NM_Proyect','TP_Proyect', 'Stg_Proyect', 'Dp_req','UsedTech', 'Entregables', 'Ad_Dat', 'contratistId']
-      })
-      .then(function(result) {
-        res.render('user/cancelproyect', {proyecto: result});
-    })
-      .catch((error) => { res.status(400).send(error); });
+      }).then(function () {
+        res.redirect('/Gestion-Proyecto');
+      });
 
   }
 }
