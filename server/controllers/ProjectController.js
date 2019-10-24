@@ -84,6 +84,46 @@ module.exports = {
 
   },
 
+  lista5(req, res) {
+    model.Project.findAll({
+
+      attributes: ['name'],
+      where: {
+        contractor: req.user.id
+      }
+    })
+      .then(function (result) {
+        console.log(result);
+        res.render('user/modifyproyect', { proyecto: result });
+      })
+      .catch((error) => { res.status(400).send(error); });
+
+  },
+
+  Actualizar(req, res) {
+    models.Proyecto2
+      .update({
+        name: req.body.name,
+        contractor: req.body.contractor,
+        description: req.body.description,
+        entregables: req.body.entregables,
+        tecnologies: req.body.tecnologies,
+        photo: req.body.photo,
+        postulados: req.body.postulados,
+        etapa: req.body.etapa,
+        encargado: req.body.encargado,
+        additionals: req.body.additionals,
+        disponibilidad: req.body.disponibilidad,
+        iteraciones: req.body.iteraciones,
+        projectType: req.body.projectTypeF
+      }, {
+        where: {
+          name: req.params.name
+        }
+      }).then(function () {
+        res.redirect('/modifyproyect');
+      });
+  },
 
   CancelProyect(req, res) {
     model.Project
