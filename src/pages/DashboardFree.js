@@ -35,6 +35,9 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+//import axios from 'axios';
 
 function Copyright() {
   return (
@@ -159,6 +162,11 @@ export default function Dashboard() {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
   let history = useHistory()
+
+ const [projects,setProjects] = React.useState(undefined);
+
+
+
   const handleDrawerOpen = () => {
     setOpen(true)
   }
@@ -178,8 +186,22 @@ export default function Dashboard() {
     )
   }
 
+
+   React.useEffect(() => {
+       axios.post(`/project/see/all`)
+            .then((response) => {
+                 console.log('response perfil', response.data);
+                 setProjects(response.data);
+            }, (error) => {
+                console.log(error);
+        });
+     
+    }, []);
+
+if(projects){
   return (
     <div className={classes.root}>
+
       <CssBaseline />
       <AppBar
         position="absolute"
@@ -249,8 +271,10 @@ export default function Dashboard() {
                 </Grid>
               ))};
             */}
+           {projects.map(card => (
+           
             <Grid item xs={8} sm={6} md={6}>
-              <Card className={classes.card}>
+              <Card className={classes.card} key={card.id}>
                 <CardMedia
                   className={classes.cardMedia}
                   image="https://source.unsplash.com/random"
@@ -258,16 +282,16 @@ export default function Dashboard() {
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Aplicación para Oracle
+                    {card.name}
                   </Typography>
                   <Typography>
-                    Necesitamos de un desarrollador que domine Python,
-                    Javascript, Java...
+                    {card.description}
                   </Typography>
                 </CardContent>
                 <CardActions>
                   <DomLink
-                    to="/project/freelancer"
+                    to={{pathname:`/project/freelancer/${card.id}`, idPost:card.id}}
+
                     style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
                     <Button size="small" color="primary">
                       Más Información
@@ -276,10 +300,14 @@ export default function Dashboard() {
                 </CardActions>
               </Card>
             </Grid>
-          </Grid>
+            ))}
+           </Grid>
         </Container>
         <Copyright />
       </main>
     </div>
-  )
+  );
+  } else{
+    return <CircularProgress />;
+  }
 }

@@ -13,6 +13,9 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
+import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Technologies from '../components/Techno';
 
 function Copyright() {
   return (
@@ -143,7 +146,8 @@ const useStyles = makeStyles(theme => ({
 const steps = ['Negociación', '1era Iteración', '2da Iteración', '3era Iteración', 'Finalizado'];
 
 
-export default function Dashboard() {
+
+export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -154,9 +158,45 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const postID = props.match.params.id;
+  const[postInfo,setPostInfo]=React.useState(undefined);
+  const[postContractorName, setPostContractorName] = React.useState('');
+  const[postContractorId, setPostContractorId] = React.useState(undefined);
+
+  React.useEffect(() => {
+    
+      axios.post(`/project/id/${postID}`)
+            .then((response) => {
+                console.log('response perfil', response.data[0]);
+                setPostInfo(response.data[0])
+                setPostContractorId(response.data[0].contractor)
+            }, (error) => {
+                console.log(error);
+        });
+     
+    }, []);
+   
+   React.useEffect(() => {
+      axios.post(`/user/see/contractor/byId/${postContractorId}`)
+            .then((response) => {
+                 console.log('contractor name', response.data[0]);
+                 setPostContractorName(response.data[0].firstName);
+                // setPostInfo(response.data[0])
+            }, (error) => {
+                console.log(error);
+      });
+     
+    }, [postContractorId,postContractorName]);
+
+
+
+
+  if(postInfo){
+
   return (
     <div className={classes.root}>
       <CssBaseline />
+      {console.log('post info', postInfo)}
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
 
@@ -170,7 +210,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Título del Proyecto
+            {postInfo.name}
           </Typography>
           <IconButton color="inherit">
             {/*badgeContent muestra la cantidad de notificaciones*/}
@@ -213,7 +253,7 @@ export default function Dashboard() {
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h4" gutterBottom>
-                Título del Proyecto
+                {postInfo.name}
               </Typography>
               <Divider />
               <Typography variant="h6" gutterBottom>
@@ -221,45 +261,35 @@ export default function Dashboard() {
               </Typography>
 
               <Typography paragraph>
-                   XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                   {postInfo.description}
               </Typography>
 
              
-              <Typography variant="h6" gutterBottom>
+             {/* <Typography variant="h6" gutterBottom>
 
               <CalendarTodayIcon />
               Fecha Tope del proyecto: 30/10/2019
-              </Typography>                
-          
+              </Typography>  */}   
 
               <Typography variant="h6" gutterBottom>
-
                 Tecnologías Requeridas:
               </Typography>
 
-              <Typography paragraph>
-              <li className={classes.listItem}>
-                    <Typography component="span"/> Lenguaje
-                </li>
-                <li className={classes.listItem}>
-                    <Typography component="span"/> Lenguaje
-                </li>
-              </Typography>
-
+              <Technologies arr={postInfo.tecnologies}/> 
+                
+              {/*
               <Typography variant="h6" gutterBottom>
-                Desarrollador Encargado: por seleccionar
+                Desarrollador Encargado: 
               </Typography>
+            */}
 
               <Typography variant="h6" gutterBottom>
                 Datos Adicionales:
               </Typography>
 
               <Typography paragraph>
-              <li className={classes.listItem}>
-                    <Typography component="span"/> Dato 1
-                </li>
                 <li className={classes.listItem}>
-                    <Typography component="span"/> Dato 2
+                    <Typography component="span"/> {postInfo.additionals}
                 </li>
               </Typography>
             </Grid>
@@ -271,9 +301,12 @@ export default function Dashboard() {
                   Información General
                 </Typography>
                 <Typography paragraph>
-                    <strong>Contratista:</strong> Pepito
+                    <strong>Contratista:</strong>{postContractorName}
                 </Typography>
                 <Typography paragraph>
+                    <strong>Entregables:</strong> {postInfo.entregables}
+                </Typography>
+                {/*<Typography paragraph>
                     <strong>Fecha de inicio:</strong> XX/XX/XXXX
                 </Typography>
                 <Typography paragraph>
@@ -285,13 +318,14 @@ export default function Dashboard() {
 
 
                 {/*ARREGLAR LINK*/}
+                {/*
                 <Button link="./project/process" variant="contained" color="primary" className={classes.button} >
                   Postularse a proyecto
                 </Button>
                   
                 <Button link="#" variant="contained" color="primary" className={classes.button} >
                   Ver Postulados
-                </Button>
+                </Button>*/}
               </Paper>
             </Grid>
             {/* End sidebar */}
@@ -302,4 +336,7 @@ export default function Dashboard() {
       </main>
     </div>
   );
+  } else {
+     return <CircularProgress />;
+  }
 }

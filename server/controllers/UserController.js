@@ -136,6 +136,18 @@ module.exports={
         developerController.showSearch(req,res);
     },
 
+    showContractorId(req,res){
+      model.User.findAll({
+        where: {
+         id:req.params.id
+        }
+      })
+      .then(function(user){    
+        res.send(user);
+      })
+      .catch(err => res.status(400).json('Error: ' + err));
+    },
+
 
 
         /**

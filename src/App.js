@@ -64,7 +64,7 @@ function App() {
 		  {/*Project*/}
 		  <Route exact path='/project/free/cancel' render={ ()=> <CancelProjectFree/>}/>
 		  <Route exact path='/project/cont/cancel' render={ ()=> <CancelProjectCont/>}/>
-		  <Route exact path='/project/freelancer' render={ ()=> <ConsultProjectFree/>}/>
+		  <Route exact path='/project/freelancer/:id' render={ (props) => <ConsultProjectFree {...props}/>}/>
 		  <Route exact path='/project/manage/freelancer' render={ ()=> <GestProjectFreelancer/>}/>
 		  <Route exact path='/project/manage/contractor' render={ ()=> <GestProjectContract/>}/>
           <Route exact path='/project/contractor' render={ ()=> <ConsultProjectCont/>}/>

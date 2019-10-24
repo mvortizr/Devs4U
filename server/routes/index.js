@@ -17,6 +17,7 @@ router.post('/delete', userController.delete);
 //Search user
 router.post('/user/search', userController.showSearch); //failing
 router.post('/user/see/byId/:id', userController.showId); //done
+router.post('/user/see/contractor/byId/:id', userController.showContractorId);
 router.post('/user/see/all', userController.showAll); //done
 
 
