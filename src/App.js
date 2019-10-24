@@ -28,6 +28,8 @@ import ConsultProjectPortfolio from './pages/ConsultProjectPortfolio';
 import EditProject from './pages/EditProject';
 import ConsultProjectInDevelopment from './pages/ConsultProjectInDevelopment';
 import CreateProject from './pages/CreateProject';
+import TestBackend from './pages/TestBackend';
+
 
 import ProjectProcess from './pages/ProjectProcess';
 
@@ -36,6 +38,7 @@ function App() {
   return (
     <Router>
 	    <Switch>
+	    	<Route exact path='/test' render={ ()=> <TestBackend/>}/>
 
 		  {/*Login and Register*/}
 	      <Route exact path='/' render={ ()=> <Login />}/>

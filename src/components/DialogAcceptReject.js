@@ -39,7 +39,7 @@ export default function AlertDialog({content, title, open, handleCloseDialog, ha
           <Button onClick={handleCloseDialog()} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleDeleteProfile()} color="primary" autoFocus>
+          <Button onClick={handleCloseDialog()} color="primary" autoFocus>
             Aceptar
           </Button>
         </DialogActions>
