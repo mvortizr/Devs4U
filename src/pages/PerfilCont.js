@@ -268,22 +268,49 @@ if(user){
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h4" gutterBottom>
+                Nombre de la Empresa
                 {user.user.firstName + ' ' +user.user.lastName}
               </Typography>
               <Divider />
               <Typography variant="h6" gutterBottom>
-                Sobre mí:
-              </Typography>
-
-              <Typography paragraph>{user.user.aboutMe}</Typography>
-
-              <Typography variant="h6" gutterBottom>
-                Tipos de trabajos que busco:
+                <strong>Sobre mí:</strong>
               </Typography>
 
               <Typography paragraph>
+                Información general de la empresa
+                {user.user.aboutMe}
+              </Typography>
+
+              <Typography variant="h6" gutterBottom>
+                <strong>Tipos de Trabajo que busco:</strong>
+              </Typography>
+
+              <Typography paragraph>
+                Especificación de los trabajos que esta interesado la empresa
                 {user.contractor.workSearch}
               </Typography>
+
+              <Typography variant="h6" gutterBottom>
+                <strong>Correo Electrónico:</strong>
+              </Typography>
+
+              <Typography paragraph>
+                contratista@example.com
+              </Typography>
+
+              <Typography variant="h6" gutterBottom>
+                <strong>Redes Sociales:</strong>
+              </Typography>
+              <Typography paragraph>
+                Twitter: @Contratista
+              </Typography>
+              <Typography paragraph>
+                Instagram: @Contratista
+              </Typography>
+              <Typography paragraph>
+                Facebook: Contratista
+              </Typography>
+
             </Grid>
             {/* End main content */}
             {/* Sidebar */}
@@ -294,13 +321,19 @@ if(user){
                 </Typography>
 
                 <Typography paragraph>
-                  <strong>Residencia:</strong> {user.user.residence}
+                  <strong>País:</strong> 
+                  País donde se encuentra la sede principal de la empresa
+                  {user.user.residence}
                 </Typography>
                 <Typography paragraph>
-                  <strong>Empresa:</strong> {user.contractor.enterprise}
+                  <strong>Tipo de Empresa:</strong> 
+                  Que tipo de Empresa es 
+                  {user.contractor.enterprise}
                 </Typography>
                 <Typography paragraph>
-                  <strong>Experiencia:</strong> {user.user.experience}
+                  <strong>Experiencia:</strong> 
+                  La experiencia que tiene la empresa 
+                  {user.user.experience}
                 </Typography>
               </Paper>
             </Grid>
@@ -316,7 +349,8 @@ if(user){
         <Copyright />
       </main>
     </div>
-  );} else {
+  );
+} else {
     return  <CircularProgress />;
   }
 }

@@ -9,6 +9,7 @@ import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import EliminarPerfilDialog from '../components/DialogAcceptReject';
 import { Link as DomLink, Redirect } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import fotoPerfil from "./images/fotoPerfil.jpg"
 
 import axios from 'axios';
 
@@ -17,9 +18,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Devs4U
-      </Link>{' '}
+        Devs4U{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -270,33 +269,17 @@ export default function Dashboard() {
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h4" gutterBottom>
+                Nombre del Desarrollador
                 {user.user.firstName + ' ' +user.user.lastName}
               </Typography>
               <Divider />
 
-              {/*
-              <CardMedia
-                   className={classes.cardMedia}
-                   image="./images/fotoPerfil.jpg"
-                   title="Image title"
-              />
-              */}
-
-              <Hidden xsDown>
-                      <CardMedia
-                        className={classes.cardMedia}
-                /*image="https://source.unsplash.com/random"*/
-                        src="./images/fotoPerfil.jpg"
-                        title="Image title"
-                      />
-                    </Hidden>
-              <Divider />
-
               <Typography variant="h6" gutterBottom>
-                Sobre mí:
+                <strong>Sobre mí:</strong>
               </Typography>
 
               <Typography paragraph>
+                Información general del desarrollador
                  {user.user.aboutMe}
               </Typography>
 
@@ -310,32 +293,44 @@ export default function Dashboard() {
               */}
               
               <Typography variant="h6" gutterBottom>
-                Habilidades:
+                <strong>Habilidades:</strong>
               </Typography>
 
               <Typography paragraph>
-              {/* <li className={classes.listItem}>
-                    <Typography component="span"/> Habilidad 1
-                </li>
-                <li className={classes.listItem}>
-                    <Typography component="span"/> Habilidad 2
-                </li> */}
+                Todas las habilidades en el tema de software del desarrollador 
                 {user.user.available}
               </Typography>
 
               <Typography variant="h6" gutterBottom>
-                Idiomas:
+                <strong>Idiomas:</strong>
               </Typography>
 
               <Typography paragraph>
-              {/* <li className={classes.listItem}>
-                    <Typography component="span"/> Holaaaa
-                </li>
-                <li className={classes.listItem}>
-                    <Typography component="span"/> Holis
-                </li> */}
+                Todos los idiomas que domina el desarrollador 
                 {user.developer.languages}
               </Typography>
+
+              <Typography variant="h6" gutterBottom>
+                <strong>Correo Electrónico:</strong>
+              </Typography>
+
+              <Typography paragraph>
+                desarrollador@example.com
+              </Typography>
+
+              <Typography variant="h6" gutterBottom>
+                <strong>Redes Sociales:</strong>
+              </Typography>
+              <Typography paragraph>
+                Twitter: @Desarrollador
+              </Typography>
+              <Typography paragraph>
+                Instagram: @Desarrolador
+              </Typography>
+              <Typography paragraph>
+                Facebook: Desarrolador
+              </Typography>
+
 
             </Grid>
             {/* End main content */}
@@ -343,20 +338,24 @@ export default function Dashboard() {
             <Grid item xs={12} md={4}>
               <Paper elevation={0} className={classes.sidebarAboutBox}>
                 <Typography variant="h6" gutterBottom>
-                  Información General
+                  <strong>Información General</strong>
                 </Typography>
 
                 <Typography paragraph>
-                    <strong>Residencia:</strong> {user.user.residence}
+                    <strong>País:</strong> País donde vive el desarrollador
+                    {user.user.residence}
                 </Typography>
                 <Typography paragraph>
-                    <strong>Horas de Trabajo:</strong> {user.developer.workHours}
+                    <strong>Horas de Trabajo Semanales:</strong> Horas que trabaja semanalmente el dessarollador en sus proyectos
+                    {user.developer.workHours}
                 </Typography>
                 <Typography paragraph>
-                    <strong>Experiencia:</strong> {user.user.experience}
+                    <strong>Experiencia de Trabajo:</strong> La experiencia del desarrollador en el tema de desarrollo web
+                    {user.user.experience}
                 </Typography>
                 <Typography paragraph>
-                    <strong>Tipo de Desarrollador:</strong> {user.developer.developerType}
+                    <strong>Tipo de Desarrollador:</strong> Donde se especializa el desarrollador 
+                    {user.developer.developerType}
                 </Typography>
                   
               </Paper>
@@ -377,7 +376,8 @@ export default function Dashboard() {
         <Copyright />
       </main>
     </div>
-  );} else {
+  );
+} else {
     return  <CircularProgress />;
   }
 }

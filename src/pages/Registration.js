@@ -134,7 +134,10 @@ const Registration = props => {
     axios.post('/register', query).then(
       response => {
         console.log('registration response', response)
-        if (!response.data.error) {
+        if(values.password!=values.recovery){
+          console.log('unsuccesful signup')
+          showDialog('Las contraseñas no coinciden')
+        }else if (!response.data.error) {
           console.log('successful signup')
           showDialog('Te has registrado exitosamente')
           setRedirect(true)
@@ -156,7 +159,7 @@ const Registration = props => {
   }
 
   const children = [
-    <ToggleButton value="developer" className={classes.button}>
+    <ToggleButton value="developer" className={classes.button} on>
       Soy Desarrollador
     </ToggleButton>,
     <ToggleButton value="contractor" className={classes.button}>
@@ -164,162 +167,29 @@ const Registration = props => {
     </ToggleButton>
   ]
 
-  return (
-    <Container component="main" maxWidth="sm">
-      <CssBaseline />
-      {console.log(values)}
-      {console.log(select)}
-      {redirect && <Redirect to={`/`} push={true} />}
-      <main>
-        <Paper className={classes.mainFeaturedPost}>
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}></Avatar>
-            <Typography
-              component="h3"
-              variant="h5"
-              align="center"
-              color="white"
-              gutterBottom>
-              Registro
-            </Typography>
-
-            <form className={classes.form} noValidate>
-              <Grid container spacing={2}>
-                <Grid item>
-                  {/* <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="Nombres"
-                onChange={handleChange('firstName')}
-                autoFocus
-              /> */}
-                  <FormControl>
-                    <InputLabel
-                      shrink
-                      htmlFor="bootstrap-input"
-                      className={classes.text}>
-                      Nombres
-                    </InputLabel>
-                    <BootstrapInput
-                      id="firstName"
-                      name="firstName"
-                      onChange={handleChange('firstName')}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item>
-                  {/* <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Apellidos"
-                onChange={handleChange('lastName')}
-                name="lastName"
-                autoComplete="lname"
-              /> */}
-                  <FormControl>
-                    <InputLabel
-                      shrink
-                      htmlFor="bootstrap-input"
-                      className={classes.text}>
-                      Apellidos
-                    </InputLabel>
-                    <BootstrapInput
-                      id="lastName"
-                      name="lastName"
-                      onChange={handleChange('lastName')}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item>
-                  {/* <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Correo Electrónico"
-                onChange={handleChange('email')}
-                name="email"
-                autoComplete="email"
-              /> */}
-                  <FormControl>
-                    <InputLabel
-                      shrink
-                      htmlFor="bootstrap-input"
-                      className={classes.text}>
-                      Correo Electrónico
-                    </InputLabel>
-                    <BootstrapInput
-                      id="email"
-                      name="email"
-                      autoComplete="email"
-                      onChange={handleChange('email')}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item>
-                  {/* <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Contraseña"
-                onChange={handleChange('password')}
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              /> */}
-                  <FormControl>
-                    <InputLabel
-                      shrink
-                      htmlFor="bootstrap-input"
-                      className={classes.text}>
-                      Contraseña
-                    </InputLabel>
-                    <BootstrapInput
-                      id="password"
-                      type="password"
-                      onChange={handleChange('password')}
-                      autoComplete="current-password"
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item>
-                  {/* <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Confirmar contraseña"
-                type="password"
-                id="confirmpassword"
-                autoComplete="current-password"
-              /> */}
-                  <FormControl>
-                    <InputLabel
-                      shrink
-                      htmlFor="bootstrap-input"
-                      className={classes.text}>
-                      Confirmar contraseña
-                    </InputLabel>
-                    <BootstrapInput
-                      id="confirmpassword"
-                      type="password"
-                      onChange={handleChange('recovery')}
-                      name="recovery"
-                    />
-                  </FormControl>
-                </Grid>
-
-                <Grid container spacing={2} justify="center">
+  if(select=='developer'){
+    return (
+      <Container component="main" maxWidth="sm">
+        <CssBaseline />
+        {console.log(values)}
+        {console.log(select)}
+        {redirect && <Redirect to={`/`} push={true} />}
+        <main>
+          <Paper className={classes.mainFeaturedPost}>
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}></Avatar>
+              <Typography
+                component="h3"
+                variant="h5"
+                align="center"
+                color="white"
+                gutterBottom>
+                Registro
+              </Typography>
+              <Grid container spacing={2} justify="center">
                   <Grid item>
                     <ToggleButtonGroup
-                      size="medium"
+                      size="large"
                       value={select}
                       exclusive
                       onChange={handleClick}>
@@ -327,37 +197,242 @@ const Registration = props => {
                     </ToggleButtonGroup>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Button
-                type="button"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleSubmit}>
-                Registrarse
-              </Button>
-
-              <Grid container justify="center">
-                <Grid item>
-                  <DomLink
-                    to="/login"
-                    style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
-                    <Link variant="body2" className={classes.text}>
-                      ¿Ya tiene una cuenta? Inicia Sesión
-                    </Link>
-                  </DomLink>
+              <form className={classes.form} noValidate>
+                <Grid container spacing={2}>
+                  <Grid item>
+                    <FormControl>
+                      <InputLabel
+                        shrink
+                        htmlFor="bootstrap-input"
+                        className={classes.text}>
+                        Nombres
+                      </InputLabel>
+                      <BootstrapInput
+                        id="firstName"
+                        name="firstName"
+                        onChange={handleChange('firstName')}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <FormControl>
+                      <InputLabel
+                        shrink
+                        htmlFor="bootstrap-input"
+                        className={classes.text}>
+                        Apellidos
+                      </InputLabel>
+                      <BootstrapInput
+                        id="lastName"
+                        name="lastName"
+                        onChange={handleChange('lastName')}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <FormControl>
+                      <InputLabel
+                        shrink
+                        htmlFor="bootstrap-input"
+                        className={classes.text}>
+                        Correo Electrónico
+                      </InputLabel>
+                      <BootstrapInput
+                        id="email"
+                        name="email"
+                        autoComplete="email"
+                        onChange={handleChange('email')}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <FormControl>
+                      <InputLabel
+                        shrink
+                        htmlFor="bootstrap-input"
+                        className={classes.text}>
+                        Contraseña
+                      </InputLabel>
+                      <BootstrapInput
+                        id="password"
+                        type="password"
+                        onChange={handleChange('password')}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <FormControl>
+                      <InputLabel
+                        shrink
+                        htmlFor="bootstrap-input"
+                        className={classes.text}>
+                        Confirmar contraseña
+                      </InputLabel>
+                      <BootstrapInput
+                        id="confirmpassword"
+                        type="password"
+                        onChange={handleChange('recovery')}
+                        name="recovery"
+                      />
+                    </FormControl>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </form>
-          </div>
-          <Box mt={5}>
-            <Copyright />
-          </Box>
-        </Paper>
-      </main>
-    </Container>
-  )
+                <Button
+                  type="button"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={handleSubmit}>
+                  Registrarse
+                </Button>
+
+                <Grid container justify="center">
+                  <Grid item>
+                    <DomLink
+                      to="/login"
+                      style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
+                      <Link variant="body2" className={classes.text}>
+                        ¿Ya tiene una cuenta? Inicia Sesión
+                      </Link>
+                    </DomLink>
+                  </Grid>
+                </Grid>
+              </form>
+            </div>
+            <Box mt={5}>
+              <Copyright />
+            </Box>
+          </Paper>
+        </main>
+      </Container>
+    )
+  }else{
+    return(
+      <Container component="main" maxWidth="sm">
+        <CssBaseline />
+        {console.log(values)}
+        {console.log(select)}
+        {redirect && <Redirect to={`/`} push={true} />}
+        <main>
+          <Paper className={classes.mainFeaturedPost}>
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}></Avatar>
+              <Typography
+                component="h3"
+                variant="h5"
+                align="center"
+                color="white"
+                gutterBottom>
+                Registro
+              </Typography>
+              <Grid container spacing={2} justify="center">
+                  <Grid item>
+                    <ToggleButtonGroup
+                      size="large"
+                      value={select}
+                      exclusive
+                      onChange={handleClick}>
+                      {children}
+                    </ToggleButtonGroup>
+                  </Grid>
+                </Grid>
+              <form className={classes.form} noValidate>
+                <Grid container spacing={2}>
+                  <Grid item>
+                    <FormControl>
+                      <InputLabel
+                        shrink
+                        htmlFor="bootstrap-input"
+                        className={classes.text}>
+                        Nombre de la Empresa
+                      </InputLabel>
+                      <BootstrapInput
+                        id="firstName"
+                        name="firstName"
+                        onChange={handleChange('firstName')}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <FormControl>
+                      <InputLabel
+                        shrink
+                        htmlFor="bootstrap-input"
+                        className={classes.text}>
+                        Correo Electrónico
+                      </InputLabel>
+                      <BootstrapInput
+                        id="email"
+                        name="email"
+                        autoComplete="email"
+                        onChange={handleChange('email')}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <FormControl>
+                      <InputLabel
+                        shrink
+                        htmlFor="bootstrap-input"
+                        className={classes.text}>
+                        Contraseña
+                      </InputLabel>
+                      <BootstrapInput
+                        id="password"
+                        type="password"
+                        onChange={handleChange('password')}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <FormControl>
+                      <InputLabel
+                        shrink
+                        htmlFor="bootstrap-input"
+                        className={classes.text}>
+                        Confirmar contraseña
+                      </InputLabel>
+                      <BootstrapInput
+                        id="confirmpassword"
+                        type="password"
+                        onChange={handleChange('recovery')}
+                        name="recovery"
+                      />
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                <Button
+                  type="button"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={handleSubmit}>
+                  Registrarse
+                </Button>
+
+                <Grid container justify="center">
+                  <Grid item>
+                    <DomLink
+                      to="/login"
+                      style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
+                      <Link variant="body2" className={classes.text}>
+                        ¿Ya tiene una cuenta? Inicia Sesión
+                      </Link>
+                    </DomLink>
+                  </Grid>
+                </Grid>
+              </form>
+            </div>
+            <Box mt={5}>
+              <Copyright />
+            </Box>
+          </Paper>
+        </main>
+      </Container>  
+    )
+  }
 }
 
 export default Registration
