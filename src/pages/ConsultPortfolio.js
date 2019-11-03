@@ -16,7 +16,8 @@ import {
   Card,
   CardActions,
   CardContent,
-  Button
+  Button,
+  CardMedia
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -25,6 +26,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import { mainListItems, secondaryListItems } from './ListaItemsFree'
 import EliminarProyectoDialog from '../components/Dialog'
 import { Link as DomLink } from 'react-router-dom'
+import Header from './Header'
 
 function Copyright() {
   return (
@@ -148,10 +150,17 @@ const useStyles = makeStyles(theme => ({
   },
   delete: {
     color: '#DC0300 '
-  }
+  },
+  media:{
+    backgroundColor:"#FFC100",
+    height: "50px"
+},
+grid:{
+  marginTop:"80px"
+}
 }))
 
-export default function Dashboard() {
+export default function ConsultPortfolio() {
   const classes = useStyles()
   var cards = [1, 2, 3, 4, 5, 6]
   const [open, setOpen] = React.useState(true)
@@ -174,68 +183,25 @@ export default function Dashboard() {
     setOpenDialog(false)
   }
 
-  //
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}>
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}>
-            Mi Portafolio
-          </Typography>
-          <Button variant="contained" className={classes.button}>
-            Agregar proyecto
-          </Button>
-          <IconButton color="inherit">
-            <Badge badgeContent={0} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-        }}
-        open={open}>
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
-      </Drawer>
+      <Header type="developer"/>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
+          <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+            Mi Portafolio
+          </Typography>
           {/* End hero unit */}
-          <Grid container spacing={4}>
+          <Grid container spacing={4} className={classes.grid}>
             {cards.map(card => (
               <Grid item key={card} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
-                  <CardContent className={classes.cardContent}>
+                    <CardMedia
+                      className={classes.media}
+                      />
+                    <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       Título del Proyecto
                     </Typography>

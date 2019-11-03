@@ -20,7 +20,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import { mainListItems, secondaryListItems } from './ListaItemsCont'
+import { mainListItemsC, secondaryListItemsC } from './ListaItemsCont'
 
 function Copyright() {
   return (
@@ -204,9 +204,9 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>{mainListItemsC}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List>{secondaryListItemsC}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

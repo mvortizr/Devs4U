@@ -2,11 +2,9 @@ import React from 'react';
 import { BrowserRouter as  Router, Switch, Route} from "react-router-dom";
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
-import DashboardFree from './pages/DashboardFree';
-import DashboardCont from './pages/DashboardCont';
 import Registration from './pages/Registration';
 import ConsultPortfolio from './pages/ConsultPortfolio';
-import ConsultProjectCont from './pages/ConsultProjectCont';
+import ConsultProject from './pages/ConsultProject';
 import ConsultProjectFree from './pages/ConsultProjectFree';
 import RemoveProjectPortfolio from './pages/RemoveProjectPortfolio';
 import CancelProjectFree from './pages/CancelProjectFree';
@@ -29,12 +27,15 @@ import EditProject from './pages/EditProject';
 import ConsultProjectInDevelopment from './pages/ConsultProjectInDevelopment';
 import CreateProject from './pages/CreateProject';
 import TestBackend from './pages/TestBackend';
+import Dashboard from './pages/Dashboard'
+import GestProject from './pages/GestProject'
 
 
 import ProjectProcess from './pages/ProjectProcess';
 
 /* TODO manejar los roles*/
 function App() {
+
   return (
     <Router>
 	    <Switch>
@@ -48,8 +49,8 @@ function App() {
 		  <Route exact path='/password/set' render={ ()=> <RecContrasena/>}/>
 		  <Route exact path='/password/recover' render={ ()=> <RecContraMail/>}/>
 		  {/* Dashboard */}
-		  <Route exact path='/dashboard/developer' render={ ()=> <DashboardFree/>}/>
-		  <Route exact path='/dashboard/contractor' render={ ()=> <DashboardCont/>}/>
+		  <Route exact path='/dashboard/developer' render={ ()=> <Dashboard type="developer"/>}/>
+		  <Route exact path='/dashboard/contractor' render={ ()=> <Dashboard type="contractor"/>}/>
 		  {/*Profile*/}
 		  <Route exact path='/profile/freelancer' render={ ()=> <PerfilFree />}/>
 		  <Route exact path='/profile/contractor' render={ ()=> <PerfilCont/>}/>
@@ -62,12 +63,12 @@ function App() {
 		 <Route exact path='/project/view/contractor' render={ ()=> <ConsultProjectViewCont/>}/>
 
 		  {/*Project*/}
-		  <Route exact path='/project/free/cancel' render={ ()=> <CancelProjectFree/>}/>
-		  <Route exact path='/project/cont/cancel' render={ ()=> <CancelProjectCont/>}/>
-		  <Route exact path='/project/freelancer/:id' render={ (props) => <ConsultProjectFree {...props}/>}/>
-		  <Route exact path='/project/manage/freelancer' render={ ()=> <GestProjectFreelancer/>}/>
-		  <Route exact path='/project/manage/contractor' render={ ()=> <GestProjectContract/>}/>
-          <Route exact path='/project/contractor' render={ ()=> <ConsultProjectCont/>}/>
+		  <Route exact path='/project/manage/freelancer' render={ ()=> <GestProject type="developer"/>}/>
+		  <Route exact path='/project/manage/contractor' render={ ()=> <GestProject type="contractor"/>}/>
+		  <Route exact path='/project/freelancer' render={ ()=> <ConsultProject type="developer"/>}/>
+		  <Route exact path='/project/contractor' render={ ()=> <ConsultProject type="contractor"/>}/>
+		  {/* <Route exact path='/project/freelancer/:id' render={ (props) => <ConsultProjectFree {...props}/>}/>
+          <Route exact path='/project/contractor' render={ ()=> <ConsultProjectCont/>}/> */}
 
 		  <Route exact path='/project/cont/create' render={ ()=> <CreateProject/>}/>
 		  <Route exact path='/project/cont/edit' render={ ()=> <EditProject/>}/>
@@ -83,9 +84,9 @@ function App() {
 	      <Route component={NotFound} />
 
 	  		{/*No las usare*/}
-	  		<Route exact path='/removeprojectportfolio' render={ ()=> <RemoveProjectPortfolio/>}/>
+	  		{/* <Route exact path='/removeprojectportfolio' render={ ()=> <RemoveProjectPortfolio/>}/>
 	  		<Route exact path='/profile/delete' render={ ()=> <DeleteProfileFree/>}/>
-		  <Route exact path='/profile/delete' render={ ()=> <DeleteProfileCont/>}/>
+		  <Route exact path='/profile/delete' render={ ()=> <DeleteProfileCont/>}/> */}
 	    </Switch>
     </Router>
   );

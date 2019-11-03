@@ -16,13 +16,14 @@ import {
   Card,
   CardActions,
   CardContent,
-  Button
+  Button,
+  CardMedia
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import { mainListItemsC, secondaryListItemsC } from './ListaItemsCont'
+import Header from './Header'
 import EliminarProyectoDialog from '../components/Dialog'
 import { Link as DomLink } from 'react-router-dom'
 
@@ -148,10 +149,17 @@ const useStyles = makeStyles(theme => ({
   },
   delete: {
     color: '#DC0300 '
+  },
+  media:{
+      backgroundColor:"#FF5100",
+      height: "50px"
+  },
+grid:{
+    marginTop:"80px"
   }
 }))
 
-export default function Dashboard() {
+export default function GestProject(props) {
   const classes = useStyles()
   var cards = [1, 2, 3, 4, 5, 6]
   const [open, setOpen] = React.useState(true)
@@ -163,7 +171,7 @@ export default function Dashboard() {
   }
 
   const [openDialog, setOpenDialog] = React.useState(false)
-
+  
   const handleClickOpenDialog = () => {
     setOpenDialog(true)
   }
@@ -171,95 +179,111 @@ export default function Dashboard() {
   const handleCloseDialog = () => {
     setOpenDialog(false)
   }
-
-  return (
+if(props.type=="contractor"){
+    return (
+        <div className={classes.root}>
+          <CssBaseline />
+          <Header type="contractor"/>
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <Container className={classes.cardGrid} maxWidth="md">
+              <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                Mi Proyectos
+              </Typography>
+              {/* End hero unit */}
+              <Grid container spacing={4} className={classes.grid}>
+                {cards.map(card => (
+                  <Grid item key={card} xs={12} sm={6} md={4}>
+                    <Card className={classes.card}>
+                      <CardMedia
+                        className={classes.media}
+                      />
+                      <CardContent className={classes.cardContent}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          Título del Proyecto
+                        </Typography>
+                        <Typography>Etapa: Negociacion</Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size="small" color="primary">
+                          <DomLink
+                            to="/project/contractor"
+                            style={{
+                              textDecoration: 'none',
+                              color: 'rgb(33,40,53)'
+                            }}>
+                            <Link variant="body2">Consultar</Link>
+                          </DomLink>
+                        </Button>
+                        <DomLink
+                          to="/project/cont/edit"
+                          style={{
+                            textDecoration: 'none',
+                            color: 'rgb(33,40,53)'
+                          }}>
+                          <Button size="small" color="primary">
+                            <Link variant="body2">Modificar</Link>
+                          </Button>
+                        </DomLink>
+                        <Button
+                          size="small"
+                          className={classes.delete}
+                          onClick={handleClickOpenDialog}>
+                          <Link variant="body2" className={classes.delete}>
+                            Cancelar
+                          </Link>
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))} 
+              </Grid>
+            </Container>
+            <Copyright />
+            <EliminarProyectoDialog
+              content="¿Está seguro que desea cancelar el proyecto?"
+              title="Eliminar proyecto"
+              handleCloseDialog={handleCloseDialog}
+              open={openDialog}
+            />
+          </main>
+        </div>
+      )    
+}
+else{
+    return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}>
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}>
-            Mis Proyectos
-          </Typography>
-          <Button
-            variant="contained"
-            className={classes.button}
-            href="/project/cont/create">
-            Crear proyecto
-          </Button>
-          <IconButton color="inherit">
-            <Badge badgeContent={0} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-        }}
-        open={open}>
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>{mainListItemsC}</List>
-        <Divider />
-        <List>{secondaryListItemsC}</List>
-      </Drawer>
+      <Header type="developer"/>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
-          <Grid container spacing={4}>
+            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                Mis Proyectos
+            </Typography>
+            {/* End hero unit */}
+            <Grid container spacing={4} className={classes.grid}>
             {cards.map(card => (
               <Grid item key={card} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
+                  <CardMedia
+                    className={classes.media}
+                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       Título del Proyecto
                     </Typography>
-                    <Typography>Etapa: Negociacion</Typography>
+                    <Typography>Descripción del proyecto.</Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
-                      <DomLink
-                        to="/project/contractor"
-                        style={{
-                          textDecoration: 'none',
-                          color: 'rgb(33,40,53)'
-                        }}>
-                        <Link variant="body2">Consultar</Link>
-                      </DomLink>
-                    </Button>
                     <DomLink
-                      to="/project/cont/edit"
+                      to="/project/manage/freelancer/consult"
                       style={{
                         textDecoration: 'none',
                         color: 'rgb(33,40,53)'
                       }}>
                       <Button size="small" color="primary">
-                        <Link variant="body2">Modificar</Link>
+                        <Link variant="body2">Consultar</Link>
                       </Button>
                     </DomLink>
                     <Button
@@ -267,7 +291,7 @@ export default function Dashboard() {
                       className={classes.delete}
                       onClick={handleClickOpenDialog}>
                       <Link variant="body2" className={classes.delete}>
-                        Cancelar
+                        Renunciar
                       </Link>
                     </Button>
                   </CardActions>
@@ -278,12 +302,13 @@ export default function Dashboard() {
         </Container>
         <Copyright />
         <EliminarProyectoDialog
-          content="¿Está seguro que desea cancelar el proyecto?"
-          title="Eliminar proyecto"
+          content="¿Está seguro que desea renunciar a el proyecto?"
+          title="Renunciar a proyecto"
           handleCloseDialog={handleCloseDialog}
           open={openDialog}
         />
       </main>
     </div>
   )
+}
 }

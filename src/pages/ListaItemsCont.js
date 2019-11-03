@@ -8,7 +8,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import WorkIcon from '@material-ui/icons/Work';
 import {Link}from "react-router-dom";
 
-export const mainListItems = (
+export const mainListItemsC = (
   <div>
    <Link to="/dashboard/contractor" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
        <ListItem button>
@@ -46,7 +46,7 @@ export const mainListItems = (
   </div>
 );
 
-export const secondaryListItems = (
+export const secondaryListItemsC = (
   <div>
     <ListSubheader inset>Opciones de Usuario</ListSubheader>
      <Link to="/profile/contractor" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>

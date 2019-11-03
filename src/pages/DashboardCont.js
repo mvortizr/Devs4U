@@ -23,7 +23,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import { mainListItems, secondaryListItems } from './ListaItemsCont'
+import { mainListItemsC, secondaryListItemsC } from './ListaItemsCont'
 import { Link as DomLink } from 'react-router-dom'
 import Searchbar from '../components/Searchbar'
 import axios from 'axios'
@@ -241,9 +241,9 @@ if(devs){
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>{mainListItemsC}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List>{secondaryListItemsC}</List>
 
         <List>
           <ListItem button>

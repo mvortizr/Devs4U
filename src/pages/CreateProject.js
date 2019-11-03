@@ -20,7 +20,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import { mainListItems, secondaryListItems } from './ListaItemsCont'
+import Header from './Header'
 
 function Copyright() {
   return (
@@ -151,10 +151,13 @@ const useStyles = makeStyles(theme => ({
   },
   button2: {
     margin: theme.spacing(1)
+  },
+  grid:{
+    marginTop:"50px"
   }
 }))
 
-export default function Dashboard() {
+export default function CreateProject() {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
   const handleDrawerOpen = () => {
@@ -167,58 +170,14 @@ export default function Dashboard() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}>
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}>
-            Crear Proyecto
-          </Typography>
-
-          <IconButton color="inherit">
-            {/*badgeContent muestra la cantidad de notificaciones*/}
-            <Badge badgeContent={0} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-        }}
-        open={open}>
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
-      </Drawer>
+      <Header type="contractor"/>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
-          <Grid container spacing={5} className={classes.mainGrid}>
+          <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+            Crear Proyecto
+          </Typography>
+          <Grid container spacing={5} className={classes.mainGrid} className={classes.grid}>
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h6" gutterBottom>
