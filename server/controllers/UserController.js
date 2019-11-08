@@ -3,7 +3,7 @@ const passport=require('passport');
 const bcrypt = require('bcryptjs');
 const developerController=require('../controllers/DeveloperController');
 const contractorController=require('../controllers/ContractorController');
-
+const { check, validationResult } = require('express-validator');
 
 
 
@@ -32,10 +32,19 @@ module.exports={
                     web: '',
                 }).then(function(){
                     email=req.body.email;//Email del usuario para buscarlo
-                    if(req.body.rol=='developer') developerController.associate(email);
-                    else contractorController.associate(email); //function to associate the developer information
-                    console.log('usuario creado');
-                    res.send({success:true});
+                    const errors = validationResult(req);
+                    if (errors.isEmpty()) {
+                        if(req.body.rol=='developer') developerController.associate(email);
+                        else contractorController.associate(email); //function to associate the developer information
+                        console.log('usuario creado');
+                        res.send({success:true});
+                    }
+                    else {
+                        console.log(errors)
+                        res.send({error:errors});
+                    }
+                    
+                    
                     //res.redirect('/login');
                 }).catch(err => res.status(400).json('Error: ' + err));
             })

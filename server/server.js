@@ -7,6 +7,7 @@ const app = express();
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
+
 //let database = require('../models');
 
 const router = require('./routes/index');
@@ -34,7 +35,7 @@ app.set('PORT', process.env.PORT || 5000);
 //router
 app.use('/', router);
 
-//handle all get on index.html
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(publicPath, 'index.html'));
 });
