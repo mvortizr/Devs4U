@@ -5,7 +5,10 @@ const userController = require('../controllers/UserController');
 let lista = require('../controllers/ProjectController');
 const { ensureAuthenticated, forwardAuthenticated } = require('../../config/auth');
 const { check, body } = require('express-validator');
-router.post('/register', [
+
+
+
+router.post('/register',/* [
     // username must be an email
     check('email', 'Email inválido').isEmail().normalizeEmail(),//Valida si la sintaxis del email es correcta
     check('email', 'Campo de Email no puede estar vacío').not().isEmpty(),// Valida si el campo email esta vacío
@@ -21,10 +24,17 @@ router.post('/register', [
     .not().isAlpha().withMessage('El campo apellido solo admite letras')
 
 
-], userController.register);
+],*/ userController.register);
+
+
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/check/auth', userController.checkAuthentication);
+
+
+router.post('/profile/:rol',ensureAuthenticated, userController.show);
+router.post('/edit',ensureAuthenticated, userController.edit);
+router.post('/delete',ensureAuthenticated, userController.delete);
 
 
 router.get('/Gestion-Proyecto', ensureAuthenticated, function (req, res) {
@@ -74,16 +84,7 @@ router.post('/modifyproyect/:NM_Proyect', (req, res, next) => {
     lista.Actualizar(req, res);
 
 });
-router.get('/logout', userController.logout)
 
-router.post('/profile/:rol', userController.show);
-router.post('/edit', userController.edit);
-router.post('/delete', userController.delete);
 
-//app.get('/dashboard',ensureAuthenticated,userController.showDashboard)
-//app.get('/logout',userController.logout)
-
-//app.get('/edit',ensureAuthenticated,userController.edit);
-//app.get('/profile',ensureAuthenticated,userController.show)
 
 module.exports = router;

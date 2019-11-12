@@ -1,4 +1,4 @@
-const model = require('../../models');
+const model = require('../models');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 module.exports = {

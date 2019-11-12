@@ -3,14 +3,13 @@ module.exports = {
       if (req.isAuthenticated()) {
         return next();
       }
-      res.send({error:true});
+      //res.redirect('/login');
+      res.send({error:'no esta logeado'});
     },
     forwardAuthenticated: function(req, res, next) {
       if (!req.isAuthenticated()) {
         return next();
       }
-      res.send({error:true});
-      //Esto te deberia de redireccionar a la pagina de inicio del usuario
-      //res.redirect('/dashboard');      
+      res.send({error:true}); 
     }
   };

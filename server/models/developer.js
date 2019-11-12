@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     skills: DataTypes.ARRAY(DataTypes.TEXT) 
   }, {});
   Developer.associate = function(models) {
-    // associations can be defined here
+    //Developer.belongsTo(models.User, {foreignKey: 'userId', as: 'developer'})
   };
   return Developer;
 };

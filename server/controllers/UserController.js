@@ -1,4 +1,4 @@
-const model=require('../../models');
+const model=require('../models');
 const passport=require('passport');
 const bcrypt = require('bcryptjs');
 const developerController=require('../controllers/DeveloperController');
@@ -8,11 +8,8 @@ const { check, validationResult } = require('express-validator');
 
 
 module.exports={
-     /***
-     * Store a newly created resource in storage.
-     */
-    register(req,res){
 
+    register(req,res){
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(req.body.password, salt, (err, hash) => {
                 if (err) {throw err; res.send({error:true})} 
@@ -30,29 +27,20 @@ module.exports={
                     experience:'',
                     residence:'',
                     web: '',
-                }).then(function(){
-                    email=req.body.email;//Email del usuario para buscarlo
-                    const errors = validationResult(req);
-                    if (errors.isEmpty()) {
-                        if(req.body.rol=='developer') developerController.associate(email);
-                        else contractorController.associate(email); //function to associate the developer information
-                        console.log('usuario creado');
+                }).then(function(user){
+                    if (user.rol=='developer'){ 
+                        developerController.store(user.id);
                         res.send({success:true});
                     }
-                    else {
-                        console.log(errors)
-                        res.send({error:errors});
+                    if (user.rol=='contractor'){
+                        contractorController.store(user.id); //function to associate the developer information
+                        res.send({success:true});
                     }
-                    
-                    
-                    //res.redirect('/login');
                 }).catch(err => res.status(400).json('Error: ' + err));
             })
         })
     },
-    /**
-     *Log in to the system
-     */
+
     login(req, res, next){
          passport.authenticate('local', function(err, user, info) {      
             if (err) { return next(err); }
@@ -63,9 +51,7 @@ module.exports={
             });
           })(req, res, next);
     },
-    /**
-     *Log out to the system
-     */
+
     logout(req, res){
         req.logout();
         req.session = null;
@@ -75,9 +61,7 @@ module.exports={
         //res.redirect('/login');
     },
 
-    /**
-        * Update the specified resource in storage.
-    **/ 
+ 
     edit (req,res){
         model.User.update({    
         firstName: req.body.firstName,
@@ -110,7 +94,6 @@ module.exports={
     },
 
     checkAuthentication(req,res){
-     // console.log('req user', req.user);
       if(req.isAuthenticated()){
         res.send({user: req.user});
       } else{
@@ -118,31 +101,11 @@ module.exports={
       }
     },
 
-
-            /**
-         * Display the specified resource.
-         */
-        /*show(req,res){
-            if(req.user.rol=='developer')developerController.show(req,res);
-          },
-
-    /**
-    * Display the specified resource.
-    */
     show(req,res){
-        if(req.user.rol=='developer') developerController.show(req,res);
-        else contractorController.show(req,res);
+        if(req.user.rol=='developer') developerController.showProfile(req,res);
+        else contractorController.showProfile(req,res);
     },
 
-        /**
-         * Show the form for editing the specified resource.
-         */
-        /*edit(req,res){
-            if(req.user.rol=='developer')developerController.edit(req,res);
-        },
-    /**
-        * Update the specified resource in storage.
-     **/
 
 
 
