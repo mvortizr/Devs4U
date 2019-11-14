@@ -21,9 +21,11 @@ module.exports={
         developerType: req.body.developerType,
         languages: req.body.languages,
         skills:req.body.skills,
-      }, {where: {userId: req.user.id}}).then(function(){
-            res.send({success:true});
-        }).catch(err => res.send({error:err}));
+      }, {where: {userId: req.user.id}})
+      .then(function(){
+        res.send({success:true});
+      })
+      .catch(err => res.status(400).send({error:err}));
     },
 
     delete (req,res){
@@ -35,7 +37,7 @@ module.exports={
         );      
     },
 
-    showProfile(req,res){
+    profileInformation(req,res){
 
       model.User.findAll({where: {id: req.user.id}, include: ['developer']})
       .then(function(developer){    

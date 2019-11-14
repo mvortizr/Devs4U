@@ -10,7 +10,7 @@ module.exports={
       
     },
 
-    showProfile(req,res){
+    profileInformation(req,res){
       model.User.findAll({where: {id: req.user.id}, include: ['contractor']})
       .then(function(contractor){ 
         res.send(contractor.contractor)
@@ -22,9 +22,13 @@ module.exports={
       model.Contractor.update({
         workSearch: req.body.workSearch,
         enterprise: req.body.enterprise,
-      }, {where: {userId: req.user.id}}).then(function(){
+      }, {where: {userId: req.user.id}})
+      
+      .then(function(){
             res.send({success:true});
-        }).catch(err => res.status(400).send({error:err}));
+      })
+      
+      .catch(err => res.status(400).send({error:err}));
     },
 
     delete (req,res){

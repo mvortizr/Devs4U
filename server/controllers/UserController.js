@@ -62,24 +62,25 @@ module.exports={
     },
 
  
-    edit (req,res){
+    update (req,res){
         model.User.update({    
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email:req.body.email,
-        aboutMe: req.body.aboutMe,
-        web: req.body.web,
-        photo: req.body.photo,
-        residence: req.body.residence,
-        socialNetworks: req.body.socialNetworks,
-        available:req.body.available,
-        experience: req.body.experience
-        }, {where: {id: req.user.id}}).then(function(){
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            aboutMe: req.body.aboutMe,
+            web: req.body.web,
+            photo: photo,
+            residence: residence,
+            socialNetworks: req.body.socialNetworks,
+            available:req.body.available,
+            experience: req.body.experience
+        }, {where: {id: req.user.id}})
+        
+        .then(function(){
            if(req.user.rol=='developer') developerController.update(req,res);
            else contractorController.update(req,res);   
-        }).catch(err => {res.send({req: req}); 
-        console.log(err)}
-        );
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
         
     },
 
@@ -101,9 +102,9 @@ module.exports={
       }
     },
 
-    show(req,res){
-        if(req.user.rol=='developer') developerController.showProfile(req,res);
-        else contractorController.showProfile(req,res);
+    profileInformation(req,res){
+        if(req.user.rol=='developer') developerController.profileInformation(req,res);
+        else contractorController.profileInformation(req,res);
     },
 
 

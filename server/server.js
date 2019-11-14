@@ -10,7 +10,6 @@ const cookieSession = require('cookie-session');
 
 //let database = require('../models');
 
-const router = require('./routes/index');
 
 const publicPath = path.join(__dirname, '..', 'public');
 
@@ -33,7 +32,8 @@ require('../config/passport')(passport);
 app.set('PORT', process.env.PORT || 5000);
 
 //router
-app.use('/', router);
+
+app.use('/',require('./routes'))
 
 
 app.get('*', (req, res) => {

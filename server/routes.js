@@ -1,9 +1,9 @@
 
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/UserController');
-let lista = require('../controllers/ProjectController');
-const { ensureAuthenticated, forwardAuthenticated } = require('../../config/auth');
+const userController = require('./controllers/UserController');
+let lista = require('./controllers/ProjectController');
+const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const { check, body } = require('express-validator');
 
 
@@ -32,8 +32,9 @@ router.post('/logout', userController.logout);
 router.post('/check/auth', userController.checkAuthentication);
 
 
-router.post('/profile/:rol',ensureAuthenticated, userController.show);
-router.post('/edit',ensureAuthenticated, userController.edit);
+//Aqui falta el middleware de mostrar el perfil segun el rol
+router.get('/profile/:rol',ensureAuthenticated, userController.profileInformation);
+router.put('/edit',ensureAuthenticated, userController.update);
 router.post('/delete',ensureAuthenticated, userController.delete);
 
 
