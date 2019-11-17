@@ -8,23 +8,7 @@ const { check, body } = require('express-validator');
 
 
 
-router.post('/register',/* [
-    // username must be an email
-    check('email', 'Email inválido').isEmail().normalizeEmail(),//Valida si la sintaxis del email es correcta
-    check('email', 'Campo de Email no puede estar vacío').not().isEmpty(),// Valida si el campo email esta vacío
-    check('recovery', 'Las contraseñas no coinciden').custom((value, { req }) => (value === req.body.password)),//Valida la confirmacion de la contrasña
-    check('password', 'Campo de Contraseña no puede estar vacío').not().isEmpty(),  //valida si el campo password esta vacío
-    check('password')
-    .not().isLength({ min: 4, max: 22 }).withMessage('La contraseña no puede ser menor a 4 caracteres ni mayor a 22 caracteres'),
-    check('firstName')
-    .isLength({ min: 8, max: 30 }).withMessage('El nombre no puede ser menor a 8 caracteres ni mayor a 30 caracteres')
-    .not().isAlpha().withMessage('El campo nombre solo admite letras'),//Valida si el campo solo tiene letras
-    check('lastName')
-    .isLength({ min: 8, max: 30 }).withMessage('El apellido no puede ser menor a 8 caracteres ni mayor a 30 caracteres')
-    .not().isAlpha().withMessage('El campo apellido solo admite letras')
-
-
-],*/ userController.register);
+router.post('/register', userController.register);
 
 
 router.post('/login', userController.login);
@@ -42,7 +26,7 @@ router.get('/Gestion-Proyecto', ensureAuthenticated, function (req, res) {
     res.render('user/Gestion-Proyecto');
 })
 
-router.get('/createproyect', ensureAuthenticated, function (req, res) {
+router.get('/create-proyect', ensureAuthenticated, function (req, res) {
     lista.lista(req, res);
 })
 

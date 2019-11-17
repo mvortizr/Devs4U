@@ -3,20 +3,6 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 module.exports = {
 
-  lista(req, res) {
-    model.Project.findAll({
-      where: {
-        contractor: req.user.id
-      }
-    })
-      .then(function (result) {
-        console.log(req.user.id);
-        console.log(result);
-        res.render('user/createproyect', { proyecto: result });
-      })
-      .catch((error) => { res.status(400).send(error); });
-
-  },
 
   store(req, res) {
     model.Project.create({
@@ -38,6 +24,22 @@ module.exports = {
     })
 
   },
+
+  lista(req, res) {
+    model.Project.findAll({
+      where: {
+        contractor: req.user.id
+      }
+    })
+      .then(function (result) {
+        console.log(req.user.id);
+        console.log(result);
+        res.render('user/createproyect', { proyecto: result });
+      })
+      .catch((error) => { res.status(400).send(error); });
+
+  },
+
 
   lista2(req, res) {
     model.Project.findAll({

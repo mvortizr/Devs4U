@@ -2,7 +2,7 @@ const model=require('../models');
 
 module.exports={
 
-    store(userId) {
+    store(req,res,userId) {
       model.Developer.create({
         userId:userId,
         workHours:0,
@@ -10,9 +10,10 @@ module.exports={
         languages:[''],
         skills:[''],
       })
-
-      
-      
+      .then(function(){ 
+        res.send(200,{message:'El usuario se ha creado correctamente'})
+      })
+      .catch(err => res.status(400).json('Error: ' + err));
     },
 
     update(req,res){

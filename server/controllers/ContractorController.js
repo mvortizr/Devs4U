@@ -7,7 +7,6 @@ module.exports={
         enterprise:'',
         userId:userId,
       })
-      
     },
 
     profileInformation(req,res){
