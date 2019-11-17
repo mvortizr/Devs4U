@@ -5,8 +5,6 @@ import Login from './pages/Login';
 import Registration from './pages/Registration';
 import ConsultPortfolio from './pages/ConsultPortfolio';
 import ConsultProject from './pages/ConsultProject';
-import ConsultProjectFree from './pages/ConsultProjectFree';
-import RemoveProjectPortfolio from './pages/RemoveProjectPortfolio';
 import CancelProjectFree from './pages/CancelProjectFree';
 import CancelProjectCont from './pages/CancelProjectCont';
 import DeleteProfileFree from './pages/DeleteProfileFree';

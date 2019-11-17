@@ -1,21 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Card, CardActions, CardMedia, CardContent, Button} from '@material-ui/core';
+import {Typography, Grid, CssBaseline, Container, Paper, Link, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import Header from './Header'
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import axios from 'axios';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Technologies from '../components/Techno';
 
 function Copyright() {
   return (
@@ -151,8 +141,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const steps = ['Negociación', '1era Iteración', '2da Iteración', '3era Iteración', 'Finalizado'];
-
-
 
 export default function ConsultProject(props) {
   const classes = useStyles();

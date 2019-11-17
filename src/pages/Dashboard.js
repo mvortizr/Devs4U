@@ -1,39 +1,14 @@
 import React from 'react'
-import clsx from 'clsx'
+
 import {
   Typography,
-  Drawer,
-  AppBar,
-  Toolbar,
-  List,
-  Divider,
-  IconButton,
-  Badge,
-  Grid,
   CssBaseline,
   Container,
-  Link,
-  Card,
-  CardActions,
-  CardMedia,
-  CardContent,
-  Button
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import NotificationsIcon from '@material-ui/icons/Notifications'
 import Header from './Header'
-import { Link as DomLink } from 'react-router-dom'
-import Searchbar from '../components/Searchbar'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
-
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Copyright() {
     return (

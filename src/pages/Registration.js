@@ -134,10 +134,19 @@ const Registration = props => {
     axios.post('/register', query).then(
       response => {
         console.log('registration response', response)
-        if(values.password!=values.recovery){
+        if((values.email=="") || (values.firstName=="") || (values.password=="") || (values.recovery=="")){
+          console.log('unsuccesful signup')
+          showDialog('Tiene que llenar todos los datos')
+        } else if(values.password!=values.recovery){
           console.log('unsuccesful signup')
           showDialog('Las contraseñas no coinciden')
-        }else if (!response.data.error) {
+        } else if(values.email != ""){
+          //indefOf devuelve -1 si no encuentra el caracter
+          if((values.email.indexOf("@") == -1) || (values.email.indexOf(".") == -1)){
+            console.log('unsuccesful signup')
+            showDialog('El correo debe llevar "@" y "." ')
+          }
+        } else if (!response.data.error) {
           console.log('successful signup')
           showDialog('Te has registrado exitosamente')
           setRedirect(true)
@@ -290,7 +299,7 @@ const Registration = props => {
                 <Grid container justify="center">
                   <Grid item>
                     <DomLink
-                      to="/login"
+                      to="/"
                       style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
                       <Link variant="body2" className={classes.text}>
                         ¿Ya tiene una cuenta? Inicia Sesión

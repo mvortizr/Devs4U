@@ -9,15 +9,7 @@ import {
   Divider,
   IconButton,
   Badge,
-  Grid,
   CssBaseline,
-  Container,
-  Link,
-  Card,
-  CardActions,
-  CardMedia,
-  CardContent,
-  Button
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -25,7 +17,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import { mainListItemsC, secondaryListItemsC } from './ListaItemsCont'
 import { mainListItems, secondaryListItems } from './ListaItemsFree'
-import { Link as DomLink } from 'react-router-dom'
 import Searchbar from '../components/Searchbar'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
@@ -34,20 +25,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import CircularProgress from '@material-ui/core/CircularProgress';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Devs4U
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  )
-}
 
 const drawerWidth = 240
 

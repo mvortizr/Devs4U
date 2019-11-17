@@ -1,14 +1,6 @@
 import React from 'react'
-import clsx from 'clsx'
 import {
   Typography,
-  Drawer,
-  AppBar,
-  Toolbar,
-  List,
-  Divider,
-  IconButton,
-  Badge,
   Grid,
   CssBaseline,
   Container,
@@ -20,9 +12,6 @@ import {
   CardMedia
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import NotificationsIcon from '@material-ui/icons/Notifications'
 import Header from './Header'
 import EliminarProyectoDialog from '../components/Dialog'
 import { Link as DomLink } from 'react-router-dom'

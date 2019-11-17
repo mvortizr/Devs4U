@@ -6,7 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
-import { Link as DomLink, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 function Copyright() {
@@ -133,13 +133,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
 const archives = [
   'Trabajo 1',
   'Trabajo 2',
   'Trabajo 3',
 ];
-
 
 export default function Dashboard() {
   const classes = useStyles();

@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Link, Card, CardActions, CardMedia, CardContent, Button, Hidden} from '@material-ui/core';
+import {Typography, Drawer, AppBar, Toolbar, List, Divider, IconButton, Badge, Grid, CssBaseline, Container, Paper, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -9,7 +9,6 @@ import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import EliminarPerfilDialog from '../components/DialogAcceptReject';
 import { Link as DomLink, Redirect } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import fotoPerfil from "./images/fotoPerfil.jpg"
 
 import axios from 'axios';
 
