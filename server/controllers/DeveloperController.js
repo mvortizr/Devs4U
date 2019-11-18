@@ -40,7 +40,11 @@ module.exports={
 
     profileInformation(req,res){
 
-      model.User.findAll({where: {id: req.user.id}, include: ['developer']})
+      model.User.findAll({
+        where: {id: req.user.id}, 
+        include: ['developer'],
+        include:['developerProject']
+      })
       .then(function(developer){    
         res.send(developer)
       })

@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('./controllers/UserController');
-let lista = require('./controllers/ProjectController');
+const projectController=require('./controllers/ProjectController');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const { check, body } = require('express-validator');
 
@@ -22,25 +22,7 @@ router.put('/edit',ensureAuthenticated, userController.update);
 router.post('/delete',ensureAuthenticated, userController.delete);
 
 
-router.get('/Gestion-Proyecto', ensureAuthenticated, function (req, res) {
-    res.render('user/Gestion-Proyecto');
-})
-
-router.get('/create-proyect', ensureAuthenticated, function (req, res) {
-    lista.lista(req, res);
-})
-
-router.get('/contratist/:contractor/Eliminar', ensureAuthenticated, function (req, res) {
-    res.render('/contratist/Eliminar');
-})
-
-router.get('/contratist/:contractor/Agregar', ensureAuthenticated, function (req, res) {
-    lista.storeIteracion(req, res);
-})
-
-router.post('/createproyect', (req, res, next) => {
-    lista.store(req, res);
-});
+router.post('/create-proyect',ensureAuthenticated, projectController.store);
 
 router.get('/cancelproyect', ensureAuthenticated, function (req, res) {
     lista.lista4(req, res);

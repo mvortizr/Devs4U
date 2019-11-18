@@ -1,16 +1,22 @@
 const model=require('../models');
 module.exports={
 
-    store(userId) {
+    store(req,res,userId) {
       model.Contractor.create({
         workSearch:'',
         enterprise:'',
         userId:userId,
       })
+      .then(function(){ res.send(200,{message:'El usuario se ha creado correctamente'})})
+      .catch(err => res.status(400).json('Error: ' + err));
     },
 
     profileInformation(req,res){
-      model.User.findAll({where: {id: req.user.id}, include: ['contractor']})
+      model.User.findAll({
+        where: {id: req.user.id}, 
+        include: ['contractor'],
+        include:['contractorProject']
+      })
       .then(function(contractor){ 
         res.send(contractor.contractor)
       })

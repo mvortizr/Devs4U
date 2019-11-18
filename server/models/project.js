@@ -1,22 +1,16 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Project = sequelize.define('Project', {
-    name: DataTypes.STRING,
-    contractor: DataTypes.INTEGER,
+    contractorId: DataTypes.INTEGER,
+    developerId: DataTypes.INTEGER,
     description: DataTypes.TEXT,
-    entregables: DataTypes.TEXT,
-    tecnologies: DataTypes.ARRAY(DataTypes.TEXT),
-    photo: DataTypes.STRING,
-    postulados: DataTypes.JSON,
-    etapa: DataTypes.STRING,
-    encargado: DataTypes.INTEGER,
-    additionals: DataTypes.TEXT,
-    disponibilidad: DataTypes.STRING,
-    iteraciones: DataTypes.JSON,
-    projectType: DataTypes.STRING
+    stage: DataTypes.STRING,
+    projectType: DataTypes.STRING,
+    numberOfIterations: DataTypes.INTEGER
   }, {});
   Project.associate = function(models) {
-    // associations can be defined here
+    Project.hasOne(models.User, {foreignKey: 'id', as: 'contractor'})
+    Project.hasOne(models.User, {foreignKey: 'id', as: 'developer'})
   };
   return Project;
 };

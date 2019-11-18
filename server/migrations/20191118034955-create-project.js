@@ -8,44 +8,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
+      contractorId: {
+        type: Sequelize.INTEGER
       },
-      contractor: {
+      developerId: {
         type: Sequelize.INTEGER
       },
       description: {
         type: Sequelize.TEXT
       },
-      entregables: {
-        type: Sequelize.TEXT
-      },
-      tecnologies: {
-        type: Sequelize.ARRAY(Sequelize.TEXT) 
-      },
-      photo: {
+      stage: {
         type: Sequelize.STRING
-      },
-      postulados: {
-        type: Sequelize.JSON
-      },
-      etapa: {
-        type: Sequelize.STRING
-      },
-      encargado: {
-        type: Sequelize.INTEGER
-      },
-      additionals: {
-        type: Sequelize.TEXT
-      },
-      disponibilidad: {
-        type: Sequelize.STRING
-      },
-      iteraciones: {
-        type: Sequelize.JSON
       },
       projectType: {
         type: Sequelize.STRING
+      },
+      numberOfIterations: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

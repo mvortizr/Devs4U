@@ -31,7 +31,7 @@ module.exports={
                     })
                     .then(function(user){
                         if (user.rol=='developer') developerController.store(req,res,user.id);
-                        if (user.rol=='contractor')contractorController.store(user.id); //function to associate the developer information
+                        if (user.rol=='contractor')contractorController.store(req,res,user.id); //function to associate the developer information
                     })
                     .catch(err => res.status(400).json('Error: ' + err));
                 }

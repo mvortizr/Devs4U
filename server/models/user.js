@@ -53,8 +53,13 @@ module.exports = (sequelize, DataTypes) => {
     experience: DataTypes.STRING
   }, {});
   User.associate = function(models) {
+    //Info Relationship 
     User.hasOne(models.Developer,{foreignKey: 'userId', as: 'developer'});
     User.hasOne(models.Contractor,{foreignKey: 'userId', as: 'contractor'});
+
+    //Project relationship
+    User.hasOne(models.Project, {foreignKey: 'contractorId', as: 'contractorProject'})
+    User.hasOne(models.Project, {foreignKey: 'developerId', as: 'developerProject'})
 
   };
   return User;
