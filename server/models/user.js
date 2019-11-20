@@ -58,8 +58,8 @@ module.exports = (sequelize, DataTypes) => {
     User.hasOne(models.Contractor,{foreignKey: 'userId', as: 'contractor'});
 
     //Project relationship
-    User.hasOne(models.Project, {foreignKey: 'contractorId', as: 'contractorProject'})
-    User.hasOne(models.Project, {foreignKey: 'developerId', as: 'developerProject'})
+    User.hasMany(models.Project, {foreignKey: 'contractorId', as: 'contractorProject'})
+    User.hasMany(models.Project, {foreignKey: 'developerId', as: 'developerProject'})
 
   };
   return User;

@@ -2,8 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('./controllers/UserController');
+const developerController=require('./controllers/DeveloperController');
+const contractorController=require('./controllers/ContractorController');
 const projectController=require('./controllers/ProjectController');
-const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+const { ensureAuthenticated, forwardAuthenticated } = require('./middleware/auth');
 const { check, body } = require('express-validator');
 
 
@@ -17,12 +19,17 @@ router.post('/check/auth', userController.checkAuthentication);
 
 
 //Aqui falta el middleware de mostrar el perfil segun el rol
-router.get('/profile/:rol',ensureAuthenticated, userController.profileInformation);
+router.get('/profile/:rol',ensureAuthenticated, (req, res, next) => {
+    if(req.user.rol=='developer') developerController.profileInformation(req,res);
+    else contractorController.profileInformation(req,res);
+});
+
 router.put('/edit',ensureAuthenticated, userController.update);
 router.post('/delete',ensureAuthenticated, userController.delete);
 
 
-router.post('/create-proyect',ensureAuthenticated, projectController.store);
+
+router.post('/create-proyect'/*,ensureAuthenticated*/, projectController.store);
 
 router.get('/cancelproyect', ensureAuthenticated, function (req, res) {
     lista.lista4(req, res);

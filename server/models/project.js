@@ -4,9 +4,11 @@ module.exports = (sequelize, DataTypes) => {
     contractorId: DataTypes.INTEGER,
     developerId: DataTypes.INTEGER,
     description: DataTypes.TEXT,
-    stage: DataTypes.STRING,
+    projectStage: DataTypes.STRING,
     projectType: DataTypes.STRING,
-    numberOfIterations: DataTypes.INTEGER
+    availabilityRequired: DataTypes.INTEGER,
+    technologies: DataTypes.JSON,
+    additionalInformation: DataTypes.TEXT
   }, {});
   Project.associate = function(models) {
     Project.hasOne(models.User, {foreignKey: 'id', as: 'contractor'})

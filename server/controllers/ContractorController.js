@@ -17,9 +17,7 @@ module.exports={
         include: ['contractor'],
         include:['contractorProject']
       })
-      .then(function(contractor){ 
-        res.send(contractor.contractor)
-      })
+      .then(function(contractor){ res.send(contractor)})
       .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -28,11 +26,7 @@ module.exports={
         workSearch: req.body.workSearch,
         enterprise: req.body.enterprise,
       }, {where: {userId: req.user.id}})
-      
-      .then(function(){
-            res.send({success:true});
-      })
-      
+      .then(function(){res.send({success:true});})
       .catch(err => res.status(400).send({error:err}));
     },
 

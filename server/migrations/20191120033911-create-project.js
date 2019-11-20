@@ -17,14 +17,20 @@ module.exports = {
       description: {
         type: Sequelize.TEXT
       },
-      stage: {
+      projectStage: {
         type: Sequelize.STRING
       },
       projectType: {
         type: Sequelize.STRING
       },
-      numberOfIterations: {
+      availabilityRequired: {
         type: Sequelize.INTEGER
+      },
+      technologies: {
+        type: Sequelize.JSON
+      },
+      additionalInformation: {
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

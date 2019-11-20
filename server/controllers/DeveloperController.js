@@ -10,9 +10,7 @@ module.exports={
         languages:[''],
         skills:[''],
       })
-      .then(function(){ 
-        res.send(200,{message:'El usuario se ha creado correctamente'})
-      })
+      .then(function(){ res.send(200,{message:'El usuario se ha creado correctamente'})})
       .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -23,9 +21,7 @@ module.exports={
         languages: req.body.languages,
         skills:req.body.skills,
       }, {where: {userId: req.user.id}})
-      .then(function(){
-        res.send({success:true});
-      })
+      .then(function(){res.send({success:true});})
       .catch(err => res.status(400).send({error:err}));
     },
 
@@ -39,15 +35,12 @@ module.exports={
     },
 
     profileInformation(req,res){
-
       model.User.findAll({
         where: {id: req.user.id}, 
         include: ['developer'],
         include:['developerProject']
       })
-      .then(function(developer){    
-        res.send(developer)
-      })
+      .then(function(developer){res.send(developer)})
       .catch(err => res.status(400).json('Error: ' + err));
   
     }
