@@ -3,6 +3,29 @@ const model=require('../models');
 
 module.exports={
 
+
+    index(req,res){
+        model.Project.findAll({})
+        .then(function(projects){ res.send(projects)})
+        .catch(err => res.status(400).json('Error: ' + err));
+
+    },
+
+    show(req,res){
+        idProject=req.params.id
+
+        model.Project.findAll({
+            where: {id:idProject},
+            //include:['contractor'],
+            include:['project']
+        })
+        
+        .then(function(project){
+            res.send(project)})
+        .catch(err => res.status(400).json('Error: ' + err));
+
+    },
+
     store(req,res){
         model.Project.create({
             contractorId:req.body.contractorId,
@@ -18,6 +41,10 @@ module.exports={
         .catch(err => res.status(400).json('Error: ' + err));
 
 
+    },
+    
+    update(req,res){
+        
     }
 
 

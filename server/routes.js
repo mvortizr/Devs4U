@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 
@@ -25,15 +24,22 @@ router.post('/check/auth',checkAuthentication);
 
 
 
-//Rutas de la informacion del perfil
-router.get('/profile/:rol',ensureAuthenticated, userController.profileInformation);
-router.put('/profile/edit',ensureAuthenticated, userController.update);
+//Rutas del perfil
+router.get('/profile/:rol',ensureAuthenticated, userController.profileInformation);//listo
+router.put('/profile/edit',ensureAuthenticated, userController.update);//listo
 //router.post('/delete',ensureAuthenticated, userController.delete);
 
 
 
-//Rutas de proyecto
-router.post('/create-proyect', projectController.store);
+//Rutas de proyectos
+router.get('/project',projectController.index)//listo
+router.get('/project/show/:id',projectController.show)
+//router.put('/project/edit/:id')
+router.post('/project/create', projectController.store);//listo
+
+
+
+//
 
 
 module.exports = router;
