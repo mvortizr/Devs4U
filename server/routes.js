@@ -1,64 +1,39 @@
 
 const express = require('express');
 const router = express.Router();
+
+//Auth Controller
+const {register}=require('./controllers/auth/RegisterController')
+const {login}=require('./controllers/auth/LoginController')
+const {logout}=require('./controllers/auth/LogoutController')
+const {checkAuthentication}=require('./controllers/auth/AuthenticationController.js')
+
+//Controllers
 const userController = require('./controllers/UserController');
-const developerController=require('./controllers/DeveloperController');
-const contractorController=require('./controllers/ContractorController');
 const projectController=require('./controllers/ProjectController');
-const { ensureAuthenticated, forwardAuthenticated } = require('./middleware/auth');
-const { check, body } = require('express-validator');
+
+//Middlewares
+const { ensureAuthenticated, forwardAuthenticated } = require('./middlewares/auth');
 
 
 
-router.post('/register', userController.register);
-
-
-router.post('/login', userController.login);
-router.post('/logout', userController.logout);
-router.post('/check/auth', userController.checkAuthentication);
-
-
-//Aqui falta el middleware de mostrar el perfil segun el rol
-router.get('/profile/:rol',ensureAuthenticated, (req, res, next) => {
-    if(req.user.rol=='developer') developerController.profileInformation(req,res);
-    else contractorController.profileInformation(req,res);
-});
-
-router.put('/edit',ensureAuthenticated, userController.update);
-router.post('/delete',ensureAuthenticated, userController.delete);
+//Auths' Routes
+router.post('/register', register);
+router.post('/login', login);
+router.post('/logout', logout);
+router.post('/check/auth',checkAuthentication);
 
 
 
-router.post('/create-proyect'/*,ensureAuthenticated*/, projectController.store);
+//Rutas de la informacion del perfil
+router.get('/profile/:rol',ensureAuthenticated, userController.profileInformation);
+router.put('/profile/edit',ensureAuthenticated, userController.update);
+//router.post('/delete',ensureAuthenticated, userController.delete);
 
-router.get('/cancelproyect', ensureAuthenticated, function (req, res) {
-    lista.lista4(req, res);
-})
 
-router.get('/cancelproyect/:name', (req, res, next) => {
-    lista.CancelProyect(req, res);
-});
 
-router.get('/requestproyect', ensureAuthenticated, function (req, res) {
-    lista.lista2(req, res);
-
-})
-
-router.get('/request/Abrir', (req, res, next) => {
-
-    lista.lista3(req, res);
-});
-
-router.get('/modifyproyect', ensureAuthenticated, function (req, res) {
-    lista.lista5(req, res);
-})
-
-router.post('/modifyproyect/:NM_Proyect', (req, res, next) => {
-
-    lista.Actualizar(req, res);
-
-});
-
+//Rutas de proyecto
+router.post('/create-proyect', projectController.store);
 
 
 module.exports = router;

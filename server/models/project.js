@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
        isInt: true
       }
-    },
+    } ,
     technologies: DataTypes.JSON,
     additionalInformation: DataTypes.TEXT
   }, {});

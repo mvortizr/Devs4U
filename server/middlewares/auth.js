@@ -9,6 +9,6 @@ module.exports = {
       if (!req.isAuthenticated()) {
         return next();
       }
-      res.send({error:true}); 
+      res.send({error:'logese primero'}); 
     }
   };
