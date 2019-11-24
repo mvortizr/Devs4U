@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+//Middlewares
+const { ensureAuthenticated, forwardAuthenticated } = require('./middlewares/auth');
+
 //Auth Controller
 const {register}=require('./controllers/auth/RegisterController')
 const {login}=require('./controllers/auth/LoginController')
@@ -10,9 +13,6 @@ const {checkAuthentication}=require('./controllers/auth/AuthenticationController
 //Controllers
 const userController = require('./controllers/UserController');
 const projectController=require('./controllers/ProjectController');
-
-//Middlewares
-const { ensureAuthenticated, forwardAuthenticated } = require('./middlewares/auth');
 
 
 
@@ -33,9 +33,10 @@ router.put('/profile/edit',ensureAuthenticated, userController.update);//listo
 
 //Rutas de proyectos
 router.get('/projects',projectController.index)//listo
-router.get('/project/show/:id',projectController.show)//Faltan las buenas relaciones, pero creo que listo
-//router.put('/project/edit/:id')
 router.post('/project/create', projectController.store);//listo
+router.get('/project/show/:id',projectController.show)//Faltan las buenas relaciones, pero creo que listo
+router.put('/project/edit/:id',projectController.update) //listo
+router.delete('/project/delete/:id',projectController.destroy)
 
 
 

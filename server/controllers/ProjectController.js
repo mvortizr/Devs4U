@@ -3,8 +3,6 @@ const Op = require('Sequelize').Op;
 
 
 module.exports={
-
-
     index(req,res){
         model.Project.findAll({})
         .then(function(projects){ res.send(projects)})
@@ -25,7 +23,7 @@ module.exports={
     },
 
     store(req,res){
-       model.Project.create({
+        model.Project.create({
             contractorId:req.user.id,
             developerId: req.body.developerId,
             description:req.body.description ,
@@ -35,14 +33,38 @@ module.exports={
             technologies:req.body.technologies,
             additionalInformation:req.body.additionalInformation   
         })
-        .then(function(project){res.send(200,{message:'Se ha creado el proyecto correctamente'})})
+        .then(function(){res.send(200,{message:'Se ha creado el proyecto correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
 
 
     },
     
     update(req,res){
-        
+        projectId=req.params.id
+        model.Project.update({
+            developerId: req.body.developerId,
+            description:req.body.description ,
+            projectStage:req.body.projectStage ,
+            projectType:req.body.projectType,
+            availabilityRequired:req.body. availabilityRequired,
+            technologies:req.body.technologies,
+            additionalInformation:req.body.additionalInformation   
+        },{where: {id: projectId, contractorId:req.user.id}})
+        .then(function(project){
+            if(project==0) res.status(400).json('Error: usted no puede modificar este proyecto' )
+            else res.send(200,{message:'Se ha actualizado el proyecto correctamente'})
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+    },
+
+    destroy(req,res){
+        projectId=req.params.id
+        model.Project.destroy({where: {id: projectId, contractorId:req.user.id}})
+        .then(function(projectDeleted){
+            if(projectDeleted==0) res.status(400).json('Error: usted no puede eliminar este proyecto' )
+            else res.send(200,{message:'Se ha eliminado el proyecto correctamente'})
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
     }
 
 
