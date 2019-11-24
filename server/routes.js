@@ -32,8 +32,8 @@ router.put('/profile/edit',ensureAuthenticated, userController.update);//listo
 
 
 //Rutas de proyectos
-router.get('/project',projectController.index)//listo
-router.get('/project/show/:id',projectController.show)
+router.get('/projects',projectController.index)//listo
+router.get('/project/show/:id',projectController.show)//Faltan las buenas relaciones, pero creo que listo
 //router.put('/project/edit/:id')
 router.post('/project/create', projectController.store);//listo
 

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     developerId:  {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate:{
        isInt: true
       }
@@ -23,14 +24,11 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
        isInt: true
       }
-    } ,
+    },
     technologies: DataTypes.JSON,
     additionalInformation: DataTypes.TEXT
   }, {});
   Project.associate = function(models) {
-    //Project.hasOne(models.User, {foreignKey: 'id', as: 'contractor'})
-    //Project.hasOne(models.User, {foreignKey: 'id', as: 'developer'})
-    Project.belongsToMany(models.User,{through: 'UsersProjects', foreignKey: 'projectId',as:'project'})    
   };
   return Project;
 };
