@@ -149,7 +149,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -162,7 +161,6 @@ export default function Dashboard() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const [user,setUser]=React.useState(undefined);
-
 
   //Dialog Eliminar
   const [openDialog, setOpenDialog] = React.useState(false);
@@ -203,6 +201,7 @@ export default function Dashboard() {
     }, []);
   
   if(user){
+
   return (
   
     <div className={classes.root}>
@@ -375,8 +374,11 @@ export default function Dashboard() {
         <Copyright />
       </main>
     </div>
+ 
   );
+   
 } else {
     return  <CircularProgress />;
   }
+  
 }

@@ -149,6 +149,7 @@ const Registration = props => {
         } else if (!response.data.error) {
           console.log('successful signup')
           showDialog('Te has registrado exitosamente')
+          alert('Te has registrado exitosamente')
           setRedirect(true)
         } else {
           console.log('unsuccesful signup')
@@ -214,27 +215,12 @@ const Registration = props => {
                         shrink
                         htmlFor="bootstrap-input"
                         className={classes.text}>
-                        Nombres
+                        Nombre Completo
                       </InputLabel>
                       <BootstrapInput
                         id="firstName"
                         name="firstName"
                         onChange={handleChange('firstName')}
-                      />
-                    </FormControl>
-                  </Grid>
-                  <Grid item>
-                    <FormControl>
-                      <InputLabel
-                        shrink
-                        htmlFor="bootstrap-input"
-                        className={classes.text}>
-                        Apellidos
-                      </InputLabel>
-                      <BootstrapInput
-                        id="lastName"
-                        name="lastName"
-                        onChange={handleChange('lastName')}
                       />
                     </FormControl>
                   </Grid>
@@ -286,6 +272,10 @@ const Registration = props => {
                     </FormControl>
                   </Grid>
                 </Grid>
+                
+                <DomLink
+                to="/">
+                   <Link>
                 <Button
                   type="button"
                   fullWidth
@@ -295,6 +285,8 @@ const Registration = props => {
                   onClick={handleSubmit}>
                   Registrarse
                 </Button>
+                </Link>
+                </DomLink>
 
                 <Grid container justify="center">
                   <Grid item>
@@ -424,7 +416,7 @@ const Registration = props => {
                 <Grid container justify="center">
                   <Grid item>
                     <DomLink
-                      to="/login"
+                      to="/"
                       style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
                       <Link variant="body2" className={classes.text}>
                         ¿Ya tiene una cuenta? Inicia Sesión

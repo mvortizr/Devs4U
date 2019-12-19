@@ -8,6 +8,13 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import Instagram from '@material-ui/icons/Instagram';
+import Facebook from '@material-ui/icons/Facebook';
+import Twitter from '@material-ui/icons/Twitter';
 
 function Copyright() {
   return (
@@ -21,6 +28,17 @@ function Copyright() {
     </Typography>
   );
 }
+{/*
+const [free, setFree] = React.useState('');
+const inputLabel = React.useRef(null);
+  const [labelWidth, setLabelWidth] = React.useState(0);
+  React.useEffect(() => {
+    setLabelWidth(inputLabel.current.offsetWidth);
+  }, []);
+const handleChange = event => {
+  setFree(event.target.value);
+};
+ */}
 
 const drawerWidth = 240;
 
@@ -204,6 +222,7 @@ export default function Dashboard() {
         });
   }
 
+  
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -287,63 +306,135 @@ export default function Dashboard() {
               </Typography>
 
               <Typography variant="h6" gutterBottom>
-                Sobre mí:
+                Descripción Corta:
               </Typography>
-
               <TextField
                 variant="outlined"
                 fullWidth
-                id="personal"
+                id="descripcion"
                 label="Información Personal"
               />
+
+              <Divider />
+
+              <Typography variant="h6" gutterBottom>
+                Sobre mí:
+              </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                id="sobreMi"
+                label="Información Personal"
+              />
+
               <Divider />
 
               <Typography variant="h6" gutterBottom>
                 Habilidades:
               </Typography>
-
-              <Typography paragraph>
-              <li className={classes.listItem}>
-                <TextField
+              <TextField
                 variant="outlined"
                 fullWidth
-                id="habilidad1"
-                label="Habilidad 1"
-                />
+                id="habilidades"
+                label="habilidades"
+              />
               <Divider />
-              </li>
-              <li className={classes.listItem}>
-                <TextField
-                variant="outlined"
-                fullWidth
-                id="habilidad2"
-                label="Habilidad 2"
-                />
-              </li>
-              </Typography>
 
               <Typography variant="h6" gutterBottom>
-                Idiomas:
+                Experiencia:
               </Typography>
+              <Typography variant="h7" gutterBottom>
+                Nombre de la Empresa:
+              </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                label="Lorem Ipsum"
+              />
+              <Typography variant="h7" gutterBottom>
+                Título del Cargo:
+              </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                label="Lorem Ipsum"
+              />
+              <Typography variant="h9" gutterBottom>
+                Período de Tiempo:
+              </Typography>
+              <Divider />
+              
+              <TextField
+              id="outlined-number"
+              label="Año de Inicio"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              />
+              <TextField
+              id="outlined-number"
+              label="Año de Fin"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              />
+              <Typography variant="h7" gutterBottom>
+                Descripción:
+              </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                label="Lorem Ipsum"
+              />
 
-              <Typography paragraph>
-              <li className={classes.listItem}>
-                <TextField
-                variant="outlined"
-                fullWidth
-                id="idioma2"
-                label="Idioma 1"
-                />
-              </li>
-              <li className={classes.listItem}>
-                <TextField
-                variant="outlined"
-                fullWidth
-                id="idioma2"
-                label="Idioma 2"
-                />
-              </li>
+              <Divider />
+              
+              <Typography variant="h6" gutterBottom>
+                Educación:
               </Typography>
+              <Typography variant="h7" gutterBottom>
+                Nombre de la Institución:
+              </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                label="Lorem Ipsum"
+              />
+              <Typography variant="h7" gutterBottom>
+                Título Obtenido:
+              </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                label="Lorem Ipsum"
+              />
+              <Typography variant="h9" gutterBottom>
+                Período de Tiempo:   
+              </Typography>
+               {/*ARREGLAR DIVIDER PAR AQUE NO QUEDE TAN APRETADO EL ESPACIO*/}
+              <Divider variant="middle" />
+              <TextField
+              id="outlined-number"
+              label="Año de Inicio"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              />
+              <TextField
+              id="outlined-number"
+              label="Año de Fin"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              />
 
             </Grid>
             {/* End main content */}
@@ -355,16 +446,15 @@ export default function Dashboard() {
                 </Typography>
 
                 <Typography paragraph>
-                    <strong>Residencia:</strong> 
+                    País y Ciudad 
                     <TextField
                     variant="outlined"
                     fullWidth
-                    id="residencia"
                     label="Caracas, Venezuela"
                     />
                 </Typography>
                 <Typography paragraph>
-                    <strong>Horas de Trabajo:</strong> 
+                    Años de Experiencia
                     <TextField
                     variant="outlined"
                     fullWidth
@@ -372,29 +462,67 @@ export default function Dashboard() {
                     label="+40"
                     />
                 </Typography>
+
+
+                {/* 
+                <FormControl className={classes.formControl}>
+                <InputLabel>Tipo de Freelancer</InputLabel>
+                <Select
+                value={free}
+                onChange={handleChange}
+                >
+                  <MenuItem value={10}>Desarrollador Web</MenuItem>
+                  <MenuItem value={20}>Desarrollador de Móvil</MenuItem>
+                  <MenuItem value={30}>Q/A</MenuItem>
+                  <MenuItem value={40}>Otros</MenuItem>
+                </Select>
+                </FormControl>
+                */}
+
                 <Typography paragraph>
-                    <strong>Experiencia:</strong>
+                    Idiomas:
                     <TextField
                     variant="outlined"
                     fullWidth
-                    id="experiencia"
-                    label="1 año"
-                    />
-                </Typography>
-                <Typography paragraph>
-                    <strong>Tipo de Desarrollador:</strong>
-                    <TextField
-                    variant="outlined"
-                    fullWidth
-                    id="tipoD"
-                    label="Q/A"
+                    label=""
                     />
                 </Typography>
                   
+                <Typography paragraph>
+                    Seniority:
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    label=""
+                    />
+                </Typography>
+
+                <Typography variant="h6" gutterBottom>
+                  Links
+                </Typography>
+
+                <Instagram/>
+                <TextField
+                variant="outlined"
+                fullWidth
+                label="Instagram"
+                />
+                
+                <Facebook/>
+                <TextField
+                variant="outlined"
+                fullWidth
+                label="Facebook"
+                />
+
+                <Twitter/>
+                <TextField
+                variant="outlined"
+                fullWidth
+                label="Twitter"
+                />
+
               </Paper>
-
-            
-
             </Grid>
             {/* End sidebar */}
           </Grid>
