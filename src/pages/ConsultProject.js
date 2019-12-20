@@ -6,6 +6,7 @@ import Header from './Header'
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
+import Calendar from '@material-ui/icons/EventNote';
 
 function Copyright() {
   return (
@@ -195,8 +196,8 @@ if(props.type=="developer"){
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container className={classes.cardGrid} maxWidth="md">
-            <Typography component="h1" variant="h2" align="center" gutterBottom>
-              Título del Proyecto
+            <Typography component="h2" variant="h2" align="center" gutterBottom>
+              -Nombre del Proyecto-
             </Typography>
             <div className={classes.grid}>
               <Stepper className={classes.stepper}>
@@ -213,15 +214,13 @@ if(props.type=="developer"){
                 <Typography variant="h4" gutterBottom>
                   {/* {postInfo.name} */}
                 </Typography>
-                <Typography variant="h4" gutterBottom>
-                  Descripción del Proyecto:
+                <Typography variant="h5" gutterBottom>
+                  Descripción:
                 </Typography>
-  
                 <Typography paragraph>
                   XXXXXXXXXXXXXXXXXXXXXXXXXXXX
                      {/* {postInfo.description} */}
                 </Typography>
-  
                
                {/* <Typography variant="h6" gutterBottom>
   
@@ -229,58 +228,74 @@ if(props.type=="developer"){
                 Fecha Tope del proyecto: 30/10/2019
                 </Typography>  */}   
   
-                <Typography variant="h4" gutterBottom>
-                  Tecnologías Requeridas:
+                <Typography variant="h5" gutterBottom>
+                  Objetivos
                 </Typography>
-  
+                <ul>
+                  <li><Typography paragraph/>XXXXXX</li>
+                  <li><Typography paragraph/>XXXXXX</li>
+                  <li><Typography paragraph/>XXXXXX</li>
+                </ul>
+
+                <Typography variant="h5" gutterBottom>
+                  Etapas del Proyecto
+                </Typography>
+                <Typography paragraph> <Calendar />Abierto: DD/MM/YYYY</Typography>
+                <Typography paragraph> <Calendar />En Ejecución: DD/MM/YYYY</Typography>
+                <Typography paragraph> <Calendar />En Espera: DD/MM/YYYY</Typography>
+                <Typography paragraph> <Calendar />Finalizado: DD/MM/YYYY</Typography>
+                  
+                <Typography variant="h5" gutterBottom>
+                  Entregables
+                </Typography>
                 <Typography paragraph>
                   XXXXXXXXXXXXXXXXXXXXXXXXXXXX
-                </Typography>
-                {/* <Technologies arr={postInfo.tecnologies}/>  */}
-                  
-                {/*
-                <Typography variant="h6" gutterBottom>
-                  Desarrollador Encargado: 
-                </Typography>
-              */}
-  
-                <Typography variant="h4" gutterBottom>
+                     {/* {postInfo.entregables ?} */}
+                </Typography>  
+
+                <Typography variant="h5" gutterBottom>
                   Datos Adicionales:
                 </Typography>
-  
-                <Typography paragraph>
-                  XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                <ul>
                   {/* <li className={classes.listItem}>
                       <Typography component="span"/> {postInfo.additionals} 
                   </li> */}
-                </Typography>
+                  <li><Typography paragraph/>XXXXXX</li>
+                  <li><Typography paragraph/>XXXXXX</li>
+                  <li><Typography paragraph/>XXXXXX</li>
+                </ul>
+  
               </Grid>
               {/* End main content */}
+
               {/* Sidebar */}
               <Grid item xs={12} md={4}>
                 <Paper elevation={0} className={classes.sidebarAboutBox}>
                   <Typography variant="h6" gutterBottom>
-                    Información General
+                    Tipo de Proyecto
                   </Typography>
                   <Typography paragraph>
-                      <strong>Contratista:</strong>
-                      {/* {postContractorName} */}
+                  XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                     {/* {postInfo.typeProject ?} */}
+                  </Typography>  
+
+                  <Typography variant="h6" gutterBottom>
+                    Tecnologías a Usar
                   </Typography>
                   <Typography paragraph>
-                      <strong>Entregables:</strong> 
-                      {/* {postInfo.entregables} */}
+                  XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                     {/* {postInfo.technologies ?} */}
+                  </Typography>  
+
+                  <Typography variant="h6" gutterBottom>
+                    Presupuesto
                   </Typography>
                   <Typography paragraph>
-                      <strong>Fecha de inicio:</strong> XX/XX/XXXX
-                  </Typography>
-                  <Typography paragraph>
-                      <strong>Fecha de entrega:</strong> XX/XX/XXXX
-                  </Typography>
-                  <Typography paragraph>
-                      <strong>Lenguajes:</strong> Pascal
-                  </Typography>
-  
-  
+                  XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                     {/* {postInfo.plata ?} */}
+                  </Typography>  
+
+
                   {/* ARREGLAR LINK */}
                   
                   <Button link="./project/process" variant="contained" color="primary" className={classes.buttonF} >
@@ -312,59 +327,105 @@ else{
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
-            <Typography component="h1" variant="h2" align="center" gutterBottom>
-              Título del Proyecto
+        <Typography component="h2" variant="h2" align="center" gutterBottom>
+              -Nombre del Proyecto-
             </Typography>
             <div className={classes.grid}>
-            <Stepper className={classes.stepper}>
-              {steps.map(label => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </div>
-          <Grid container spacing={5} className={classes.mainGrid}>
-            {/* Main content */}
-            <Grid item xs={12} md={8} className={classes.grid}>
-              <Typography variant="h4" gutterBottom>
-                Descripción del Proyecto:
-              </Typography>
+              <Stepper className={classes.stepper}>
+                {steps.map(label => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            </div>
+            <Grid container spacing={5} className={classes.mainGrid}>
+              {/* Main content */}
+              <Grid item xs={12} md={8} className={classes.grid}>
+                <Typography variant="h4" gutterBottom>
+                  {/* {postInfo.name} */}
+                </Typography>
+                <Typography variant="h5" gutterBottom>
+                  Descripción:
+                </Typography>
+                <Typography paragraph>
+                  XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                     {/* {postInfo.description} */}
+                </Typography>
+               
+               {/* <Typography variant="h6" gutterBottom>
+  
+                <CalendarTodayIcon />
+                Fecha Tope del proyecto: 30/10/2019
+                </Typography>  */}   
+  
+                <Typography variant="h5" gutterBottom>
+                  Objetivos
+                </Typography>
+                <ul>
+                  <li><Typography paragraph/>XXXXXX</li>
+                  <li><Typography paragraph/>XXXXXX</li>
+                  <li><Typography paragraph/>XXXXXX</li>
+                </ul>
 
-              <Typography paragraph>XXXXXXXXXXXXXXXXXXXXXXXXXXXX</Typography>
+                <Typography variant="h5" gutterBottom>
+                  Etapas del Proyecto
+                </Typography>
+                <Typography paragraph> <Calendar />Abierto: DD/MM/YYYY</Typography>
+                <Typography paragraph> <Calendar />En Ejecución: DD/MM/YYYY</Typography>
+                <Typography paragraph> <Calendar />En Espera: DD/MM/YYYY</Typography>
+                <Typography paragraph> <Calendar />Finalizado: DD/MM/YYYY</Typography>
+                  
+                <Typography variant="h5" gutterBottom>
+                  Entregables
+                </Typography>
+                <Typography paragraph>
+                  XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                     {/* {postInfo.entregables ?} */}
+                </Typography>  
 
-              <Typography variant="h4" gutterBottom>
-                Lenguaje de Programación:
-              </Typography>
+                <Typography variant="h5" gutterBottom>
+                  Datos Adicionales:
+                </Typography>
+                <ul>
+                  {/* <li className={classes.listItem}>
+                      <Typography component="span"/> {postInfo.additionals} 
+                  </li> */}
+                  <li><Typography paragraph/>XXXXXX</li>
+                  <li><Typography paragraph/>XXXXXX</li>
+                  <li><Typography paragraph/>XXXXXX</li>
+                </ul>
+  
+              </Grid>
+              {/* End main content */}
 
-              <Typography paragraph>
-                <li className={classes.listItem}>
-                  <Typography component="span" /> Lenguaje
-                </li>
-                <li className={classes.listItem}>
-                  <Typography component="span" /> Lenguaje
-                </li>
-              </Typography>
-            </Grid>
-            {/* End main content */}
-            {/* Sidebar */}
-            <Grid item xs={12} md={4}>
-              <Paper elevation={0} className={classes.sidebarAboutBox}>
-                <Typography variant="h6" gutterBottom>
-                  Información General
-                </Typography>
-                <Typography paragraph>
-                  <strong>Desarrollador:</strong> Pepito
-                </Typography>
-                <Typography paragraph>
-                  <strong>Fecha de inicio:</strong> XX/XX/XXXX
-                </Typography>
-                <Typography paragraph>
-                  <strong>Fecha de entrega:</strong> XX/XX/XXXX
-                </Typography>
-                <Typography paragraph>
-                  <strong>Lenaguaje:</strong> Pascal
-                </Typography>
+              {/* Sidebar */}
+              <Grid item xs={12} md={4}>
+                <Paper elevation={0} className={classes.sidebarAboutBox}>
+                  <Typography variant="h6" gutterBottom>
+                    Tipo de Proyecto
+                  </Typography>
+                  <Typography paragraph>
+                  XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                     {/* {postInfo.typeProject ?} */}
+                  </Typography>  
+
+                  <Typography variant="h6" gutterBottom>
+                    Tecnologías a Usar
+                  </Typography>
+                  <Typography paragraph>
+                  XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                     {/* {postInfo.technologies ?} */}
+                  </Typography>  
+
+                  <Typography variant="h6" gutterBottom>
+                    Presupuesto
+                  </Typography>
+                  <Typography paragraph>
+                  XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                     {/* {postInfo.plata ?} */}
+                  </Typography>  
+
                 <Button
                   variant="contained"
                   color="primary"
