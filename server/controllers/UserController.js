@@ -1,4 +1,6 @@
 const model=require('../models');
+const freelancerController=require('./FreelancerController')
+const contratistaController=require('./ContratistaController')
 
 
 
@@ -6,7 +8,7 @@ module.exports={
     update (req,res){
         model.User.update({    
             nombre: req.body.name,
-            correo: req.body.correo,
+            email: req.body.email,
             //contraseña: req.body.contraseña,
             pais: req.body.pais,
             ciudad:req.body.ciudad,
@@ -21,7 +23,7 @@ module.exports={
         }, {where: {id: req.user.id}})
         
         .then(function(){
-           //if(req.user.rol=='developer') developerController.update(req,res);
+           if(req.user.rol=='developer') developerController.update(req,res);
            //else contractorController.update(req,res);   
            res.send({message:'todo fino'})
         })
@@ -29,19 +31,9 @@ module.exports={
         
     },
 
-    delete (req,res){
-        model.User.destroy(    
-         {where: {id: req.user.id}}).then(function(){
-           //if(req.user.rol=='developer') developerController.delete(req,res);
-           //else contractorController.delete(req,res);   
-        }).catch(err => {res.send({req: req}); 
-        console.log(err)}
-        );      
-    },
-
-    profileInformation(req,res){
-        //if(req.user.rol=='developer') developerController.profileInformation(req,res);
-        //else contractorController.profileInformation(req,res);
+    consultarPerfil(req,res){
+        if(req.user.rol=='freelancer') freelancerController.consultarPerfil(req,res);
+        else contratistaController.consultarPerfil(req,res);
     },
 
 

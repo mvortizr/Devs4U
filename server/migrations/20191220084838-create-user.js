@@ -14,10 +14,10 @@ module.exports = {
       rol: {
         type: Sequelize.STRING
       },
-      correo: {
+      email: {
         type: Sequelize.STRING
       },
-      contraseña: {
+      password: {
         type: Sequelize.STRING
       },
       pais: {

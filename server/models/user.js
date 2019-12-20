@@ -20,13 +20,13 @@ module.exports = (sequelize, DataTypes) => {
     },
 
 
-    correo: {
+    email: {
       type: DataTypes.STRING,
       validate: {
         isEmail: true,
-        isUnique(correo,next) {
+        isUnique(email,next) {
           const model=require('../models');
-          model.User.findAll({where: {correo: correo}})
+          model.User.findAll({where: {email: email}})
           .done((user) => {
             if (user!='')   return next('the user is already exist');
             next();
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
 
 
 
-    contraseña: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate:{
@@ -79,6 +79,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   User.associate = function(models) {
     User.hasOne(models.Contratista,{ foreignKey: 'usuarioId', as: 'contratista'});
+    User.hasOne(models.Freelancer,{foreingKey:'usuarioId',as:'freelancer'})
   };
   return User;
 };
