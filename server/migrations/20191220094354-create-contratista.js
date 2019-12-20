@@ -1,27 +1,15 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Developers', {
+    return queryInterface.createTable('Contratista', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      workHours: {
+      usuarioId: {
         type: Sequelize.INTEGER
-      },
-      developerType: {
-        type: Sequelize.STRING
-      },
-      userId: {
-        type: Sequelize.INTEGER
-      },
-      languages: {
-        type: Sequelize.ARRAY(Sequelize.TEXT) 
-      },
-      skills: {
-        type: Sequelize.ARRAY(Sequelize.TEXT) 
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +22,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Developers');
+    return queryInterface.dropTable('Contratista');
   }
 };

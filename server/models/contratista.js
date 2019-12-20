@@ -1,19 +1,17 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Contractor = sequelize.define('Contractor', {
-    workSearch: DataTypes.STRING,
-    enterprise: DataTypes.STRING,
-    userId: {
+  const Contratista = sequelize.define('Contratista', {
+    usuarioId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate:{
         notEmpty: true,
         isInt: true
       }
-    },
+    }
   }, {});
-  Contractor.associate = function(models) {
+  Contratista.associate = function(models) {
     // associations can be defined here
   };
-  return Contractor;
+  return Contratista;
 };

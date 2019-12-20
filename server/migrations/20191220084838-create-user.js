@@ -8,40 +8,46 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
-        type: Sequelize.STRING
-      },
-      lastName: {
-        type: Sequelize.STRING
-      },
-      email: {
-        type: Sequelize.STRING
-      },
-      password: {
-        type: Sequelize.STRING
-      },
-      aboutMe: {
-        type: Sequelize.TEXT
-      },
-      web: {
+      nombre: {
         type: Sequelize.STRING
       },
       rol: {
         type: Sequelize.STRING
       },
-      photo: {
+      correo: {
         type: Sequelize.STRING
       },
-      residence: {
+      contraseña: {
         type: Sequelize.STRING
       },
-      socialNetworks: {
-        type: Sequelize.JSON
-      },
-      available: {
+      pais: {
         type: Sequelize.STRING
       },
-      experience: {
+      ciudad: {
+        type: Sequelize.STRING
+      },
+      calificacionesMedia: {
+        type: Sequelize.FLOAT
+      },
+      sobreMi: {
+        type: Sequelize.TEXT
+      },
+      descripcionCorta: {
+        type: Sequelize.STRING
+      },
+      web: {
+        type: Sequelize.STRING
+      },
+      linkedin: {
+        type: Sequelize.STRING
+      },
+      facebook: {
+        type: Sequelize.STRING
+      },
+      instagram: {
+        type: Sequelize.STRING
+      },
+      twitter: {
         type: Sequelize.STRING
       },
       createdAt: {

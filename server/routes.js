@@ -12,7 +12,7 @@ const {checkAuthentication}=require('./controllers/auth/AuthenticationController
 
 //Controllers
 const userController = require('./controllers/UserController');
-const projectController=require('./controllers/ProjectController');
+//const projectController=require('./controllers/ProjectController');
 
 
 
@@ -25,18 +25,18 @@ router.post('/check/auth',checkAuthentication);
 
 
 //Rutas del perfil
-router.get('/profile/:rol',ensureAuthenticated, userController.profileInformation);//listo
-router.put('/profile/edit',ensureAuthenticated, userController.update);//listo
+//router.get('/profile/:rol',ensureAuthenticated, userController.profileInformation);//listo
+//router.put('/profile/edit',ensureAuthenticated, userController.update);//listo
 //router.post('/delete',ensureAuthenticated, userController.delete);
 
 
 
 //Rutas de proyectos
-router.get('/projects',projectController.index)//listo
-router.post('/project/create', projectController.store);//listo
-router.get('/project/show/:id',projectController.show)//Faltan las buenas relaciones, pero creo que listo
-router.put('/project/edit/:id',projectController.update) //listo
-router.delete('/project/delete/:id',projectController.destroy)
+//router.get('/projects',projectController.index)//listo
+//router.post('/project/create', projectController.store);//listo
+//router.get('/project/show/:id',projectController.show)//Faltan las buenas relaciones, pero creo que listo
+//router.put('/project/edit/:id',projectController.update) //listo
+//router.delete('/project/delete/:id',projectController.destroy)
 
 
 

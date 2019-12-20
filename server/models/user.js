@@ -1,66 +1,84 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    firstName: {
+    nombre: {
       type: DataTypes.STRING,
       allowNull: false,
       validate:{
         notEmpty: true
       }
     },
-    lastName:  {
+
+
+
+    rol:{
       type: DataTypes.STRING,
       allowNull: false,
       validate:{
         notEmpty: true
       }
     },
-    email: {
+
+
+    correo: {
       type: DataTypes.STRING,
       validate: {
         isEmail: true,
-        isUnique(email,next) {
+        isUnique(correo,next) {
           const model=require('../models');
-          model.User.findAll({where: {email: email}})
+          model.User.findAll({where: {correo: correo}})
           .done((user) => {
             if (user!='')   return next('the user is already exist');
             next();
           });
         }
-      },
-      allowNull: false
-  },
-    password: {
+      }
+    },
+    
+
+
+
+    contraseña: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notEmpty: true
+      }
+    },
+
+
+    pais: {
       type: DataTypes.STRING,
       allowNull: false,
       validate:{
         notEmpty: true
       } 
     },
-    aboutMe: DataTypes.TEXT,
-    web: DataTypes.STRING,
-    rol: {
+
+    ciudad: {
       type: DataTypes.STRING,
       allowNull: false,
       validate:{
         notEmpty: true
+      } 
+    },
+
+    calificacionesMedia: {
+      type: DataTypes.FLOAT,
+      validate:{
+        isFloat: true
       }
     },
-    photo: DataTypes.STRING,
-    residence: DataTypes.STRING,
-    socialNetworks: DataTypes.JSON,
-    available: DataTypes.STRING,
-    experience: DataTypes.STRING
+    sobreMi: DataTypes.TEXT,
+    descripcionCorta: DataTypes.STRING,
+    web: DataTypes.STRING,
+    linkedin: DataTypes.STRING,
+    facebook: DataTypes.STRING,
+    instagram: DataTypes.STRING,
+    twitter: DataTypes.STRING
   }, {});
   User.associate = function(models) {
-    
-    //Info Relationship 
-    User.hasOne(models.Developer,{ foreignKey: 'userId', as: 'developer'});
-    User.hasOne(models.Contractor,{foreignKey: 'userId', as: 'contractor'});
-
-    //Project relationship
-    User.hasMany(models.Project, {foreignKey: 'contractorId', as: 'contractorProject'})
-    User.hasMany(models.Project, {foreignKey: 'developerId', as: 'developerProject'})
+    User.hasOne(models.Contratista,{ foreignKey: 'usuarioId', as: 'contratista'});
   };
   return User;
 };
