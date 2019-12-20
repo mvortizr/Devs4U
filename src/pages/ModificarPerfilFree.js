@@ -28,17 +28,6 @@ function Copyright() {
     </Typography>
   );
 }
-{/*
-const [free, setFree] = React.useState('');
-const inputLabel = React.useRef(null);
-  const [labelWidth, setLabelWidth] = React.useState(0);
-  React.useEffect(() => {
-    setLabelWidth(inputLabel.current.offsetWidth);
-  }, []);
-const handleChange = event => {
-  setFree(event.target.value);
-};
- */}
 
 const drawerWidth = 240;
 
@@ -144,10 +133,26 @@ const useStyles = makeStyles(theme => ({
   cardContent: {
     flexGrow: 1,
   },
-
   markdown: {
     ...theme.typography.body2,
     padding: theme.spacing(3, 0),
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    width: '250px',
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  buttonCan:{
+    backgroundColor: "#FF0000",
+    marginRight: "50px",
+    color: "#ffff"
+  },
+  buttonSave:{
+    backgroundColor: "#516FDE",
+    color: "#ffff",
+    marginRight: "50px",
   },
 }));
 
@@ -192,18 +197,20 @@ export default function Dashboard() {
 
   const [user, setUser] = React.useState({});
   const [newUserInfo, setNewUserInfo] = React.useState({});
-  const[redirect, setRedirect]=React.useState(false);
+  const [redirect, setRedirect]=React.useState(false);
+  const [type, setType] = React.useState('');
+  const inputLabel = React.useRef(null); 
 
-    React.useEffect(() => {
-       axios.post(`/profile/developer`)
-            .then((response) => {
-                 console.log('response perfil free modificar', response);
-                 setUser(response.data.user);
-            }, (error) => {
-                console.log(error);
-        });
-     
-    }, []);
+  React.useEffect(() => {
+      axios.post(`/profile/developer`)
+          .then((response) => {
+                console.log('response perfil free modificar', response);
+                setUser(response.data.user);
+          }, (error) => {
+              console.log(error);
+      });
+    
+  }, []);
 
   const handleModification = () =>{
     axios.post('/edit', dummyDataFree)
@@ -222,7 +229,10 @@ export default function Dashboard() {
         });
   }
 
-  
+  const handleChange = event => {
+    setType(event.target.value);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -242,8 +252,10 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Perfil
           </Typography>
-           
-          <Button type="button" variant="contained" color="secondary" className={classes.button} onClick={handleModification} >
+          <Button type="button" variant="contained" className={classes.buttonCan}>
+            Cancelar
+          </Button>
+          <Button type="button" variant="contained" className={classes.buttonSave} onClick={handleModification} >
             Guardar Cambios
           </Button>
           
@@ -465,20 +477,24 @@ export default function Dashboard() {
                 </Typography>
 
 
-                {/* 
                 <FormControl className={classes.formControl}>
-                <InputLabel>Tipo de Freelancer</InputLabel>
-                <Select
-                value={free}
-                onChange={handleChange}
-                >
-                  <MenuItem value={10}>Desarrollador Web</MenuItem>
-                  <MenuItem value={20}>Desarrollador de Móvil</MenuItem>
-                  <MenuItem value={30}>Q/A</MenuItem>
-                  <MenuItem value={40}>Otros</MenuItem>
-                </Select>
+                  <InputLabel shrink id="label">
+                    Tipo de freelancer
+                  </InputLabel>
+                  <Select
+                    labelId="label"
+                    id="typefreelancer"
+                    value={type}
+                    onChange={handleChange}
+                    displayEmpty
+                    className={classes.selectEmpty}
+                  >
+                    <MenuItem value={1}>Uno</MenuItem>
+                    <MenuItem value={2}>Dos</MenuItem>
+                    <MenuItem value={3}>Tres</MenuItem>
+                  </Select>
                 </FormControl>
-                */}
+               
 
                 <Typography paragraph>
                     Idiomas:
