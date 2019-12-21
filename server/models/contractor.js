@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Contratista = sequelize.define('Contratista', {
+  const Contractor = sequelize.define('Contractor', {
     usuarioId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -9,9 +9,9 @@ module.exports = (sequelize, DataTypes) => {
         isInt: true
       }
     }
-  }, {});
-  Contratista.associate = function(models) {
+  }, {freezeTableName: true});
+  Contractor.associate = function(models) {
     // associations can be defined here
   };
-  return Contratista;
+  return Contractor;
 };

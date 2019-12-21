@@ -20,14 +20,14 @@ const userController = require('./controllers/UserController');
 router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', logout);
-router.post('/check/auth',checkAuthentication);
+router.get('/check',checkAuthentication);
 
 
 
 //Rutas del perfil
 router.get('/profile',ensureAuthenticated, userController.consultarPerfil);
 router.put('/profile/edit',ensureAuthenticated, userController.modificarPerfil);//listo
-//router.post('/delete',ensureAuthenticated, userController.delete);
+router.delete('/profile/delete',ensureAuthenticated, userController.eliminarPerfil);
 
 
 

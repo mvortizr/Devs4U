@@ -4,8 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     usuarioId: DataTypes.INTEGER,
     tiempoExperiencia: DataTypes.STRING,
     tipoFreelancer: DataTypes.STRING,
-    status: DataTypes.STRING
-  }, {});
+    status: DataTypes.STRING,
+    habilidades:DataTypes.ARRAY(DataTypes.TEXT),
+    /*seniority:{
+      type: DataTypes.STRING,
+    },*/
+  }, {freezeTableName: true});
   Freelancer.associate = function(models) {
     // associations can be defined here
   };

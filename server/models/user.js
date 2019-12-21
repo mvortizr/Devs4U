@@ -10,6 +10,13 @@ module.exports = (sequelize, DataTypes) => {
     },
 
 
+    apellido: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notEmpty: true
+      }
+    },
 
     rol:{
       type: DataTypes.STRING,
@@ -36,8 +43,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     
 
-
-
     password: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -46,21 +51,29 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
 
-
-    pais: {
+    /*
+    foto: {
       type: DataTypes.STRING,
       allowNull: false,
       validate:{
         notEmpty: true
-      } 
+      }
+    },
+
+    seniority:{
+      type: DataTypes.STRING,
+    },
+
+    */
+
+    pais: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
 
     ciudad: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate:{
-        notEmpty: true
-      } 
     },
 
     calificacionesMedia: {
@@ -75,10 +88,11 @@ module.exports = (sequelize, DataTypes) => {
     linkedin: DataTypes.STRING,
     facebook: DataTypes.STRING,
     instagram: DataTypes.STRING,
+    idiomas:DataTypes.ARRAY(DataTypes.TEXT),
     twitter: DataTypes.STRING
-  }, {});
+  }, {freezeTableName: true});
   User.associate = function(models) {
-    User.hasOne(models.Contratista,{ foreignKey: 'usuarioId', as: 'contratista'});
+    User.hasOne(models.Contractor,{ foreignKey: 'usuarioId', as: 'contratista'});
     User.hasOne(models.Freelancer, { foreignKey: 'usuarioId',as:'freelancer'})
   };
   return User;
