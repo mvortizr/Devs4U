@@ -18,6 +18,6 @@ module.exports={
         })
         .then(function(contratista){ res.send(contratista)})
         .catch(err => res.status(400).json('Error: ' + err));
-    }
+    },
 
 }
