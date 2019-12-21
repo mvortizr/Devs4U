@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import EliminarProyectoDialog from '../components/Dialog'
 import { Link as DomLink } from 'react-router-dom'
 import Header from './Header'
+import PersonIcon from '@material-ui/icons/Person'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 
 function Copyright() {
   return (
@@ -123,7 +125,7 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(8)
   },
   card: {
-    height: '100%',
+    maxHeight: "180px",
     display: 'flex',
     flexDirection: 'column'
   },
@@ -141,16 +143,22 @@ const useStyles = makeStyles(theme => ({
   },
   media:{
     backgroundColor:"#FFC100",
-    height: "50px"
+    height: "20px"
 },
-grid:{
-  marginTop:"80px"
-}
+  grid:{
+    marginTop:"80px",
+  },
+  text: {
+    marginRight: "15px"
+  },
+  text2: {
+    marginLeft: "15px"
+  },
 }))
 
-export default function ConsultPortfolio() {
+export default function ConsultPortfolio(props) {
   const classes = useStyles()
-  var cards = [1, 2, 3, 4, 5, 6]
+  var cards = [1, 2, 3, 4, 5]
   const [open, setOpen] = React.useState(true)
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -171,66 +179,124 @@ export default function ConsultPortfolio() {
     setOpenDialog(false)
   }
 
+if(props.type=="contractor"){
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Header type="developer"/>
+      <Header type="contractor"/>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
           <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-            Mi Portafolio
+            Proyectos Finalizados de Desarrollador 
           </Typography>
           {/* End hero unit */}
           <Grid container spacing={4} className={classes.grid}>
             {cards.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+              <Grid item key={card} xs={12} sm={6} md={12}>
                 <Card className={classes.card}>
                     <CardMedia
                       className={classes.media}
                       />
                     <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Título del Proyecto
-                    </Typography>
-                    <Typography>Descripción del proyecto.</Typography>
-                  </CardContent>
-                  <CardActions>
-                    <DomLink
-                      to="/portafolio/consultar"
-                      style={{
-                        textDecoration: 'none',
-                        color: 'rgb(33,40,53)'
-                      }}>
-                      <Button size="small" color="primary">
-                        <Link variant="body2">Consultar</Link>
+                    <Typography content="h2" variant="h6"> 
+                      <strong className={classes.text}>Proyecto</strong><PersonIcon /> Carlos Cristian Gomez<CheckCircleIcon className={classes.text2}/> Finalizado 
+                      <DomLink to="/portafolio/consultar" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                      <Button variant="contained" className={classes.text2}>
+                        Ver 
                       </Button>
-                    </DomLink>
-                    <Button size="small" color="primary">
-                      <Link variant="body2">Modificar</Link>
-                    </Button>
-                    <Button
-                      size="small"
-                      className={classes.delete}
-                      onClick={handleClickOpenDialog}>
-                      <Link variant="body2" className={classes.delete}>
-                        Eliminar
-                      </Link>
-                    </Button>
-                  </CardActions>
+                      </DomLink>
+                    </Typography>
+                  </CardContent>
                 </Card>
               </Grid>
             ))}
           </Grid>
         </Container>
         <Copyright />
-        <EliminarProyectoDialog
-          content="¿Está seguro que desea cancelar el proyecto de su portafolio?"
-          title="Eliminar proyecto"
-          handleCloseDialog={handleCloseDialog}
-          open={openDialog}
-        />
       </main>
     </div>
-  )
+  );
+}else{
+  if(props.type=="developer"){
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <Header type="developer"/>
+        <main className={classes.content}>
+          <div className={classes.appBarSpacer} />
+          <Container className={classes.cardGrid} maxWidth="md">
+            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+              Tus Proyectos Finalizados 
+            </Typography>
+            {/* End hero unit */}
+            <Grid container spacing={4} className={classes.grid}>
+              {cards.map(card => (
+                <Grid item key={card} xs={12} sm={6} md={12}>
+                  <Card className={classes.card}>
+                      <CardMedia
+                        className={classes.media}
+                        />
+                      <CardContent className={classes.cardContent}>
+                      <Typography content="h2" variant="h6"> 
+                        <strong className={classes.text}>Proyecto</strong><PersonIcon /> Carlos Cristian Gomez<CheckCircleIcon className={classes.text2}/> Finalizado 
+                        <Button variant="contained" className={classes.text2}>
+                          Ocultar de Portafolio 
+                        </Button>
+                        <DomLink to="/portafolio/consultar" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                        <Button variant="contained" className={classes.text2}>
+                          Ver 
+                        </Button>
+                        </DomLink>
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+          <Copyright />
+        </main>
+      </div>
+    );
+  }else{
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <Header type="developer"/>
+        <main className={classes.content}>
+          <div className={classes.appBarSpacer} />
+          <Container className={classes.cardGrid} maxWidth="md">
+            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+              Proyectos Finalizados de Desarrollador 
+            </Typography>
+            {/* End hero unit */}
+            <Grid container spacing={4} className={classes.grid}>
+              {cards.map(card => (
+                <Grid item key={card} xs={12} sm={6} md={12}>
+                  <Card className={classes.card}>
+                      <CardMedia
+                        className={classes.media}
+                        />
+                      <CardContent className={classes.cardContent}>
+                      <Typography content="h2" variant="h6"> 
+                        <strong className={classes.text}>Proyecto</strong><PersonIcon /> Carlos Cristian Gomez<CheckCircleIcon className={classes.text2}/> Finalizado 
+                        <DomLink to="/portafolio/consultar" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                        <Button variant="contained" className={classes.text2}>
+                          Ver 
+                        </Button>
+                        </DomLink>
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+          <Copyright />
+        </main>
+      </div>
+    );
+  }
+}
 }

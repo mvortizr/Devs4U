@@ -25,6 +25,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import fotoPerfil from './images/fotoPerfil.png';
 
 const drawerWidth = 240
 
@@ -137,6 +138,16 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: {
     flexGrow: 1
+  },
+  searchbar: {
+    marginRight: "100px"
+  },
+  foto:{
+    width: '40px',
+    height: '40px',
+    borderRadius: '20px',
+    marginLeft: "15px",
+    marginRight: "10px"
   }
 }))
 
@@ -199,13 +210,13 @@ if(props.type=="contractor"){
                 </IconButton>
                 <Typography
                     component="h1"
-                    variant="h6"
+                    variant="h4"
                     color="inherit"
                     noWrap
                     className={classes.title}>
                     Devs4U
                 </Typography>
-                <Searchbar />
+                <Searchbar className={classes.searchbar}/>
                 <IconButton color="inherit">
                     {/*badgeContent muestra la cantidad de notificaciones*/}
                     <Badge badgeContent={0} color="secondary">
@@ -263,18 +274,27 @@ if(props.type=="contractor"){
                   </IconButton>
                   <Typography
                     component="h1"
-                    variant="h6"
+                    variant="h4"
                     color="inherit"
                     noWrap
                     className={classes.title}>
                     Devs4U
                   </Typography>
+                  <Searchbar className={classes.searchbar}/>
                   <IconButton color="inherit">
                     {/*badgeContent muestra la cantidad de notificaciones*/}
                     <Badge badgeContent={0} color="secondary">
                       <NotificationsIcon />
                     </Badge>
                   </IconButton>
+                  <img src={fotoPerfil} className={classes.foto}/>
+                  <Typography
+                    component="h1"
+                    variant="h6"
+                    color="inherit"
+                    noWrap>
+                    Desarrollador
+                  </Typography>
                 </Toolbar>
               </AppBar>
               <Drawer

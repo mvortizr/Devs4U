@@ -50,7 +50,6 @@ function App() {
 			
 		{/*Consulta de Perfil freelancer*/}
 		 <Route exact path='/profile/consult/freelancer/:id' render={ (props)=> <PerfilConsulFree {...props}/>}/>
-		 <Route exact path='/profile/consult/freelancer/portfolio' render={ ()=> <ConsultPortfolioCont/>}/>
 		 <Route exact path='/project/view/contractor' render={ ()=> <ConsultProjectViewCont/>}/>
 
 		  {/*Project*/}
@@ -66,9 +65,10 @@ function App() {
 		  <Route exact path='/project/manage/freelancer/consult' render={ ()=> <ConsultProjectInDevelopment/>}/>
 		  <Route exact path='/project/process' render={ ()=> <ProjectProcess/>}/>
 
-		  
 		  {/*Portfolio*/}		  
-		  <Route exact path='/portafolio' render={ ()=> <ConsultPortfolio/>}/>
+		  <Route exact path='/portafolio' render={ ()=> <ConsultPortfolio type="developer"/>}/>
+		  <Route exact path='/portafolio/freelancer/contractor' render={ ()=> <ConsultPortfolio type="contractor"/>}/>
+		  <Route exact path='/portafolio/freelancer' render={ ()=> <ConsultPortfolio type="dev"/>}/>
 		  <Route exact path='/portafolio/consultar' render={ ()=> <ConsultProjectPortfolio/>}/>
 
           {/*Not Found*/}
