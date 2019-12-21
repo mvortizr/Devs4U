@@ -23,23 +23,16 @@ export const mainListItems = (
   <Link to="/project/manage/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListItem button>
       <ListItemIcon>
-        <WorkIcon />
+        <AssignmentTurnedInIcon />
       </ListItemIcon>
       <ListItemText primary="Proyectos" />
     </ListItem>
    </Link>
-{/*
-    <ListItem button>
-      <ListItemIcon>
-        <ChatIcon />
-      </ListItemIcon>
-      <ListItemText primary="Postulacion" />
-    </ListItem>
-*/}
+
     <Link to="/portafolio" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentTurnedInIcon />
+        <WorkIcon />
       </ListItemIcon>
       <ListItemText primary="Portafolio" />
     </ListItem>

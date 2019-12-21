@@ -5,7 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
-import WorkIcon from '@material-ui/icons/Work';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import {Link}from "react-router-dom";
 
 export const mainListItemsC = (
@@ -23,26 +23,11 @@ export const mainListItemsC = (
     <Link to="/project/manage/contractor" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListItem button>
       <ListItemIcon>
-        <WorkIcon />
+        <AssignmentTurnedInIcon />
       </ListItemIcon>
       <ListItemText primary="Proyectos" />
     </ListItem>
     </Link>
-    {/*
-    <ListItem button>
-      <ListItemIcon>
-        <ChatIcon />
-      </ListItemIcon>
-      <ListItemText primary="Chats de Negocios" />
-    </ListItem>
-    
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentTurnedInIcon />
-      </ListItemIcon>
-      <ListItemText primary="Entregas de Proyectos" />
-    </ListItem>
-    */}
   </div>
 );
 

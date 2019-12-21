@@ -5,18 +5,10 @@ import Login from './pages/Login';
 import Registration from './pages/Registration';
 import ConsultPortfolio from './pages/ConsultPortfolio';
 import ConsultProject from './pages/ConsultProject';
-import CancelProjectFree from './pages/CancelProjectFree';
-import CancelProjectCont from './pages/CancelProjectCont';
-import DeleteProfileFree from './pages/DeleteProfileFree';
-import DeleteProfileCont from './pages/DeleteProfileCont';
-import PerfilCont from './pages/PerfilCont';
-import PerfilFree from './pages/PerfilFree';
 import RecContrasena from './pages/RecContrasena';
 import ModPerFree from './pages/ModificarPerfilFree';
 import ModPerCont from './pages/ModificarPerfilCont';
 import RecContraMail from './pages/RecContraMail';
-import GestProjectContract from './pages/GestProjectContract';
-import GestProjectFreelancer from './pages/GestProjectFree';
 import PerfilConsulFree from './pages/PerfilConsulFree';
 import ConsultPortfolioCont from './pages/ConsultPortfolioCont';
 import ConsultProjectViewCont from './pages/ConsultProjectViewCont'
@@ -27,6 +19,7 @@ import CreateProject from './pages/CreateProject';
 import TestBackend from './pages/TestBackend';
 import Dashboard from './pages/Dashboard'
 import GestProject from './pages/GestProject'
+import ConsultProfile from './pages/ConsultProfile'
 
 
 import ProjectProcess from './pages/ProjectProcess';
@@ -50,9 +43,9 @@ function App() {
 		  <Route exact path='/dashboard/developer' render={ ()=> <Dashboard type="developer"/>}/>
 		  <Route exact path='/dashboard/contractor' render={ ()=> <Dashboard type="contractor"/>}/>
 		  {/*Profile*/}
-		  <Route exact path='/profile/freelancer' render={ ()=> <PerfilFree />}/>
-		  <Route exact path='/profile/contractor' render={ ()=> <PerfilCont/>}/>
-			<Route exact path='/profile/modify/free' render={ ()=> <ModPerFree/>}/>
+		  <Route exact path='/profile/freelancer' render={ ()=> <ConsultProfile type="developer"/>}/>
+		  <Route exact path='/profile/contractor' render={ ()=> <ConsultProfile type="contractor"/>}/>
+		  <Route exact path='/profile/modify/free' render={ ()=> <ModPerFree/>}/>
 		  <Route exact path='/profile/modify/cont' render={ ()=> <ModPerCont/>}/>
 			
 		{/*Consulta de Perfil freelancer*/}
@@ -81,10 +74,6 @@ function App() {
           {/*Not Found*/}
 	      <Route component={NotFound} />
 
-	  		{/*No las usare*/}
-	  		{/* <Route exact path='/removeprojectportfolio' render={ ()=> <RemoveProjectPortfolio/>}/>
-	  		<Route exact path='/profile/delete' render={ ()=> <DeleteProfileFree/>}/>
-		  <Route exact path='/profile/delete' render={ ()=> <DeleteProfileCont/>}/> */}
 	    </Switch>
     </Router>
   );
