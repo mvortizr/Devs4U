@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     cargo: DataTypes.STRING,
     anoInicio: DataTypes.INTEGER,
     anoFin: DataTypes.INTEGER
-  }, {});
+  },  {freezeTableName: true});
   Experiencia.associate = function(models) {
     // associations can be defined here
   };

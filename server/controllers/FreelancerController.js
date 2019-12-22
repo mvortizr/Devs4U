@@ -19,8 +19,7 @@ module.exports={
             where: {id: req.user.id},
             include:['freelancer','educacion','experiencia']
         })
-        .then(function(freelancer){ 
-            res.send(freelancer)})
+        .then(function(freelancer){res.send(freelancer)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -38,13 +37,9 @@ module.exports={
     
     eliminarPerfil(req,res){
         model.Freelancer.destroy({
-            where: {
-                usuarioId: req.user.id
-            }
+            where: {usuarioId: req.user.id}
         })
-        .then(function () {
-           res.send(200,{message:'Usuario eliminado exitosamente'})
-        })
+        .then(function () {res.send(200,{message:'Usuario eliminado exitosamente'})})
         .catch((error) => { res.status(400).send(error); });
     },
 
@@ -62,14 +57,12 @@ module.exports={
     },
 
     listarFreelancers(req,res){
-        model.User.findAll({where:{
-            rol:'freelancer'
-        },
-        include:['freelancer','educacion','experiencia']
-    })
-
-    .then(function(freelancers){res.send(freelancers)})
-    .catch(err => res.status(400).json('Error: ' + err));
+        model.User.findAll({
+            where:{rol:'freelancer'},
+            include:['freelancer','educacion','experiencia']
+        })
+        .then(function(freelancers){res.send(freelancers)})
+        .catch(err => res.status(400).json('Error: ' + err));
     }
 
 }

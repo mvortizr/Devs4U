@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     tituloObtenido: DataTypes.STRING,
     anoInicio: DataTypes.INTEGER,
     anoFin: DataTypes.INTEGER
-  }, {});
+  });
   Educacion.associate = function(models) {
     
   };

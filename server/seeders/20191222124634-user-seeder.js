@@ -1,4 +1,5 @@
 'use strict';
+const bcrypt = require('bcryptjs');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -7,8 +8,8 @@ module.exports = {
         nombre: 'Hermes',
         apellido:'Sanchez',
         rol:'freelancer',
-        email: 'hermessamuel10@hotmail.com',
-        password: '123456',
+        email: '1@1.com',
+        password:'$2a$10$HXQowD0NbH.JINzeAnioHeAoF41lycDZYl91nbs6yqAdYTZq7Y09e',
         foto: 'xxx',
         pais: 'venezuela',
         ciudad: 'caracas',
@@ -28,8 +29,8 @@ module.exports = {
         nombre: 'Maria',
         apellido:'Veronica',
         rol:'freelancer',
-        email: 'Mariatua2@gmail.com',
-        password: '123456',
+        email: '2@2.com',
+        password: '$2a$10$HXQowD0NbH.JINzeAnioHeAoF41lycDZYl91nbs6yqAdYTZq7Y09e',
         foto: 'xxx',
         pais: 'venezuela',
         ciudad: 'caracas',
@@ -49,8 +50,8 @@ module.exports = {
         nombre: 'Rabindra',
         apellido:'Harichand',
         rol:'contractor',
-        email: 'rabindra1@gmail.com',
-        password: '123456',
+        email: '3@3.com',
+        password: '$2a$10$HXQowD0NbH.JINzeAnioHeAoF41lycDZYl91nbs6yqAdYTZq7Y09e',
         foto: 'xxx',
         pais: 'venezuela',
         ciudad: 'caracas',
@@ -71,8 +72,8 @@ module.exports = {
         nombre: 'David',
         apellido:'Zacarias',
         rol:'contractor',
-        email: 'zacarias@gmail.com',
-        password: '123456',
+        email: '4@4.com',
+        password: '$2a$10$HXQowD0NbH.JINzeAnioHeAoF41lycDZYl91nbs6yqAdYTZq7Y09e',
         foto: 'xxx',
         pais: 'venezuela',
         ciudad: 'caracas',
