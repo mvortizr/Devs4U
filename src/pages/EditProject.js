@@ -12,7 +12,10 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Header from './Header'
-
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
 
 function Copyright() {
   return (
@@ -31,41 +34,41 @@ const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
   },
   toolbar: {
-    paddingRight: 24 // keep right padding when drawer closed
+    paddingRight: 24, // keep right padding when drawer closed
   },
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   menuButton: {
-    marginRight: 36
+    marginRight: 36,
   },
   menuButtonHidden: {
-    display: 'none'
+    display: 'none',
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   drawerPaper: {
     position: 'relative',
@@ -73,85 +76,93 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   drawerPaperClose: {
     overflowX: 'hidden',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9)
-    }
+      width: theme.spacing(9),
+    },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
-    backgroundColor: theme.palette.background.paper,
     flexGrow: 1,
     height: '100vh',
-    overflow: 'auto'
+    overflow: 'auto',
   },
   container: {
     paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
+    paddingBottom: theme.spacing(4),
   },
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   fixedHeight: {
-    height: 240
+    height: 240,
   },
   icon: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6)
+    padding: theme.spacing(8, 0, 6),
   },
   heroButtons: {
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8)
+    paddingBottom: theme.spacing(8),
   },
   card: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   cardMedia: {
-    paddingTop: '56.25%' // 16:9
+    paddingTop: '56.25%', // 16:9
   },
   cardContent: {
-    flexGrow: 1
+    flexGrow: 1,
   },
-
   markdown: {
     ...theme.typography.body2,
-    padding: theme.spacing(3, 0)
+    padding: theme.spacing(3, 0),
   },
-
-  button1: {
-    marginRight: '350px'
+  formControl: {
+    margin: theme.spacing(1),
+    width: '250px',
   },
-  button2: {
-    margin: theme.spacing(1)
+  selectEmpty: {
+    marginTop: theme.spacing(2),
   },
-  grid:{
-    marginTop:"50px"
-  }
+  buttonCan:{
+    backgroundColor: "#FF0000",
+    marginRight: "50px",
+    color: "#ffff"
+  },
+  buttonSave:{
+    backgroundColor: "#516FDE",
+    color: "#ffff",
+    marginRight: "50px",
+  },
 }))
 
 export default function CreateProject() {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
+  const [type, setType] = React.useState('');
+  const inputLabel = React.useRef(null); 
+
   const handleDrawerOpen = () => {
     setOpen(true)
   }
@@ -164,6 +175,10 @@ export default function CreateProject() {
     const handleDateChange = date => {
       setSelectedDate(date);
     };
+
+  const handleChange = event => {
+    setType(event.target.value);
+  };
   
   return (
     <div className={classes.root}>
@@ -178,29 +193,44 @@ export default function CreateProject() {
               </Typography>
           <Grid container spacing={5} className={classes.mainGrid} className={classes.grid}>
             {/* Main content */}
-            <Grid item xs={12} md={8}>
+            <Grid item xs={12} md={7}>
               <Typography variant="h6" gutterBottom>
                 Nombre del Proyecto:
               </Typography>
-              <TextField variant="outlined" fullWidth id="nombre" label="Objeto nombre Proyecto"/>
-              <Divider />
-
+              <TextField
+              variant="outlined" 
+              fullWidth
+              defaultValue="Nombre del Proyecto"
+              inputProps={{ maxLength: 22 }}
+              />
+              <br/><Divider />
               <Typography variant="h6" gutterBottom>
-                Descripción
+                Descripción:
               </Typography>
-              <TextField variant="outlined" fullWidth id="descripcion" label="Objeto"/>
-              
+              <TextField variant="outlined" fullWidth id="descripcion" defaultValue="Nsadotfcvrty"
+                  inputProps={{ maxLength: 180 }}/>
+              <br/>
+              <Grid item xs={12} md={12}>
+                    <Divider/>
+                  </Grid>
 
               {/*Si queda tiempo, poner más bonito los objetivos */}
               <Typography variant="h6" gutterBottom>
-                Objetivos
+                Objetivos:
               </Typography>
               <ul>
-                <li><TextField variant="outlined" fullWidth id="obj1" value="Objeto"/></li>
-                <li><TextField variant="outlined" fullWidth id="obj2" label="Objeto"/></li>
-                <li><TextField variant="outlined" fullWidth id="obj3" label="Objeto"/></li>
+                <li><TextField variant="outlined" fullWidth id="obj1" defaultValue="objetivos"
+                  inputProps={{ maxLength: 180}}/></li> <br/>
+                <li><TextField variant="outlined" fullWidth id="obj2" defaultValue="objetivos"
+                  inputProps={{ maxLength: 180}}/></li> <br/>
+                <li><TextField variant="outlined" fullWidth id="obj3" defaultValue="objetivos"
+                  inputProps={{ maxLength: 180}}/></li>
               </ul>
 
+
+
+
+              {/*VALIDAR LAS FECHAS */}
               <Typography variant="h6" gutterBottom>
                 Etapas del Proyecto
               </Typography>
@@ -252,19 +282,60 @@ export default function CreateProject() {
               <Typography variant="h6" gutterBottom>
                 Entregables (lo que debe entregarle el freelancer)
               </Typography>
-              <TextField variant="outlined" fullWidth id="entregables" />
-              <Divider />
+              <TextField variant="outlined" fullWidth id="entregables" defaultValue="JASBNDVUINBSUVIO"
+                  inputProps={{ maxLength: 180}}/>
+              <Divider /><br/>
 
               {/*Si queda tiempo, poner más bonito los objetivos */}
               <Typography variant="h6" gutterBottom>
                 Datos Adicionales
               </Typography>
               <ul>
-                <li><TextField variant="outlined" fullWidth id="datosA1" /></li>
-                <li><TextField variant="outlined" fullWidth id="datosA2" /></li>
-                <li><TextField variant="outlined" fullWidth id="datosA3" /></li>
+                <li><TextField variant="outlined" fullWidth id="datosA1" defaultValue="datos"
+                  inputProps={{ maxLength: 180}}/></li><br/>
+                <li><TextField variant="outlined" fullWidth id="datosA2" defaultValue="datos"
+                  inputProps={{ maxLength: 180}}/></li><br/>
+                <li><TextField variant="outlined" fullWidth id="datosA3" defaultValue="datos"
+                  inputProps={{ maxLength: 180}}/></li>
               </ul>
+            </Grid>
+            <Grid>
+              <Divider orientation="vertical"/>
+            </Grid>
+            {/* End main content */}
+            {/* Sidebar */}
+            <Grid item xs={12} md={4}>
+              <Paper elevation={0} className={classes.sidebarAboutBox}>     
+              <FormControl className={classes.formControl}>
+                    <InputLabel shrink id="label">
+                      Tipo de Proyecto
+                    </InputLabel>
+                    <Select
+                      labelId="label"
+                      id="typefreelancer"
+                      value={type}
+                      onChange={handleChange}
+                      displayEmpty
+                      className={classes.selectEmpty}
+                    >
+                      <MenuItem value={1}>Web</MenuItem>
+                      <MenuItem value={2}>Desarrollador Móvil</MenuItem>
+                      <MenuItem value={3}>Q/A</MenuItem>
+                      <MenuItem value={4}>Otros</MenuItem>
+                    </Select>
+              </FormControl>
+              <Typography variant="h6" gutterBottom>
+                Tecnologías a Usar
+              </Typography>
+              <TextField variant="outlined" fullWidth id="tecnologías" defaultValue="datos"
+                  inputProps={{ maxLength: 22}}/>
 
+              <Typography variant="h6" gutterBottom>
+                Presupuesto
+              </Typography>
+              <TextField variant="outlined" type="number" defaultValue="datos"
+                  inputProps={{ maxLength: 22}} fullWidth id="Presupuesto" />
+              
               <Button
                 variant="contained"
                 color="primary"
@@ -279,27 +350,6 @@ export default function CreateProject() {
                 href="/project/manage/contractor">
                 Cancelar
               </Button>
-            </Grid>
-            {/* End main content */}
-
-            {/* Sidebar */}
-            <Grid item xs={12} md={4}>
-              <Paper elevation={0} className={classes.sidebarAboutBox}>     
-
-              <Typography variant="h6" gutterBottom>
-                Tipo de Proyecto
-              </Typography>
-              <TextField variant="outlined" fullWidth id="tipoProyecto" />
-
-              <Typography variant="h6" gutterBottom>
-                Tecnologías a Usar
-              </Typography>
-              <TextField variant="outlined" fullWidth id="tecnologías" />
-
-              <Typography variant="h6" gutterBottom>
-                Presupuesto
-              </Typography>
-              <TextField variant="outlined" fullWidth id="Presupuesto" />
             </Paper>
             </Grid>
           </Grid>

@@ -6,11 +6,9 @@ import Registration from './pages/Registration';
 import ConsultPortfolio from './pages/ConsultPortfolio';
 import ConsultProject from './pages/ConsultProject';
 import RecContrasena from './pages/RecContrasena';
-import ModPerFree from './pages/ModificarPerfilFree';
-import ModPerCont from './pages/ModificarPerfilCont';
+import EditProfile from './pages/EditProfile';
 import RecContraMail from './pages/RecContraMail';
 import PerfilConsulFree from './pages/PerfilConsulFree';
-import ConsultPortfolioCont from './pages/ConsultPortfolioCont';
 import ConsultProjectViewCont from './pages/ConsultProjectViewCont'
 import ConsultProjectPortfolio from './pages/ConsultProjectPortfolio';
 import EditProject from './pages/EditProject';
@@ -45,8 +43,9 @@ function App() {
 		  {/*Profile*/}
 		  <Route exact path='/profile/freelancer' render={ ()=> <ConsultProfile type="developer"/>}/>
 		  <Route exact path='/profile/contractor' render={ ()=> <ConsultProfile type="contractor"/>}/>
-		  <Route exact path='/profile/modify/free' render={ ()=> <ModPerFree/>}/>
-		  <Route exact path='/profile/modify/cont' render={ ()=> <ModPerCont/>}/>
+		  <Route exact path='/profile/modify/free' render={ ()=> <EditProfile type="developer"/>}/>
+		  <Route exact path='/profile/modify/cont' render={ ()=> <EditProfile type="contractor"/>}/>
+		  {/*<Route exact path='/profile/modify/cont' render={ ()=> <ModPerCont/>}/> */}
 			
 		{/*Consulta de Perfil freelancer*/}
 		 <Route exact path='/profile/consult/freelancer/:id' render={ (props)=> <PerfilConsulFree {...props}/>}/>
