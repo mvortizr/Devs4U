@@ -1,6 +1,7 @@
 const model=require('../models');
 const freelancerController=require('./FreelancerController')
 const contratistaController=require('./ContractorController')
+const uploadImage  = require('../middlewares/cloudinary');
 
 
 
@@ -45,6 +46,34 @@ module.exports={
             else if (req.user.rol=='contractor') contratistaController.eliminarPerfil(req,res);  
         })
         .catch((error) => { res.status(400).send(error); });
+    },
+
+    agregarFotoPerfil(req,res) {
+
+        console.log('req.file', req.file);
+    
+        if (req.file) { /* Check if there is an image */
+            uploadImage(req.file) /* If there is an image, upload it */
+            .then((result) => { /* If the upload is successful */
+                res.status(201).json({ /* Send back a success response */
+                status: 'success',
+                imageCloudData: result
+                });
+            })
+            .catch((error) => { /* If there is an error uploading the image */
+                res.status(400).json({ /* Send back an error response */
+                status: 'error',
+                message: error.message
+                });
+            });
+        } else { /* If there is no image  */
+            res.status(400).json({ /* Send back a failure message */
+            status: 'failed',
+            message: 'No image file was uploaded'
+            });
+        }
+          
+           
     },
 
 

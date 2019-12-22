@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const storage = require('./middlewares/multerConfig')
+const multer = require('multer')
+const upload = multer(storage)
 
 //Middlewares
 const { ensureAuthenticated, forwardAuthenticated } = require('./middlewares/auth');
@@ -26,7 +29,8 @@ router.get('/check',checkAuthentication);
 
 //Rutas del perfil
 router.get('/profile',ensureAuthenticated, userController.consultarPerfil);
-router.put('/profile/edit',ensureAuthenticated, userController.modificarPerfil);//listo
+router.put('/profile/edit',ensureAuthenticated, userController.modificarPerfil);
+router.put('/profile/addphoto',ensureAuthenticated, upload.single('image'), userController.agregarFotoPerfil);
 router.delete('/profile/delete',ensureAuthenticated, userController.eliminarPerfil);
 
 

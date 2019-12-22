@@ -25,7 +25,6 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 require('../config/passport')(passport);
-
     
 app.set('PORT', process.env.PORT || 5000);
 

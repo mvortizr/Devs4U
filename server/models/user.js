@@ -60,10 +60,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
 
-    seniority:{
-      type: DataTypes.STRING,
-    },
-
     */
 
     pais: {
