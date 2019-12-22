@@ -15,6 +15,8 @@ const {checkAuthentication}=require('./controllers/auth/AuthenticationController
 
 //Controllers
 const userController = require('./controllers/UserController');
+const experienciaController=require('./controllers/ExperienciaController')
+const educacionController=require('./controllers/EducacionController')
 //const projectController=require('./controllers/ProjectController');
 
 
@@ -32,8 +34,15 @@ router.get('/profile',ensureAuthenticated, userController.consultarPerfil);
 router.put('/profile/edit',ensureAuthenticated, userController.modificarPerfil);
 router.put('/profile/addphoto',ensureAuthenticated, upload.single('image'), userController.agregarFotoPerfil);
 router.delete('/profile/delete',ensureAuthenticated, userController.eliminarPerfil);
+router.post('/profile/addexperience', experienciaController.agregarExperiencia)
+router.put('/profile/editexpierence/:id',experienciaController.modificarExperiencia)
+router.delete('/profile/deleteexpierence/:id',experienciaController.eliminarExperiencia)
 
 
+
+router.post('/profile/addeducation',educacionController.agregarEducacion)
+router.put('/profile/editeducacion/:id',educacionController.modificarEducacion)
+router.delete('/profile/deleteducation/:id',educacionController.eliminarEducacion)
 
 
 //Rutas de proyectos

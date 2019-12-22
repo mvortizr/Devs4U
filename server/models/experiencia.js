@@ -1,0 +1,14 @@
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Experiencia = sequelize.define('Experiencia', {
+    freelancerId: DataTypes.INTEGER,
+    nombreEmpresa: DataTypes.STRING,
+    cargo: DataTypes.STRING,
+    anoInicio: DataTypes.INTEGER,
+    anoFin: DataTypes.INTEGER
+  }, {});
+  Experiencia.associate = function(models) {
+    // associations can be defined here
+  };
+  return Experiencia;
+};

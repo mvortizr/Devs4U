@@ -1,11 +1,10 @@
 {
-    "development": {
-      "username": "postgres",
-      "password": "postgres",
-      "database": "Devs4U",
-      "host": "127.0.0.1",
-      "dialect": "postgres",
-      "logging": false
-    }
+  "development": {
+    "username": "root",
+    "password": 123456789,
+    "database": "pruebasProyectoIng",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "logging": false
+  }
 }
-
