@@ -7,34 +7,6 @@ cloudinary.config({
     api_secret: 'fLSqyXKrNc5VbA5HzBwkYUIxXwg',
 });
 
-/*
-cloudinary.v2.uploader.upload_stream(cloudinaryOptions, function (error, result) {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result);
-        }
-      }).end(image.buffer);
-
-      cloudinary.uploader.upload(
-      path,
-      { public_id: `blog/${uniqueFilename}`, tags: `blog` }, // directory and tags are optional
-      function(err, image) {
-        if (err) return res.send(err)
-        console.log('file uploaded to Cloudinary')
-
-        var fs = require('fs')
-        fs.unlinkSync(path)
-
-        res.json(image)
-      }
-    )
-
-       const cloudinaryOptions = {
-      resource_type: 'raw', 
-      folder: 'devs4U',
-    }
-*/
 
 const uploadImage = (image) => {
     let uniqueFilename = new Date().toISOString();

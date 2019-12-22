@@ -9,6 +9,7 @@ module.exports={
     modificarPerfil(req,res){
         model.User.update({    
             nombre: req.body.nombre,
+            foto:req.body.foto,
             apellido:req.body.apellido,
             pais: req.body.pais,
             ciudad:req.body.ciudad,

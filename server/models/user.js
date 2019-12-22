@@ -51,16 +51,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
 
-    /*
+    
     foto: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate:{
-        notEmpty: true
-      }
+      type: DataTypes.STRING,    
     },
 
-    */
 
     pais: {
       type: DataTypes.STRING,

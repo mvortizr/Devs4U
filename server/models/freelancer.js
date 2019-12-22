@@ -6,9 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     tipoFreelancer: DataTypes.STRING,
     status: DataTypes.STRING,
     habilidades:DataTypes.ARRAY(DataTypes.TEXT),
-    /*seniority:{
-      type: DataTypes.STRING,
-    },*/
+    seniority:DataTypes.STRING,
   }, {freezeTableName: true});
   Freelancer.associate = function(models) {
     // associations can be defined here

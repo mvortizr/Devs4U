@@ -35,6 +35,7 @@ router.delete('/profile/delete',ensureAuthenticated, userController.eliminarPerf
 
 
 
+
 //Rutas de proyectos
 //router.get('/projects',projectController.index)//listo
 //router.post('/project/create', projectController.store);//listo
