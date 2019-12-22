@@ -17,6 +17,9 @@ const {checkAuthentication}=require('./controllers/auth/AuthenticationController
 const userController = require('./controllers/UserController');
 const experienciaController=require('./controllers/ExperienciaController')
 const educacionController=require('./controllers/EducacionController')
+const freelancerController=require('./controllers/FreelancerController')
+const contractorController=require('./controllers/ContractorController')
+const reviewController=require('./controllers/ReviewController')
 //const projectController=require('./controllers/ProjectController');
 
 
@@ -43,6 +46,20 @@ router.delete('/profile/deleteexpierence/:id',experienciaController.eliminarExpe
 router.post('/profile/addeducation',educacionController.agregarEducacion)
 router.put('/profile/editeducacion/:id',educacionController.modificarEducacion)
 router.delete('/profile/deleteducation/:id',educacionController.eliminarEducacion)
+
+router.get('/freelancer/view/byId/:id',freelancerController.consultarPerfilFreelancer)
+
+router.get('/list/freelancers',freelancerController.listarFreelancers)
+
+router.get('/list/contractors',contractorController.listarContractors)
+
+
+router.get('/contractor/view/byId/:id',contractorController.consultarPerfilContractor)
+
+
+router.post('/review/add',reviewController.agregarReview)
+
+router.get('/review/view/byId/:id',reviewController.consultarReview)
 
 
 //Rutas de proyectos

@@ -31,7 +31,8 @@
     "react-scripts": "3.1.2",
     "sequelize": "^5.19.1",
     "sequelize-cli": "^5.5.1",
-    "sequelize-heroku": "^2.1.4"
+    "sequelize-heroku": "^2.1.4",
+    "vapid-cli": "^0.3.5"
   },
   "scripts": {
     "start": "react-scripts start",
