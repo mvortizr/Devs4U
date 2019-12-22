@@ -33,8 +33,12 @@ router.put('/profile/edit',ensureAuthenticated, userController.modificarPerfil);
 router.put('/profile/addphoto',ensureAuthenticated, upload.single('image'), userController.agregarFotoPerfil);
 router.delete('/profile/delete',ensureAuthenticated, userController.eliminarPerfil);
 
+//Rutas para buscar perfil
+router.get('/search/user',ensureAuthenticated, userController.BuscarPerfil);
+router.get('/search/freelancer',ensureAuthenticated, userController.BuscarPerfil);
+router.get('/search/contractor',ensureAuthenticated, userController.BuscarPerfil);
 
-
+//Rutas para buscar proyecto
 
 //Rutas de proyectos
 //router.get('/projects',projectController.index)//listo
