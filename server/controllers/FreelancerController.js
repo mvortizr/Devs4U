@@ -17,11 +17,11 @@ module.exports={
     consultarPerfil(req,res){
         model.User.findAll({
             where: {id: req.user.id},
-            include:['freelancer'],
-            include:['educacion'],
-            //include:['experiencia']
+            include:['freelancer','educacion','experiencia']
         })
-        .then(function(freelancer){ res.send(freelancer)})
+        .then(function(freelancer){ 
+            console.log(freelancer)
+            res.send(freelancer)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
