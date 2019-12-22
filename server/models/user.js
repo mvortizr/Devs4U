@@ -85,6 +85,9 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     User.hasOne(models.Contractor,{ foreignKey: 'usuarioId', as: 'contratista'});
     User.hasOne(models.Freelancer, { foreignKey: 'usuarioId',as:'freelancer'})
+    User.hasMany(models.Project, {as: 'proyectosCreados', foreignKey:'creadorId'})
+    User.hasMany(models.Project, {as: 'proyectosEncargados', foreignKey:'encargadoId'})
+    User.belongsToMany(models.Project, {through: 'IntPostulationProject', foreignKey: 'usuarioId', as: 'proyectosPostulados',otherKey: 'proyectoId'})
   };
   return User;
 };

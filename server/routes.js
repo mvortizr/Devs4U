@@ -15,7 +15,7 @@ const {checkAuthentication}=require('./controllers/auth/AuthenticationController
 
 //Controllers
 const userController = require('./controllers/UserController');
-//const projectController=require('./controllers/ProjectController');
+const projectController=require('./controllers/ProjectController');
 
 
 
@@ -37,6 +37,7 @@ router.delete('/profile/delete',ensureAuthenticated, userController.eliminarPerf
 
 
 //Rutas de proyectos
+router.put('/project/create',ensureAuthenticated, projectController.crearProyecto)
 //router.get('/projects',projectController.index)//listo
 //router.post('/project/create', projectController.store);//listo
 //router.get('/project/show/:id',projectController.show)//Faltan las buenas relaciones, pero creo que listo
