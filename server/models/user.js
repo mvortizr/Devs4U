@@ -93,3 +93,11 @@ module.exports = (sequelize, DataTypes) => {
   };
   return User;
 };
+//npx sequelize-cli model:generate --name Proyecto --attributes NM_Proyect:string,TP_Proyect:string,Srg_Proyect:string,Dp_Req:string,UsedTech:text, Entregables: string, Ad_Dat: text, contratistId: integer
+//npx sequelize-cli model:generate --name developer --attributes workHours:integer,developerType:string,expierece:string,userId:integer
+//npx sequelize-cli model:generate --name user --attributes firstName:string,lastName:string,email:string,password:string,aboutMe:string,residence:string,web:string,rol:string
+//npx sequelize-cli model:generate --name iteracion --attributes ContractorCode:integer,Begining:timestamp,Ending:timestamp,IterationNumber:integer,IterationDesc:text
+/*npx sequelize-cli model:generate --name Project --force --attributes description:text,entregables:text,tecnologies:array:text,photos:string,etapa:string,additionals:text,disponibilidad:string,projectType:string */
+//npx sequelize-cli db:migrate
+/*npx sequelize migration:generate --name Project add-associations*/
+//https://medium.com/@andrewoons/how-to-define-sequelize-associations-using-migrations-de4333bf75a7

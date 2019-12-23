@@ -22,6 +22,7 @@ const educacionController=require('./controllers/EducacionController')
 const freelancerController=require('./controllers/FreelancerController')
 const contractorController=require('./controllers/ContractorController')
 const reviewController=require('./controllers/ReviewController')
+const searchController = require('./controllers/SearchController')
 //const projectController=require('./controllers/ProjectController');
 
 
@@ -38,6 +39,9 @@ router.put('/profile/edit',ensureAuthenticated, userController.modificarPerfil);
 router.put('/profile/addphoto',ensureAuthenticated, upload.single('image'), userController.agregarFotoPerfil);
 router.delete('/profile/delete',ensureAuthenticated, userController.eliminarPerfil);
 
+//Rutas para buscar perfil
+router.get('/search/freelancer', searchController.BuscarPerfilFreelancer);
+router.get('/search/contractor', searchController.BuscarPerfilContratista);
 
 //Rutas CRUD de proyecto
 router.put('/project/create',ensureAuthenticated, projectController.crearProyecto)
@@ -78,6 +82,7 @@ router.post('/review/add',reviewController.agregarReview)
 
 router.get('/review/view/byId/:id',reviewController.consultarReview)
 
+//Rutas para buscar proyecto
 
 //Rutas de proyectos
 //router.get('/projects',projectController.index)//listo
