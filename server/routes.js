@@ -16,16 +16,13 @@ const {checkAuthentication}=require('./controllers/auth/AuthenticationController
 //Controllers
 const userController = require('./controllers/UserController');
 const projectController=require('./controllers/ProjectController');
-
-
+const projectPostulationController=require('./controllers/ProjectPostulationController');
 
 //Auths' Routes
 router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', logout);
 router.get('/check',checkAuthentication);
-
-
 
 //Rutas del perfil
 router.get('/profile',ensureAuthenticated, userController.consultarPerfil);
@@ -34,19 +31,19 @@ router.put('/profile/addphoto',ensureAuthenticated, upload.single('image'), user
 router.delete('/profile/delete',ensureAuthenticated, userController.eliminarPerfil);
 
 
-
-
-//Rutas de proyectos
+//Rutas CRUD de proyecto
 router.put('/project/create',ensureAuthenticated, projectController.crearProyecto)
-//router.get('/projects',projectController.index)//listo
-//router.post('/project/create', projectController.store);//listo
-//router.get('/project/show/:id',projectController.show)//Faltan las buenas relaciones, pero creo que listo
-//router.put('/project/edit/:id',projectController.update) //listo
-//router.delete('/project/delete/:id',projectController.destroy)
+router.put('/project/edit/:id',ensureAuthenticated, projectController.modificarProyecto)
+router.get('/project/view/:id', ensureAuthenticated,projectController.consultarProyecto)
+router.delete('/project/cancel/:id', ensureAuthenticated,projectController.cancelarProyecto)
 
-
-
-//
+//Rutas postulaciones proyecto
+router.put('/project/postulation/do/', ensureAuthenticated,projectPostulationController.postularseProyecto)
+router.get('/project/postulation/list/',ensureAuthenticated,projectPostulationController.verUsuariosPostuladosProyecto)
+router.delete('/project/postulation/undo/',ensureAuthenticated,projectPostulationController.deshacerPostulacionProyecto)
+router.get('/freelancer/postulation/list',ensureAuthenticated,projectPostulationController.verProyectosPostuladosUsuario) //proyectos propios
 
 
 module.exports = router;
+
+
