@@ -88,6 +88,8 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Project, {as: 'proyectosCreados', foreignKey:'creadorId'})
     User.hasMany(models.Project, {as: 'proyectosEncargados', foreignKey:'encargadoId'})
     User.belongsToMany(models.Project, {through: 'IntPostulationProject', foreignKey: 'usuarioId', as: 'proyectosPostulados',otherKey: 'proyectoId'})
+    User.hasMany(models.Educacion,{foreignKey:'freelancerId',as:'educacion'})
+    User.hasMany(models.Experiencia,{foreignKey:'freelancerId',as:'experiencia'})
   };
   return User;
 };

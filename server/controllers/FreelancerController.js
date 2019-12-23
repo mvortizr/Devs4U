@@ -17,9 +17,9 @@ module.exports={
     consultarPerfil(req,res){
         model.User.findAll({
             where: {id: req.user.id},
-            include:['freelancer']
+            include:['freelancer','educacion','experiencia']
         })
-        .then(function(freelancer){ res.send(freelancer)})
+        .then(function(freelancer){res.send(freelancer)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -34,16 +34,35 @@ module.exports={
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
+    
     eliminarPerfil(req,res){
         model.Freelancer.destroy({
-            where: {
-                usuarioId: req.user.id
-            }
+            where: {usuarioId: req.user.id}
         })
-        .then(function () {
-           res.send(200,{message:'Usuario eliminado exitosamente'})
-        })
+        .then(function () {res.send(200,{message:'Usuario eliminado exitosamente'})})
         .catch((error) => { res.status(400).send(error); });
     },
+
+    consultarPerfilFreelancer(req,res){
+        model.User.findAll({where:{
+            id: req.params.id,
+            rol:'freelancer'
+        },
+        include:['freelancer','educacion','experiencia']
+        })
+        .then(function(freelancer){
+            if(freelancer=='') res.status(400).json('Este id no esta asociado a un freelancer')
+            else res.send(freelancer)})
+        .catch(err => res.status(400).json('Error: ' + err));
+    },
+
+    listarFreelancers(req,res){
+        model.User.findAll({
+            where:{rol:'freelancer'},
+            include:['freelancer','educacion','experiencia']
+        })
+        .then(function(freelancers){res.send(freelancers)})
+        .catch(err => res.status(400).json('Error: ' + err));
+    }
 
 }
