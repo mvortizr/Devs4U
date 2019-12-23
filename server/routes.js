@@ -34,9 +34,9 @@ router.put('/profile/addphoto',ensureAuthenticated, upload.single('image'), user
 router.delete('/profile/delete',ensureAuthenticated, userController.eliminarPerfil);
 
 //Rutas para buscar perfil
-router.get('/search/user',ensureAuthenticated, userController.BuscarPerfil);
-router.get('/search/freelancer',ensureAuthenticated, userController.BuscarPerfil);
-router.get('/search/contractor',ensureAuthenticated, userController.BuscarPerfil);
+router.get('/search/user', userController.BuscarPerfil);
+router.get('/search/freelancer', userController.BuscarPerfil);
+router.get('/search/contractor', userController.BuscarPerfil);
 
 //Rutas para buscar proyecto
 

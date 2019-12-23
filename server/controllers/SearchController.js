@@ -9,7 +9,7 @@ module.exports = {
                 attributes: {exclude:['password']} ,
             },
             {
-                where: { name: req.user.valor }
+                where: { name: req.body.name }
             })
             .then(function (resultado) { res.send(resultado) })
             .catch(err => res.status(400).json('Error: ' + err));
