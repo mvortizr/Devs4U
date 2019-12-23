@@ -201,7 +201,7 @@ if(props.type=="contractor"){
                     <CardContent className={classes.cardContent}>
                     <Typography content="h2" variant="h6"> 
                       <strong className={classes.text}>Proyecto</strong><PersonIcon /> Carlos Cristian Gomez<CheckCircleIcon className={classes.text2}/> Finalizado 
-                      <DomLink to="/portafolio/consultar" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                      <DomLink to="/project/contractor" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                       <Button variant="contained" className={classes.text2}>
                         Ver 
                       </Button>
@@ -243,7 +243,7 @@ if(props.type=="contractor"){
                         <Button variant="contained" className={classes.text2}>
                           Ocultar de Portafolio 
                         </Button>
-                        <DomLink to="/portafolio/consultar" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                        <DomLink to="/project/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                         <Button variant="contained" className={classes.text2}>
                           Ver 
                         </Button>
@@ -281,7 +281,7 @@ if(props.type=="contractor"){
                       <CardContent className={classes.cardContent}>
                       <Typography content="h2" variant="h6"> 
                         <strong className={classes.text}>Proyecto</strong><PersonIcon /> Carlos Cristian Gomez<CheckCircleIcon className={classes.text2}/> Finalizado 
-                        <DomLink to="/portafolio/consultar" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                        <DomLink to="/project/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                         <Button variant="contained" className={classes.text2}>
                           Ver 
                         </Button>

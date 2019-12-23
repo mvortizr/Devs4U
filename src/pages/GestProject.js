@@ -266,7 +266,7 @@ else{
                   </CardContent>
                   <CardActions>
                     <DomLink
-                      to="/project/manage/freelancer/consult"
+                      to="/project/freelancer"
                       style={{
                         textDecoration: 'none',
                         color: 'rgb(33,40,53)'

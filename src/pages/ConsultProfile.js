@@ -32,6 +32,7 @@ import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import fotoPerfil from './images/fotoPerfil.png';
 import Rating from '@material-ui/lab/Rating';
+import Header from './Header'
 // import CreateIcon from '@material-ui/icons/CreateIcon'
 // import ClearIcon from '@material-ui/icons/ClearIcon'
 
@@ -52,7 +53,7 @@ const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
   },
   root2:{
     display: 'flex',
@@ -129,7 +130,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
-    backgroundColor: '#F0F1F4'
+    backgroundColor: '#FFFF'
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -243,176 +244,175 @@ export default function ConsultProfile(props) {
       });
     };
 
-    if(props.type=="contractor"){
-        // if(user){
-            return (
-              <div className={classes.root}>
-                <CssBaseline />
-                {console.log('user', user)}
-                <AppBar
-                    position="absolute"
-                    className={clsx(classes.appBar, open && classes.appBarShift)}>
-                    <Toolbar className={classes.toolbar}>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        className={clsx(
-                        classes.menuButton,
-                        open && classes.menuButtonHidden
-                        )}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography component="h1" variant="h4" color="inherit" noWrap className={classes.title}>
-                      Perfil
-                    </Typography>
-                    <DomLink
-                        to="/profile/modify/cont"
-                        style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
-                        <Button variant="contained" className={classes.buttonMod}>
-                          Modificar
-                        </Button>
-                    </DomLink>
-                    <Button
-                        variant="contained"
-                        className={classes.buttonDel}
-                        onClick={handleClickOpenDialog}>
-                        Eliminar
-                    </Button>
-                    <IconButton color="inherit">
-                        {/*badgeContent muestra la cantidad de notificaciones*/}
-                        <Badge badgeContent={0} color="secondary">
-                          <NotificationsIcon />
-                        </Badge>
-                    </IconButton>
-                    </Toolbar>
-                </AppBar>
-                <Drawer
-                    variant="permanent"
-                    classes={{
-                    paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-                    }}
-                    open={open}>
-                    <div className={classes.toolbarIcon}>
-                    <IconButton onClick={handleDrawerClose}>
-                        <ChevronLeftIcon />
-                    </IconButton>
-                    </div>
-                    <Divider />
-                    <List>{mainListItemsC}</List>
-                    <List>{secondaryListItemsC}</List>
-                </Drawer>
-                <main className={classes.content}>
-                  <div className={classes.appBarSpacer} />
-                  <Container className={classes.cardGrid} maxWidth="md">
-                  <Grid container spacing={5} className={classes.mainGrid}>
-                      {/* Main content */}
-                      <Grid item xs={12} md={4}>
-                        <img src={fotoPerfil}/>
-                      </Grid>
-                      <Grid item xs={12} md={7}>
-                        <Typography variant="h4" gutterBottom>
-                          Nombre del Contratista
-                          {/* {user.user.firstName + ' ' +user.user.lastName} */}
-                        </Typography>
-                        <Box component="fieldset" mb={3} borderColor="transparent">
-                          <Rating name="reputation" value={value} readOnly />
-                        </Box>
-                        <Typography paragraph>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={12}>
-                        <Divider/>
-                      </Grid>
-                      <Grid item xs={12} md={7}>
-                        <Typography variant="h6" gutterBottom>
-                          <strong>Sobre mí</strong>
-                        </Typography>
-                        <Typography paragraph>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
-                          Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                          Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                          {/* {user.user.aboutMe} */}
-                        </Typography>
-                      </Grid>
-                      <Grid>
-                        <Divider orientation="vertical"/>
-                      </Grid>
-                      {/* End main content */}
-                      {/* Sidebar */}
-                      <Grid item xs={12} md={4}>
-                        <Typography paragraph>
-                          <strong>Residencia</strong>
-                        </Typography>
-                        <Typography paragraph>
-                          Caracas, Venezuela
-                          {/* {user.user.residence} */}
-                        </Typography>
-                        <Divider />
-                        <Typography paragraph>
-                          <br/>
-                          <strong>Idiomas</strong> 
-                        </Typography>
-                        <Typography paragraph>
-                          Ingles, Español
-                          {/* {user.developer.developerType} */}
-                        </Typography>
-                      </Grid>
-                      {/* End sidebar */}
-                    </Grid>
-                    <br/>
-                    <br/>
-                    <Grid item xs={12} md={12}>
-                      <Divider/>
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                      <Typography variant="h6" gutterBottom>
-                        <br/>
-                        <strong>Reviews</strong>
-                      </Typography> 
-                      <Container className={classes.cardGrid} maxWidth="md">
-                      <Grid container spacing={4}>
-                        {reviews.map(reviews => (
-                          <Grid item key={reviews} xs={12} sm={6} md={4}>
-                            <Card className={classes.card}>
-                              <CardContent className={classes.cardContent}>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                  <strong>María V Ortiz</strong>
-                                </Typography>
-                                <br />
-                                <Typography>
-                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
-                                </Typography>
-                              </CardContent>
-                            </Card>
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </Container>
-                    </Grid>
-                    <EliminarPerfilDialog content="¿Está seguro que deseas eliminar tu perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} handleDeleteProfile={handleDeleteProfile} open={openDialog}/>
-                  </Container>
-                  <Copyright />
-                </main>
-              </div>
-            );
-        // } else {
-        //     return  <CircularProgress />;
-        //   }
-    }
-    else{
+  if(props.type=="contractor"){
       // if(user){
-
         return (
-        
+          <div className={classes.root}>
+            <CssBaseline />
+            {console.log('user', user)}
+            <AppBar
+                position="absolute"
+                className={clsx(classes.appBar, open && classes.appBarShift)}>
+                <Toolbar className={classes.toolbar}>
+                <IconButton
+                    edge="start"
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    className={clsx(
+                    classes.menuButton,
+                    open && classes.menuButtonHidden
+                    )}>
+                    <MenuIcon />
+                </IconButton>
+                <Typography component="h1" variant="h4" color="inherit" noWrap className={classes.title}>
+                  Perfil
+                </Typography>
+                <DomLink
+                  to="/profile/modify/cont"
+                  style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
+                  <Button variant="contained" className={classes.buttonMod}>
+                    Modificar
+                  </Button>
+                </DomLink>
+                <Button
+                    variant="contained"
+                    className={classes.buttonDel}
+                    onClick={handleClickOpenDialog}>
+                    Eliminar
+                </Button>
+                <IconButton color="inherit">
+                    {/*badgeContent muestra la cantidad de notificaciones*/}
+                    <Badge badgeContent={0} color="secondary">
+                      <NotificationsIcon />
+                    </Badge>
+                </IconButton>
+                </Toolbar>
+            </AppBar>
+            <Drawer
+                variant="permanent"
+                classes={{
+                paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
+                }}
+                open={open}>
+                <div className={classes.toolbarIcon}>
+                <IconButton onClick={handleDrawerClose}>
+                    <ChevronLeftIcon />
+                </IconButton>
+                </div>
+                <Divider />
+                <List>{mainListItemsC}</List>
+                <List>{secondaryListItemsC}</List>
+            </Drawer>
+            <main className={classes.content}>
+              <div className={classes.appBarSpacer} />
+              <Container className={classes.cardGrid} maxWidth="md">
+              <Grid container spacing={5} className={classes.mainGrid}>
+                  {/* Main content */}
+                  <Grid item xs={12} md={4}>
+                    <img src={fotoPerfil}/>
+                  </Grid>
+                  <Grid item xs={12} md={7}>
+                    <Typography variant="h4" gutterBottom>
+                      Nombre del Contratista
+                      {/* {user.user.firstName + ' ' +user.user.lastName} */}
+                    </Typography>
+                    <Box component="fieldset" mb={3} borderColor="transparent">
+                      <Rating name="reputation" value={value} readOnly />
+                    </Box>
+                    <Typography paragraph>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <Divider/>
+                  </Grid>
+                  <Grid item xs={12} md={7}>
+                    <Typography variant="h6" gutterBottom>
+                      <strong>Sobre mí</strong>
+                    </Typography>
+                    <Typography paragraph>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
+                      Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                      Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                      {/* {user.user.aboutMe} */}
+                    </Typography>
+                  </Grid>
+                  <Grid>
+                    <Divider orientation="vertical"/>
+                  </Grid>
+                  {/* End main content */}
+                  {/* Sidebar */}
+                  <Grid item xs={12} md={4}>
+                    <Typography paragraph>
+                      <strong>Residencia</strong>
+                    </Typography>
+                    <Typography paragraph>
+                      Caracas, Venezuela
+                      {/* {user.user.residence} */}
+                    </Typography>
+                    <Divider />
+                    <Typography paragraph>
+                      <br/>
+                      <strong>Idiomas</strong> 
+                    </Typography>
+                    <Typography paragraph>
+                      Ingles, Español
+                      {/* {user.developer.developerType} */}
+                    </Typography>
+                  </Grid>
+                  {/* End sidebar */}
+                </Grid>
+                <br/>
+                <br/>
+                <Grid item xs={12} md={12}>
+                  <Divider/>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <Typography variant="h6" gutterBottom>
+                    <br/>
+                    <strong>Reviews</strong>
+                  </Typography> 
+                  <Container className={classes.cardGrid} maxWidth="md">
+                  <Grid container spacing={4}>
+                    {reviews.map(reviews => (
+                      <Grid item key={reviews} xs={12} sm={6} md={4}>
+                        <Card className={classes.card}>
+                          <CardContent className={classes.cardContent}>
+                            <Typography gutterBottom variant="h5" component="h2">
+                              <strong>María V Ortiz</strong>
+                            </Typography>
+                            <br />
+                            <Typography>
+                              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Container>
+                </Grid>
+                <EliminarPerfilDialog content="¿Está seguro que deseas eliminar tu perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} handleDeleteProfile={handleDeleteProfile} open={openDialog}/>
+              </Container>
+              <Copyright />
+            </main>
+          </div>
+        );
+    // } else {
+    //     return  <CircularProgress />;
+    //   }
+  }
+  else{
+    if(props.type=="developer"){
+      // if(user){
+        return (
           <div className={classes.root}>
             <CssBaseline />
             {console.log('user perfil',user)}
-             {redirect && <Redirect to={'/'} push={true} />}
+            {redirect && <Redirect to={'/'} push={true} />}
             <AppBar position="absolute" className={clsx(classes.appBarFree, open && classes.appBarShift)}>
               <Toolbar className={classes.toolbar}>
                 <IconButton
@@ -496,7 +496,7 @@ export default function ConsultProfile(props) {
                       {/* {user.user.aboutMe} */}
                     </Typography>
                     <Divider />
-                   {/* 
+                  {/* 
                     <DomLink to="#" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                     <Button variant="contained" color="primary" className={classes.button} >
                       Visitar Web
@@ -648,6 +648,626 @@ export default function ConsultProfile(props) {
       // } else {
       //     return  <CircularProgress />;
       //   }
+    }else{
+      if(props.type=="developerDev"){
+         // if(user){
+           return(
+            <div className={classes.root}>
+              <CssBaseline />
+              <Header type="developer"/>
+              <main className={classes.content}>
+                <div className={classes.appBarSpacer} />
+                <Container className={classes.cardGrid} maxWidth="md">
+                <Grid container spacing={5} className={classes.mainGrid}>
+                    {/* Main content */}
+                    <Grid item xs={12} md={4}>
+                      <img src={fotoPerfil}/>
+                    </Grid>
+                    <Grid item xs={12} md={7}>
+                      <Typography variant="h4" gutterBottom>
+                        Nombre del Desarrollador
+                        {/* {user.user.firstName + ' ' +user.user.lastName} */}
+                      </Typography>
+                      <Box component="fieldset" mb={3} borderColor="transparent">
+                        <Rating name="reputation" value={value} readOnly />
+                      </Box>
+                      <Typography paragraph>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.
+                      </Typography>
+                      <DomLink
+                        to="/view/portafolio/freelancer"
+                        style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
+                        <Button variant="contained" className={classes.buttonMod}>
+                          Portafolio
+                        </Button>
+                      </DomLink>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                      <Divider/>
+                      <Divider/>
+                    </Grid>
+                    <Grid item xs={12} md={7}>
+                      <Typography variant="h6" gutterBottom>
+                        <strong>Sobre mí</strong>
+                      </Typography>
+                      <Typography paragraph>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
+                        Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                        Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        {/* {user.user.aboutMe} */}
+                      </Typography>
+                      <Divider />
+                    {/* 
+                      <DomLink to="#" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                      <Button variant="contained" color="primary" className={classes.button} >
+                        Visitar Web
+                      </Button>
+                      </DomLink>
+                      <Divider />
+                      */}
+                      <Typography variant="h6" gutterBottom>
+                        <br/>
+                        <strong>Habilidades</strong>
+                      </Typography>
+                      <div className={classes.root2}>
+                        <Chip label="HTML"/>
+                        <Chip label="CSS"/>
+                        <Chip label="Bootstrap"/>
+                        <Chip label="Web Design"/>
+                        <Chip label="C++"/>
+                        <Chip label="Python"/>
+                        <Chip label="PHP"/>
+                        <Chip label="UML"/>
+                        <Chip label="AdobeXD"/>
+                        <Chip label="Android"/>
+                        <Chip label="XML"/>
+                        <Chip label="R"/>
+                        <Chip label="Hadoop"/>
+                        <Chip label="COBOL"/>
+                        <Chip label="C#"/>
+                      </div>
+                      <br/>
+                      <Divider />
+                      <Typography variant="h6" gutterBottom>
+                        <br/>
+                        <strong>Experiencia</strong>
+                      </Typography>
+                      <Typography paragraph>
+                        <strong>Empresa Polar</strong><br/>
+                        Junior Web Developer  2018-Actualidad<br/>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+                      </Typography>
+                      <Divider />
+                      <Typography variant="h6" gutterBottom>
+                        <br/>
+                        <strong>Educación</strong>
+                      </Typography>
+                      <Typography paragraph>
+                        Universidad Católica Andrés Bello: Ingeniería Informática 2013-2019
+                      </Typography>
+                    </Grid>
+                    <Grid>
+                      <Divider orientation="vertical"/>
+                    </Grid>
+                    {/* End main content */}
+                    {/* Sidebar */}
+                    <Grid item xs={12} md={4}>
+                      <Typography paragraph>
+                        <strong>Residencia</strong>
+                      </Typography>
+                      <Typography paragraph>
+                        Caracas, Venezuela
+                        {/* {user.user.residence} */}
+                      </Typography>
+                      <Divider />
+                      <Typography paragraph>
+                        <br/>
+                        <strong>Experiencia</strong> 
+                      </Typography>
+                      <Typography paragraph>
+                        6 años
+                        {/* {user.developer.workHours} */}
+                      </Typography>
+                      <Divider />
+                      <Typography paragraph>
+                        <br/>
+                        <strong>Tipo de Freelancer</strong> 
+                      </Typography>
+                      <Typography paragraph>
+                        Desarrollador de Android
+                        {/* {user.user.experience} */}
+                      </Typography>
+                      <Divider />
+                      <Typography paragraph>
+                        <br/>
+                        <strong>Idiomas</strong> 
+                      </Typography>
+                      <Typography paragraph>
+                        Ingles, Español
+                        {/* {user.developer.developerType} */}
+                      </Typography>
+                      <Divider />
+                      <Typography paragraph>
+                        <br/>
+                        <strong>Seniority</strong> 
+                      </Typography>
+                      <Typography paragraph>
+                        Mid-Level
+                      </Typography>
+                      <Divider />
+                      <Typography paragraph>
+                        <br/>
+                        <strong>Estadísticas</strong> 
+                      </Typography>
+                      <Typography paragraph>
+                        13 Proyectos Culminados
+                      </Typography><Typography paragraph>
+                        2 Proyectos en Curso
+                      </Typography>
+                      <Typography paragraph>
+                        4.8 Reputación
+                      </Typography>
+                    </Grid>
+                    {/* End sidebar */}
+                  </Grid>
+                  <br/>
+                  <br/>
+                  <Grid item xs={12} md={12}>
+                    <Divider/>
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <Typography variant="h6" gutterBottom>
+                      <br/>
+                      <strong>Reviews</strong>
+                    </Typography> 
+                    <Container className={classes.cardGrid} maxWidth="md">
+                    <Grid container spacing={4}>
+                      {reviews.map(reviews => (
+                        <Grid item key={reviews} xs={12} sm={6} md={4}>
+                          <Card className={classes.card}>
+                            <CardContent className={classes.cardContent}>
+                              <Typography gutterBottom variant="h5" component="h2">
+                                <strong>María V Ortiz</strong>
+                              </Typography>
+                              <br />
+                              <Typography>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+                              </Typography>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Container>
+                  </Grid>
+                </Container>
+                <Copyright />
+              </main>
+            </div>
+          );
+      // } else {
+      //     return  <CircularProgress />;
+      //   }
+      }else{
+        if(props.type=="developerCont"){
+          // if(user){
+            return (
+              <div className={classes.root}>
+                <CssBaseline />
+                <Header type="developer"/>
+                <main className={classes.content}>
+                  <div className={classes.appBarSpacer} />
+                  <Container className={classes.cardGrid} maxWidth="md">
+                  <Grid container spacing={5} className={classes.mainGrid}>
+                      {/* Main content */}
+                      <Grid item xs={12} md={4}>
+                        <img src={fotoPerfil}/>
+                      </Grid>
+                      <Grid item xs={12} md={7}>
+                        <Typography variant="h4" gutterBottom>
+                          Nombre del Contratista
+                          {/* {user.user.firstName + ' ' +user.user.lastName} */}
+                        </Typography>
+                        <Box component="fieldset" mb={3} borderColor="transparent">
+                          <Rating name="reputation" value={value} readOnly />
+                        </Box>
+                        <Typography paragraph>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+                          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} md={12}>
+                        <Divider/>
+                      </Grid>
+                      <Grid item xs={12} md={7}>
+                        <Typography variant="h6" gutterBottom>
+                          <strong>Sobre mí</strong>
+                        </Typography>
+                        <Typography paragraph>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+                          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
+                          Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                          Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                          {/* {user.user.aboutMe} */}
+                        </Typography>
+                      </Grid>
+                      <Grid>
+                        <Divider orientation="vertical"/>
+                      </Grid>
+                      {/* End main content */}
+                      {/* Sidebar */}
+                      <Grid item xs={12} md={4}>
+                        <Typography paragraph>
+                          <strong>Residencia</strong>
+                        </Typography>
+                        <Typography paragraph>
+                          Caracas, Venezuela
+                          {/* {user.user.residence} */}
+                        </Typography>
+                        <Divider />
+                        <Typography paragraph>
+                          <br/>
+                          <strong>Idiomas</strong> 
+                        </Typography>
+                        <Typography paragraph>
+                          Ingles, Español
+                          {/* {user.developer.developerType} */}
+                        </Typography>
+                      </Grid>
+                      {/* End sidebar */}
+                    </Grid>
+                    <br/>
+                    <br/>
+                    <Grid item xs={12} md={12}>
+                      <Divider/>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                      <Typography variant="h6" gutterBottom>
+                        <br/>
+                        <strong>Reviews</strong>
+                      </Typography> 
+                      <Container className={classes.cardGrid} maxWidth="md">
+                      <Grid container spacing={4}>
+                        {reviews.map(reviews => (
+                          <Grid item key={reviews} xs={12} sm={6} md={4}>
+                            <Card className={classes.card}>
+                              <CardContent className={classes.cardContent}>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                  <strong>María V Ortiz</strong>
+                                </Typography>
+                                <br />
+                                <Typography>
+                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+                                </Typography>
+                              </CardContent>
+                            </Card>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Container>
+                    </Grid>
+                    <EliminarPerfilDialog content="¿Está seguro que deseas eliminar tu perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} handleDeleteProfile={handleDeleteProfile} open={openDialog}/>
+                  </Container>
+                  <Copyright />
+                </main>
+              </div>
+            );
+        // } else {
+        //     return  <CircularProgress />;
+        //   }
+        }else{
+          if(props.type=="contractorDev"){
+            // if(user){
+              return(
+                <div className={classes.root}>
+                <CssBaseline />
+                <Header type="contractor"/>
+                <main className={classes.content}>
+                  <div className={classes.appBarSpacer} />
+                  <Container className={classes.cardGrid} maxWidth="md">
+                  <Grid container spacing={5} className={classes.mainGrid}>
+                      {/* Main content */}
+                      <Grid item xs={12} md={4}>
+                        <img src={fotoPerfil}/>
+                      </Grid>
+                      <Grid item xs={12} md={7}>
+                        <Typography variant="h4" gutterBottom>
+                          Nombre del Desarrollador
+                          {/* {user.user.firstName + ' ' +user.user.lastName} */}
+                        </Typography>
+                        <Box component="fieldset" mb={3} borderColor="transparent">
+                          <Rating name="reputation" value={value} readOnly />
+                        </Box>
+                        <Typography paragraph>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+                          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.
+                        </Typography>
+                        <DomLink
+                          to="/view/portafolio/freelancer"
+                          style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
+                          <Button variant="contained" className={classes.buttonMod}>
+                            Portafolio
+                          </Button>
+                        </DomLink>
+                      </Grid>
+                      <Grid item xs={12} md={12}>
+                        <Divider/>
+                        <Divider/>
+                      </Grid>
+                      <Grid item xs={12} md={7}>
+                        <Typography variant="h6" gutterBottom>
+                          <strong>Sobre mí</strong>
+                        </Typography>
+                        <Typography paragraph>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+                          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
+                          Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                          Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                          {/* {user.user.aboutMe} */}
+                        </Typography>
+                        <Divider />
+                      {/* 
+                        <DomLink to="#" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                        <Button variant="contained" color="primary" className={classes.button} >
+                          Visitar Web
+                        </Button>
+                        </DomLink>
+                        <Divider />
+                        */}
+                        <Typography variant="h6" gutterBottom>
+                          <br/>
+                          <strong>Habilidades</strong>
+                        </Typography>
+                        <div className={classes.root2}>
+                          <Chip label="HTML"/>
+                          <Chip label="CSS"/>
+                          <Chip label="Bootstrap"/>
+                          <Chip label="Web Design"/>
+                          <Chip label="C++"/>
+                          <Chip label="Python"/>
+                          <Chip label="PHP"/>
+                          <Chip label="UML"/>
+                          <Chip label="AdobeXD"/>
+                          <Chip label="Android"/>
+                          <Chip label="XML"/>
+                          <Chip label="R"/>
+                          <Chip label="Hadoop"/>
+                          <Chip label="COBOL"/>
+                          <Chip label="C#"/>
+                        </div>
+                        <br/>
+                        <Divider />
+                        <Typography variant="h6" gutterBottom>
+                          <br/>
+                          <strong>Experiencia</strong>
+                        </Typography>
+                        <Typography paragraph>
+                          <strong>Empresa Polar</strong><br/>
+                          Junior Web Developer  2018-Actualidad<br/>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+                        </Typography>
+                        <Divider />
+                        <Typography variant="h6" gutterBottom>
+                          <br/>
+                          <strong>Educación</strong>
+                        </Typography>
+                        <Typography paragraph>
+                          Universidad Católica Andrés Bello: Ingeniería Informática 2013-2019
+                        </Typography>
+                      </Grid>
+                      <Grid>
+                        <Divider orientation="vertical"/>
+                      </Grid>
+                      {/* End main content */}
+                      {/* Sidebar */}
+                      <Grid item xs={12} md={4}>
+                        <Typography paragraph>
+                          <strong>Residencia</strong>
+                        </Typography>
+                        <Typography paragraph>
+                          Caracas, Venezuela
+                          {/* {user.user.residence} */}
+                        </Typography>
+                        <Divider />
+                        <Typography paragraph>
+                          <br/>
+                          <strong>Experiencia</strong> 
+                        </Typography>
+                        <Typography paragraph>
+                          6 años
+                          {/* {user.developer.workHours} */}
+                        </Typography>
+                        <Divider />
+                        <Typography paragraph>
+                          <br/>
+                          <strong>Tipo de Freelancer</strong> 
+                        </Typography>
+                        <Typography paragraph>
+                          Desarrollador de Android
+                          {/* {user.user.experience} */}
+                        </Typography>
+                        <Divider />
+                        <Typography paragraph>
+                          <br/>
+                          <strong>Idiomas</strong> 
+                        </Typography>
+                        <Typography paragraph>
+                          Ingles, Español
+                          {/* {user.developer.developerType} */}
+                        </Typography>
+                        <Divider />
+                        <Typography paragraph>
+                          <br/>
+                          <strong>Seniority</strong> 
+                        </Typography>
+                        <Typography paragraph>
+                          Mid-Level
+                        </Typography>
+                        <Divider />
+                        <Typography paragraph>
+                          <br/>
+                          <strong>Estadísticas</strong> 
+                        </Typography>
+                        <Typography paragraph>
+                          13 Proyectos Culminados
+                        </Typography><Typography paragraph>
+                          2 Proyectos en Curso
+                        </Typography>
+                        <Typography paragraph>
+                          4.8 Reputación
+                        </Typography>
+                      </Grid>
+                      {/* End sidebar */}
+                    </Grid>
+                    <br/>
+                    <br/>
+                    <Grid item xs={12} md={12}>
+                      <Divider/>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                      <Typography variant="h6" gutterBottom>
+                        <br/>
+                        <strong>Reviews</strong>
+                      </Typography> 
+                      <Container className={classes.cardGrid} maxWidth="md">
+                      <Grid container spacing={4}>
+                        {reviews.map(reviews => (
+                          <Grid item key={reviews} xs={12} sm={6} md={4}>
+                            <Card className={classes.card}>
+                              <CardContent className={classes.cardContent}>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                  <strong>María V Ortiz</strong>
+                                </Typography>
+                                <br />
+                                <Typography>
+                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+                                </Typography>
+                              </CardContent>
+                            </Card>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Container>
+                    </Grid>
+                  </Container>
+                  <Copyright />
+                </main>
+              </div>
+            )
+        // } else {
+        //     return  <CircularProgress />;
+        //   }
+          }else{
+            // if(user){
+              return (
+                <div className={classes.root}>
+                  <CssBaseline />
+                  <Header type="contractor"/>
+                  <main className={classes.content}>
+                    <div className={classes.appBarSpacer} />
+                    <Container className={classes.cardGrid} maxWidth="md">
+                    <Grid container spacing={5} className={classes.mainGrid}>
+                        {/* Main content */}
+                        <Grid item xs={12} md={4}>
+                          <img src={fotoPerfil}/>
+                        </Grid>
+                        <Grid item xs={12} md={7}>
+                          <Typography variant="h4" gutterBottom>
+                            Nombre del Contratista
+                            {/* {user.user.firstName + ' ' +user.user.lastName} */}
+                          </Typography>
+                          <Box component="fieldset" mb={3} borderColor="transparent">
+                            <Rating name="reputation" value={value} readOnly />
+                          </Box>
+                          <Typography paragraph>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                          <Divider/>
+                        </Grid>
+                        <Grid item xs={12} md={7}>
+                          <Typography variant="h6" gutterBottom>
+                            <strong>Sobre mí</strong>
+                          </Typography>
+                          <Typography paragraph>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
+                            Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                            Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            {/* {user.user.aboutMe} */}
+                          </Typography>
+                        </Grid>
+                        <Grid>
+                          <Divider orientation="vertical"/>
+                        </Grid>
+                        {/* End main content */}
+                        {/* Sidebar */}
+                        <Grid item xs={12} md={4}>
+                          <Typography paragraph>
+                            <strong>Residencia</strong>
+                          </Typography>
+                          <Typography paragraph>
+                            Caracas, Venezuela
+                            {/* {user.user.residence} */}
+                          </Typography>
+                          <Divider />
+                          <Typography paragraph>
+                            <br/>
+                            <strong>Idiomas</strong> 
+                          </Typography>
+                          <Typography paragraph>
+                            Ingles, Español
+                            {/* {user.developer.developerType} */}
+                          </Typography>
+                        </Grid>
+                        {/* End sidebar */}
+                      </Grid>
+                      <br/>
+                      <br/>
+                      <Grid item xs={12} md={12}>
+                        <Divider/>
+                      </Grid>
+                      <Grid item xs={12} md={12}>
+                        <Typography variant="h6" gutterBottom>
+                          <br/>
+                          <strong>Reviews</strong>
+                        </Typography> 
+                        <Container className={classes.cardGrid} maxWidth="md">
+                        <Grid container spacing={4}>
+                          {reviews.map(reviews => (
+                            <Grid item key={reviews} xs={12} sm={6} md={4}>
+                              <Card className={classes.card}>
+                                <CardContent className={classes.cardContent}>
+                                  <Typography gutterBottom variant="h5" component="h2">
+                                    <strong>María V Ortiz</strong>
+                                  </Typography>
+                                  <br />
+                                  <Typography>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+                                  </Typography>
+                                </CardContent>
+                              </Card>
+                            </Grid>
+                          ))}
+                        </Grid>
+                      </Container>
+                      </Grid>
+                    </Container>
+                    <Copyright />
+                  </main>
+                </div>
+              );
+          // } else {
+          //     return  <CircularProgress />;
+          //   }
+          }
+        }
+      }
     }
+  }
 }
 

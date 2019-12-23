@@ -180,7 +180,7 @@ export default function Dashboard(props) {
     }, []);
 
 
-if(devInfo){
+// if(devInfo){
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -205,7 +205,8 @@ if(devInfo){
             color="inherit"
             noWrap
             className={classes.title}>
-            Perfil de  {devInfo.user[0].firstName + '  ' + devInfo.user[0].lastName}
+            Perfil de  
+            {/* {devInfo.user[0].firstName + '  ' + devInfo.user[0].lastName} */}
           </Typography>
 
           <IconButton color="inherit">
@@ -239,7 +240,7 @@ if(devInfo){
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h4" gutterBottom>
-                {devInfo.user[0].firstName + '  ' + devInfo.user[0].lastName}
+                {/* {devInfo.user[0].firstName + '  ' + devInfo.user[0].lastName} */}
               </Typography>
               <Divider />
 
@@ -256,19 +257,19 @@ if(devInfo){
                 Sobre mí:
               </Typography>
 
-              <Typography paragraph> {devInfo.user[0].aboutMe}</Typography>
+              {/* <Typography paragraph> {devInfo.user[0].aboutMe}</Typography> */}
 
               <Typography variant="h6" gutterBottom>
                 Lenguajes de Programación que domino:
               </Typography>
 
-              <Techno arr={devInfo.developer[0].skills}/>
+              {/* <Techno arr={devInfo.developer[0].skills}/> */}
 
              
               <Typography variant="h6" gutterBottom>
                 Idiomas:
               </Typography>
-               <Techno arr={devInfo.developer[0].languages}/>
+               {/* <Techno arr={devInfo.developer[0].languages}/> */}
 
             </Grid>
             {/* End main content */}
@@ -280,13 +281,16 @@ if(devInfo){
                 </Typography>
 
                 <Typography paragraph>
-                  <strong>Residencia:</strong> {devInfo.user[0].residence}
+                  <strong>Residencia:</strong> 
+                  {/* {devInfo.user[0].residence} */}
                 </Typography>
                 <Typography paragraph>
-                  <strong>Horas de Trabajo:</strong>  {devInfo.developer[0].workHours}
+                  <strong>Horas de Trabajo:</strong>  
+                  {/* {devInfo.developer[0].workHours} */}
                 </Typography>
                 <Typography paragraph>
-                  <strong>Experiencia:</strong> {devInfo.user[0].experience}
+                  <strong>Experiencia:</strong> 
+                  {/* {devInfo.user[0].experience} */}
                 </Typography>
               </Paper>
 
@@ -307,7 +311,8 @@ if(devInfo){
         <Copyright />
       </main>
     </div>
-  );} else{
-    return <CircularProgress />;
-  }
+  );
+  // } else{
+  //   return <CircularProgress />;
+  // }
 }
