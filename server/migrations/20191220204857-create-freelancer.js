@@ -1,32 +1,29 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('PortfolioProjects', {
+    return queryInterface.createTable('Freelancer', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
-      },
-      projectType: {
-        type: Sequelize.STRING
-      },
-      linkSee: {
-        type: Sequelize.STRING
-      },
-      linkCode: {
-        type: Sequelize.STRING
-      },
-      userId: {
+      usuarioId: {
         type: Sequelize.INTEGER
       },
-      description: {
-        type: Sequelize.TEXT
+      tiempoExperiencia: {
+        type: Sequelize.STRING
       },
-      image: {
+      tipoFreelancer: {
+        type: Sequelize.STRING
+      },
+      status: {
+        type: Sequelize.STRING
+      },
+      habilidades:{
+        type: Sequelize.ARRAY(Sequelize.TEXT)
+      },
+      seniority:{
         type: Sequelize.STRING
       },
       createdAt: {
@@ -40,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('PortfolioProjects');
+    return queryInterface.dropTable('Freelancer');
   }
 };

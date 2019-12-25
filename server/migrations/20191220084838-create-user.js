@@ -1,17 +1,23 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users', {
+    return queryInterface.createTable('User', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
+      nombre: {
         type: Sequelize.STRING
       },
-      lastName: {
+      foto:{
+        type: Sequelize.STRING
+      },
+      apellido: {
+        type: Sequelize.STRING
+      },
+      rol: {
         type: Sequelize.STRING
       },
       email: {
@@ -20,29 +26,38 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      aboutMe: {
+      pais: {
+        type: Sequelize.STRING
+      },
+      ciudad: {
+        type: Sequelize.STRING
+      },
+      calificacionesMedia: {
+        type: Sequelize.FLOAT
+      },
+      sobreMi: {
         type: Sequelize.TEXT
+      },
+      descripcionCorta: {
+        type: Sequelize.STRING
       },
       web: {
         type: Sequelize.STRING
       },
-      rol: {
+      linkedin: {
         type: Sequelize.STRING
       },
-      photo: {
+      facebook: {
         type: Sequelize.STRING
       },
-      residence: {
+      instagram: {
         type: Sequelize.STRING
       },
-      socialNetworks: {
-        type: Sequelize.JSON
-      },
-      available: {
+      twitter: {
         type: Sequelize.STRING
       },
-      experience: {
-        type: Sequelize.STRING
+      idiomas:{
+        type: Sequelize.ARRAY(Sequelize.TEXT)
       },
       createdAt: {
         allowNull: false,
@@ -55,6 +70,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Users');
+    return queryInterface.dropTable('User');
   }
 };

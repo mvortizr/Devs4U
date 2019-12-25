@@ -1,27 +1,27 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Developers', {
+    return queryInterface.createTable('Educacion', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      workHours: {
+      freelancerId: {
         type: Sequelize.INTEGER
       },
-      developerType: {
+      tituloObtenido: {
         type: Sequelize.STRING
       },
-      userId: {
+      institucion: {
+        type: Sequelize.STRING
+      },
+      anoInicio: {
         type: Sequelize.INTEGER
       },
-      languages: {
-        type: Sequelize.ARRAY(Sequelize.TEXT) 
-      },
-      skills: {
-        type: Sequelize.ARRAY(Sequelize.TEXT) 
+      anoFin: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +34,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Developers');
+    return queryInterface.dropTable('Educacion');
   }
 };
