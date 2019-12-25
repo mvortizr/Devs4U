@@ -57,12 +57,22 @@ module.exports={
     },
 
     listarFreelancers(req,res){
-        model.User.findAll({
+        model.User.findAndCountAll({
+            offset:(req.body.page-1) * req.body.pageSize,
+            limit:req.body.pageSize,
             where:{rol:'freelancer'},
-            include:['freelancer','educacion','experiencia']
+            //include:['freelancer','educacion','experiencia']
         })
-        .then(function(freelancers){res.send(freelancers)})
+        .then(function(freelancers){   
+            res.status(400).send(freelancers)    
+            /*model.Freelancer.count()
+            .then( function(count){ 
+                res.send({freelancers:freelancers, count:count})       
+            })
+            .catch(err => res.status(400).json('Error: ' + err));*/
+        })
         .catch(err => res.status(400).json('Error: ' + err));
-    }
+    },
+
 
 }

@@ -23,6 +23,9 @@ module.exports = {
       anoFin: {
         type: Sequelize.INTEGER
       },
+      descripcion: {
+        type: Sequelize.TEXT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

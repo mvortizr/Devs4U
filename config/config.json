@@ -1,8 +1,8 @@
 {
     "development": {
       "username": "postgres",
-      "password": 1234,
-      "database": "Devs4U2",
+      "password": "postgres",
+      "database": "Devs4U",
       "host": "127.0.0.1",
       "dialect": "postgres",
       "logging": false

@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     proyectoId: DataTypes.INTEGER,
   }, {freezeTableName: true});
   ProjectStage.associate = function(models) {
-  
+    
   };
   return ProjectStage;
 };

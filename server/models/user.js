@@ -83,7 +83,7 @@ module.exports = (sequelize, DataTypes) => {
     twitter: DataTypes.STRING
   }, {freezeTableName: true});
   User.associate = function(models) {
-    User.hasOne(models.Contractor,{ foreignKey: 'usuarioId', as: 'contratista'});
+    User.hasOne(models.Contractor,{ foreignKey: 'usuarioId', as: 'contractor'});
     User.hasOne(models.Freelancer, { foreignKey: 'usuarioId',as:'freelancer'})
     User.hasMany(models.Project, {as: 'proyectosCreados', foreignKey:'creadorId'})
     User.hasMany(models.Project, {as: 'proyectosEncargados', foreignKey:'encargadoId'})

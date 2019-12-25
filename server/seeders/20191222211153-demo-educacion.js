@@ -2,10 +2,11 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Educacions', [
+    return queryInterface.bulkInsert('Educacion', [
       {
         freelancerId: 1,
         tituloObtenido: 'Ing Informatica',
+        institucion: 'UCAB',
         anoInicio: '2017',
         anoFin: '2022',
         createdAt: new Date(),
@@ -14,6 +15,7 @@ module.exports = {
       {
         freelancerId: 2,
         tituloObtenido: 'Ing Informatica',
+        institucion: 'USB',
         anoInicio: '2016',
         anoFin: '2021',
         createdAt: new Date(),

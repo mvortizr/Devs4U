@@ -42,12 +42,17 @@ router.delete('/profile/delete',ensureAuthenticated, userController.eliminarPerf
 //Rutas para buscar perfil
 router.get('/search/freelancer', searchController.BuscarPerfilFreelancer);
 router.get('/search/contractor', searchController.BuscarPerfilContratista);
+router.get('/search/project', searchController.BuscarProyecto);
 
 //Rutas CRUD de proyecto
 router.put('/project/create',ensureAuthenticated, projectController.crearProyecto)
 router.put('/project/edit/:id',ensureAuthenticated, projectController.modificarProyecto)
 router.get('/project/view/:id', ensureAuthenticated,projectController.consultarProyecto)
 router.delete('/project/cancel/:id', ensureAuthenticated,projectController.cancelarProyecto)
+router.get('/project/list/view', ensureAuthenticated,projectController.listarProyectos)
+router.get('/project/list/view/created', ensureAuthenticated,projectController.listarProyectosCreados)
+router.get('/project/list/view/worked', ensureAuthenticated,projectController.listarProyectosEncargados)
+router.post('/project/stage/change', ensureAuthenticated,projectController.cambiarEtapaProyecto)
 
 //Rutas postulaciones proyecto
 router.put('/project/postulation/do/', ensureAuthenticated,projectPostulationController.postularseProyecto)
@@ -57,43 +62,31 @@ router.get('/freelancer/postulation/list',ensureAuthenticated,projectPostulation
 
 
 
-//Rutas experiencias usuario
-router.post('/profile/addexperience', experienciaController.agregarExperiencia)
-router.put('/profile/editexpierence/:id',experienciaController.modificarExperiencia)
-router.delete('/profile/deleteexpierence/:id',experienciaController.eliminarExperiencia)
+//Rutas experiencias usuario 
+router.post('/profile/experience/add', experienciaController.agregarExperiencia)
+router.put('/profile/experience/edit/:id',experienciaController.modificarExperiencia)
+router.delete('/profile/experience/delete/:id',experienciaController.eliminarExperiencia)
+router.get('/profile/experience/list/',experienciaController.consultarListaExperiencia)
+router.get('/profile/experience/edit/list',experienciaController.modificarListaExperiencia)
 
 
 //Rutas educacion usuario
-router.post('/profile/addeducation',educacionController.agregarEducacion)
-router.put('/profile/editeducacion/:id',educacionController.modificarEducacion)
-router.delete('/profile/deleteducation/:id',educacionController.eliminarEducacion)
+router.post('/profile/education/add',educacionController.agregarEducacion)
+router.put('/profile/education/edit/:id',educacionController.modificarEducacion)
+router.delete('/profile/education/delete/:id',educacionController.eliminarEducacion)
+router.get('/profile/education/list/',educacionController.consultarListaEducacion)
+router.get('/profile/education/edit/list',educacionController.modificarListaEducacion)
 
+//Consulta
 router.get('/freelancer/view/byId/:id',freelancerController.consultarPerfilFreelancer)
-
+router.get('/contractor/view/byId/:id',contractorController.consultarPerfilContractor)
 router.get('/list/freelancers',freelancerController.listarFreelancers)
-
 router.get('/list/contractors',contractorController.listarContractors)
 
-
-router.get('/contractor/view/byId/:id',contractorController.consultarPerfilContractor)
-
-
-router.post('/review/add',reviewController.agregarReview)
-
+router.post('/review/add/:id',reviewController.agregarReview)
+router.get('/review/list/:id',reviewController.listarReviewsUsuario)
 router.get('/review/view/byId/:id',reviewController.consultarReview)
 
-//Rutas para buscar proyecto
-
-//Rutas de proyectos
-//router.get('/projects',projectController.index)//listo
-//router.post('/project/create', projectController.store);//listo
-//router.get('/project/show/:id',projectController.show)//Faltan las buenas relaciones, pero creo que listo
-//router.put('/project/edit/:id',projectController.update) //listo
-//router.delete('/project/delete/:id',projectController.destroy)
-
-
-
-//
 
 
 module.exports = router;
