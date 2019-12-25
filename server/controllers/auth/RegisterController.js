@@ -8,7 +8,6 @@ const bcrypt = require('bcryptjs');
 module.exports={
 
     register(req,res){
-
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(req.body.password, salt, (err, hash) => {
                 if (err){ 
@@ -16,7 +15,7 @@ module.exports={
                 else{ 
                     model.User.create({ 
                         nombre: req.body.nombre,
-                        apellido:req.body.apellido,
+                        apellido:'',
                         rol: req.body.rol,
                         email: req.body.email,
                         password: hash,
@@ -33,11 +32,14 @@ module.exports={
                         twitter: ''
                     })
                     .then(function(usuario){
-                        if (usuario.rol=='freelancer') freelancerController.guardarUsuario(req,res,usuario.id);
-                        if (usuario.rol=='contractor')contratistaController.guardarUsuario(req,res,usuario.id);
+                        if (req.body.rol=='freelancer') freelancerController.guardarUsuario(req,res,usuario.id);
+                        else if (req.body.rol=='contractor')contratistaController.guardarUsuario(req,res,usuario.id);
                         else console.log('error')
                     })
-                    .catch(err => res.status(400).json('Error: ' + err));
+                    .catch(err => {res.status(400).send({error:err})
+                     console.log('error',err)
+                    });
+                    
                 }
             })
         })

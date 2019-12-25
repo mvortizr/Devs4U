@@ -4,7 +4,7 @@ module.exports={
 
     guardarUsuario(req,res,usuarioId){
         model.Contractor.create({usuarioId:usuarioId})
-        .then(function(){ res.send(200,{message:'El usuario se ha creado correctamente'})})
+        .then(function(){ res.status(200).send({message:'El usuario se ha creado correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
@@ -48,20 +48,6 @@ module.exports={
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
-<<<<<<< HEAD
-    delete (req,res){
-        model.Contractor.destroy(   
-         {where: {userId: req.user.id}}).then(function(){
-          req.logout();
-          req.session = null;
-           res.send({success:true});
-        }).catch(err => {res.send({req: req}); 
-        console.log(err)}
-        );      
-    },
-  
-}
-=======
     consultarPerfilContractor(req,res){
         model.User.findAll({where:{
             id: req.params.id,
@@ -74,6 +60,5 @@ module.exports={
             else res.send(contractor)})
         .catch(err => res.status(400).json('Error: ' + err));
     }
->>>>>>> backend-v1
 
 }

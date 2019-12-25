@@ -7,6 +7,7 @@ const app = express();
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
+const morgan = require('morgan')
 
 
 const publicPath = path.join(__dirname, '..', 'public');
@@ -25,6 +26,8 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 require('../config/passport')(passport);
+
+app.use(morgan('dev'));
     
 app.set('PORT', process.env.PORT || 5000);
 

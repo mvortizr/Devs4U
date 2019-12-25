@@ -8,13 +8,8 @@ import ConsultProject from './pages/ConsultProject';
 import RecContrasena from './pages/RecContrasena';
 import EditProfile from './pages/EditProfile';
 import RecContraMail from './pages/RecContraMail';
-import PerfilConsulFree from './pages/PerfilConsulFree';
-import ConsultProjectViewCont from './pages/ConsultProjectViewCont'
-import ConsultProjectPortfolio from './pages/ConsultProjectPortfolio';
 import EditProject from './pages/EditProject';
-import ConsultProjectInDevelopment from './pages/ConsultProjectInDevelopment';
 import CreateProject from './pages/CreateProject';
-import TestBackend from './pages/TestBackend';
 import Dashboard from './pages/Dashboard'
 import GestProject from './pages/GestProject'
 import ConsultProfile from './pages/ConsultProfile'
@@ -28,12 +23,10 @@ function App() {
   return (
     <Router>
 	    <Switch>
-	    
-	    <Route exact path='/test' render={ ()=> <TestBackend/>}/>
 
 			{/*Login and Register*/}
 			<Route exact path='/' render={ ()=> <Login />}/>
-			<Route exact path='/register' render={ ()=> <Registration/>}/>
+			<Route exact path='/register' render={ (props)=> <Registration {...props}/>}/>
 			{/*Recuperar Contraseña*/}
 			<Route exact path='/password/set' render={ ()=> <RecContrasena/>}/>
 			<Route exact path='/password/recover' render={ ()=> <RecContraMail/>}/>

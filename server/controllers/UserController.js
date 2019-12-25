@@ -53,42 +53,6 @@ module.exports = {
 
         console.log('req.file', req.file);
 
-<<<<<<< HEAD
-/////////////////
-    showId(req,res){
-        developerController.showId(req,res);
-    },
-    showAll(req,res){
-        developerController.showAll(req,res);
-    },
-    showSearch(req,res){
-        developerController.showSearch(req,res);
-    },
-
-    showContractorId(req,res){
-      model.User.findAll({
-        where: {
-         id:req.params.id
-        }
-      })
-      .then(function(user){    
-        res.send(user);
-      })
-      .catch(err => res.status(400).json('Error: ' + err));
-    },
-
-
-
-        /**
-         * Show the form for editing the specified resource.
-         */
-        /*edit(req,res){
-            if(req.user.rol=='developer')developerController.edit(req,res);
-        },
-    /**
-        * Update the specified resource in storage.
-     **/
-=======
         if (req.file) { /* Check if there is an image */
             uploadImage(req.file) /* If there is an image, upload it */
                 .then((result) => { /* If the upload is successful */
@@ -109,7 +73,6 @@ module.exports = {
                 message: 'No image file was uploaded'
             });
         }
->>>>>>> backend-v1
 
 
     },

@@ -10,7 +10,7 @@ module.exports={
             status: req.body.status,
             habilidades:req.body.habilidades
           })
-          .then(function(){ res.send(200,{message:'El usuario se ha creado correctamente'})})
+          .then(function(){ res.status(200).send({message:'El usuario se ha creado correctamente'}) })
           .catch(err => res.status(400).json('Error: ' + err));
     },
     

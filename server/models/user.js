@@ -12,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
 
     apellido: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate:{
-        notEmpty: true
-      }
     },
 
     rol:{
@@ -35,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
           const model=require('../models');
           model.User.findAll({where: {email: email}})
           .done((user) => {
-            if (user!='')   return next('the user is already exist');
+            if (user!='')   return next('Existe un usuario registrado con el mismo correo');
             next();
           });
         }
