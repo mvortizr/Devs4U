@@ -12,6 +12,7 @@ import EditProject from './pages/EditProject';
 import CreateProject from './pages/CreateProject';
 import Dashboard from './pages/Dashboard'
 import GestProject from './pages/GestProject'
+import ConsultMyProfile from './pages/ConsultMyProfile'
 import ConsultProfile from './pages/ConsultProfile'
 
 
@@ -35,13 +36,10 @@ function App() {
 			<Route exact path='/dashboard/contractor' render={ ()=> <Dashboard type="contractor"/>}/>
 			{/*Profile*/}
 				{/* Consultar Propio*/}
-				<Route exact path='/profile/freelancer' render={ ()=> <ConsultProfile type="freelancer"/>}/>
-				<Route exact path='/profile/contractor' render={ ()=> <ConsultProfile type="contractor"/>}/>
+				<Route exact path='/profile/freelancer' render={ (props)=> <ConsultMyProfile {...props}/>}/>
+				<Route exact path='/profile/contractor' render={ (props)=> <ConsultMyProfile {...props} />}/>
 				{/* Consultar Anonimo */}
-				<Route exact path='/developer/view/profile/freelancer' render={ ()=> <ConsultProfile type="developerDev"/>}/>
-				<Route exact path='/developer/view/profile/contractor' render={ ()=> <ConsultProfile type="developerCont"/>}/>	
-				<Route exact path='/contractor/view/profile/freelancer' render={ ()=> <ConsultProfile type="contractorDev"/>}/>
-				<Route exact path='/contractor/view/profile/contractor' render={ ()=> <ConsultProfile type="contractorCont"/>}/>
+				<Route exact path='/view/profile/:id/:rol' render={ (props)=> <ConsultProfile {...props}/>}/>
 				{/* Modificar */}
 				<Route exact path='/profile/modify/free' render={ ()=> <EditProfile type="developer"/>}/>
 				<Route exact path='/profile/modify/cont' render={ ()=> <EditProfile type="contractor"/>}/>

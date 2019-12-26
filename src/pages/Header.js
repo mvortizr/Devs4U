@@ -171,6 +171,9 @@ export default function Header(props) {
     axios.post('/logout').then(
       () => {
         history.push('/')
+        sessionStorage.removeItem('rol');
+        sessionStorage.removeItem('nombre');
+        sessionStorage.removeItem('foto');
       },
       error => {
         console.log(error)

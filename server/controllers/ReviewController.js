@@ -24,7 +24,8 @@ module.exports={
         model.Review.findAndCountAll({
             offset:(req.body.page-1) * req.body.pageSize,
             limit:req.body.pageSize,
-            where:{destinatarioId:req.params.id}
+            where:{destinatarioId:req.params.id},
+            include:['creador']
         })
         .then(function(review){res.send(review)})
         .catch(err => res.status(400).json('Error: ' + err));

@@ -33,6 +33,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import ReviewPagination from '../components/Pagination';
 import Rating from '@material-ui/lab/Rating';
 import {Facebook as FacebookIcon, LinkedIn as LinkedInIcon, Instagram as InstagramIcon, Twitter as TwitterIcon} from '@material-ui/icons';
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 
 import Header from './Header'
@@ -54,6 +58,8 @@ function Copyright() {
 }
 
 const drawerWidth = 240
+
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -220,12 +226,14 @@ export default function ConsultProfile(props) {
   const [reviewPage, setReviewPage] = React.useState(1) 
   const [reviewTotalCount, setReviewTotalCount] = React.useState(0) //TODO
   const reviewPageSize = 3
+  const [open, setOpen] = React.useState(true)
   
-  
-  const userRol = props.match.params.rol
-  const userId = props.match.params.id
-
-  
+  const handleDrawerOpen = () => {
+    setOpen(true)
+  }
+  const handleDrawerClose = () => {
+    setOpen(false)
+  }
 
   const increaseReviewPage = () => {
       setReviewPage(page => page + 1);
@@ -237,17 +245,27 @@ export default function ConsultProfile(props) {
     }
   }
 
-  const myRol= sessionStorage.getItem('rol');
+  //Dialog Eliminar
+  const [openDialog, setOpenDialog] = React.useState(false)
+ 
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true)
+  }
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false)
+  }
 
 
   const [user, setUser] = React.useState(undefined);
 
   React.useEffect(() => {
-      axios({ method: 'post',
+      axios({ method: 'get',
         validateStatus: function(status) {
           return status >= 200 && status < 500; 
         },
-        url:`/${userRol}/view/byId/${userId}`, 
+        url:`/profile`, 
         withCredentials:true
       })
       .then(response =>{
@@ -264,15 +282,13 @@ export default function ConsultProfile(props) {
      
     }, []);
 
-    
-
     React.useEffect(() => {
   
       axios({ method: 'post',
           validateStatus: function(status) {
             return status >= 200 && status < 500; 
           },
-          url:`/review/list/${userId}`, 
+          url:`/review/mine/list`, 
           withCredentials:true,
           data: { page:reviewPage , pageSize: reviewPageSize }
         })
@@ -292,19 +308,93 @@ export default function ConsultProfile(props) {
   
   }, [reviewPage]);
 
-  
+  const handleLogOut = () => {
+    console.log('logging out frontend')
+    axios.post('/logout').then(
+      () => {
+        sessionStorage.clear();
+        props.history.push('/')
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
     
 
   
 
   if(user){
         return (
-          <>
-        
           <div className={classes.root}>
-      <CssBaseline />
-      
-          <Header type={myRol}/>
+            <CssBaseline />   
+            <AppBar position="absolute" className={clsx(classes.appBarFree, open && classes.appBarShift)}>
+              <Toolbar className={classes.toolbar}>
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerOpen}
+                  className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography component="h1" variant="h4" color="inherit" noWrap className={classes.title}>
+                  Perfil
+                </Typography>
+                <DomLink to="/profile/modify/free" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                <Button variant="contained" className={classes.buttonMod} >
+                  Modificar 
+                </Button>
+                </DomLink>
+                <Button variant="contained" className={classes.buttonDel} onClick={handleClickOpenDialog}>
+                  Eliminar 
+                </Button>
+                <IconButton color="inherit">
+                  {/*badgeContent muestra la cantidad de notificaciones*/}
+                  <Badge badgeContent={0} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+            <Drawer
+              variant="permanent"
+              classes={{
+                paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+              }}
+              open={open}
+            >
+              <div className={classes.toolbarIcon}>
+                <IconButton onClick={handleDrawerClose}>
+                  <ChevronLeftIcon />
+                </IconButton>
+              </div>
+              <Divider />
+              {user.rol=='freelancer'?(
+                <>
+              <List>{mainListItems}</List>
+              <Divider />
+              <List>{secondaryListItems}</List>
+              </>
+              ):(
+                <>
+                <List>{mainListItemsC}</List>
+                <Divider />
+                <List>{secondaryListItemsC}</List>
+                </>
+              )}
+              <List>
+                <ListItem button>
+                    <ListItemIcon>
+                    <ExitToAppIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Cerrar Sesión" onClick={handleLogOut} />
+                </ListItem>
+                </List>          
+            </Drawer>
+
+
             <main className={classes.content}>
               <div className={classes.appBarSpacer} />
               <Container className={classes.cardGrid} maxWidth="md">
@@ -360,33 +450,9 @@ export default function ConsultProfile(props) {
                       </DomLink>
                       ):null}
 
-
-                      {user.rol==='freelancer' && myRol==='contractor'?(
-                        <>
-                      <DomLink to="#" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}></DomLink>
-                      <Button  variant="contained" color="primary" className={classes.button} >
-                        Invitar 
-                      </Button>
-
-                      <DomLink to="#" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}></DomLink>
-                      <Button  variant="contained" color="primary" className={classes.button} >
-                        Portafolio
-                      </Button>
-                      </>
-                      ):null}
-
-                      {user.rol==='contractor' && myRol==='freelancer'?(
-                        <>
-                      <DomLink to="#" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}></DomLink>
-                      <Button  variant="contained" color="primary" className={classes.button} >
-                        Proyectos 
-                      </Button>
-                      </>
-                      ):null}
-
                       {user.web !== ''? (
                       <Button  href={`/http://${user.web}`} variant="contained" color="primary" className={classes.button} >
-                         Web
+                        Visitar Web
                       </Button>
                        ):null}
                     </Box>
@@ -588,8 +654,7 @@ export default function ConsultProfile(props) {
               </Container>
               <Copyright />
             </main>
-            </div>
-         </>
+          </div>
         )
       
       

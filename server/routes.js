@@ -78,15 +78,15 @@ router.get('/profile/education/list/',educacionController.consultarListaEducacio
 router.get('/profile/education/edit/list',educacionController.modificarListaEducacion)
 
 //Consulta
-router.get('/freelancer/view/byId/:id',freelancerController.consultarPerfilFreelancer)
-router.get('/contractor/view/byId/:id',contractorController.consultarPerfilContractor)
+router.post('/freelancer/view/byId/:id',freelancerController.consultarPerfilFreelancer)
+router.post('/contractor/view/byId/:id',contractorController.consultarPerfilContractor)
 router.get('/list/freelancers',freelancerController.listarFreelancers)
 router.get('/list/contractors',contractorController.listarContractors)
 
 router.post('/review/add/:id',reviewController.agregarReview)
-router.get('/review/list/:id',reviewController.listarReviewsUsuario)
+router.post('/review/list/:id',reviewController.listarReviewsUsuario)
 router.post('/review/mine/list',reviewController.listarMisReviewsUsuario)
-router.get('/review/view/byId/:id',reviewController.consultarReview)
+router.post('/review/view/byId/:id',reviewController.consultarReview)
 
 
 
