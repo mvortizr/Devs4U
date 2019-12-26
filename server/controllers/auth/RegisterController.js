@@ -19,7 +19,7 @@ module.exports={
                         rol: req.body.rol,
                         email: req.body.email,
                         password: hash,
-                        foto:'https://res.cloudinary.com/marycloudinary/image/upload/v1576988538/devs4u/2019-12-22T04:22:17.902Z.jpg',
+                        foto:'http://res.cloudinary.com/marycloudinary/image/upload/v1577312872/devs4u/2019-12-25T22:27:51.072Z.jpg',
                         pais: '',
                         ciudad:'',
                         calificacionesMedia: 0,

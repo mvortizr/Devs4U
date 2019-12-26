@@ -25,17 +25,17 @@ function App() {
 	    <Switch>
 
 			{/*Login and Register*/}
-			<Route exact path='/' render={ ()=> <Login />}/>
+			<Route exact path='/' render={ (props)=> <Login {...props}/>}/>
 			<Route exact path='/register' render={ (props)=> <Registration {...props}/>}/>
 			{/*Recuperar Contraseña*/}
 			<Route exact path='/password/set' render={ ()=> <RecContrasena/>}/>
 			<Route exact path='/password/recover' render={ ()=> <RecContraMail/>}/>
 			{/* Dashboard */}
-			<Route exact path='/dashboard/developer' render={ ()=> <Dashboard type="developer"/>}/>
+			<Route exact path='/dashboard/freelancer' render={ ()=> <Dashboard type="freelancer"/>}/>
 			<Route exact path='/dashboard/contractor' render={ ()=> <Dashboard type="contractor"/>}/>
 			{/*Profile*/}
 				{/* Consultar Propio*/}
-				<Route exact path='/profile/freelancer' render={ ()=> <ConsultProfile type="developer"/>}/>
+				<Route exact path='/profile/freelancer' render={ ()=> <ConsultProfile type="freelancer"/>}/>
 				<Route exact path='/profile/contractor' render={ ()=> <ConsultProfile type="contractor"/>}/>
 				{/* Consultar Anonimo */}
 				<Route exact path='/developer/view/profile/freelancer' render={ ()=> <ConsultProfile type="developerDev"/>}/>
@@ -45,7 +45,10 @@ function App() {
 				{/* Modificar */}
 				<Route exact path='/profile/modify/free' render={ ()=> <EditProfile type="developer"/>}/>
 				<Route exact path='/profile/modify/cont' render={ ()=> <EditProfile type="contractor"/>}/>
-
+				<Route path={['/http:', '/https:']} component={props => {
+					window.location.replace(props.location.pathname.substr(1)) // substr(1) removes the preceding '/'
+					return null
+				}}/>
 			{/*Proyecto*/}
 				{/* Crear */}
 				<Route exact path='/project/create' render={ ()=> <CreateProject/>}/>

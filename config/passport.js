@@ -9,12 +9,12 @@ module.exports = function(passport) {
          where: {email: email} 
       }).then(user => {
         if (!user) {
-          return done(null, false, console.log('That email is not registered') );
+          return done(null, false, console.log('email no valido') );
         }
         bcrypt.compare(password, user.password, (err, isMatch) => {
           if (err) throw err;
           if (isMatch) return done(null, user);
-          else return done(null, false, console.log('Password incorrect'));
+          else return done(null, false,console.log('password no valida'));
         });
       });
     })

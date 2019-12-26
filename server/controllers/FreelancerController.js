@@ -28,7 +28,8 @@ module.exports={
             tiempoExperiencia:req.body.tiempoExperiencia,
             tipoFreelancer: req.body.tipoFreelancer,
             status: req.body.status,
-            habilidades:req.body.habilidades
+            habilidades:req.body.habilidades,
+            seniority:req.body.seniority
         },{where: {usuarioId: req.user.id}})
         .then(function(){ res.send(200,{message:'El usuario se ha modificado correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));

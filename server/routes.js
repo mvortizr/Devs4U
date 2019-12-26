@@ -85,6 +85,7 @@ router.get('/list/contractors',contractorController.listarContractors)
 
 router.post('/review/add/:id',reviewController.agregarReview)
 router.get('/review/list/:id',reviewController.listarReviewsUsuario)
+router.post('/review/mine/list',reviewController.listarMisReviewsUsuario)
 router.get('/review/view/byId/:id',reviewController.consultarReview)
 
 

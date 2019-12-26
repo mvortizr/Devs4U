@@ -145,7 +145,7 @@ const Registration = props => {
                       validateStatus: function(status) {
                         return status >= 200 && status < 500; 
                       },
-                      url:`${SERVER_ROUTE}/register`, 
+                      url:`/register`, 
                       data: query})
                     .then(response =>{
                         console.log('registration res',response)
