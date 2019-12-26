@@ -14,6 +14,9 @@ import InputLabel from '@material-ui/core/InputLabel'
 import InputBase from '@material-ui/core/InputBase'
 import { withStyles } from '@material-ui/core/styles'
 
+import Link from '@material-ui/core/Link'
+import { Link as DomLink, Redirect } from 'react-router-dom'
+
 import logo from './images/fondoLogin.jpg'
 
 
@@ -141,6 +144,8 @@ const Login = props => {
                 />
               </FormControl>
 
+              <DomLink
+              to="/password/set">
               <Button
                 type="button"
                 fullWidth
@@ -150,6 +155,7 @@ const Login = props => {
                 onClick={handleSubmit()}>
                 Solicitar Link de Recuperación
               </Button>
+              </DomLink>
             </form>
           </div>
           <Box mt={8}>

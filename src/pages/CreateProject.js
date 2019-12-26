@@ -1,26 +1,18 @@
 import React from 'react'
-import clsx from 'clsx'
 import {
   Typography,
-  Drawer,
-  AppBar,
-  Toolbar,
-  List,
   Divider,
-  IconButton,
-  Badge,
   Grid,
   CssBaseline,
   Container,
   Link,
   Button,
+  Paper,
   TextField
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import NotificationsIcon from '@material-ui/icons/Notifications'
-import { mainListItems, secondaryListItems } from './ListaItemsCont'
+import Header from './Header'
+
 
 function Copyright() {
   return (
@@ -151,10 +143,13 @@ const useStyles = makeStyles(theme => ({
   },
   button2: {
     margin: theme.spacing(1)
+  },
+  grid:{
+    marginTop:"50px"
   }
 }))
 
-export default function Dashboard() {
+export default function CreateProject() {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
   const handleDrawerOpen = () => {
@@ -163,62 +158,25 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false)
   }
+
+    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+  
+    const handleDateChange = date => {
+      setSelectedDate(date);
+    };
   
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}>
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}>
-            Crear Proyecto
-          </Typography>
-
-          <IconButton color="inherit">
-            {/*badgeContent muestra la cantidad de notificaciones*/}
-            <Badge badgeContent={0} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-        }}
-        open={open}>
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
-      </Drawer>
+      <Header type="contractor"/>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
+         
         <Container className={classes.cardGrid} maxWidth="md">
-          <Grid container spacing={5} className={classes.mainGrid}>
+        <Typography variant="h4" gutterBottom>
+                Creación de Proyecto
+              </Typography>
+          <Grid container spacing={5} className={classes.mainGrid} className={classes.grid}>
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h6" gutterBottom>
@@ -227,53 +185,86 @@ export default function Dashboard() {
               <TextField variant="outlined" fullWidth id="nombre" />
               <Divider />
 
-              {/*
-              <CardMedia
-                   className={classes.cardMedia}
-                   image="./images/fotoPerfil.jpg"
-                   title="Image title"
-              />
-              */}
+              <Typography variant="h6" gutterBottom>
+                Descripción
+              </Typography>
+              <TextField variant="outlined" fullWidth id="descripcion" />
+              
+
+              {/*Si queda tiempo, poner más bonito los objetivos */}
+              <Typography variant="h6" gutterBottom>
+                Objetivos
+              </Typography>
+              <ul>
+                <li><TextField variant="outlined" fullWidth id="obj1" /></li>
+                <li><TextField variant="outlined" fullWidth id="obj2" /></li>
+                <li><TextField variant="outlined" fullWidth id="obj3" /></li>
+              </ul>
 
               <Typography variant="h6" gutterBottom>
-                Tipo de proyecto :
+                Etapas del Proyecto
               </Typography>
-              <TextField variant="outlined" fullWidth id="type" />
+              <form className={classes.container} noValidate>
+                <TextField
+                  id="date1"
+                  label="Abierto"
+                  type="date"
+                  defaultValue="2017-05-24"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <TextField
+                  id="date2"
+                  label="Ejecución"
+                  type="date"
+                  defaultValue="2017-05-24"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </form>
+              <form className={classes.container} noValidate>
+                <TextField
+                  id="date3"
+                  label="Revisión"
+                  type="date"
+                  defaultValue="2017-05-24"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <TextField
+                  id="date4"
+                  label="Finalizado"
+                  type="date"
+                  defaultValue="2017-05-24"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </form>
+
               <Typography variant="h6" gutterBottom>
-                Disponibilidad Referida:
-              </Typography>
-              <TextField variant="outlined" fullWidth id="dispon" />
-              <Divider />
-              <Typography variant="h6" gutterBottom>
-                Descripción:
-              </Typography>
-              <TextField
-                id="descrp"
-                multiline
-                rows="4"
-                margin="normal"
-                variant="outlined"
-                fullWidth
-              />
-              <Typography variant="h6" gutterBottom>
-                Tecnologías a usar:
-              </Typography>
-              <TextField variant="outlined" fullWidth id="tecno" />
-              <Typography variant="h6" gutterBottom>
-                Entregables:
+                Entregables (lo que debe entregarle el freelancer)
               </Typography>
               <TextField variant="outlined" fullWidth id="entregables" />
+              <Divider />
+
+              {/*Si queda tiempo, poner más bonito los objetivos */}
               <Typography variant="h6" gutterBottom>
-                Datos Adicionales:
+                Datos Adicionales
               </Typography>
-              <TextField variant="outlined" fullWidth id="adicional" />
-              <Button
-                variant="contained"
-                color="inherit"
-                className={classes.button1}
-                href="/project/manage/contractor">
-                Cancelar
-              </Button>
+              <ul>
+                <li><TextField variant="outlined" fullWidth id="datosA1" /></li>
+                <li><TextField variant="outlined" fullWidth id="datosA2" /></li>
+                <li><TextField variant="outlined" fullWidth id="datosA3" /></li>
+              </ul>
+
               <Button
                 variant="contained"
                 color="primary"
@@ -281,6 +272,35 @@ export default function Dashboard() {
                 href="/project/manage/contractor">
                 Crear
               </Button>
+              <Button
+                variant="contained"
+                color="inherit"
+                className={classes.button1}
+                href="/project/manage/contractor">
+                Cancelar
+              </Button>
+            </Grid>
+            {/* End main content */}
+
+            {/* Sidebar */}
+            <Grid item xs={12} md={4}>
+              <Paper elevation={0} className={classes.sidebarAboutBox}>     
+
+              <Typography variant="h6" gutterBottom>
+                Tipo de Proyecto
+              </Typography>
+              <TextField variant="outlined" fullWidth id="tipoProyecto" />
+
+              <Typography variant="h6" gutterBottom>
+                Tecnologías a Usar
+              </Typography>
+              <TextField variant="outlined" fullWidth id="tecnologías" />
+
+              <Typography variant="h6" gutterBottom>
+                Presupuesto
+              </Typography>
+              <TextField variant="outlined" fullWidth id="Presupuesto" />
+            </Paper>
             </Grid>
           </Grid>
         </Container>

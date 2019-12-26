@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     calificacion: DataTypes.INTEGER
   },  {freezeTableName: true});
   Review.associate = function(models) {
-    // associations can be defined here
+    Review.belongsTo(models.User, {foreignKey: 'creadorId', as:'creador'});
   };
   return Review;
 };

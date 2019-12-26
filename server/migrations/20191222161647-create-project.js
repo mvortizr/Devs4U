@@ -1,30 +1,48 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Experiencia', {
+    return queryInterface.createTable('Project', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      freelancerId: {
+      etapa: {
         type: Sequelize.INTEGER
       },
-      nombreEmpresa: {
+      titulo: {
         type: Sequelize.STRING
       },
-      cargo: {
+      tipo: {
         type: Sequelize.STRING
-      },
-      anoInicio: {
-        type: Sequelize.INTEGER
-      },
-      anoFin: {
-        type: Sequelize.INTEGER
       },
       descripcion: {
         type: Sequelize.TEXT
+      },
+      encargadoId: {
+        type: Sequelize.INTEGER
+      },
+      creadorId: {
+        type: Sequelize.INTEGER
+      },
+      presupuesto: {
+        type: Sequelize.STRING
+      },
+      entregables: {
+        type: Sequelize.TEXT
+      },
+      visiblePortafolio: {
+        type: Sequelize.BOOLEAN
+      },
+      objetivos:{
+        type: Sequelize.ARRAY(Sequelize.TEXT)
+      },
+      tecnologias:{
+        type: Sequelize.ARRAY(Sequelize.TEXT)
+      },
+      adicionales:{
+        type: Sequelize.ARRAY(Sequelize.TEXT)
       },
       createdAt: {
         allowNull: false,
@@ -37,6 +55,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Experiencia');
+    return queryInterface.dropTable('Project');
   }
 };

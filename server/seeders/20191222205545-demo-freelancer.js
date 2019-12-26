@@ -17,7 +17,7 @@ module.exports = {
     {
       usuarioId: 2,
       tiempoExperiencia:9,
-      tipoFreelancer: 'Escritoriio',
+      tipoFreelancer: 'Escritorio',
       status: 'Disponible',
       habilidades:['java','cotlin','sql'],
       seniority:'Senior',

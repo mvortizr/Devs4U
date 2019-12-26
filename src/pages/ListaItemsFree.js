@@ -11,7 +11,7 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 export const mainListItems = (
   <div>
-  <Link to="/dashboard/developer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+  <Link to="/dashboard/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
@@ -19,24 +19,20 @@ export const mainListItems = (
       <ListItemText primary="Inicio" />
     </ListItem>
   </Link>
+  
   <Link to="/project/manage/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListItem button>
       <ListItemIcon>
-        <WorkIcon />
+        <AssignmentTurnedInIcon />
       </ListItemIcon>
       <ListItemText primary="Proyectos" />
     </ListItem>
    </Link>
-    {/*<ListItem button>
-      <ListItemIcon>
-        <ChatIcon />
-      </ListItemIcon>
-      <ListItemText primary="Postulacion" />
-    </ListItem>*/}
+
     <Link to="/portafolio" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentTurnedInIcon />
+        <WorkIcon />
       </ListItemIcon>
       <ListItemText primary="Portafolio" />
     </ListItem>

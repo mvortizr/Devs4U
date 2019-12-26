@@ -7,6 +7,7 @@ import {
   CssBaseline,
   Box,
   Container,
+  CircularProgress,
   Paper
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
@@ -16,6 +17,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import InputBase from '@material-ui/core/InputBase'
 import { withStyles } from '@material-ui/core/styles'
 import { Link as DomLink, Redirect } from 'react-router-dom'
+import {SERVER_ROUTE} from '../config'
 
 import logo from './images/fondoLogin.jpg'
 
@@ -97,12 +99,14 @@ function Copyright() {
   )
 }
 
-const Login = () => {
+const Login = (props) => {
 
-   const [values, setValues] = React.useState({
+  const [values, setValues] = React.useState({
         email: '',
         password: '',
     });
+  
+  const [loading, setLoading] = React.useState(false)
 
     const[redirect, setRedirect]=React.useState(false);
     const showDialog = (message) => {
@@ -113,75 +117,70 @@ const Login = () => {
     const classes = useStyles();
 
 
-    React.useEffect(() => {
-      console.log('hola');
-      axios.post('/check/auth')
-            .then((response) => {
-                  console.log('check auth',response)
-                  if (response.data.user) {
-                      setRole(response.data.user.rol);
-                      setRedirect(true);                      
-                  } 
-            }, (error) => {
-                console.log(error);
-        });
-    }, []);
-  
-
   /*Funcion vincula el estado del componente con el valor de los campos*/
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value })
   }
 
-  React.useEffect(() => {
-    console.log('hola')
-    axios.post('/check/auth').then(
-      response => {
-        console.log('check auth', response)
-        if (response.data.user) {
-          setRole(response.data.user.rol)
-          setRedirect(true)
-        }
-      },
-      error => {
-        console.log(error)
-      }
-    )
-  }, [])
+ 
 
   const handleSubmit = () => {
-    console.log('Im fired login')
-    axios.post('/login', values).then(
-      response => {
-        console.log('login response', response)
 
-        if (response.data.user) {
-          console.log('successful login')
-          showDialog('Has iniciado sesión exitosamente')
-          setRole(response.data.user.rol)
-          setRedirect(true)
-        } else {
-          console.log('unsuccesful signup')
-          showDialog('Ha ocurrido un error en tu inicio de sesion')
-        }
-      },
-      error => {
-        console.log(error)
+    if(esValido()){
+      setLoading(true)
+
+              axios({ method: 'post',
+                      validateStatus: function(status) {
+                        return status >= 200 && status < 500; 
+                      },
+                      url:`/login`, 
+                      withCredentials: true,
+                      data: values})
+                    .then(response =>{
+                        console.log('login res',response)
+                        if(response.status === 200){
+                          showDialog('Ha iniciado sesión correctamente')
+                          sessionStorage.setItem('nombre', response.data.user.nombre);
+                          sessionStorage.setItem('rol', response.data.user.rol);
+                          sessionStorage.setItem('foto', response.data.user.foto);                   
+                          props.history.push(`/dashboard/${response.data.user.rol}`)
+                        } 
+                        else {
+                          if(response.data.error !== undefined) {
+                            showDialog('Error: '+response.data.error)
+                          } 
+                        }
+                    })
+                    .catch(error => {console.log('error',error)
+                      showDialog('Ha ocurrido un error, intente más tarde')
+                    })
+          
+          setLoading(false)
       }
-    )
+   
   }
 
-  /*
-    const changeColor = () => {
-      if (${options[variant] == "contained"){
-        ${options[variant] == "outlined";
-      }
-      if(${options[variant] == "outlined"){
-        ${options[variant] == "contained";
-      } 
-    };
-    */
+  const esValido = () => {
+    
+    let valido = true
+    
+    if((values.email==="") || (values.password==="")){
+      showDialog('Debe rellenar todos los campos')
+      valido=false
+    } else if(values.email !== "" && !validateEmail(values.email)){
+      valido=false
+      showDialog('El correo introducido no es válido')
+    }
+    return valido
+  }
 
+  const validateEmail = (email)=> {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+
+  
   return (
     <Container component="main" maxWidth="sm">
       <CssBaseline />
@@ -201,45 +200,8 @@ const Login = () => {
               Iniciar Sesión
             </Typography>
 
-            {/* <Grid container spacing={2} justify="center">
-          <Grid item>
-            <Button variant="outlined" color="inherit">
-              Iniciar Sesión como Freelancer
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button variant="outlined" color="inherit">
-              Iniciar Sesión como Contratista
-            </Button>
-          </Grid>
-        </Grid> */}
-
+           {loading?(<CircularProgress/>):(
             <form className={classes.form} noValidate>
-              {/* <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Correo Electrónico"
-              name="email"
-              autoComplete="email"
-              onChange={handleChange('email')}
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Contraseña"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handleChange('password')}
-            /> */}
-
               <FormControl>
                 <InputLabel
                   shrink
@@ -268,10 +230,6 @@ const Login = () => {
                 />
               </FormControl>
 
-              {/*<FormControlLabel
-              control={<Checkbox value="remember" color="primary" className={classes.text}/>}
-              label="Recordarme"
-            />*/}
               <Button
                 type="button"
                 fullWidth
@@ -303,6 +261,8 @@ const Login = () => {
                 </Grid>
               </Grid>
             </form>
+           )}
+
           </div>
           <Box mt={8}>
             <Copyright />

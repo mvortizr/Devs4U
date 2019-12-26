@@ -20,8 +20,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import { mainListItems, secondaryListItems } from './ListaItemsCont'
+import { mainListItemsC, secondaryListItemsC } from './ListaItemsCont'
 import { Link as DomLink } from 'react-router-dom'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Techno from '../components/Techno'
+import axios from 'axios'
 
 function Copyright() {
   return (
@@ -147,7 +150,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
   const handleDrawerOpen = () => {
@@ -157,6 +160,27 @@ export default function Dashboard() {
     setOpen(false)
   }
 
+
+
+  const userID = props.match.params.id;
+  const[devInfo,setDevInfo]=React.useState(undefined);
+  
+
+  React.useEffect(() => {  
+      axios.post(`/user/see/byId/${userID}`)
+            .then((response) => {
+                console.log('response perfil', response.data);
+                setDevInfo(response.data);
+                //setPostInfo(response.data[0])
+                //setPostContractorId(response.data[0].contractor)
+            }, (error) => {
+                console.log(error);
+        });
+     
+    }, []);
+
+
+// if(devInfo){
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -181,7 +205,8 @@ export default function Dashboard() {
             color="inherit"
             noWrap
             className={classes.title}>
-            Perfil de Fulanito
+            Perfil de  
+            {/* {devInfo.user[0].firstName + '  ' + devInfo.user[0].lastName} */}
           </Typography>
 
           <IconButton color="inherit">
@@ -204,9 +229,9 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>{mainListItemsC}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List>{secondaryListItemsC}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -215,7 +240,7 @@ export default function Dashboard() {
             {/* Main content */}
             <Grid item xs={12} md={8}>
               <Typography variant="h4" gutterBottom>
-                Nombre del Usuario
+                {/* {devInfo.user[0].firstName + '  ' + devInfo.user[0].lastName} */}
               </Typography>
               <Divider />
 
@@ -232,33 +257,20 @@ export default function Dashboard() {
                 Sobre mí:
               </Typography>
 
-              <Typography paragraph>Información Personal</Typography>
+              {/* <Typography paragraph> {devInfo.user[0].aboutMe}</Typography> */}
 
               <Typography variant="h6" gutterBottom>
                 Lenguajes de Programación que domino:
               </Typography>
 
-              <Typography paragraph>
-                <li className={classes.listItem}>
-                  <Typography component="span" /> Lenguaje 1
-                </li>
-                <li className={classes.listItem}>
-                  <Typography component="span" /> Lenguaje 2
-                </li>
-              </Typography>
+              {/* <Techno arr={devInfo.developer[0].skills}/> */}
 
+             
               <Typography variant="h6" gutterBottom>
                 Idiomas:
               </Typography>
+               {/* <Techno arr={devInfo.developer[0].languages}/> */}
 
-              <Typography paragraph>
-                <li className={classes.listItem}>
-                  <Typography component="span" /> Holaaaa
-                </li>
-                <li className={classes.listItem}>
-                  <Typography component="span" /> Holis
-                </li>
-              </Typography>
             </Grid>
             {/* End main content */}
             {/* Sidebar */}
@@ -269,13 +281,16 @@ export default function Dashboard() {
                 </Typography>
 
                 <Typography paragraph>
-                  <strong>Residencia:</strong> Caracas, Venezuela
+                  <strong>Residencia:</strong> 
+                  {/* {devInfo.user[0].residence} */}
                 </Typography>
                 <Typography paragraph>
-                  <strong>Horas de Trabajo:</strong> +40
+                  <strong>Horas de Trabajo:</strong>  
+                  {/* {devInfo.developer[0].workHours} */}
                 </Typography>
                 <Typography paragraph>
-                  <strong>Experiencia:</strong> 1 año
+                  <strong>Experiencia:</strong> 
+                  {/* {devInfo.user[0].experience} */}
                 </Typography>
               </Paper>
 
@@ -296,5 +311,8 @@ export default function Dashboard() {
         <Copyright />
       </main>
     </div>
-  )
+  );
+  // } else{
+  //   return <CircularProgress />;
+  // }
 }

@@ -4,7 +4,7 @@ module.exports={
 
     guardarUsuario(req,res,usuarioId){
         model.Contractor.create({usuarioId:usuarioId})
-        .then(function(){ res.send(200,{message:'El usuario se ha creado correctamente'})})
+        .then(function(){ res.status(200).send({message:'El usuario se ha creado correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
@@ -30,13 +30,21 @@ module.exports={
         .catch((error) => { res.status(400).send(error); });
     },
 
-    listarContractors(req,res){//Arriba el spanglish Probar
-        model.User.findAll({
+    listarContractors(req,res){
+        model.User.findAndCountAll({
+            offset:(req.body.page-1) * req.body.pageSize,
+            limit:req.body.pageSize,
             where:{rol:'contractor'},
-            include:['contractor']
+            //include:['contractor']
         })
-
-        .then(function(contractors){res.send(contractors)})
+        .then(function(contractors){
+            res.status(400).send(contractors)
+            /*model.Contractor.count()
+            .then( function(count){ 
+                res.send({contractors:contractors, count:count})       
+            })
+            .catch(err => res.status(400).json('Error: ' + err));*/
+        })
         .catch(err => res.status(400).json('Error: ' + err));
     },
 

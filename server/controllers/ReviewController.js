@@ -4,8 +4,8 @@ module.exports={
 
     agregarReview(req,res){
         model.Review.create({
-            destinatarioId: req.body.destinatarioId,
-            creadorId: req.body.creadorId,
+            destinatarioId: req.params.id,
+            creadorId: req.user.id,
             descripcion: req.body.descripcion,
             calificacion: req.body.calificacion
         })
@@ -18,5 +18,28 @@ module.exports={
         .then(function(review){res.send(review)})
         .catch(err => res.status(400).json('Error: ' + err));
 
-    }
+    },
+
+    listarReviewsUsuario(req,res){
+        model.Review.findAndCountAll({
+            offset:(req.body.page-1) * req.body.pageSize,
+            limit:req.body.pageSize,
+            where:{destinatarioId:req.params.id}
+        })
+        .then(function(review){res.send(review)})
+        .catch(err => res.status(400).json('Error: ' + err));
+
+    },
+    listarMisReviewsUsuario(req,res){
+        console.log('req reviews',req.body)
+        model.Review.findAndCountAll({
+            offset:(req.body.page-1) * req.body.pageSize,
+            limit:req.body.pageSize,
+            where:{destinatarioId:req.user.id},
+            include:['creador']
+        })
+        .then(function(review){res.send(review)})
+        .catch(err => res.status(400).json('Error: ' + err));
+
+    },
 }
