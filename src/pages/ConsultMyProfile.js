@@ -555,7 +555,7 @@ export default function ConsultProfile(props) {
                       <strong>Experiencia</strong> 
                     </Typography>
                     <Typography paragraph>
-                      {user.freelancer.tiempoExperiencia}
+                      {user.freelancer.tiempoExperiencia} años
                     </Typography>
 
                     <Divider />

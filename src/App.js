@@ -41,7 +41,7 @@ function App() {
 				{/* Consultar Anonimo */}
 				<Route exact path='/view/profile/:id/:rol' render={ (props)=> <ConsultProfile {...props}/>}/>
 				{/* Modificar */}
-				<Route exact path='/profile/modify' render={ ()=> <EditProfile/>}/>
+				<Route exact path='/profile/modify' render={ (props)=> <EditProfile {...props}/>}/>
 				
 				<Route path={['/http:', '/https:']} component={props => {
 					window.location.replace(props.location.pathname.substr(1)) // substr(1) removes the preceding '/'
@@ -51,7 +51,7 @@ function App() {
 				{/* Crear */}
 				<Route exact path='/project/create' render={ ()=> <CreateProject/>}/>
 				{/* Modificar */}
-				<Route exact path='/project/edit' render={ ()=> <EditProject/>}/>
+				<Route exact path='/project/edit' render={ (props)=> <EditProject{...props}/>}/>
 				{/* Consultar */}
 				<Route exact path='/project/manage/freelancer' render={ ()=> <GestProject type="developer"/>}/>
 				<Route exact path='/project/manage/contractor' render={ ()=> <GestProject type="contractor"/>}/>

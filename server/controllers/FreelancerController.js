@@ -25,14 +25,15 @@ module.exports={
 
     modificarPerfil(req,res){
         model.Freelancer.update({
-            tiempoExperiencia:req.body.tiempoExperiencia,
-            tipoFreelancer: req.body.tipoFreelancer,
-            status: req.body.status,
-            habilidades:req.body.habilidades,
-            seniority:req.body.seniority
+            tiempoExperiencia:req.body.user.tiempoExperiencia,
+            tipoFreelancer: req.body.nuevoTipoFreelancer,
+            //status: req.body.user.status,
+            habilidades:req.body.nuevasHabilidades,
+            seniority:req.body.nuevoTipoSeniority
         },{where: {usuarioId: req.user.id}})
         .then(function(){ res.send(200,{message:'El usuario se ha modificado correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
+
 
     },
     

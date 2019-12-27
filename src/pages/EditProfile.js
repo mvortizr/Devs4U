@@ -21,7 +21,8 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import {LinkedIn as LinkedInIcon} from '@material-ui/icons';
+import {LinkedIn as LinkedInIcon, Language as LanguageIcon} from '@material-ui/icons';
+import { Link as DomLink} from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -214,7 +215,7 @@ export default function Dashboard(props) {
   //const [experienciaArray, setExperienciaArray] = React.useState([{id:false,nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:'',anoFin:''}, {id:false,nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:'',anoFin:''} ]);
 
   const [educacionArray, setEducacionArray] = React.useState([]);
-  const [userInfo, setUserInfo] = React.useState({nombre:'',descripcionCorta:'',foto:'',sobreMi:'',habilidades:'',pais:'',ciudad:'',tiempoExperiencia:'',idiomas:'',instagram:'',facebook:'',twitter:'',linkedin:''});
+  const [userInfo, setUserInfo] = React.useState({nombre:'',descripcionCorta:'',foto:'',sobreMi:'',habilidades:'',pais:'',ciudad:'',tiempoExperiencia:'',idiomas:'',instagram:'',facebook:'',twitter:'',linkedin:'',web:''});
   
   //const inputLabel = React.useRef(nconst [deletedExperiencias, setDeletedExperiencias] = React.useState([]);ull); 
 
@@ -231,8 +232,14 @@ export default function Dashboard(props) {
       })
       .then(response =>{
           console.log('consultar res',response)
+
           if(response.status === 200){
-            setUser(response.data[0]) 
+            setUserInfo({...response.data[0], habilidades: response.data[0].freelancer.habilidades.join(), tiempoExperiencia: response.data[0].freelancer.tiempoExperiencia,idiomas: response.data[0].idiomas.join()}) 
+            setExperienciaArray(response.data[0].experiencia)
+            setEducacionArray(response.data[0].educacion)
+            setTypeFreelancer(verTipoFreelancerEnSelect(response.data[0].freelancer.tipoFreelancer))
+            setTypeSeniority(verTipoSeniorityEnSelect(response.data[0].freelancer.seniority))
+      
           } 
           
       })
@@ -242,21 +249,35 @@ export default function Dashboard(props) {
      
     }, []);
 
-  const handleModification = () =>{
-    /*axios.post('/edit', dummyDataFree)
-            .then((response) => {
-                 console.log('response perfil free modify', response);
 
-                if(response.data.success){
-                   //FRONTEND INFO redireccionar como lo hice en el login
-                   setRedirect(true)
-                   alert('Ha modificado su perfil con exito')
-                 } else {
-                  alert('Hubo un error en su modificacion')
-                 }
-            }, (error) => {
-                console.log(error);
-        });*/
+  const selectToStrTipoFreelancer = {1:'Desarrollador Web', 2:'Desarrollador Móvil',3:'Q/A',4:'Otros'};
+  const selectToStrTipoSeniority = {1:'Junior', 2:'Mid-level',3:'Senior',4:'Experto'};
+
+  const handleModification = () =>{
+
+      let nuevoTipoFreelancer = selectToStrTipoFreelancer[typeFreelancer]
+      let nuevoTipoSeniority = selectToStrTipoSeniority[typeSeniority]
+
+     
+      axios({ method: 'put',
+        validateStatus: function(status) {
+          return status >= 200 && status < 500; 
+        },
+        url:`/profile/edit`, 
+        withCredentials:true,
+        data:{user: userInfo, experiencia: experienciaArray, nuevoTipoFreelancer:nuevoTipoFreelancer, nuevoTipoSeniority:nuevoTipoSeniority, nuevosIdiomas: userInfo.idiomas.split(','), nuevasHabilidades: userInfo.habilidades.split(',')}
+      })
+      .then(response =>{
+          console.log('mod res',response)
+
+          if(response.status === 200){
+            props.history.push(`/profile/${userInfo.rol}`)
+          } 
+          
+      })
+      .catch(error => {
+        console.log('error',error)
+      })
   }
 
   const handleChangeTypeFreelancer = event => {
@@ -285,7 +306,45 @@ export default function Dashboard(props) {
 
   }
 
+  const verTipoFreelancerEnSelect= tipo => {
+    let tipoFreelancer
+      
+      switch (tipo) {
+        case 'Desarrollador Web':
+          tipoFreelancer = 1;
+          break;
+        case 'Desarrollador Móvil':
+          tipoFreelancer = 2;
+          break;
+        case 'Q/A':
+          tipoFreelancer = 3;
+          break;
+        default:
+          tipoFreelancer = 4;
+      }
 
+        return tipoFreelancer
+  }
+
+   const verTipoSeniorityEnSelect= tipo => {
+    let tipoSeniority
+      
+      switch (tipo) {
+        case 'Mid-level':
+          tipoSeniority = 2;
+          break;
+        case 'Senior':
+          tipoSeniority = 3;
+          break;
+        case 'Experto':
+          tipoSeniority = 4;
+          break;
+        default:
+          tipoSeniority = 1;
+      }
+
+        return tipoSeniority
+  }
 
   const handleAddExperience = event => {
     setExperienciaArray(oldExpArray => [...oldExpArray, {id:false, nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:'',anoFin:''}]);
@@ -351,9 +410,11 @@ export default function Dashboard(props) {
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               Perfil
             </Typography>
-            <Button type="button" variant="contained" className={classes.buttonCan}>
-              Cancelar
-            </Button>
+            <DomLink to={`/profile/${userInfo.rol}`} style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+              <Button type="button" variant="contained" className={classes.buttonCan}>
+                Cancelar
+              </Button>
+            </DomLink>
             <Button type="button" variant="contained" className={classes.buttonSave} onClick={handleModification} >
               Guardar Cambios
             </Button>
@@ -388,7 +449,7 @@ export default function Dashboard(props) {
           <Grid container spacing={5} className={classes.mainGrid}>
               {/* Main content */}
               <Grid item xs={12} md={4}>
-                <img src={fotoPerfil} className={classes.imageUser}/>
+                <img src={userInfo.foto} className={classes.imageUser}/>
                 
                   {/*Cambiar por link para adjuntar imagen */}
                   <div className={classes.centerImage}>
@@ -886,7 +947,6 @@ export default function Dashboard(props) {
                     </Select>
                   </FormControl>
                 </div>
-                 
 
                   
                 <div className={classes.addMarginBottom}>
@@ -1003,6 +1063,22 @@ export default function Dashboard(props) {
                     size="small"
                     InputProps={{
                          startAdornment: <InputAdornment position="start"><LinkedInIcon/></InputAdornment>,
+                      }}
+                    />
+                  </div>
+
+                  <div className={classes.addMarginBottom}>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Web"
+                    onChange={handleChange()}
+                    name="web"
+                    value= {userInfo.web}
+                    inputProps={{ maxLength: 180 }}
+                    size="small"
+                    InputProps={{
+                         startAdornment: <InputAdornment position="start"><LanguageIcon/></InputAdornment>,
                       }}
                     />
                   </div>

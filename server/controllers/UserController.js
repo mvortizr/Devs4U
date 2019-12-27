@@ -7,20 +7,24 @@ const uploadImage = require('../middlewares/cloudinary');
 
 module.exports = {
     modificarPerfil(req, res) {
-        model.User.update({
-            nombre: req.body.nombre,
-            foto: req.body.foto,
-            apellido: req.body.apellido,
-            pais: req.body.pais,
-            ciudad: req.body.ciudad,
-            sobreMi: req.body.sobreMi,
-            descripcionCorta: req.body.descripcionCorta,
-            web: req.body.web,
-            linkedin: req.body.linkedin,
-            idiomas: req.body.idiomas,
-            facebook: req.body.facebook,
-            instagram: req.body.instagram,
-            twitter: req.body.twitter,
+
+        console.log('req',req.body.user)
+
+        
+       model.User.update({
+            nombre: req.body.user.nombre,
+            foto: req.body.user.foto,
+            //apellido: req.body.apellido,
+            pais: req.body.user.pais,
+            ciudad: req.body.user.ciudad,
+            sobreMi: req.body.user.sobreMi,
+            descripcionCorta: req.body.user.descripcionCorta,
+            web: req.body.user.web,
+            linkedin: req.body.user.linkedin,
+            idiomas: req.body.nuevosIdiomas,
+            facebook: req.body.user.facebook,
+            instagram: req.body.user.instagram,
+            twitter: req.body.user.twitter,
         }, { where: { id: req.user.id } })
 
             .then(function () {
