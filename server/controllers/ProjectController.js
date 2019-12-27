@@ -31,7 +31,7 @@ module.exports={
     consultarProyecto(req,res){
         model.Project.findAll({
             where: {id: req.params.id},
-            include:[{model: model.ProjectStage, as:'etapasInfo'}]
+            include:[{model: model.ProjectStage, as:'etapasInfo'},'creador','encargado']
         })
         .then(function(proyecto){ res.status(200).send(proyecto)})
         .catch(err => res.status(400).json('Error: ' + err));
@@ -57,8 +57,6 @@ module.exports={
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
-
-  
     cancelarProyecto(req,res){
         model.Project.destroy({ 
             where: {
@@ -121,6 +119,7 @@ module.exports={
             })
             .catch(err => res.status(400).json('Error: ' + err));
     },
+    
     cambiarEtapaProyecto(req,res){
         model.Project.update({
             etapa:req.body.nuevaEtapa,
@@ -130,5 +129,15 @@ module.exports={
             })
             .catch(err => res.status(400).json('Error: ' + err));
 
+    },
+
+    asignarDesarrolladorEncargado(req,res){ //ESTA MALO; FALTA CORREGIR
+        model.Project.update({
+            etapa:req.encargadoId,
+            where:{id:req.body.proyectoId},
+        }) .then(function(){               
+                res.status(200).send({ message:'La etapa se ha cambiado satisfactoriamente'})   
+            })
+            .catch(err => res.status(400).json('Error: ' + err));
     }
 }

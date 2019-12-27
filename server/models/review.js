@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   },  {freezeTableName: true});
   Review.associate = function(models) {
     Review.belongsTo(models.User, {foreignKey: 'creadorId', as:'creador'});
+    Review.belongsTo(models.User, {foreignKey: 'destinatarioId', as:'destinatario'});
   };
   return Review;
 };

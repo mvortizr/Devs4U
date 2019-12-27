@@ -1,4 +1,5 @@
 const model=require('../models');
+const userController = require('./UserController');
 
 module.exports={
 
@@ -9,13 +10,20 @@ module.exports={
             descripcion: req.body.descripcion,
             calificacion: req.body.calificacion
         })
-        .then(function(){ res.send(200,{message:'El review se ha creado correctamente'})})
+        .then(function(review){
+
+            let destinatarioId=review.get().destinatarioId
+            let calificacion=review.get().calificacion
+            
+            userController.actualizarCalifiacionMedia(destinatarioId,calificacion)
+        })
+        .then(function(){res.status(200).send({message:'El review se ha creado correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
     consultarReview(req,res){
         model.Review.findAll({where:{id:req.params.id}})
-        .then(function(review){res.send(review)})
+        .then(function(review){res.status(200).send(review)})
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
@@ -24,21 +32,21 @@ module.exports={
         model.Review.findAndCountAll({
             offset:(req.body.page-1) * req.body.pageSize,
             limit:req.body.pageSize,
-            where:{destinatarioId:req.params.id}
+            where:{destinatarioId:req.params.id},
+            include:['creador','destinatario']
         })
-        .then(function(review){res.send(review)})
+        .then(function(review){res.status(200).send(review)})
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
     listarMisReviewsUsuario(req,res){
-        console.log('req reviews',req.body)
         model.Review.findAndCountAll({
             offset:(req.body.page-1) * req.body.pageSize,
             limit:req.body.pageSize,
             where:{destinatarioId:req.user.id},
             include:['creador']
         })
-        .then(function(review){res.send(review)})
+        .then(function(review){res.status(200).send(review)})
         .catch(err => res.status(400).json('Error: ' + err));
 
     },

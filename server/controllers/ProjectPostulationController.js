@@ -29,7 +29,7 @@ module.exports={
             where: {proyectoId: req.body.proyectoId},
             include:[{model: model.User}]
         })
-        .then(function(freelancer){ res.status(400).send(freelancer)})
+        .then(function(freelancer){ res.status(200).send(freelancer)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -38,7 +38,7 @@ module.exports={
             where: {usuarioId: req.user.id},
             include:[{model: model.Project}]
         })
-        .then(function(freelancer){ res.status(400).send(freelancer)})
+        .then(function(freelancer){ res.status(200).send(freelancer)})
         .catch(err => res.status(400).json('Error: ' + err));
     }
 

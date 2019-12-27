@@ -34,10 +34,8 @@ module.exports={
                     .then(function(usuario){
                         if (req.body.rol=='freelancer') freelancerController.guardarUsuario(req,res,usuario.id);
                         else if (req.body.rol=='contractor')contratistaController.guardarUsuario(req,res,usuario.id);
-                        else console.log('error')
                     })
-                    .catch(err => {res.status(400).send({error:err})
-                     console.log('error',err)
+                    .catch(err => {res.status(400).json({error:err})
                     });
                     
                 }

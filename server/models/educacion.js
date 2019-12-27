@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     anoFin: DataTypes.INTEGER
   },{freezeTableName: true});
   Educacion.associate = function(models) {
-    
+
+    Educacion.belongsTo(models.User,{foreignKey:'freelancerId',as:'usuarioInfo'})
   };
   return Educacion;
 };

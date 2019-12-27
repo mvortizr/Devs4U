@@ -10,7 +10,7 @@ module.exports={
             cargo: req.body.cargo,
             anoInicio: req.body.anoInicio,
             anoFin: req.body.anoFin
-        }).then(function(){ res.send(200,{message:'Se ha creado la experiencia exitosamente'})})
+        }).then(function(){ res.status(200).send({message:'Se ha creado la experiencia exitosamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -25,13 +25,16 @@ module.exports={
             anoFin: req.body.anoFin
         },{where:{id:req.params.id}})
 
-        .then(function(){ res.send(200,{message:'Se modifico la experiencia correctamente'})})
+        .then(function(){ res.status(200).send({message:'Se modifico la experiencia correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
     consultarListaExperiencia(req,res){
-        model.Experiencia.findAll({where:{freelancerId:req.user.id}})
-        .then(function(result){res.status(400).send(result)})
+        model.Experiencia.findAll(
+            {where:{freelancerId:req.user.id},
+            include:['usuarioInfo']
+        })
+        .then(function(result){res.status(200).send(result)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -52,7 +55,7 @@ module.exports={
         });
 
         Promise.all(promiseArray)
-        .then(function(){ res.send(200,{message:'Se modificaron los datos correctamente'})})
+        .then(function(){ res.status(200).send({message:'Se modificaron los datos correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -63,7 +66,7 @@ module.exports={
                 freelancerId:req.user.id
             }
         })
-        .then(function(){ res.send(200,{message:'Se ha eliminado la experiencia exitosamente'})})
+        .then(function(){res.status(200).send({message:'Se ha eliminado la experiencia exitosamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
 
     }

@@ -77,4 +77,17 @@ module.exports = {
 
     },
 
+    actualizarCalifiacionMedia(usuarioId,calificacion){
+
+
+        model.User.findAll({where: {id: usuarioId}})
+        
+        .then(function(usuario){ if(usuario[0].calificacionesMedia!=0){ calificacion=(usuario[0].calificacionesMedia+calificacion)/2}})
+        .then(function(){
+            model.User.update({
+                calificacionesMedia: calificacion
+            },{where: {id: usuarioId}})
+        })
+   
+    }
 }

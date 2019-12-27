@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     anoFin: DataTypes.INTEGER
   },  {freezeTableName: true});
   Experiencia.associate = function(models) {
-    // associations can be defined here
+    Experiencia.belongsTo(models.User,{foreignKey:'freelancerId',as:'usuarioInfo'})
+
   };
   return Experiencia;
 };
