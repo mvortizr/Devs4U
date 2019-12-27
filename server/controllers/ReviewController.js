@@ -39,6 +39,7 @@ module.exports={
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
+    
     listarMisReviewsUsuario(req,res){
         model.Review.findAndCountAll({
             offset:(req.body.page-1) * req.body.pageSize,

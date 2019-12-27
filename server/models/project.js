@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     adicionales:DataTypes.ARRAY(DataTypes.TEXT),
   }, {freezeTableName: true});
   Project.associate = function(models) {    
-    Project.belongsTo(models.User, {foreignKey: 'creadorId', as:'creador'});
+    Project.belongsTo(models.User, {foreignKey: 'creadorId', as:'creador',onDelete: 'CASCADE'});
     Project.belongsTo(models.User, {foreignKey: 'encargadoId', as:'encargado'});
 
     Project.hasMany(models.ProjectStage, {foreignKey:'proyectoId',as: 'etapasInfo'})

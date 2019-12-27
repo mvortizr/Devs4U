@@ -63,4 +63,8 @@ module.exports={
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
+    eliminarEducacionDeUnUsuario(req,res){
+        model.Educacion.destroy({where:{freelancerId:req.user.id}})
+    }
+
 }

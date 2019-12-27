@@ -69,6 +69,11 @@ module.exports={
         .then(function(){res.status(200).send({message:'Se ha eliminado la experiencia exitosamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
 
+    },
+
+    eliminarExperienciaDeUnUsuario(req,res){
+        model.Experiencia.destroy({where:{freelancerId:req.user.id}})
+
     }
 
 }

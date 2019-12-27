@@ -1,6 +1,9 @@
 const model = require('../models');
 const freelancerController = require('./FreelancerController')
 const contratistaController = require('./ContractorController')
+const experienciaController= require('./ExperienciaController')
+const educacionController=require('./EducacionController')
+const proyectoController=require('./ProjectController')
 const uploadImage = require('../middlewares/cloudinary');
 
 
@@ -43,7 +46,13 @@ module.exports = {
             }
         })
             .then(function () {
-                if (req.user.rol == 'freelancer') freelancerController.eliminarPerfil(req, res);
+                if (req.user.rol == 'freelancer') {
+                    freelancerController.eliminarPerfil(req, res)
+                    experienciaController.eliminarExperienciaDeUnUsuario(req,res)
+                    educacionController.eliminarEducacionDeUnUsuario(req,res)
+                    proyectoController.actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(req,res)
+                    //Actualizar la postulacion
+                }
                 else if (req.user.rol == 'contractor') contratistaController.eliminarPerfil(req, res);
             })
             .catch((error) => { res.status(400).send(error); });

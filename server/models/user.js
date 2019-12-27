@@ -94,7 +94,7 @@ module.exports = (sequelize, DataTypes) => {
 
 
     //Relaciones de los proyectos
-    User.hasMany(models.Project, {as: 'proyectosCreados', foreignKey:'creadorId'})
+    User.hasMany(models.Project, {as: 'proyectosCreados', foreignKey:'creadorId',onDelete: 'CASCADE'})
     User.hasMany(models.Project, {as: 'proyectosEncargados', foreignKey:'encargadoId'})
   };
   return User;

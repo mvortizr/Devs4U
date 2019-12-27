@@ -23,6 +23,7 @@ const freelancerController=require('./controllers/FreelancerController')
 const contractorController=require('./controllers/ContractorController')
 const reviewController=require('./controllers/ReviewController')
 const searchController = require('./controllers/SearchController')
+const projectStageController=require('./controllers/ProjecStageController')
 //const projectController=require('./controllers/ProjectController');
 
 
@@ -54,6 +55,13 @@ router.get('/project/list/view/created', ensureAuthenticated,projectController.l
 router.get('/project/list/view/worked', ensureAuthenticated,projectController.listarProyectosEncargados)
 router.post('/project/stage/change', ensureAuthenticated,projectController.cambiarEtapaProyecto)
 router.post('/project/add/freelancer/incharge/:id',ensureAuthenticated,projectController.asignarFreelancerEncargado)
+
+//Rutas Cambiar Deadline
+
+
+router.post('/project/stage/chance/deadline/:id',ensureAuthenticated,projectStageController.modificarDeadline)
+
+
 
 //Rutas postulaciones proyecto
 router.put('/project/postulation/do/', ensureAuthenticated,projectPostulationController.postularseProyecto)

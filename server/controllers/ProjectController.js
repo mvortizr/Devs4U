@@ -31,7 +31,7 @@ module.exports={
     consultarProyecto(req,res){
         model.Project.findAll({
             where: {id: req.params.id},
-            include:[/*'etapasInfo'*/,'creador','encargado']
+            include:['etapasInfo','creador','encargado']
         })
         .then(function(proyecto){ res.status(200).send(proyecto)})
         .catch(err => res.status(400).json('Error: ' + err));
@@ -83,7 +83,7 @@ module.exports={
         model.Project.findAndCountAll({
             offset:(req.body.page-1) * req.body.pageSize,
             limit:req.body.pageSize,
-            where:req.body.query,
+            //where:req.body.query,
         }) 
         .then(function(proyecto){res.status(200).send(proyecto) })
         .catch(err => res.status(400).json('Error: ' + err));
@@ -118,7 +118,6 @@ module.exports={
     },
     
     cambiarEtapaProyecto(req,res){
-        console.log(req.body.nuevaEtapa+'+'+req.body.proyectoId)
         model.Project.update({
             etapa:req.body.nuevaEtapa
         },{where:{id:req.body.proyectoId}})
@@ -135,5 +134,12 @@ module.exports={
             {where:{id:req.body.proyectoId}}) 
         .then(function(){res.status(200).send({ message:'El freelancer ha sido asignado'})   })
         .catch(err => res.status(400).json('Error: ' + err));
+    },
+
+
+    actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(req,res){
+        model.Project.update(
+            {encargadoId:0},
+            {where:{id:req.user.id}}) 
     }
 }
