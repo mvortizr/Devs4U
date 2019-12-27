@@ -31,7 +31,7 @@ module.exports={
     consultarProyecto(req,res){
         model.Project.findAll({
             where: {id: req.params.id},
-            include:[/*'etapasInfo',*/'creador','encargado']
+            include:[/*'etapasInfo'*/,'creador','encargado']
         })
         .then(function(proyecto){ res.status(200).send(proyecto)})
         .catch(err => res.status(400).json('Error: ' + err));
@@ -48,8 +48,7 @@ module.exports={
             objetivos:req.body.objetivos,
             tecnologias:req.body.tecnologias,
             adicionales:req.body.adicionales,
-        },{ 
-            where: {id: req.params.id},
+        },{ where: {id: req.params.id},
         })
         .then(function(usuario){
             res.status(200).send({ message:'El proyecto se ha modificado correctamente'})   
@@ -119,14 +118,15 @@ module.exports={
     },
     
     cambiarEtapaProyecto(req,res){
+        console.log(req.body.nuevaEtapa+'+'+req.body.proyectoId)
         model.Project.update({
-            etapa:req.body.nuevaEtapa,
-            where:{id:req.body.proyectoId},
-        }) .then(function(){               
+            etapa:req.body.nuevaEtapa
+        },{where:{id:req.body.proyectoId}})
+
+            .then(function(){               
                 res.status(200).send({ message:'La etapa se ha cambiado satisfactoriamente'})   
             })
             .catch(err => res.status(400).json('Error: ' + err));
-
     },
 
     asignarFreelancerEncargado(req,res){
