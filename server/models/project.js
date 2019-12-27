@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     Project.belongsTo(models.User, {foreignKey: 'creadorId', as:'creador'});
     Project.belongsTo(models.User, {foreignKey: 'encargadoId', as:'encargado'});
 
-    Project.hasMany(models.ProjectStage, {as: 'etapasInfo',foreignKey:'proyectoId'})
+    Project.hasMany(models.ProjectStage, {foreignKey:'proyectoId',as: 'etapasInfo'})
     Project.belongsToMany(models.User, {through: 'IntPostulationProject', foreignKey: 'proyectoId', as: 'usuariosPostulados',otherKey: 'usuarioId'})
   };
   return Project;

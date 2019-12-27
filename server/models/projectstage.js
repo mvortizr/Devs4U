@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     proyectoId: DataTypes.INTEGER,
   }, {freezeTableName: true});
   ProjectStage.associate = function(models) {
-    ProjectStage.hasMany(models.Project, {as: 'proyecto',foreignKey:'proyectoId'})
+    //ProjectStage.hasMany(models.Project, {as: 'proyecto',foreignKey:'proyectoId'})
+    ProjectStage.belongsTo(models.Project, {as: 'proyecto',foreignKey:'proyectoId'})
   };
   return ProjectStage;
 };

@@ -31,7 +31,7 @@ module.exports={
     consultarProyecto(req,res){
         model.Project.findAll({
             where: {id: req.params.id},
-            include:[{model: model.ProjectStage, as:'etapasInfo'},'creador','encargado']
+            include:[/*'etapasInfo',*/'creador','encargado']
         })
         .then(function(proyecto){ res.status(200).send(proyecto)})
         .catch(err => res.status(400).json('Error: ' + err));
@@ -85,12 +85,11 @@ module.exports={
             offset:(req.body.page-1) * req.body.pageSize,
             limit:req.body.pageSize,
             where:req.body.query,
-        }) .then(function(proyecto){
-                
-                res.status(200).send(proyecto)   
-            })
-            .catch(err => res.status(400).json('Error: ' + err));
+        }) 
+        .then(function(proyecto){res.status(200).send(proyecto) })
+        .catch(err => res.status(400).json('Error: ' + err));
     },
+
     listarProyectosCreados(req,res){
         model.Project.findAndCountAll({
             offset:(req.body.page-1) * req.body.pageSize,
@@ -99,12 +98,11 @@ module.exports={
                 creadorId:req.user.id,
                 etapa:req.body.etapa
             }
-        }) .then(function(proyecto){
-                
-                res.status(200).send(proyecto)   
-            })
-            .catch(err => res.status(400).json('Error: ' + err));
+        }) 
+        .then(function(proyecto){res.status(200).send(proyecto)})
+        .catch(err => res.status(400).json('Error: ' + err));
     },
+
     listarProyectosEncargados(req,res){
         model.Project.findAndCountAll({
             offset:(req.body.page-1) * req.body.pageSize,
@@ -131,13 +129,11 @@ module.exports={
 
     },
 
-    asignarDesarrolladorEncargado(req,res){ //ESTA MALO; FALTA CORREGIR
-        model.Project.update({
-            etapa:req.encargadoId,
-            where:{id:req.body.proyectoId},
-        }) .then(function(){               
-                res.status(200).send({ message:'La etapa se ha cambiado satisfactoriamente'})   
-            })
-            .catch(err => res.status(400).json('Error: ' + err));
+    asignarFreelancerEncargado(req,res){
+        model.Project.update(
+            {encargadoId:req.params.id},
+            {where:{id:req.body.proyectoId}}) 
+        .then(function(){res.status(200).send({ message:'El freelancer ha sido asignado'})   })
+        .catch(err => res.status(400).json('Error: ' + err));
     }
 }

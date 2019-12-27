@@ -53,13 +53,13 @@ router.get('/project/list/view', ensureAuthenticated,projectController.listarPro
 router.get('/project/list/view/created', ensureAuthenticated,projectController.listarProyectosCreados)
 router.get('/project/list/view/worked', ensureAuthenticated,projectController.listarProyectosEncargados)
 router.post('/project/stage/change', ensureAuthenticated,projectController.cambiarEtapaProyecto)
+router.post('/project/add/freelancer/incharge/:id',ensureAuthenticated,projectController.asignarFreelancerEncargado)
 
 //Rutas postulaciones proyecto
 router.put('/project/postulation/do/', ensureAuthenticated,projectPostulationController.postularseProyecto)
 router.get('/project/postulation/list/',ensureAuthenticated,projectPostulationController.verUsuariosPostuladosProyecto)
 router.delete('/project/postulation/undo/',ensureAuthenticated,projectPostulationController.deshacerPostulacionProyecto)
 router.get('/freelancer/postulation/list',ensureAuthenticated,projectPostulationController.verProyectosPostuladosUsuario) //proyectos propios
-
 
 
 //Rutas experiencias usuario 
