@@ -209,11 +209,14 @@ export default function Dashboard(props) {
   const [typeFreelancer, setTypeFreelancer] = React.useState('');
   const [typeSeniority, setTypeSeniority] = React.useState('');
   const [experienciaArray, setExperienciaArray] = React.useState([]);
+  const [deletedExperiencias, setDeletedExperiencias] = React.useState([]);
+  const [deletedEducaciones, setDeletedEducaciones] = React.useState([]);
   //const [experienciaArray, setExperienciaArray] = React.useState([{id:false,nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:'',anoFin:''}, {id:false,nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:'',anoFin:''} ]);
 
   const [educacionArray, setEducacionArray] = React.useState([]);
   const [userInfo, setUserInfo] = React.useState({nombre:'',descripcionCorta:'',foto:'',sobreMi:'',habilidades:'',pais:'',ciudad:'',tiempoExperiencia:'',idiomas:'',instagram:'',facebook:'',twitter:'',linkedin:''});
-  const inputLabel = React.useRef(null); 
+  
+  //const inputLabel = React.useRef(nconst [deletedExperiencias, setDeletedExperiencias] = React.useState([]);ull); 
 
 
 
@@ -265,18 +268,14 @@ export default function Dashboard(props) {
   };
 
   const handleChange = name => e => {
-        console.log('e.target.name', e.target.name)
-        console.log('e.target.value',e.target.value)
-        console.log('name', name)
-        console.log('e.target.dataset',e.target.dataset)
-    console.log('e',e)
+   
       if(name==="experiencia"){
-        let exp = experienciaArray
+        let exp = [...experienciaArray]
         exp[e.target.dataset.id][e.target.name] = e.target.value
         setExperienciaArray(exp) 
       }
       else if(name==="educacion"){
-        let edu = educacionArray
+        let edu = [...educacionArray]
         edu[e.target.dataset.id][e.target.name] = e.target.value
         setEducacionArray(edu) 
       }
@@ -286,13 +285,18 @@ export default function Dashboard(props) {
 
   }
 
+
+
   const handleAddExperience = event => {
-     setExperienciaArray(oldExpArray => [...oldExpArray, {id:false, nombreEmpresa:'',descricion:'',cargo:'',anoInicio:'',anoFin:''}]);
+    setExperienciaArray(oldExpArray => [...oldExpArray, {id:false, nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:'',anoFin:''}]);
+    
   };
 
-   const handleAddEducacion= event => {
+  const handleAddEducacion= event => {
      setEducacionArray(oldEduArray => [...oldEduArray, {id:false, tituloObtenido:'',institucion:'',anoInicio:'',anoFin:''}]);
+   
   };
+
 
   function validaNumericos(event) {
     if(event.charCode >=1950 && event.charCode <= 2100){
@@ -300,7 +304,29 @@ export default function Dashboard(props) {
      }
      return false;        
   }
+  
+  const handleDeleteExperience = indexExp => event => {
+    
+    if(experienciaArray[indexExp].id !== false){
+     setDeletedExperiencias(oldArray => [...oldArray, experienciaArray[indexExp].id]);
+    }
+    
+      let exp = [...experienciaArray]
+      exp.splice(indexExp,1)
+      setExperienciaArray(exp)
+ 
+  };
 
+  const handleDeleteEducacion = indexEdu => event => {
+    
+    if(educacionArray[indexEdu].id !== false){
+      setDeletedEducaciones(oldArray => [...oldArray, educacionArray[indexEdu].id]);
+    }
+    
+      let edu = [...educacionArray]
+      edu.splice(indexEdu,1)
+      setEducacionArray(edu)
+  };
  
     return (
       <div className={classes.root}>
@@ -308,6 +334,7 @@ export default function Dashboard(props) {
         {console.log('experienciaArray',experienciaArray)}
         {console.log('userInfo',userInfo)}
         {console.log('educacionArray',educacionArray)}
+        {console.log('deletedEducaciones', deletedEducaciones)}
 
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
           <Toolbar className={classes.toolbar}>
@@ -389,6 +416,7 @@ export default function Dashboard(props) {
                   onChange={handleChange()}
                   name="nombre"
                   placeholder="Nombre del Usuario"
+                  value= {userInfo.nombre}
                   size="small"
                   inputProps={{ maxLength: 180 }}
                 />
@@ -409,6 +437,7 @@ export default function Dashboard(props) {
                   id="descripcion"
                   onChange={handleChange()}
                   name="descripcionCorta"
+                  value= {userInfo.descripcionCorta}
                   placeholder="Información Personal"
                   inputProps={{ maxLength: 250 }}
                 />
@@ -434,6 +463,7 @@ export default function Dashboard(props) {
                   multiline
                   placeholder="Información Personal"
                   onChange={handleChange()}
+                  value= {userInfo.sobreMi}
                   name="sobreMi"
                   rows="5"
                   inputProps={{ maxLength: 500 }}
@@ -457,6 +487,7 @@ export default function Dashboard(props) {
                       rows="2"
                       id="habilidades"
                       onChange={handleChange()}
+                      value= {userInfo.habilidades}
                       name="habilidades"
                       placeholder="Ej: Python,C,JavaScript..."
                       inputProps={{ maxLength: 300 }}
@@ -499,7 +530,7 @@ export default function Dashboard(props) {
                 <Typography variant="subtitle1" gutterBottom>
                         <strong>Experiencia {indexExp + 1} </strong>
                 </Typography>
-                <IconButton aria-label="delete" color="primary">
+                <IconButton aria-label="delete" color="primary" onClick={handleDeleteExperience(indexExp)}>
                     <DeleteIcon  fontSize="small" />                  
                 </IconButton>  
                 </Grid>
@@ -518,8 +549,12 @@ export default function Dashboard(props) {
                     variant="outlined"
                     fullWidth
                     size="small"
-                    inputProps={{ maxLength: 100 }}  
-                    placeholder="Nombre de la Empresa"               
+                    inputProps={{ maxLength: 100,'data-id':indexExp }}  
+                    placeholder="Nombre de la Empresa"  
+                    onChange={handleChange('experiencia')}
+                    name="nombreEmpresa" 
+                    value={exp.nombreEmpresa}
+                    key={`nombre-${indexExp}`}          
                   />
                 </div>
 
@@ -537,8 +572,12 @@ export default function Dashboard(props) {
                   variant="outlined"
                   fullWidth
                   size="small"
-                  inputProps={{ maxLength: 100 }}
+                  inputProps={{ maxLength: 100,'data-id':indexExp, value:exp.cargo }}  
                   placeholder="Título del Cargo"
+                  onChange={handleChange('experiencia')}
+                  name="cargo"  
+                  value= {exp.cargo}
+                  key={`cargo-${indexExp}`}   
                 />
               </div>
 
@@ -558,8 +597,12 @@ export default function Dashboard(props) {
                   size="small"
                   width="50%"
                   placeholder="Año de inicio"
-                  inputProps={{ maxLength: 4 }}
+                  inputProps={{ maxLength: 4 ,'data-id':indexExp, value:exp.anoInicio}}
                   className={classes.distanceYearInput}
+                  onChange={handleChange('experiencia')}
+                  name="anoInicio"
+                  value= {exp.anoInicio}
+                  key={`ini-${indexExp}`} 
                   />
                   <TextField
                   id="outlined-number"
@@ -567,11 +610,16 @@ export default function Dashboard(props) {
                   size="small"
                   width="50%"
                   placeholder="Año de fin"
-                  inputProps={{ maxLength: 4 }}
+                  inputProps={{ maxLength: 4 ,'data-id':indexExp, value:exp.anoFin}}
+                  onChange={handleChange('experiencia')}
+                  name="anoFin"
+                  key={`fin-${indexExp}`}
+                  value= {exp.anoFin} 
                   />
                
                 <br/>
                 </div>
+                
 
                  <div className={classes.addMarginBottomLonger}>
                    <div className={classes.labelAndCaption}>
@@ -587,7 +635,11 @@ export default function Dashboard(props) {
                   fullWidth
                   multiline
                   rows="2"
-                  inputProps={{ maxLength: 400 }}
+                  inputProps={{ maxLength: 400 ,'data-id':indexExp}}
+                  onChange={handleChange('experiencia')}
+                  name="descripcion"
+                  value={exp.descripcion}
+                  key={`des-${indexExp}`} 
                 />
                 </div>
                 </>
@@ -634,7 +686,7 @@ export default function Dashboard(props) {
                 <Typography variant="subtitle1" gutterBottom>
                         <strong>Educación {indexEdu+1} </strong>
                 </Typography>
-                <IconButton aria-label="delete" color="primary">
+                <IconButton aria-label="delete" color="primary" onClick={handleDeleteEducacion(indexEdu)}>
                     <DeleteIcon  fontSize="small" />                  
                 </IconButton>  
                 </Grid>
@@ -654,8 +706,10 @@ export default function Dashboard(props) {
                   variant="outlined"
                   fullWidth
                   size="small"
-                  inputProps={{ maxLength: 100 }}
-                  
+                  inputProps={{ maxLength: 100,'data-id':indexEdu }}
+                  onChange={handleChange('educacion')}
+                  name="institucion"
+                  value= {edu.institucion}
                   placeholder="Nombre de la Institución"    
                 />
                 </div>
@@ -674,8 +728,11 @@ export default function Dashboard(props) {
                   variant="outlined"
                   fullWidth
                   size="small"
-                  inputProps={{ maxLength: 100 }}
-                  placeholder="Nombre de la Institución"    
+                  inputProps={{ maxLength: 100, 'data-id':indexEdu }}
+                  placeholder="Título Obtenido"
+                  value= {edu.tituloObtenido}
+                  onChange={handleChange('educacion')}
+                  name="tituloObtenido"    
                 />
                 </div>
 
@@ -696,8 +753,11 @@ export default function Dashboard(props) {
                   size="small"
                   width="50%"
                   placeholder="Año de inicio"
-                  inputProps={{ maxLength: 4 }}
+                  inputProps={{ maxLength: 4,'data-id':indexEdu }}
                   className={classes.distanceYearInput}
+                  onChange={handleChange('educacion')}
+                  name="anoInicio"
+                  value= {edu.anoInicio}
                   />
                   <TextField
                   id="outlined-number"
@@ -705,7 +765,10 @@ export default function Dashboard(props) {
                   size="small"
                   width="50%"
                   placeholder="Año de fin"
-                  inputProps={{ maxLength: 4 }}
+                  inputProps={{ maxLength: 4, 'data-id':indexEdu }}
+                  onChange={handleChange('educacion')}
+                  name="anoFin"
+                  value= {edu.anoFin}
                   />
                
                 <br/>
@@ -751,6 +814,7 @@ export default function Dashboard(props) {
                     name="pais"
                     size="small"
                     inputProps={{ maxLength: 80 }}
+                    value= {userInfo.pais}
                   />
                 </div>  
 
@@ -771,6 +835,7 @@ export default function Dashboard(props) {
                     onChange={handleChange()}
                     name="ciudad"
                     size="small"
+                    value= {userInfo.ciudad}
                     inputProps={{ maxLength: 80 }}
                   />
                 </div>  
@@ -793,6 +858,7 @@ export default function Dashboard(props) {
                     onChange={handleChange()}
                     name="tiempoExperiencia"
                     size="small"
+                    value= {userInfo.tiempoExperiencia}
                     inputProps={{ maxLength: 80 }}
                     InputProps={{
                        endAdornment: <InputAdornment position="end">años</InputAdornment>,
@@ -841,6 +907,7 @@ export default function Dashboard(props) {
                     multiline
                     rows="3"
                     placeholder="Idiomas"
+                    value= {userInfo.idiomas}
                     size="small"
                     inputProps={{ maxLength: 180 }}
                   />
@@ -885,6 +952,7 @@ export default function Dashboard(props) {
                     inputProps={{ maxLength: 180 }}
                     onChange={handleChange()}
                     name="instagram"
+                    value= {userInfo.instagram}
                     size="small"
                     InputProps={{
                          startAdornment: <InputAdornment position="start"><Instagram/></InputAdornment>,
@@ -899,6 +967,7 @@ export default function Dashboard(props) {
                     onChange={handleChange()}
                     name="facebook"
                     placeholder="Facebook"
+                    value= {userInfo.facebook}
                     inputProps={{ maxLength: 180 }}
                     size="small"
                     InputProps={{
@@ -914,6 +983,7 @@ export default function Dashboard(props) {
                     placeholder="Twitter"
                     onChange={handleChange()}
                     name="twitter"
+                    value= {userInfo.twitter}
                     inputProps={{ maxLength: 180 }}
                     size="small"
                     InputProps={{
@@ -928,6 +998,7 @@ export default function Dashboard(props) {
                     placeholder="LinkedIn"
                     onChange={handleChange()}
                     name="linkedin"
+                    value= {userInfo.linkedin}
                     inputProps={{ maxLength: 180 }}
                     size="small"
                     InputProps={{
