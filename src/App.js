@@ -41,8 +41,8 @@ function App() {
 				{/* Consultar Anonimo */}
 				<Route exact path='/view/profile/:id/:rol' render={ (props)=> <ConsultProfile {...props}/>}/>
 				{/* Modificar */}
-				<Route exact path='/profile/modify/free' render={ ()=> <EditProfile type="developer"/>}/>
-				<Route exact path='/profile/modify/cont' render={ ()=> <EditProfile type="contractor"/>}/>
+				<Route exact path='/profile/modify' render={ ()=> <EditProfile/>}/>
+				
 				<Route path={['/http:', '/https:']} component={props => {
 					window.location.replace(props.location.pathname.substr(1)) // substr(1) removes the preceding '/'
 					return null

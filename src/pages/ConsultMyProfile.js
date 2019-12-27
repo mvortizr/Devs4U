@@ -342,7 +342,7 @@ export default function ConsultProfile(props) {
                 <Typography component="h1" variant="h4" color="inherit" noWrap className={classes.title}>
                   Perfil
                 </Typography>
-                <DomLink to="/profile/modify/free" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                <DomLink to="/profile/modify" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                 <Button variant="contained" className={classes.buttonMod} >
                   Modificar 
                 </Button>

@@ -7,7 +7,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import { mainListItemsC, secondaryListItemsC } from './ListaItemsCont';
-import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -200,15 +199,25 @@ export default function Dashboard(props) {
   const inputLabel = React.useRef(null); 
 
   React.useEffect(() => {
-      axios.post(`/profile/developer`)
-          .then((response) => {
-                console.log('response perfil free modificar', response);
-                setUser(response.data.user);
-          }, (error) => {
-              console.log(error);
-      });
-    
-  }, []);
+      axios({ method: 'get',
+        validateStatus: function(status) {
+          return status >= 200 && status < 500; 
+        },
+        url:`/profile`, 
+        withCredentials:true
+      })
+      .then(response =>{
+          console.log('consultar res',response)
+          if(response.status === 200){
+            setUser(response.data[0]) 
+          } 
+          
+      })
+      .catch(error => {
+        console.log('error',error)
+      })
+     
+    }, []);
 
   const handleModification = () =>{
     axios.post('/edit', dummyDataFree)
@@ -238,11 +247,10 @@ export default function Dashboard(props) {
      return false;        
   }
 
-  if(props.type == "developer"){
+ 
     return (
       <div className={classes.root}>
         <CssBaseline />
-        {redirect && <Redirect to={'/profile/freelancer'} push={true} />}
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
           <Toolbar className={classes.toolbar}>
 
@@ -574,154 +582,6 @@ export default function Dashboard(props) {
         </main>
       </div>
     );
-  }
-  else{
-    return (
-      <div className={classes.root}>
-        <CssBaseline />
-        {redirect && <Redirect to={'/profile/contractor'} push={true} />}
-        <AppBar
-          position="absolute"
-          className={clsx(classes.appBar, open && classes.appBarShift)}>
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(
-                classes.menuButton,
-                open && classes.menuButtonHidden
-              )}>
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}>
-              Perfil
-            </Typography>
-
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleModification}
-                className={classes.button}>
-                Guardar Cambios
-              </Button>        
   
-            <IconButton color="inherit">
-              {/*badgeContent muestra la cantidad de notificaciones*/}
-              <Badge badgeContent={0} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-          }}
-          open={open}>
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <List>{mainListItemsC}</List>
-          <Divider />
-          <List>{secondaryListItemsC}</List>
-        </Drawer>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Container className={classes.cardGrid} maxWidth="md">
-            <Grid container spacing={5} className={classes.mainGrid}>
-              {/* Main content */}
-              <Grid item xs={12} md={4}>
-                <img src={fotoPerfil}/>
-                <Typography variant="h8" gutterBottom>
-                  {/*Cambiar por link para adjuntar imagen */}
-                  Cambiar foto de perfil
-                </Typography>
-              </Grid>
-              <Grid item xs={12} md={7}>
-              <Typography variant="h6" gutterBottom>
-                  Nombre de Usuario:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  id="nombre"
-                  defaultValue="Nombre del Usuario"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Divider />
-                <Typography variant="h6" gutterBottom>
-                  Descripción Corta:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  id="descripcion"
-                  defaultValue="Información Personal"
-                  inputProps={{ maxLength: 22 }}
-                />
-              </Grid>
-              <Grid item xs={12} md={12}>
-                <Divider/>
-              </Grid>
-              <Grid item xs={12} md={7}>
-                <Typography variant="h6" gutterBottom>
-                  Sobre mí:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  id="sobreMi"
-                  defaultValue="Información Personal"
-                  inputProps={{ maxLength: 180 }}
-                />
-              </Grid>
-              <Grid>
-                <Divider orientation="vertical"/>
-              </Grid>
-              {/* End main content */}
-              {/* Sidebar */}
-              <Grid item xs={12} md={4}>
-                <Paper elevation={0} className={classes.sidebarAboutBox}>
-                  <Typography variant="h6" gutterBottom>
-                    Información General
-                  </Typography>
-                  <Typography paragraph>
-                      País y Ciudad 
-                      <TextField
-                      variant="outlined"
-                      fullWidth
-                      defaultValue="Caracas, Venezuela"
-                      inputProps={{ maxLength: 22 }}
-                      />
-                  </Typography>
-                  <Typography paragraph>
-                      Idiomas:
-                      <TextField
-                      variant="outlined"
-                      fullWidth
-                      defaultValue="Muchos xd"
-                      inputProps={{ maxLength: 22 }}
-                      />
-                  </Typography>
-                </Paper>
-              </Grid>
-              {/* End sidebar */}
-            </Grid>
-          </Container>
-          <Copyright />
-        </main>
-      </div>
-    )
-  }
+ 
 }
