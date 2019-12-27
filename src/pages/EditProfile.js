@@ -16,6 +16,12 @@ import Instagram from '@material-ui/icons/Instagram';
 import Facebook from '@material-ui/icons/Facebook';
 import Twitter from '@material-ui/icons/Twitter';
 import fotoPerfil from './images/fotoPerfil.png';
+import UploadImage from '../components/UploadImage'
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/AddCircle';
+import DeleteIcon from '@material-ui/icons/Delete';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import {LinkedIn as LinkedInIcon} from '@material-ui/icons';
 
 function Copyright() {
   return (
@@ -155,6 +161,32 @@ const useStyles = makeStyles(theme => ({
     color: "#ffff",
     marginRight: "50px",
   },
+  addMarginBottom:{
+    marginBottom:'15px'
+  },
+  addMarginBottomLonger:{
+    marginBottom:'30px'
+  },
+  labelAndCaption:{
+    display:'flex',
+    alignItems:'center',
+  },
+  caption:{
+    marginLeft:'10px',
+  },
+  centerImage:{
+    marginLeft:'15%',
+  },
+  imageUser:{
+    maxWidth:'280px',
+    maxHeight:'250px'
+  },
+  wizardTitle:{
+    marginRight:'7px',
+  },
+  distanceYearInput:{
+    marginRight:'25px'
+  },
 }));
 
 export default function Dashboard(props) {
@@ -170,32 +202,12 @@ export default function Dashboard(props) {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  /*FRONTEND INFO .. aqui debe mostrar los datos del usuario primero dentro de los textfields,
-  tienen que hacer que cada campo este linkeado a una variable del estado (ver registro),al usuario 
-  hacer click en el boton guardar cambios, ese estado se envia a el backend, les dejo una muestra del formato de eso
-  en dummy data*/ 
-
-  const dummyDataFree={
-    firstName:'hola',
-    lastName:'como',
-    aboutMe: 'estas',
-    photo:'blabalbal',
-    residence:'bababa',
-    socialNetworks: JSON.stringify({facebook:'facebook.com'}), //json
-    available:'yes papo',
-    experience:'nadaaa',
-    residence:'mi casita',
-    web: 'aynotengo.com',
-    developerType:'chimbo',
-    languages:['ingles','espanish'],
-    skills:['comer mocos', 'react'],
-    workHours: 3,
-  }
 
   const [user, setUser] = React.useState({});
   const [newUserInfo, setNewUserInfo] = React.useState({});
-  const [redirect, setRedirect]=React.useState(false);
-  const [type, setType] = React.useState('');
+  const [redirect, setRedirect]= React.useState(false);
+  const [typeFreelancer, setTypeFreelancer] = React.useState('');
+  const [typeSeniority, setTypeSeniority] = React.useState('');
   const inputLabel = React.useRef(null); 
 
   React.useEffect(() => {
@@ -220,7 +232,7 @@ export default function Dashboard(props) {
     }, []);
 
   const handleModification = () =>{
-    axios.post('/edit', dummyDataFree)
+    /*axios.post('/edit', dummyDataFree)
             .then((response) => {
                  console.log('response perfil free modify', response);
 
@@ -233,11 +245,15 @@ export default function Dashboard(props) {
                  }
             }, (error) => {
                 console.log(error);
-        });
+        });*/
   }
 
-  const handleChange = event => {
-    setType(event.target.value);
+  const handleChangeTypeFreelancer = event => {
+    setTypeFreelancer(event.target.value);
+  };
+
+   const handleChangeTypeSeniority = event => {
+    setTypeSeniority(event.target.value);
   };
 
   function validaNumericos(event) {
@@ -303,176 +319,333 @@ export default function Dashboard(props) {
           <Grid container spacing={5} className={classes.mainGrid}>
               {/* Main content */}
               <Grid item xs={12} md={4}>
-                <img src={fotoPerfil}/>
-                <Typography variant="h8" gutterBottom>
+                <img src={fotoPerfil} className={classes.imageUser}/>
+                
                   {/*Cambiar por link para adjuntar imagen */}
-                  Cambiar foto de perfil
-                </Typography>
+                  <div className={classes.centerImage}>
+                  <UploadImage/>
+                  </div>
+                  
+               
               </Grid>
               <Grid item xs={12} md={8}>
-              <Typography variant="h6" gutterBottom>
-                  Nombre de Usuario:
-                </Typography>
+
+              <div className={classes.addMarginBottom}>
+                <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Nombre de Usuario </strong>
+
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.caption}>
+                  *Requerido. 180 caracteres máximo
+                  </Typography>
+                </div>
                 <TextField
                   variant="outlined"
                   fullWidth
                   id="nombre"
-                  defaultValue="Nombre del Usuario"
-                  inputProps={{ maxLength: 22 }}
+                  placeholder="Nombre del Usuario"
+                  size="small"
+                  inputProps={{ maxLength: 180 }}
                 />
-                <Divider />
-                <Typography variant="h6" gutterBottom>
-                  Descripción Corta:
+              </div>  
+               <div className={classes.labelAndCaption}>
+                <Typography variant="subtitle1" gutterBottom>
+                  <strong>Descripción Corta</strong>
                 </Typography>
+                 <Typography variant="caption" gutterBottom className={classes.caption}>
+                  250 caracteres máximo
+                  </Typography>
+                </div>
                 <TextField
                   variant="outlined"
                   fullWidth
+                  multiline
+                  rows="4"
                   id="descripcion"
-                  defaultValue="Información Personal"
-                  inputProps={{ maxLength: 22 }}
+                  placeholder="Información Personal"
+                  inputProps={{ maxLength: 250 }}
                 />
               </Grid>
               <Grid item xs={12} md={12}>
                 <Divider/>
               </Grid>
               <Grid item xs={12} md={7}>
-                <Typography variant="h6" gutterBottom>
-                  Sobre mí:
+
+              <div className={classes.addMarginBottom}>
+              <div className={classes.labelAndCaption}>
+                <Typography variant="subtitle1" gutterBottom>
+                  <strong> Sobre mí </strong>
                 </Typography>
+                 <Typography variant="caption" gutterBottom className={classes.caption}>
+                  600 caracteres máximo
+                  </Typography>
+                </div>
                 <TextField
                   variant="outlined"
                   fullWidth
                   id="sobreMi"
-                  defaultValue="Información Personal"
-                  inputProps={{ maxLength: 180 }}
+                  multiline
+                  placeholder="Información Personal"
+                  rows="5"
+                  inputProps={{ maxLength: 500 }}
                 />
+                </div>
+                
+                <div className={classes.addMarginBottom}>
+                  <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    <strong> Habilidades </strong>
+                  </Typography>
+                   <Typography variant="caption" gutterBottom className={classes.caption}>
+                    Separadas por comas. 600 caracteres máximo
+                    </Typography>
+                  </div>
+
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      rows="2"
+                      id="habilidades"
+                      placeholder="Ej: Python,C,JavaScript..."
+                      inputProps={{ maxLength: 300 }}
+                    />
+                </div>
                 <Divider />
-                <Typography variant="h6" gutterBottom>
-                <br/>
-                  Habilidades:
+
+                <Grid
+                  container
+                  direction="row"
+                  justify="start"
+                  alignItems="flex-end"
+                  className={classes.addMarginBottom}
+                >                                  
+                  <Typography variant="h6" gutterBottom className={classes.wizardTitle}>
+                  <br/>
+                    <strong> Experiencia</strong>
+                  </Typography>
+
+                 <IconButton aria-label="add" color="primary">
+                    <AddIcon />                  
+                  </IconButton>  
+
+                </Grid>               
+
+                 <Grid
+                  container
+                  direction="row"
+                  justify="start"
+                  alignItems="flex-end"
+                  
+                >         
+                <Typography variant="subtitle1" gutterBottom>
+                        <strong>Experiencia 1 </strong>
                 </Typography>
+                <IconButton aria-label="delete" color="primary">
+                    <DeleteIcon  fontSize="small" />                  
+                </IconButton>  
+                </Grid>
+
+                <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Nombre de la Empresa </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    100 caracteres máximo
+                    </Typography>
+                  </div>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    inputProps={{ maxLength: 100 }}  
+                    placeholder="Nombre de la Empresa"               
+                  />
+                </div>
+
+
+               <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Cargo</strong>
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    100 caracteres máximo
+                    </Typography>
+                  </div>
                 <TextField
                   variant="outlined"
                   fullWidth
-                  id="habilidades"
-                  defaultValue="habilidad1, habilidad2, ..."
-                  inputProps={{ maxLength: 180 }}
+                  size="small"
+                  inputProps={{ maxLength: 100 }}
+                  placeholder="Título del Cargo"
                 />
+              </div>
+
+                <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Tiempo transcurrido</strong>
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    Año de inicio y final. Use 0 para indicar "Actualidad".
+                    </Typography>
+                </div>
+                
+                  <TextField
+                  id="outlined-number"          
+                  variant="outlined"
+                  size="small"
+                  width="50%"
+                  placeholder="Año de inicio"
+                  inputProps={{ maxLength: 4 }}
+                  className={classes.distanceYearInput}
+                  />
+                  <TextField
+                  id="outlined-number"
+                  variant="outlined"
+                  size="small"
+                  width="50%"
+                  placeholder="Año de fin"
+                  inputProps={{ maxLength: 4 }}
+                  />
+               
+                <br/>
+                </div>
+
+                 <div className={classes.addMarginBottomLonger}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Descripción</strong>
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    400 caracteres máximo
+                    </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  rows="2"
+                  inputProps={{ maxLength: 400 }}
+                />
+                </div>
                 <Divider />
-                <Typography variant="h6" gutterBottom>
+
+
+
+
+
+
+                 <Grid
+                  container
+                  direction="row"
+                  justify="start"
+                  alignItems="flex-end"
+                  className={classes.addMarginBottom}
+                >                                  
+                  <Typography variant="h6" gutterBottom className={classes.wizardTitle}>
+                  <br/>
+                    <strong> Educación </strong>
+                  </Typography>
+
+                 <IconButton aria-label="add" color="primary">
+                    <AddIcon />                  
+                  </IconButton>  
+
+                </Grid>  
+
+
+
+                 <Grid
+                  container
+                  direction="row"
+                  justify="start"
+                  alignItems="flex-end"
+                  
+                >         
+                <Typography variant="subtitle1" gutterBottom>
+                        <strong>Educación 1 </strong>
+                </Typography>
+                <IconButton aria-label="delete" color="primary">
+                    <DeleteIcon  fontSize="small" />                  
+                </IconButton>  
+                </Grid>
+             
+
+                <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Nombre de la Institución </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    100 caracteres máximo
+                    </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  inputProps={{ maxLength: 100 }}
+                  
+                  placeholder="Nombre de la Institución"    
+                />
+                </div>
+
+                <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Título Obtenido </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    100 caracteres máximo
+                    </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  inputProps={{ maxLength: 100 }}
+                  placeholder="Nombre de la Institución"    
+                />
+                </div>
+
+
+               <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Tiempo transcurrido</strong>
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    Año de inicio y final. Use 0 para indicar "Actualidad".
+                    </Typography>
+                </div>
+                
+                  <TextField
+                  id="outlined-number"          
+                  variant="outlined"
+                  size="small"
+                  width="50%"
+                  placeholder="Año de inicio"
+                  inputProps={{ maxLength: 4 }}
+                  className={classes.distanceYearInput}
+                  />
+                  <TextField
+                  id="outlined-number"
+                  variant="outlined"
+                  size="small"
+                  width="50%"
+                  placeholder="Año de fin"
+                  inputProps={{ maxLength: 4 }}
+                  />
+               
                 <br/>
-                  Experiencia:
-                </Typography>
-                <Typography variant="h7" gutterBottom>
-                  Nombre de la Empresa:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Lorem ipsum"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Typography variant="h7" gutterBottom>
-                  Título del Cargo:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Lorem ipsum"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Typography variant="h9" gutterBottom>
-                  Período de Tiempo:
-                </Typography>
-
-
-
-
-
-                {/*HACER VALIDACIONES DE FECHA */}
-                <Divider />
-                <TextField
-                id="outlined-number"
-                defaultValue="0"
-                inputProps={{ maxLength: 4 }}
-                type="number"
-                min="0"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
-                />
-                <TextField
-                id="outlined-number"
-                defaultValue="0"
-                inputProps={{ maxLength: 4 }}
-                type="number"
-                min="0"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
-                />
-                <br/>
-                <Typography variant="h7" gutterBottom>
-                  Descripción:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Lorem ipsum"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Divider />
-                <Typography variant="h6" gutterBottom>
-                <br/>
-                  Educación:
-                </Typography>
-                <Typography variant="h7" gutterBottom>
-                  Nombre de la Institución:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Lorem ipsum"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Typography variant="h7" gutterBottom>
-                  Título Obtenido:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Lorem ipsum"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Typography variant="h9" gutterBottom>
-                  Período de Tiempo:   
-                </Typography>
-                <Divider variant="middle" />
-                <TextField
-                id="outlined-number"
-                defaultValue="0"
-                inputProps={{ maxLength: 4 }}
-                type="number"
-                min="0"
-                onkeypress='return validaNumericos(event)'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
-                />
-                <TextField
-                id="outlined-number"
-                defaultValue="0"
-                inputProps={{ maxLength: 4 }}
-                type="number"
-                min="0"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
-                />
+                </div>
               </Grid>
               <Grid>
                 <Divider orientation="vertical"/>
@@ -480,30 +653,76 @@ export default function Dashboard(props) {
               {/* End main content */}
               {/* Sidebar */}
               <Grid item xs={12} md={4}>
-                <Paper elevation={0} className={classes.sidebarAboutBox}>
+                
                   <Typography variant="h6" gutterBottom>
-                    Información General
+                    <strong> Información General </strong>
                   </Typography>
-                  <Typography paragraph>
-                      País y Ciudad 
-                      <TextField
-                      variant="outlined"
-                      fullWidth
-                      defaultValue="Caracas, Venezuela"
-                      inputProps={{ maxLength: 22 }}
-                      />
-                  </Typography>
-                  <Typography paragraph>
-                      Años de Experiencia
-                      <TextField
-                      variant="outlined"
-                      fullWidth
-                      id="horasTrabajo"
-                      type="number"
-                      defaultValue="99"
-                      inputProps={{ maxLength: 2 }}
-                      />
-                  </Typography>
+
+
+                 <div className={classes.addMarginBottom}>
+                  <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle1" gutterBottom>
+                        <strong>País </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                     80 caracteres máximo
+                    </Typography>
+                  </div>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="nombre"
+                    placeholder="País"
+                    size="small"
+                    inputProps={{ maxLength: 80 }}
+                  />
+                </div>  
+
+                <div className={classes.addMarginBottom}>
+                  <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle1" gutterBottom>
+                        <strong>Ciudad </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                     80 caracteres máximo
+                    </Typography>
+                  </div>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="nombre"
+                    placeholder="Ciudad"
+                    size="small"
+                    inputProps={{ maxLength: 80 }}
+                  />
+                </div>  
+                  
+                 <div className={classes.addMarginBottom}>
+                  <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle1" gutterBottom>
+                        <strong>Experiencia </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                     numérico
+                    </Typography>
+                  </div>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="nombre"
+                    placeholder="Experiencia"
+                    size="small"
+                    inputProps={{ maxLength: 80 }}
+                    InputProps={{
+                       endAdornment: <InputAdornment position="end">años</InputAdornment>,
+                    }}
+                  />
+                </div>  
+
+                <div className={classes.addMarginBottom}>
                   <FormControl className={classes.formControl}>
                     <InputLabel shrink id="label">
                       Tipo de freelancer
@@ -511,26 +730,44 @@ export default function Dashboard(props) {
                     <Select
                       labelId="label"
                       id="typefreelancer"
-                      value={type}
-                      onChange={handleChange}
+                      value={typeFreelancer}
+                      onChange={handleChangeTypeFreelancer}
                       displayEmpty
                       className={classes.selectEmpty}
                     >
-                      <MenuItem value={1}>Web</MenuItem>
+                      <MenuItem value={1}>Desarrollador Web</MenuItem>
                       <MenuItem value={2}>Desarrollador Móvil</MenuItem>
                       <MenuItem value={3}>Q/A</MenuItem>
                       <MenuItem value={4}>Otros</MenuItem>
                     </Select>
                   </FormControl>
-                  <Typography paragraph>
-                      Idiomas:
-                      <TextField
-                      variant="outlined"
-                      fullWidth
-                      defaultValue="Muchos xd"
-                      inputProps={{ maxLength: 22 }}
-                      />
-                  </Typography>
+                </div>
+                 
+
+                  
+                <div className={classes.addMarginBottom}>
+                  <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle1" gutterBottom>
+                        <strong>Idiomas </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                     Separados por comas
+                    </Typography>
+                  </div>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="nombre"
+                    multiline
+                    rows="3"
+                    placeholder="Idiomas"
+                    size="small"
+                    inputProps={{ maxLength: 180 }}
+                  />
+                </div>  
+
+                <div className={classes.addMarginBottom}>
                   <FormControl className={classes.formControl}>
                     <InputLabel shrink id="label">
                       Seniority
@@ -538,8 +775,8 @@ export default function Dashboard(props) {
                     <Select
                       labelId="label"
                       id="typefreelancer"
-                      value={type}
-                      onChange={handleChange}
+                      value={typeSeniority}
+                      onChange={handleChangeTypeSeniority}
                       displayEmpty
                       className={classes.selectEmpty}
                     >
@@ -549,31 +786,69 @@ export default function Dashboard(props) {
                       <MenuItem value={4}>Experto</MenuItem>
                     </Select>
                   </FormControl>
-                  <Typography variant="h6" gutterBottom>
-                    Links
-                  </Typography>
-                  <Instagram/>
-                  <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Instagram"
-                  inputProps={{ maxLength: 22 }}
-                  />
-                  <Facebook/>
-                  <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Facebook"
-                  inputProps={{ maxLength: 22 }}
-                  />
-                  <Twitter/>
-                  <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Twitter"
-                  inputProps={{ maxLength: 22 }}
-                  />
-                </Paper>
+                  </div>
+
+                  <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle1" gutterBottom>
+                        <strong>Links </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                     Enlaces en su perfil
+                    </Typography>
+                  </div>
+                  
+                  <div className={classes.addMarginBottom}>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Instagram"
+                    inputProps={{ maxLength: 180 }}
+                    size="small"
+                    InputProps={{
+                         startAdornment: <InputAdornment position="start"><Instagram/></InputAdornment>,
+                      }}
+                    />
+                  </div>
+                  
+                  <div className={classes.addMarginBottom}>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Facebook"
+                    inputProps={{ maxLength: 180 }}
+                    size="small"
+                    InputProps={{
+                         startAdornment: <InputAdornment position="start"><Facebook/></InputAdornment>,
+                      }}
+                    />
+                  </div>
+                  
+                  <div className={classes.addMarginBottom}>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Twitter"
+                    inputProps={{ maxLength: 180 }}
+                    size="small"
+                    InputProps={{
+                         startAdornment: <InputAdornment position="start"><Twitter/></InputAdornment>,
+                      }}
+                    />
+                  </div>
+                  <div className={classes.addMarginBottom}>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="LinkedIn"
+                    inputProps={{ maxLength: 180 }}
+                    size="small"
+                    InputProps={{
+                         startAdornment: <InputAdornment position="start"><LinkedInIcon/></InputAdornment>,
+                      }}
+                    />
+                  </div>
+                
               </Grid>
               {/* End sidebar */}
             </Grid>

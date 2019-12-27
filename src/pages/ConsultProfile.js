@@ -440,7 +440,7 @@ export default function ConsultProfile(props) {
                     { user.experiencia.map( exp =>
                     <Typography paragraph>
                       <strong>{exp.nombreEmpresa}</strong><br/>
-                      {`${exp.cargo}  ${exp.anoInicio}-${exp.anoFin}`}<br/>
+                      {`${exp.cargo}  ${exp.anoInicio}-${exp.anoFin!==0?exp.anoFin:"Actualidad"}`}<br/>
                       {exp.descripcion}
                     </Typography>
                     )}
@@ -456,7 +456,7 @@ export default function ConsultProfile(props) {
                     { user.educacion.map( edu =>
                     <Typography paragraph>
                       <strong>{edu.institucion}</strong><br/> 
-                      {`${edu.tituloObtenido} ${edu.anoInicio}-${edu.anoFin}`} 
+                      {`${edu.tituloObtenido} ${edu.anoInicio}-${edu.anoFin!==0?edu.anoFin:"Actualidad"}`} 
                     </Typography>
                     )}
                     </>
