@@ -10,7 +10,7 @@ module.exports={
             cargo: req.body.cargo,
             anoInicio: req.body.anoInicio,
             anoFin: req.body.anoFin
-        }).then(function(){ res.send(200,{message:'Se ha creado la experiencia exitosamente'})})
+        }).then(function(experiencia){ res.send(200,{message:'Se ha creado la experiencia exitosamente',experiencia:experiencia})})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 

@@ -208,7 +208,15 @@ export default function Dashboard(props) {
   const [redirect, setRedirect]= React.useState(false);
   const [typeFreelancer, setTypeFreelancer] = React.useState('');
   const [typeSeniority, setTypeSeniority] = React.useState('');
+  const [experienciaArray, setExperienciaArray] = React.useState([]);
+  //const [experienciaArray, setExperienciaArray] = React.useState([{id:false,nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:'',anoFin:''}, {id:false,nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:'',anoFin:''} ]);
+
+  const [educacionArray, setEducacionArray] = React.useState([]);
+  const [userInfo, setUserInfo] = React.useState({nombre:'',descripcionCorta:'',foto:'',sobreMi:'',habilidades:'',pais:'',ciudad:'',tiempoExperiencia:'',idiomas:'',instagram:'',facebook:'',twitter:'',linkedin:''});
   const inputLabel = React.useRef(null); 
+
+
+
 
   React.useEffect(() => {
       axios({ method: 'get',
@@ -252,8 +260,38 @@ export default function Dashboard(props) {
     setTypeFreelancer(event.target.value);
   };
 
-   const handleChangeTypeSeniority = event => {
+  const handleChangeTypeSeniority = event => {
     setTypeSeniority(event.target.value);
+  };
+
+  const handleChange = name => e => {
+        console.log('e.target.name', e.target.name)
+        console.log('e.target.value',e.target.value)
+        console.log('name', name)
+        console.log('e.target.dataset',e.target.dataset)
+    console.log('e',e)
+      if(name==="experiencia"){
+        let exp = experienciaArray
+        exp[e.target.dataset.id][e.target.name] = e.target.value
+        setExperienciaArray(exp) 
+      }
+      else if(name==="educacion"){
+        let edu = educacionArray
+        edu[e.target.dataset.id][e.target.name] = e.target.value
+        setEducacionArray(edu) 
+      }
+      else {
+        setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
+      }
+
+  }
+
+  const handleAddExperience = event => {
+     setExperienciaArray(oldExpArray => [...oldExpArray, {id:false, nombreEmpresa:'',descricion:'',cargo:'',anoInicio:'',anoFin:''}]);
+  };
+
+   const handleAddEducacion= event => {
+     setEducacionArray(oldEduArray => [...oldEduArray, {id:false, tituloObtenido:'',institucion:'',anoInicio:'',anoFin:''}]);
   };
 
   function validaNumericos(event) {
@@ -267,6 +305,10 @@ export default function Dashboard(props) {
     return (
       <div className={classes.root}>
         <CssBaseline />
+        {console.log('experienciaArray',experienciaArray)}
+        {console.log('userInfo',userInfo)}
+        {console.log('educacionArray',educacionArray)}
+
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
           <Toolbar className={classes.toolbar}>
 
@@ -344,6 +386,8 @@ export default function Dashboard(props) {
                   variant="outlined"
                   fullWidth
                   id="nombre"
+                  onChange={handleChange()}
+                  name="nombre"
                   placeholder="Nombre del Usuario"
                   size="small"
                   inputProps={{ maxLength: 180 }}
@@ -363,6 +407,8 @@ export default function Dashboard(props) {
                   multiline
                   rows="4"
                   id="descripcion"
+                  onChange={handleChange()}
+                  name="descripcionCorta"
                   placeholder="Información Personal"
                   inputProps={{ maxLength: 250 }}
                 />
@@ -387,6 +433,8 @@ export default function Dashboard(props) {
                   id="sobreMi"
                   multiline
                   placeholder="Información Personal"
+                  onChange={handleChange()}
+                  name="sobreMi"
                   rows="5"
                   inputProps={{ maxLength: 500 }}
                 />
@@ -408,6 +456,8 @@ export default function Dashboard(props) {
                       multiline
                       rows="2"
                       id="habilidades"
+                      onChange={handleChange()}
+                      name="habilidades"
                       placeholder="Ej: Python,C,JavaScript..."
                       inputProps={{ maxLength: 300 }}
                     />
@@ -417,7 +467,6 @@ export default function Dashboard(props) {
                 <Grid
                   container
                   direction="row"
-                  justify="start"
                   alignItems="flex-end"
                   className={classes.addMarginBottom}
                 >                                  
@@ -426,21 +475,29 @@ export default function Dashboard(props) {
                     <strong> Experiencia</strong>
                   </Typography>
 
-                 <IconButton aria-label="add" color="primary">
+                 <IconButton aria-label="add" color="primary" onClick={handleAddExperience}>
                     <AddIcon />                  
                   </IconButton>  
 
-                </Grid>               
+                </Grid>     
 
+                {/*Comienzo experiencia COMIENZOEXP */}          
+
+
+                { experienciaArray.length>=1?(
+                <>
+                {experienciaArray.map( (exp,indexExp) => {
+
+                  return (
+                    <>
                  <Grid
                   container
                   direction="row"
-                  justify="start"
                   alignItems="flex-end"
                   
                 >         
                 <Typography variant="subtitle1" gutterBottom>
-                        <strong>Experiencia 1 </strong>
+                        <strong>Experiencia {indexExp + 1} </strong>
                 </Typography>
                 <IconButton aria-label="delete" color="primary">
                     <DeleteIcon  fontSize="small" />                  
@@ -533,17 +590,20 @@ export default function Dashboard(props) {
                   inputProps={{ maxLength: 400 }}
                 />
                 </div>
+                </>
+                )})}
+                 </>
+                 ):null}
+
                 <Divider />
+      
+               
 
-
-
-
-
+                {/*Fin experiencia FINEXP*/} 
 
                  <Grid
                   container
                   direction="row"
-                  justify="start"
                   alignItems="flex-end"
                   className={classes.addMarginBottom}
                 >                                  
@@ -552,23 +612,27 @@ export default function Dashboard(props) {
                     <strong> Educación </strong>
                   </Typography>
 
-                 <IconButton aria-label="add" color="primary">
+                 <IconButton aria-label="add" color="primary" onClick={handleAddEducacion}>
                     <AddIcon />                  
                   </IconButton>  
 
                 </Grid>  
 
+              {/*COMIENZOEDU*/}
+              { educacionArray.length>=1?(
+                <>
+                {educacionArray.map( (edu,indexEdu) => {
 
-
+                  return (
+                    <>
                  <Grid
                   container
                   direction="row"
-                  justify="start"
                   alignItems="flex-end"
                   
                 >         
                 <Typography variant="subtitle1" gutterBottom>
-                        <strong>Educación 1 </strong>
+                        <strong>Educación {indexEdu+1} </strong>
                 </Typography>
                 <IconButton aria-label="delete" color="primary">
                     <DeleteIcon  fontSize="small" />                  
@@ -646,7 +710,17 @@ export default function Dashboard(props) {
                
                 <br/>
                 </div>
+                </>
+                )})}
+                </>
+                ):null}
+
+              {/*FIN EDU*/}
+
+
               </Grid>
+              
+
               <Grid>
                 <Divider orientation="vertical"/>
               </Grid>
@@ -672,8 +746,9 @@ export default function Dashboard(props) {
                   <TextField
                     variant="outlined"
                     fullWidth
-                    id="nombre"
                     placeholder="País"
+                    onChange={handleChange()}
+                    name="pais"
                     size="small"
                     inputProps={{ maxLength: 80 }}
                   />
@@ -692,8 +767,9 @@ export default function Dashboard(props) {
                   <TextField
                     variant="outlined"
                     fullWidth
-                    id="nombre"
                     placeholder="Ciudad"
+                    onChange={handleChange()}
+                    name="ciudad"
                     size="small"
                     inputProps={{ maxLength: 80 }}
                   />
@@ -714,6 +790,8 @@ export default function Dashboard(props) {
                     fullWidth
                     id="nombre"
                     placeholder="Experiencia"
+                    onChange={handleChange()}
+                    name="tiempoExperiencia"
                     size="small"
                     inputProps={{ maxLength: 80 }}
                     InputProps={{
@@ -758,7 +836,8 @@ export default function Dashboard(props) {
                   <TextField
                     variant="outlined"
                     fullWidth
-                    id="nombre"
+                    onChange={handleChange()}
+                    name="idiomas"
                     multiline
                     rows="3"
                     placeholder="Idiomas"
@@ -804,6 +883,8 @@ export default function Dashboard(props) {
                     fullWidth
                     placeholder="Instagram"
                     inputProps={{ maxLength: 180 }}
+                    onChange={handleChange()}
+                    name="instagram"
                     size="small"
                     InputProps={{
                          startAdornment: <InputAdornment position="start"><Instagram/></InputAdornment>,
@@ -815,6 +896,8 @@ export default function Dashboard(props) {
                     <TextField
                     variant="outlined"
                     fullWidth
+                    onChange={handleChange()}
+                    name="facebook"
                     placeholder="Facebook"
                     inputProps={{ maxLength: 180 }}
                     size="small"
@@ -829,6 +912,8 @@ export default function Dashboard(props) {
                     variant="outlined"
                     fullWidth
                     placeholder="Twitter"
+                    onChange={handleChange()}
+                    name="twitter"
                     inputProps={{ maxLength: 180 }}
                     size="small"
                     InputProps={{
@@ -841,6 +926,8 @@ export default function Dashboard(props) {
                     variant="outlined"
                     fullWidth
                     placeholder="LinkedIn"
+                    onChange={handleChange()}
+                    name="linkedin"
                     inputProps={{ maxLength: 180 }}
                     size="small"
                     InputProps={{
