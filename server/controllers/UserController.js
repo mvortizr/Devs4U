@@ -52,6 +52,7 @@ module.exports = {
                     educacionController.eliminarEducacionDeUnUsuario(req,res)
                     proyectoController.actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(req,res)
                     //Actualizar la postulacion
+                    //Eliminar las review
                 }
                 else if (req.user.rol == 'contractor') contratistaController.eliminarPerfil(req, res);
             })

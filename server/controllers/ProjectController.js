@@ -39,6 +39,7 @@ module.exports={
 
     //La fecha de las etapas no se actualiza aqui, si no en el gestor de etapas.
     modificarProyecto(req,res){
+        
         model.Project.update({ 
             titulo: req.body.titulo,
             tipo: req.body.tipo,
@@ -50,7 +51,7 @@ module.exports={
             adicionales:req.body.adicionales,
         },{ where: {id: req.params.id},
         })
-        .then(function(usuario){
+        .then(function(project){
             res.status(200).send({ message:'El proyecto se ha modificado correctamente'})   
         })
         .catch(err => res.status(400).json('Error: ' + err));
@@ -119,10 +120,11 @@ module.exports={
     
     cambiarEtapaProyecto(req,res){
         model.Project.update({
-            etapa:req.body.nuevaEtapa
+            etapa:req.body.nuevaEtapa,
         },{where:{id:req.body.proyectoId}})
 
-            .then(function(){               
+            .then(function(project){
+               // console.log(project)               
                 res.status(200).send({ message:'La etapa se ha cambiado satisfactoriamente'})   
             })
             .catch(err => res.status(400).json('Error: ' + err));

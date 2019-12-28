@@ -73,7 +73,6 @@ module.exports={
 
     eliminarExperienciaDeUnUsuario(req,res){
         model.Experiencia.destroy({where:{freelancerId:req.user.id}})
-
     }
 
 }

@@ -29,5 +29,41 @@ module.exports = (sequelize, DataTypes) => {
     Project.hasMany(models.ProjectStage, {foreignKey:'proyectoId',as: 'etapasInfo'})
     Project.belongsToMany(models.User, {through: 'IntPostulationProject', foreignKey: 'proyectoId', as: 'usuariosPostulados',otherKey: 'usuarioId'})
   };
+
+  Project.addHook('afterBulkUpdate', (project, options) => {
+    if(project.attributes.etapa!=undefined){
+
+      Project.findAll({where: {id: project.where.id}})
+      .then(function(proyecto){
+        let usuarioId,descripcion
+        if(proyecto[0].etapa==2){
+          usuarioId=proyecto[0].creadorId
+          descripcion='Creador, se ha cambiado a reivision'}
+
+        if(proyecto[0].etapa==3){
+          usuarioId=proyecto[0].encargadoId
+          descripcion='Desarrollador, se ha cambiado a finalizacion'
+        }
+        if(proyecto[0].etapa==1){
+          usuarioId=proyecto[0].encargadoId
+          descripcion='Desarrollador, se ha cambiado a ejecucion '
+        }
+
+        let notificacion={
+          leida:false,
+          titulo:'Cambio de etapa del proyecto:'+ proyecto[0].titulo ,
+          vinculo:'',
+          fecha:Date(),
+          descripcion: descripcion,
+          usuarioId: usuarioId
+        }
+
+        var notifiacionController=require('../controllers/NotificacionController')
+          notifiacionController.crearNotificacion(notificacion)
+      })
+    }
+  });
+
+
   return Project;
 };

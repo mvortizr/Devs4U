@@ -97,6 +97,23 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Project, {as: 'proyectosCreados', foreignKey:'creadorId',onDelete: 'CASCADE'})
     User.hasMany(models.Project, {as: 'proyectosEncargados', foreignKey:'encargadoId'})
   };
+
+  User.addHook('afterCreate', (user, options) => {
+
+    let notificacion={
+      leida:false,
+      titulo:'Creacion de usuario',
+      vinculo:'',
+      fecha:Date(),
+      descripcion:'Se creo el usuario exitosamente',
+      usuarioId: user.id
+    }
+
+        var notifiacionController=require('../controllers/NotificacionController')
+        notifiacionController.crearNotificacion(notificacion)
+  });
+
+
   return User;
 };
 //npx sequelize-cli model:generate --name Proyecto --attributes NM_Proyect:string,TP_Proyect:string,Srg_Proyect:string,Dp_Req:string,UsedTech:text, Entregables: string, Ad_Dat: text, contratistId: integer

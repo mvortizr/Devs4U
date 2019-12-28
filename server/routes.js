@@ -24,6 +24,7 @@ const contractorController=require('./controllers/ContractorController')
 const reviewController=require('./controllers/ReviewController')
 const searchController = require('./controllers/SearchController')
 const projectStageController=require('./controllers/ProjecStageController')
+const notificacionController=require('./controllers/NotificacionController')
 //const projectController=require('./controllers/ProjectController');
 
 
@@ -96,6 +97,11 @@ router.get('/review/list/:id',reviewController.listarReviewsUsuario)
 router.post('/review/mine/list',reviewController.listarMisReviewsUsuario)
 router.get('/review/view/byId/:id',reviewController.consultarReview)
 
+
+//Notificaciones
+router.post('/notification/list',ensureAuthenticated,notificacionController.listarTodasLasNotificaciones)
+router.post('/notification/list/SinRevisar',ensureAuthenticated,notificacionController.listarNotificacionesSinRevisar)
+router.post('/notificacion/update/:id',ensureAuthenticated,notificacionController.marcarLeido)
 
 
 module.exports = router;
