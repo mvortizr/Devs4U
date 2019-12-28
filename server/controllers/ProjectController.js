@@ -3,20 +3,20 @@ const model=require('../models');
 module.exports={
     
     crearProyecto(req,res){
-        model.Project.create({ 
-            titulo: req.body.titulo,
-            etapa: 0,
-            tipo: req.body.tipo,
-            descripcion: req.body.descripcion,
-            presupuesto: req.body.presupuesto,
-            creadorId: req.user.id,
-            encargadoId:0,
-            etapasInfo:req.body.etapasInfo,//array
-            entregables: req.body.entregables,
-            visiblePortafolio:true,
-            objetivos:req.body.objetivos,
-            tecnologias:req.body.tecnologias,
-            adicionales:req.body.adicionales,
+            model.Project.create({ 
+                titulo: req.body.titulo,
+                etapa: 0,
+                tipo: req.body.tipo,
+                descripcion: req.body.descripcion,
+                presupuesto: req.body.presupuesto,
+                creadorId: req.user.id,
+                encargadoId:0,
+                etapasInfo:req.body.etapasInfo,//array
+                entregables: req.body.entregables,
+                visiblePortafolio:true,
+                objetivos:req.body.objetivos,
+                tecnologias:req.body.tecnologias,
+                adicionales:req.body.adicionales,
         },{
             include: [
                 { model: model.ProjectStage, as: 'etapasInfo', foreignKey:'proyectoId' }
@@ -37,9 +37,7 @@ module.exports={
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
-    //La fecha de las etapas no se actualiza aqui, si no en el gestor de etapas.
     modificarProyecto(req,res){
-        
         model.Project.update({ 
             titulo: req.body.titulo,
             tipo: req.body.tipo,
@@ -57,6 +55,7 @@ module.exports={
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
+    
     cancelarProyecto(req,res){
         model.Project.destroy({ 
             where: {
@@ -141,7 +140,17 @@ module.exports={
 
     actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(req,res){
         model.Project.update(
-            {encargadoId:0},
-            {where:{id:req.user.id}}) 
+            {encargadoId:0,
+            etapa:0},
+            {where:{encargadoId:req.user.id}}) 
+    },
+
+    eliminarProyectosDelContratista(req,res){
+        console.log('hola')
+        model.Project.findAll({where:{creadorId:req.user.id}}) 
+        .then(function(listaDeProyectos){for (let i=0; i < listaDeProyectos.length; i++) {model.ProjectStage.destroy({ where: { proyectoId: listaDeProyectos[i].id}})}})
+        .then(function(){ model.Project.destroy({ where: {creadorId: req.user.id}})})
+        //.catch(err => res.status(400).json('Error: ' + err));
+
     }
 }

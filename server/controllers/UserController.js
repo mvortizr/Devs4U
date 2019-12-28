@@ -5,6 +5,7 @@ const experienciaController= require('./ExperienciaController')
 const educacionController=require('./EducacionController')
 const proyectoController=require('./ProjectController')
 const uploadImage = require('../middlewares/cloudinary');
+const reviewController=require('./ReviewController')
 
 
 
@@ -52,10 +53,14 @@ module.exports = {
                     educacionController.eliminarEducacionDeUnUsuario(req,res)
                     proyectoController.actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(req,res)
                     //Actualizar la postulacion
-                    //Eliminar las review
+                    reviewController.eliminarReviewsDeUnUsuario(req,res)
                 }
-                else if (req.user.rol == 'contractor') contratistaController.eliminarPerfil(req, res);
+                else if (req.user.rol == 'contractor'){ 
+                    contratistaController.eliminarPerfil(req, res);
+                    proyectoController.eliminarProyectosDelContratista(req,res)
+                }
             })
+            .then(function(){res.status(200).send({ message:'Se elimino al usuario y toda su informacion exitosamente'})})
             .catch((error) => { res.status(400).send(error); });
     },
 

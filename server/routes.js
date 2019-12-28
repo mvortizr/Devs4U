@@ -47,7 +47,7 @@ router.get('/search/contractor', searchController.BuscarPerfilContratista);
 router.get('/search/project', searchController.BuscarProyecto);
 
 //Rutas CRUD de proyecto
-router.put('/project/create',ensureAuthenticated, projectController.crearProyecto)
+router.post('/project/create',ensureAuthenticated, projectController.crearProyecto)
 router.put('/project/edit/:id',ensureAuthenticated, projectController.modificarProyecto)
 router.get('/project/view/:id', ensureAuthenticated,projectController.consultarProyecto)
 router.delete('/project/cancel/:id', ensureAuthenticated,projectController.cancelarProyecto)

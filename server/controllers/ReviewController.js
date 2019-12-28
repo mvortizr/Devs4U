@@ -51,4 +51,10 @@ module.exports={
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
+
+    eliminarReviewsDeUnUsuario(req,res){
+        model.Review.destroy({ where: {
+            freelancerId: req.user.id,
+        }})
+    }
 }

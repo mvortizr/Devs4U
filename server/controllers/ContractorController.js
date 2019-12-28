@@ -24,9 +24,7 @@ module.exports={
                 usuarioId: req.user.id
             }
         })
-        .then(function () {
-            res.status(200).send({message:'Usuario eliminado exitosamente'})
-        })
+
         .catch((error) => { res.status(400).send(error); });
     },
 

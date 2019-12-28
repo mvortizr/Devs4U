@@ -17,7 +17,7 @@ module.exports={
     consultarPerfil(req,res){
         model.User.findAll({
             where: {id: req.user.id},
-            include:['freelancer','educacion','experiencia']
+            include:['freelancer','educacion','experiencia','proyectosEncargados']
         })
         .then(function(freelancer){res.status(200).send(freelancer)})
         .catch(err => res.status(400).json('Error: ' + err));
@@ -40,8 +40,8 @@ module.exports={
         model.Freelancer.destroy({
             where: {usuarioId: req.user.id}
         })
-        .then(function () {res.status(200).send({message:'Usuario eliminado exitosamente'})})
-        .catch((error) => { res.status(400).send(error); });
+        //.then(function () {res.status(200).send({message:'Usuario eliminado exitosamente'})})
+        //.catch((error) => { res.status(400).send(error); });
     },
 
     consultarPerfilFreelancer(req,res){
