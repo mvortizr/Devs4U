@@ -32,7 +32,7 @@ module.exports={
                 freelancerId:req.user.id
             }
         })
-        .then(function(){ rres.status(200).send({message:'Se ha eliminado la educacion exitosamente'})})
+        .then(function(){ res.status(200).send({message:'Se ha eliminado la educacion exitosamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
 
     },

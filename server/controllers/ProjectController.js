@@ -3,6 +3,7 @@ const model=require('../models');
 module.exports={
     
     crearProyecto(req,res){
+        console.log(req.body)
             model.Project.create({ 
                 titulo: req.body.titulo,
                 etapa: 0,

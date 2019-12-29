@@ -53,8 +53,6 @@ module.exports={
     },
 
     eliminarReviewsDeUnUsuario(req,res){
-        model.Review.destroy({ where: {
-            freelancerId: req.user.id,
-        }})
+        model.Review.destroy({where:{freelancerId:req.user.id}})
     }
 }

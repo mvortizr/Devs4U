@@ -98,21 +98,6 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Project, {as: 'proyectosEncargados', foreignKey:'encargadoId'})
   };
 
-  User.addHook('afterCreate', (user, options) => {
-
-    let notificacion={
-      leida:false,
-      titulo:'Creacion de usuario',
-      vinculo:'',
-      fecha:Date(),
-      descripcion:'Se creo el usuario exitosamente',
-      usuarioId: user.id
-    }
-
-        var notifiacionController=require('../controllers/NotificacionController')
-        notifiacionController.crearNotificacion(notificacion)
-  });
-
 
   return User;
 };
