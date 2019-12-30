@@ -167,6 +167,7 @@ const useStyles = makeStyles(theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
+    color: "#FFFFFF"
   },
   inputRoot: {
     color: 'inherit',
