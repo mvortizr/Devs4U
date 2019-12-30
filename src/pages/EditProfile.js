@@ -619,7 +619,6 @@ export default function Dashboard(props) {
                   />
                 </div>
 
-
                <div className={classes.addMarginBottom}>
                    <div className={classes.labelAndCaption}>
                     <Typography variant="subtitle2" gutterBottom>
