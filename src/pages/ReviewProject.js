@@ -10,7 +10,6 @@ import {
   Card,
   CardContent,
 } from '@material-ui/core'
-import Rating from '@material-ui/lab/Rating';
 import { makeStyles } from '@material-ui/core/styles'
 import EliminarProyectoDialog from '../components/Dialog'
 import { Link as DomLink } from 'react-router-dom'
@@ -156,7 +155,7 @@ const useStyles = makeStyles(theme => ({
   },
   butcan: {
     marginTop: "30px",
-    marginLeft: "500px"
+    marginLeft: "450px"
   },
   down: {
     marginLeft: "300px",
@@ -167,11 +166,6 @@ export default function ReviewProject() {
     const classes = useStyles()
     var cards = [1, 2, 3]
     const [checked, setChecked] = React.useState(true);
-    const [value, setValue] = React.useState(2);
-
-    const handleChange = event => {
-        setChecked(event.target.checked);
-    };
 
     return (
         <div className={classes.root}>

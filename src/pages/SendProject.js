@@ -10,9 +10,7 @@ import {
   Card,
   CardContent,
 } from '@material-ui/core'
-import Rating from '@material-ui/lab/Rating';
 import { makeStyles } from '@material-ui/core/styles'
-import EliminarProyectoDialog from '../components/Dialog'
 import { Link as DomLink } from 'react-router-dom'
 import Header from './Header'
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile'
@@ -163,18 +161,16 @@ const useStyles = makeStyles(theme => ({
     marginTop: "30px",
     marginLeft: "300px"
   },
+  input: {
+    display: 'none',
+  },
 }))
 
 export default function ReviewProject() {
     const classes = useStyles()
     var cards = [1, 2, 3]
     const [checked, setChecked] = React.useState(true);
-    const [value, setValue] = React.useState(2);
-
-    const handleChange = event => {
-        setChecked(event.target.checked);
-    };
-
+  
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -199,9 +195,18 @@ export default function ReviewProject() {
                 <Button variant="contained" className={classes.butac}>
                     Realizar Entrega
                 </Button>
-                <Button variant="contained" className={classes.but}>
+                <input
+                  accept=".pdf, .png,.jpg"
+                  className={classes.input}
+                  id="contained-button-file"
+                  multiple
+                  type="file"
+                />
+                <label htmlFor="contained-button-file">
+                  <Button variant="contained" className={classes.but} component="span">
                     Adjuntar Archivo
-                </Button>
+                  </Button>
+                </label>
                 <Button variant="contained" className={classes.butcan}>
                     Cancelar
                 </Button>
