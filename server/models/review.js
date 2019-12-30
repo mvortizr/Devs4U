@@ -1,10 +1,31 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Review = sequelize.define('Review', {
-    destinatarioId: DataTypes.INTEGER,
-    creadorId: DataTypes.INTEGER,
+    destinatarioId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate:{
+        notEmpty: true,
+        isInt: true
+      }
+    },
+    creadorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate:{
+        notEmpty: true,
+        isInt: true
+      }
+    },
     descripcion: DataTypes.STRING,
-    calificacion: DataTypes.INTEGER
+    calificacion: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate:{
+        notEmpty: true,
+        isInt: true
+      }
+    },
   },  {freezeTableName: true});
   Review.associate = function(models) {
     Review.belongsTo(models.User, {foreignKey: 'creadorId', as:'creador'});

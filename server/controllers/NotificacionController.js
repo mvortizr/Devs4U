@@ -10,7 +10,6 @@ module.exports={
             fecha: notificacion.fecha,
             descripcion: notificacion.descripcion,
             usuarioId: notificacion.usuarioId
-
         })
     },
 

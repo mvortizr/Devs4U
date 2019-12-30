@@ -1,5 +1,4 @@
 const model=require('../models');
-const userController = require('./UserController');
 
 module.exports={
 
@@ -14,7 +13,7 @@ module.exports={
 
             let destinatarioId=review.get().destinatarioId
             let calificacion=review.get().calificacion
-            
+            const userController = require('./UserController');
             userController.actualizarCalifiacionMedia(destinatarioId,calificacion)
         })
         .then(function(){res.status(200).send({message:'El review se ha creado correctamente'})})
@@ -22,7 +21,7 @@ module.exports={
     },
 
     consultarReview(req,res){
-        model.Review.findAll({where:{id:req.params.id}})
+        model.Review.findAll({where:{id:req.params.id,}})
         .then(function(review){res.status(200).send(review)})
         .catch(err => res.status(400).json('Error: ' + err));
 
@@ -53,6 +52,6 @@ module.exports={
     },
 
     eliminarReviewsDeUnUsuario(req,res){
-        model.Review.destroy({where:{freelancerId:req.user.id}})
+        model.Review.destroy({where:{freelancerId:id}})
     }
 }

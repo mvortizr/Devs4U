@@ -36,12 +36,8 @@ module.exports={
 
     },
     
-    eliminarPerfil(req,res){
-        model.Freelancer.destroy({
-            where: {usuarioId: req.user.id}
-        })
-        //.then(function () {res.status(200).send({message:'Usuario eliminado exitosamente'})})
-        //.catch((error) => { res.status(400).send(error); });
+    eliminarPerfil(id){
+        model.Freelancer.destroy({where: {usuarioId: id}})
     },
 
     consultarPerfilFreelancer(req,res){
@@ -64,14 +60,7 @@ module.exports={
             where:{rol:'freelancer'},
             //include:['freelancer','educacion','experiencia']
         })
-        .then(function(freelancers){   
-            res.status(200).send(freelancers)    
-            /*model.Freelancer.count()
-            .then( function(count){ 
-                res.send({freelancers:freelancers, count:count})       
-            })
-            .catch(err => res.status(400).json('Error: ' + err));*/
-        })
+        .then(function(freelancers){res.status(200).send(freelancers)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 

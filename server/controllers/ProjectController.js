@@ -3,7 +3,6 @@ const model=require('../models');
 module.exports={
     
     crearProyecto(req,res){
-        console.log(req.body)
             model.Project.create({ 
                 titulo: req.body.titulo,
                 etapa: 0,
@@ -12,20 +11,16 @@ module.exports={
                 presupuesto: req.body.presupuesto,
                 creadorId: req.user.id,
                 encargadoId:0,
-                etapasInfo:req.body.etapasInfo,//array
                 entregables: req.body.entregables,
                 visiblePortafolio:true,
                 objetivos:req.body.objetivos,
                 tecnologias:req.body.tecnologias,
                 adicionales:req.body.adicionales,
-        },{
-            include: [
-                { model: model.ProjectStage, as: 'etapasInfo', foreignKey:'proyectoId' }
-            ]
+        },
+        {
+            include: [{ model: model.ProjectStage, as: 'etapasInfo', foreignKey:'proyectoId' }]
         })
-        .then(function(usuario){
-            res.status(200).send({ message:'El proyecto se ha creado correctamente'})   
-        })
+        .then(function(){res.status(200).send({ message:'El proyecto se ha creado correctamente'})   })
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -48,34 +43,26 @@ module.exports={
             objetivos:req.body.objetivos,
             tecnologias:req.body.tecnologias,
             adicionales:req.body.adicionales,
-        },{ where: {id: req.params.id},
+        },{ where: {id: req.params.id,creadorId: req.user.id},
         })
-        .then(function(project){
-            res.status(200).send({ message:'El proyecto se ha modificado correctamente'})   
-        })
+        .then(function(proyectoModificado){
+            if(proyectoModificado[0]=='') res.status(400).json('No puede acceder a esta proyecto')
+            else res.status(200).send({message:'Se modifico el proyecto correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
     
     cancelarProyecto(req,res){
         model.Project.destroy({ 
-            where: {
-                id: req.params.id
-            }
+            where: {id: req.params.id,creadorId: req.user.id}
         })
-        .then(function(){
-
-            model.ProjectStage.destroy({ 
-                where: {
-                    proyectoId: req.params.id
-                }
-            })
-            .then(function(){
-                
-                res.status(200).send({ message:'El proyecto se ha eliminado correctamente'})   
-            })
-            .catch(err => res.status(400).json('Error: ' + err));
-
+        .then(function(proyectoEliminado){
+            if(proyectoEliminado==1){
+                model.ProjectStage.destroy({ where: {proyectoId: req.params.id}})
+                .then(function(){res.status(200).send({ message:'El proyecto se ha eliminado correctamente'})})
+                .catch(err => res.status(400).json('Error: ' + err));}
+            else res.status(400).json('No puede acceder a esta proyecto')
+            
         })
         .catch(err => res.status(400).json('Error: ' + err));
     },
@@ -139,11 +126,11 @@ module.exports={
     },
 
 
-    actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(req,res){
+    actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(id){
         model.Project.update(
+            {where:{encargadoId:id}},
             {encargadoId:0,
-            etapa:0},
-            {where:{encargadoId:req.user.id}}) 
+            etapa:0})
     },
 
     eliminarProyectosDelContratista(req,res){

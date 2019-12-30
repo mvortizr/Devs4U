@@ -37,11 +37,6 @@ module.exports={
         })
         .then(function(contractors){
             res.status(200).send(contractors)
-            /*model.Contractor.count()
-            .then( function(count){ 
-                res.send({contractors:contractors, count:count})       
-            })
-            .catch(err => res.status(400).json('Error: ' + err));*/
         })
         .catch(err => res.status(400).json('Error: ' + err));
     },

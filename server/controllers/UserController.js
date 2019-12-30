@@ -41,6 +41,7 @@ module.exports = {
     },
 
     eliminarPerfil(req, res) {
+        const id=req.user.id
         model.User.destroy({
             where: {
                 id: req.user.id
@@ -48,12 +49,12 @@ module.exports = {
         })
             .then(function () {
                 if (req.user.rol == 'freelancer') {
-                    freelancerController.eliminarPerfil(req, res)
-                    experienciaController.eliminarExperienciaDeUnUsuario(req,res)
-                    educacionController.eliminarEducacionDeUnUsuario(req,res)
-                    proyectoController.actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(req,res)
-                    //Actualizar la postulacion
-                    reviewController.eliminarReviewsDeUnUsuario(req,res)
+                    console.log(id)
+                    freelancerController.eliminarPerfil(id)
+                    experienciaController.eliminarExperienciaDeUnUsuario(id)
+                    educacionController.eliminarEducacionDeUnUsuario(id)
+                    //proyectoController.actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(id)
+                    reviewController.eliminarReviewsDeUnUsuario(id)
                 }
                 else if (req.user.rol == 'contractor'){ 
                     contratistaController.eliminarPerfil(req, res);
@@ -93,11 +94,9 @@ module.exports = {
     },
 
     actualizarCalifiacionMedia(usuarioId,calificacion){
-
-
         model.User.findAll({where: {id: usuarioId}})
-        
-        .then(function(usuario){ if(usuario[0].calificacionesMedia!=0){ calificacion=(usuario[0].calificacionesMedia+calificacion)/2}})
+        .then(function(usuario){
+             if(usuario[0].calificacionesMedia!=0)calificacion=(usuario[0].calificacionesMedia+calificacion)/2})
         .then(function(){
             model.User.update({
                 calificacionesMedia: calificacion

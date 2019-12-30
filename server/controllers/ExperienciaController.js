@@ -2,7 +2,6 @@ const model=require('../models');
 
 module.exports={
     agregarExperiencia(req,res){
-        console.log(req.body)
         model.Experiencia.create({
             freelancerId: req.user.id,
             nombreEmpresa: req.body.nombreEmpresa,
@@ -15,17 +14,16 @@ module.exports={
     },
 
     modificarExperiencia(req,res){
-
-        console.log(req.params.id)
         model.Experiencia.update({
             nombreEmpresa: req.body.nombreEmpresa,
             descripcion: req.body.descripcion,
             cargo: req.body.cargo,
             anoInicio: req.body.anoInicio,
             anoFin: req.body.anoFin
-        },{where:{id:req.params.id}})
-
-        .then(function(){ res.status(200).send({message:'Se modifico la experiencia correctamente'})})
+        },{where:{id:req.params.id, freelancerId: req.user.id}})
+        .then(function(experienciaModificada){ 
+            if(experienciaModificada[0]=='') res.status(400).json('No tiene permiso para modificar esta experiencia')
+            else res.status(200).send({message:'Se modifico la experiencia correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -39,9 +37,7 @@ module.exports={
     },
 
     modificarListaExperiencia(req,res){
-
         promiseArray=[]
-
         req.body.experienceList.map(  experiencia => {       
             promiseArray.push(
                 model.Experiencia.update({
@@ -60,19 +56,16 @@ module.exports={
     },
 
     eliminarExperiencia(req,res){
-        model.Experiencia.destroy({
-            where:{
-                id:req.params.id, 
-                freelancerId:req.user.id
-            }
-        })
-        .then(function(){res.status(200).send({message:'Se ha eliminado la experiencia exitosamente'})})
+        model.Experiencia.destroy({where:{id:req.params.id, freelancerId:req.user.id}})
+        .then(function(experienciaEliminada){   
+            if(experienciaEliminada=='') res.status(400).json('No tiene permiso para eliminar esta experiencia')
+            else res.status(200).send({message:'Se ha eliminado la experiencia exitosamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
 
-    eliminarExperienciaDeUnUsuario(req,res){
-        model.Experiencia.destroy({where:{freelancerId:req.user.id}})
+    eliminarExperienciaDeUnUsuario(id){
+        model.Experiencia.destroy({where:{freelancerId:id}})
     }
 
 }

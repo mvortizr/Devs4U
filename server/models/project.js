@@ -2,11 +2,33 @@
 module.exports = (sequelize, DataTypes) => {
   //Falta archivos asociados y chat
   const Project = sequelize.define('Project', {
-    titulo: DataTypes.STRING,
-    etapa: DataTypes.INTEGER,
-    tipo: DataTypes.STRING,
+    titulo: { 
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notEmpty: true
+      }},
+    etapa: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate:{
+        notEmpty: true,
+        isInt: true
+      }
+    },
+    tipo: { 
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notEmpty: true
+      }},
     descripcion: DataTypes.TEXT,
-    presupuesto: DataTypes.STRING,
+    presupuesto: { 
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notEmpty: true
+      }},
     creadorId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -15,7 +37,14 @@ module.exports = (sequelize, DataTypes) => {
         isInt: true
       }
     },
-    encargadoId:DataTypes.INTEGER,
+    encargadoId:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate:{
+        notEmpty: true,
+        isInt: true
+      }
+    },
     entregables: DataTypes.TEXT,
     visiblePortafolio: DataTypes.BOOLEAN,
     objetivos:DataTypes.ARRAY(DataTypes.TEXT),

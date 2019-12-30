@@ -92,6 +92,7 @@ router.get('/contractor/view/byId/:id',contractorController.consultarPerfilContr
 router.get('/list/freelancers',freelancerController.listarFreelancers)
 router.get('/list/contractors',contractorController.listarContractors)
 
+//Review
 router.post('/review/add/:id',reviewController.agregarReview)
 router.get('/review/list/:id',reviewController.listarReviewsUsuario)
 router.post('/review/mine/list',reviewController.listarMisReviewsUsuario)
