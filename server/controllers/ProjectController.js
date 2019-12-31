@@ -1,5 +1,6 @@
 const model=require('../models');
 const multer=require('multer')
+const archivoController=require('./ArchivoController')
 
 module.exports={
     
@@ -144,23 +145,16 @@ module.exports={
     },
     
     subirArchivos(req,res){
-        console.log(req.file)
-        res.send('upload')
+        archivoController.crearArchivo(req,res)
     },
 
     descargarArchivos(req,res){
         const path = require ('path');
         const publicPath = path.join(__dirname, '..', 'middlewares/uploads');
-        //console.log(path)
-        console.log(publicPath)
-    
       
         res.download(publicPath+'/'+req.params.id,req.params.id, function (err) {
-            if (err) {
-                console.log(err)
-            } else {
-                console.log('se descargo fino')
-            }
+            if (err) {console.log(err)} 
+            else {console.log('se descargo fino') }
           })
     }
 }
