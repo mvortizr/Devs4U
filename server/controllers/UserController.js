@@ -49,7 +49,6 @@ module.exports = {
         })
             .then(function () {
                 if (req.user.rol == 'freelancer') {
-                    console.log(id)
                     freelancerController.eliminarPerfil(id)
                     experienciaController.eliminarExperienciaDeUnUsuario(id)
                     educacionController.eliminarEducacionDeUnUsuario(id)
@@ -59,6 +58,7 @@ module.exports = {
                 else if (req.user.rol == 'contractor'){ 
                     contratistaController.eliminarPerfil(req, res);
                     proyectoController.eliminarProyectosDelContratista(req,res)
+                    reviewController.eliminarReviewsDeUnUsuario(id)
                 }
             })
             .then(function(){res.status(200).send({ message:'Se elimino al usuario y toda su informacion exitosamente'})})

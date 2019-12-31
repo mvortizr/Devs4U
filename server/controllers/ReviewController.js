@@ -1,5 +1,4 @@
 const model=require('../models');
-
 module.exports={
 
     agregarReview(req,res){
@@ -51,7 +50,8 @@ module.exports={
 
     },
 
-    eliminarReviewsDeUnUsuario(req,res){
-        model.Review.destroy({where:{freelancerId:id}})
+    eliminarReviewsDeUnUsuario(id){
+        model.Review.destroy(
+            {where:{destinatarioId:id}})
     }
 }
