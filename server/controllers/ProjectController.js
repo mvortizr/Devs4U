@@ -1,4 +1,5 @@
 const model=require('../models');
+const multer=require('multer')
 
 module.exports={
     
@@ -140,5 +141,10 @@ module.exports={
         .then(function(){ model.Project.destroy({ where: {creadorId: req.user.id}})})
         //.catch(err => res.status(400).json('Error: ' + err));
 
+    },
+    
+    subirArchivos(req,res){
+        console.log(req.file)
+        res.send('upload')
     }
 }

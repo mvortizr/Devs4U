@@ -57,6 +57,9 @@ router.get('/project/list/view/worked', ensureAuthenticated,projectController.li
 router.post('/project/stage/change', ensureAuthenticated,projectController.cambiarEtapaProyecto)
 router.post('/project/add/freelancer/incharge/:id',ensureAuthenticated,projectController.asignarFreelancerEncargado)
 
+router.post('/project/upload/file',ensureAuthenticated, upload.single('image'),projectController.subirArchivos)
+
+
 //Rutas Cambiar Deadline
 
 
