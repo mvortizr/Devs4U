@@ -146,5 +146,16 @@ module.exports={
     subirArchivos(req,res){
         console.log(req.file)
         res.send('upload')
+    },
+
+    descargarArchivos(req,res){
+      
+        res.download(__dirname+'/uploads'+req.params.id,req.params.id, function (err) {
+            if (err) {
+                console.log('hubo un error')
+            } else {
+                console.log('se descargo fino')
+            }
+          })
     }
 }
