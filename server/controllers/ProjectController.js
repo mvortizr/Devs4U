@@ -149,10 +149,15 @@ module.exports={
     },
 
     descargarArchivos(req,res){
+        const path = require ('path');
+        const publicPath = path.join(__dirname, '..', 'middlewares/uploads');
+        //console.log(path)
+        console.log(publicPath)
+    
       
-        res.download(__dirname+'/uploads'+req.params.id,req.params.id, function (err) {
+        res.download(publicPath+'/'+req.params.id,req.params.id, function (err) {
             if (err) {
-                console.log('hubo un error')
+                console.log(err)
             } else {
                 console.log('se descargo fino')
             }
