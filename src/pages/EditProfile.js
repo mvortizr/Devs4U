@@ -288,6 +288,10 @@ export default function Dashboard(props) {
     setTypeSeniority(event.target.value);
   };
 
+  const setNewFoto = fotolink => {
+    setUserInfo({foto:'hola'})
+  }
+
   const handleChange = name => e => {
    
       if(name==="experiencia"){
@@ -453,7 +457,7 @@ export default function Dashboard(props) {
                 
                   {/*Cambiar por link para adjuntar imagen */}
                   <div className={classes.centerImage}>
-                  <UploadImage/>
+                  <UploadImage changeFotoLink={setNewFoto}/>
                   </div>
                   
                
