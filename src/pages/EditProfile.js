@@ -289,7 +289,7 @@ export default function Dashboard(props) {
   };
 
   const setNewFoto = fotolink => {
-    setUserInfo({foto:'hola'})
+    setUserInfo({foto:fotolink})
   }
 
   const handleChange = name => e => {
@@ -456,7 +456,7 @@ export default function Dashboard(props) {
                 <img src={userInfo.foto} className={classes.imageUser}/>
                 
                   {/*Cambiar por link para adjuntar imagen */}
-                  <div className={classes.centerImage}>
+                  <div >
                   <UploadImage changeFotoLink={setNewFoto}/>
                   </div>
                   
@@ -622,6 +622,7 @@ export default function Dashboard(props) {
                     key={`nombre-${indexExp}`}          
                   />
                 </div>
+
 
                <div className={classes.addMarginBottom}>
                    <div className={classes.labelAndCaption}>

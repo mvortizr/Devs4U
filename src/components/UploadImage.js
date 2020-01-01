@@ -12,52 +12,93 @@ const useStyles = makeStyles(theme => ({
   input: {
     display: 'none',
   },
+  buscarFotoButton:{
+  	margin:'10px 0px 10px 0px'
+  },
+  imageName:{
+  	textOverflow:'ellipsis',
+  	width:'120px',
+  	overflow:'hidden',
+  	whiteSpace:'nowrap'
+  }
 }));
 
 export default function UploadImage(props) {
   
- 	const classes = useStyles();
- 	const[image, setImage] = React.useState('')
+  const classes = useStyles();
+  const [image, setImage] = React.useState({preview: '', raw: ''})
+  const[imageName,setImageName] = React.useState('Elija una foto...')
+  
+  const handleChange = (e) => {
+    
+    setImage({
+      preview: URL.createObjectURL(e.target.files[0]),
+      raw: e.target.files[0]
+    })
 
-	const onFileChange = (e)=> {
-		setImage(e.target.files[0])
-    }
+    setImageName(e.target.files[0].name)
 
 
-    const onSubmit = (e) => {
-        e.preventDefault()
-        const formData = new FormData()
-        formData.append('image', image)
-        axios({ method: 'put',
-        validateStatus: function(status) {
-          return status >= 200 && status < 500; 
-        },
-        url:`/profile/edit`, 
-        withCredentials:true,
-        data: formData
-      }).then(res => {
-            console.log(res)
-        })
-    }
+
+  }
+
+  const handleUpload = async (e) => {
+    e.preventDefault()
+
+    if (image.raw === ''){
+    	alert('Debe buscar una foto de perfil primero')
+    } 
+   	else {
+	    const formData = new FormData()
+	    formData.append('image', image.raw)
+	  	//console.log('formData',formData)
+	    try {
+	      //await axios.put('/profile/addphoto', {image: image.raw}, config)
+	      axios({ method: 'put',
+	        validateStatus: function(status) {
+	          return status >= 200 && status < 500; 
+	        },
+	        url:`/profile/addphoto`, 
+	        withCredentials:true,
+	        data:formData,
+	      })
+	      .then(response =>{
+	          console.log('upload res',response)
+
+	          if(response.status === 200 || response.status === 201 ){
+	               props.changeFotoLink(response.data.imageCloudData.url)
+	          } 
+	          
+	      })
+	      
+	    } catch (error) {
+	      console.log(error.response)
+	    }
+	}
+  }
 
 return (
-    <div className={classes.root}>
-     <form onSubmit={onSubmit}>
-	      <input
-	        accept="image/*"
-	        className={classes.input}
-	        id="contained-button-file"
-	        multiple
-	        type="file"
-	        name="image"
-	        onChange={onFileChange}
-	      />
-	      <label htmlFor="contained-button-file">
-	        <Button variant="contained"  type="submit">
-	          Cambiar foto
-	        </Button>
+   <div className={classes.root}>
+   {console.log('image',image)}
+    <form onSubmit={handleUpload}>   
+      <input
+        accept="image/*"
+        className={classes.input}
+        id="contained-button-file"
+        multiple
+        type="file"
+        onChange={handleChange}
+      />
+      <label htmlFor="contained-button-file">
+      	<div className={classes.imageName}> {imageName} </div>
+        <Button variant="contained" component="span" className={classes.buscarFotoButton}>
+          Buscar foto
+        </Button>
       </label>
-      </form>
+      	<Button variant="contained" component="button" type="submit">
+          Cambiar foto
+        </Button>
+      </form> 
     </div>
   );
 }
