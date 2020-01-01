@@ -4,11 +4,18 @@ import {
   Typography,
   CssBaseline,
   Container,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  CardActionArea,
 } from '@material-ui/core'
+import Rating from '@material-ui/lab/Rating';
 import { makeStyles } from '@material-ui/core/styles'
 import Header from './Header'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import fotoPerfil from './images/fotoPerfil.png'
 
 function Copyright() {
     return (
@@ -124,7 +131,18 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: {
     flexGrow: 1
-  }
+  },
+  img: {
+    width: 280,
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  media:{
+    backgroundColor:"#F41204",
+    height: "50px"
+},
 }))
 
 export default function Dashboard(props) {
@@ -140,6 +158,8 @@ export default function Dashboard(props) {
     setOpen(false)
   }
 
+  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const [value, setValue] = React.useState(2);
 
   const [devs,setDevs] = React.useState(undefined);
   const [projects,setProjects] = React.useState(undefined);
@@ -177,45 +197,30 @@ if(props.type=="contractor"){
           <div className={classes.appBarSpacer} />
           <Container className={classes.cardGrid} maxWidth="md">
             {/* End hero unit */}
-            {/* <Grid container spacing={4}> */}
-              {/*
-                En la plantilla original, para que salieran varios "trabajos", colocaron:
-                {cards.map(card => (
-                  <Grid item key={card} xs={12} sm={6} md={4}>
-                    ...
-                  </Grid>
-                ))};*/}
-              {/* {devs.map(card => (
-            
-              <Grid item xs={8} sm={6} md={6}>
-                <Card className={classes.card} key={card.id}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {card.firstName + ' ' + card.lastName}
-                    </Typography>
-                    <Typography>
-                      {card.aboutMe}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <DomLink
-                      to={{pathname:`/profile/consult/freelancer/${card.id}`, idDev:card.id}}
-
-                      style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
-                      <Button size="small" color="primary">
-                        Visitar Perfil
-                      </Button>
-                    </DomLink>
-                  </CardActions>
+            <Grid container spacing={4}>
+            {cards.map(card => (
+              <Grid item key={card} xs={12} sm={6} md={4}>
+                <Card className={classes.card}>
+                  <CardActionArea>
+                    <CardMedia> 
+                      <img src={fotoPerfil} className={classes.img}/>
+                    </CardMedia>
+                    <div className={classes.details}>
+                      <CardContent className={classes.cardContent}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          <strong>Paula Gomez Ortiz</strong>
+                        </Typography>
+                        <Typography>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In a quam in lorem ullamcorper porta nec in risus.                   
+                        </Typography>
+                        <Rating name="read-only" value={value} readOnly />
+                      </CardContent>
+                    </div>
+                  </CardActionArea>
                 </Card>
               </Grid>
-              ))}
-            </Grid>  */}
+            ))}
+          </Grid>
           </Container>
           <Copyright />
         </main>
@@ -236,45 +241,29 @@ else{
               <div className={classes.appBarSpacer} />
               <Container className={classes.cardGrid} maxWidth="md">
                 {/* End hero unit */}
-                {/* <Grid container spacing={4}> */}
-                  {/*
-                    En la plantilla original, para que salieran varios "trabajos", colocaron:
-                    {cards.map(card => (
-                      <Grid item key={card} xs={12} sm={6} md={4}>
-                        ...
-                      </Grid>
-                    ))};*/}
-                 {/* {projects.map(card => ( 
-                 
-                  <Grid item xs={8} sm={6} md={6}>
-                    <Card className={classes.card} key={card.id}>
-                      <CardMedia
-                        className={classes.cardMedia}
-                        image="https://source.unsplash.com/random"
-                        title="Image title"
-                      />
-                      <CardContent className={classes.cardContent}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {card.name}
-                        </Typography>
-                        <Typography>
-                          {card.description}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <DomLink
-                          to={{pathname:`/project/freelancer/${card.id}`, idPost:card.id}}
-      
-                          style={{ textDecoration: 'none', color: 'rgb(33,40,53)' }}>
-                          <Button size="small" color="primary">
-                            Más Información
-                          </Button>
-                        </DomLink>
-                      </CardActions>
-                    </Card>
-                  </Grid>
+                <Grid container spacing={4}>
+                  {cards.map(card => (
+                    <Grid item key={card} xs={12} sm={6} md={4}>
+                      <Card className={classes.card}>
+                        <CardActionArea>
+                          <CardMedia
+                          className={classes.media}
+                          />
+                          <div className={classes.details}>
+                            <CardContent className={classes.cardContent}>
+                              <Typography gutterBottom variant="h5" component="h2">
+                                <strong>Nombre del Proyecto</strong>
+                              </Typography>
+                              <Typography>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In a quam in lorem ullamcorper porta nec in risus.                   
+                              </Typography>
+                            </CardContent>
+                          </div>
+                        </CardActionArea>
+                      </Card>
+                    </Grid>
                   ))}
-                 </Grid> */}
+                </Grid>
               </Container>
               <Copyright />
             </main>

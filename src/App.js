@@ -14,9 +14,10 @@ import Dashboard from './pages/Dashboard'
 import GestProject from './pages/GestProject'
 import ConsultMyProfile from './pages/ConsultMyProfile'
 import ConsultProfile from './pages/ConsultProfile'
-
-
-import ProjectProcess from './pages/ProjectProcess';
+import RateUser from './pages/RateUser'
+import ExecuteProject from './pages/ExecuteProject'
+import ReviewProject from './pages/ReviewProject'
+import SendProject from './pages/SendProject'
 
 /* TODO manejar los roles*/
 function App() {
@@ -71,6 +72,20 @@ function App() {
 				{/* Consultar Portafolio Anonimo */}
 				<Route exact path='/view/portafolio/contractor' render={ ()=> <ConsultPortfolio type="contractor"/>}/>
 				<Route exact path='/view/portafolio/freelancer' render={ ()=> <ConsultPortfolio type="dev"/>}/>
+
+			{/* Ejecutar Proyecto */}
+				<Route exact path='/developer/postulates' render={ ()=> <ExecuteProject type="developer"/>}/>
+				<Route exact path='/contractor/postulates' render={ ()=> <ExecuteProject type="contractor"/>}/>
+
+			{/* Entregar Proyecto */}
+			<Route exact path='/developer/project/send' render={ ()=> <SendProject/>}/>
+
+			{/* Revisar Proyecto */}
+				<Route exact path='/contractor/project/review' render={ ()=> <ReviewProject />}/>
+		
+			{/* Calificar Usuario */}
+				<Route exact path='/developer/rate' render={ ()=> <RateUser type="developer"/>}/>
+				<Route exact path='/contractor/rate' render={ ()=> <RateUser type="contractor"/>}/>
 
 			{/*Not Found*/}
 			<Route component={NotFound} />

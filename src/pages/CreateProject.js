@@ -152,6 +152,53 @@ const useStyles = makeStyles(theme => ({
 export default function CreateProject() {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
+
+  function Comparar(a, b){
+    var año01 = a.substr(0,4);
+    var mes01 = a.substr(-5,2);
+    var dia01 = a.substr(8,9);
+    var año02 = b.substr(0,4);
+    var mes02 = b.substr(-5,2);
+    var dia02 = b.substr(8,9);
+    var año1 = parseInt(año01,10);
+    var mes1 = parseInt(mes01,10);
+    var dia1 = parseInt(dia01,10);
+    var año2 = parseInt(año02,10);
+    var mes2 = parseInt(mes02,10);
+    var dia2 = parseInt(dia02,10);
+    //Mismo día
+    if(año2 === año1){
+      if(mes2 === mes1){
+        if(dia2 >= dia1){
+          return true;
+        }
+        else{ return false; }
+      }
+      else if(mes2 > mes1) { return true; }
+      else { return false; }
+    }
+    else if(año2 > año1) { return true; }
+    else { return false; }
+  }
+
+  const handleCompare = () => {
+    var date1 = document.getElementById("date1").value;
+    var date2 = document.getElementById("date2").value;
+    var date3 = document.getElementById("date3").value;
+    var date4 = document.getElementById("date4").value;
+
+    if(Comparar(date1,date2) === true){
+      if(Comparar(date2,date3) === true){
+        if(Comparar(date3,date4) === true){
+          console.log('Las fechas están validadas')
+        }
+        else  { alert('Las etapas de Revisión y Finalizado tienen que ser continuas'); }
+      }
+      else  { alert('Las etapas de Ejecución y Revisión tienen que ser continuas'); }
+    }
+    else  { alert('Las etapas de Abierto y Ejecución tienen que ser continuas'); }
+  };
+
   const handleDrawerOpen = () => {
     setOpen(true)
   }
@@ -174,7 +221,7 @@ export default function CreateProject() {
          
         <Container className={classes.cardGrid} maxWidth="md">
         <Typography variant="h4" gutterBottom>
-                Creación de Proyecto
+                Creación del Proyecto
               </Typography>
           <Grid container spacing={5} className={classes.mainGrid} className={classes.grid}>
             {/* Main content */}
@@ -267,8 +314,10 @@ export default function CreateProject() {
 
               <Button
                 variant="contained"
+                id="botonCrear"
                 color="primary"
                 className={classes.button2}
+                onClick={handleCompare}
                 href="/project/manage/contractor">
                 Crear
               </Button>
