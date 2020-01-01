@@ -289,7 +289,10 @@ export default function Dashboard(props) {
   };
 
   const setNewFoto = fotolink => {
-    setUserInfo({foto:fotolink})
+
+    let newState = {...userInfo}
+    newState.foto = fotolink
+    setUserInfo(newState)
   }
 
   const handleChange = name => e => {
