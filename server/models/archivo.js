@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     filePath: DataTypes.STRING
   }, {});
   archivo.associate = function(models) {
-    // associations can be defined here
+    archivo.belongsTo(models.Project, {foreignKey: 'projectId', as:'proyect'});
   };
   return archivo;
 };

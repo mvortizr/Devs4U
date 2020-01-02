@@ -53,7 +53,7 @@ module.exports = {
                     experienciaController.eliminarExperienciaDeUnUsuario(id)
                     educacionController.eliminarEducacionDeUnUsuario(id)
                     proyectoController.actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(id)
-                    reviewController.eliminarReviewsDeUnUsuario(id)
+                    //reviewController.eliminarReviewsDeUnUsuario(id)
                 }
                 else if (req.user.rol == 'contractor'){ 
                     contratistaController.eliminarPerfil(req, res);

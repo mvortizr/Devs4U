@@ -1,6 +1,5 @@
 const model=require('../models');
 const multer=require('multer')
-const archivoController=require('./ArchivoController')
 
 module.exports={
     
@@ -142,19 +141,5 @@ module.exports={
         .then(function(){ model.Project.destroy({ where: {creadorId: req.user.id}})})
         //.catch(err => res.status(400).json('Error: ' + err));
 
-    },
-    
-    subirArchivos(req,res){
-        archivoController.crearArchivo(req,res)
-    },
-
-    descargarArchivos(req,res){
-        const path = require ('path');
-        const publicPath = path.join(__dirname, '..', 'middlewares/uploads');
-      
-        res.download(publicPath+'/'+req.params.id,req.params.id, function (err) {
-            if (err) {console.log(err)} 
-            else {console.log('se descargo fino') }
-          })
     }
 }

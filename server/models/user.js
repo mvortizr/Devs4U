@@ -85,7 +85,7 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsToMany(models.Project, {through: 'IntPostulationProject', foreignKey: 'usuarioId', as: 'proyectosPostulados',otherKey: 'proyectoId'})
     
     //Relaciones del review
-    User.hasMany(models.Review,{foreignKey:'creadorId',as:'creadorReview'})
+    User.hasMany(models.Review,{foreignKey:'creadorId',as:'creadorReview',onDelete:'CASCADE'})
     User.hasMany(models.Review,{foreignKey:'destinatarioId',as:'destinatarioReview'})
 
     //Relaciones de la informacion adicional de un freelancer

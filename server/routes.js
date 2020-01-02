@@ -26,6 +26,7 @@ const searchController = require('./controllers/SearchController')
 const projectStageController=require('./controllers/ProjecStageController')
 const notificacionController=require('./controllers/NotificacionController')
 //const projectController=require('./controllers/ProjectController');
+const archivoController=require('./controllers/ArchivoController')
 
 
 
@@ -57,11 +58,15 @@ router.get('/project/list/view/worked', ensureAuthenticated,projectController.li
 router.post('/project/stage/change', ensureAuthenticated,projectController.cambiarEtapaProyecto)
 router.post('/project/add/freelancer/incharge/:id',ensureAuthenticated,projectController.asignarFreelancerEncargado)
 
-router.post('/project/upload/file',ensureAuthenticated, upload.single('image'),projectController.subirArchivos)
-router.post('/project/download/file/:id',ensureAuthenticated,projectController.descargarArchivos)
+//Archivos
+
+
+router.post('/project/upload/file',ensureAuthenticated, upload.single('image'),archivoController.subirArchivos)
+router.post('/project/download/file/:id',ensureAuthenticated,archivoController.descargarArchivos)
+router.post('/project/view/file/:id',ensureAuthenticated,archivoController.consultarArchivo)
+
 
 //Rutas Cambiar Deadline
-
 
 router.post('/project/stage/chance/deadline/:id',ensureAuthenticated,projectStageController.modificarDeadline)
 
