@@ -192,9 +192,6 @@ export default function ReviewProject() {
                 <Grid item xs={12} md={12}>
                     <Divider/>
                 </Grid>
-                <Button variant="contained" className={classes.butac}>
-                    Realizar Entrega
-                </Button>
                 <input
                   accept=".pdf, .png,.jpg"
                   className={classes.input}
@@ -207,9 +204,6 @@ export default function ReviewProject() {
                     Adjuntar Archivo
                   </Button>
                 </label>
-                <Button variant="contained" className={classes.butcan}>
-                    Cancelar
-                </Button>
                 <Grid container spacing={4} className={classes.grid}>
                 {cards.map(card => (
                     <Grid item key={card} xs={12} sm={6} md={12}>
@@ -227,6 +221,12 @@ export default function ReviewProject() {
                     </Grid>
                 ))}
                 </Grid>
+                <Button variant="contained" className={classes.butcan}>
+                    Cancelar
+                </Button>
+                <Button variant="contained" className={classes.butac}>
+                    Realizar Entrega
+                </Button>
             </Container>
             <Copyright />
             </main>
