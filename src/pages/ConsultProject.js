@@ -168,6 +168,11 @@ export default function ConsultProject(props) {
   const projectId = props.match.params.id
   const [project, setProject] =React.useState('');
   const myRol= sessionStorage.getItem('rol');
+  const myId= sessionStorage.getItem('userId');
+
+  const handleDisablePostulation =() => {
+    return 'hola'
+  }
   
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -285,15 +290,50 @@ export default function ConsultProject(props) {
                       {/* End main content */}
                       {/* Sidebar */}
                       <Grid item xs={12} md={4}>
+
+                      
+                      {(project.creador !== null) && (project.creador.id == myId) && (myRol==='contractor')?(
+                        <>
                         <Button variant="contained" color="primary" className={classes.buttonC}>
                           Modificar
                         </Button>
                         <Button variant="contained" className={classes.buttonRe}>
                           Cancelar
                         </Button>
+
+
+                        { project.etapa === 0?(
                         <Button variant="contained" color="primary" className={classes.buttonC}>
-                          Postulados
+                          Ejecutar
+                        </Button>):null}
+
+                        { project.etapa === 2?(
+                        <Button variant="contained" color="primary" className={classes.buttonC}>
+                          Revisar
+                        </Button>):null}
+
+                        </>
+                        ):null}
+
+                        {project.etapa === 0 && myRol==='freelancer'?(
+                        <Button variant="contained" color="primary" className={classes.buttonC}>
+                          Postularse
+                        </Button>):null}
+                        
+
+                        { project.etapa === 1 && myRol==='freelancer' && project.encargado!== null && project.encargado.id===myId? (
+                        <Button variant="contained" color="primary" className={classes.buttonC} disable={handleDisablePostulation}>
+                         Entregar 
                         </Button>
+                        ):null}
+
+
+                      {/*Agregar condicion de los booleanos de proyecto*/}
+                        { project.etapa === 3?(
+                        <Button variant="contained" color="primary" className={classes.buttonC}>
+                          Calificar
+                        </Button>):null}
+
                         <br/>
                         <br/>
                         <Divider/>

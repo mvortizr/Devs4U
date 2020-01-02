@@ -305,7 +305,7 @@ if(props.type=="contractor"){
                   </div>
                   <InputBase
                   type="search" 
-                  placeholder="Search…"
+                  placeholder="Buscar..."
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,

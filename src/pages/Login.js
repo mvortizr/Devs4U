@@ -142,7 +142,8 @@ const Login = (props) => {
                           showDialog('Ha iniciado sesión correctamente')
                           sessionStorage.setItem('nombre', response.data.user.nombre);
                           sessionStorage.setItem('rol', response.data.user.rol);
-                          sessionStorage.setItem('foto', response.data.user.foto);                   
+                          sessionStorage.setItem('foto', response.data.user.foto); 
+                          sessionStorage.setItem('userId', response.data.user.id);                  
                           props.history.push(`/dashboard/${response.data.user.rol}`)
                         } 
                         else {
