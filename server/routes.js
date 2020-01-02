@@ -57,9 +57,11 @@ router.get('/project/list/view/created', ensureAuthenticated,projectController.l
 router.get('/project/list/view/worked', ensureAuthenticated,projectController.listarProyectosEncargados)
 router.post('/project/stage/change', ensureAuthenticated,projectController.cambiarEtapaProyecto)
 router.post('/project/add/freelancer/incharge/:id',ensureAuthenticated,projectController.asignarFreelancerEncargado)
+router.post('/project/change/state/review/:id',ensureAuthenticated,projectController.actualizarElEstadoDelReviewDeUnUsuarioDelProyecto)
+
+
 
 //Archivos
-
 
 router.post('/project/upload/file',ensureAuthenticated, upload.single('image'),archivoController.subirArchivos)
 router.post('/project/download/file/:id',ensureAuthenticated,archivoController.descargarArchivos)

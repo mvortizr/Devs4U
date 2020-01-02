@@ -17,6 +17,8 @@ module.exports={
                 objetivos:req.body.objetivos,
                 tecnologias:req.body.tecnologias,
                 adicionales:req.body.adicionales,
+                estadoReviewFreelancer:false,
+                estadoReviewContractor:false
         },
         {
             include: [{ model: model.ProjectStage, as: 'etapasInfo', foreignKey:'proyectoId' }]
@@ -110,12 +112,8 @@ module.exports={
         model.Project.update({
             etapa:req.body.nuevaEtapa,
         },{where:{id:req.body.proyectoId}})
-
-            .then(function(project){
-               // console.log(project)               
-                res.status(200).send({ message:'La etapa se ha cambiado satisfactoriamente'})   
-            })
-            .catch(err => res.status(400).json('Error: ' + err));
+        .then(function(project){res.status(200).send({ message:'La etapa se ha cambiado satisfactoriamente'})})
+        .catch(err => res.status(400).json('Error: ' + err));
     },
 
     asignarFreelancerEncargado(req,res){
@@ -141,5 +139,23 @@ module.exports={
         .then(function(){ model.Project.destroy({ where: {creadorId: req.user.id}})})
         //.catch(err => res.status(400).json('Error: ' + err));
 
+    },
+
+    actualizarElEstadoDelReviewDeUnUsuarioDelProyecto(req,res){
+        if(req.user.rol=='freelancer'){
+            model.Project.update({ 
+                estadoReviewFreelancer: true
+            },{ where: {id: req.params.id}})
+            .then(function(){res.status(200).send({ message:'El review del estado del proyecto de un freelancer se ha actualizado'})   })
+            .catch(err => res.status(400).json('Error: ' + err));
+        }
+        else if(req.user.rol=='contractor'){
+            model.Project.update({ 
+                estadoReviewContractor: true
+            },{ where: {id: req.params.id}})
+            .then(function(){res.status(200).send({ message:'El review del estado del proyecto de un contratista se ha actualizado'})   })
+            .catch(err => res.status(400).json('Error: ' + err));
+
+        }
     }
 }

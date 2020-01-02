@@ -50,6 +50,8 @@ module.exports = (sequelize, DataTypes) => {
     objetivos:DataTypes.ARRAY(DataTypes.TEXT),
     tecnologias:DataTypes.ARRAY(DataTypes.TEXT),
     adicionales:DataTypes.ARRAY(DataTypes.TEXT),
+    estadoReviewFreelancer:DataTypes.BOOLEAN,
+    estadoReviewContractor:DataTypes.BOOLEAN,
   }, {freezeTableName: true});
   Project.associate = function(models) {  
     Project.hasMany(models.archivo,{foreignKey:'projectId',as:'archivo'})  
