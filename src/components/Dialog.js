@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function AlertDialog({content, title, open, handleCloseDialog}) {
+export default function AlertDialog({content, title, open, handleCloseDialog,handleDeleteProfile}) {
   /*const [openDialog, setOpenDialog] = React.useState(false);
 
   const handleClickOpenDialog = () => {
@@ -38,7 +38,7 @@ export default function AlertDialog({content, title, open, handleCloseDialog}) {
           <Button onClick={handleCloseDialog} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleCloseDialog} color="primary" autoFocus>
+          <Button onClick={handleDeleteProfile} color="primary" autoFocus>
             Aceptar
           </Button>
         </DialogActions>

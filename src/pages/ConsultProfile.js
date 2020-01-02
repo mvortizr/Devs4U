@@ -431,7 +431,7 @@ export default function ConsultProfile(props) {
                       <Divider />
                     </>
                       ):null}
-                    {(user.educacion.length >=1)? (
+                    {(user.educacion.length >=1 || user.experiencia.length>=1)? (
                       <>
                     <Typography variant="h6" gutterBottom>
                       <br/>

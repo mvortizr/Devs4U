@@ -226,7 +226,7 @@ export default function ConsultProfile(props) {
   const [reviewPage, setReviewPage] = React.useState(1) 
   const [reviewTotalCount, setReviewTotalCount] = React.useState(0) //TODO
   const reviewPageSize = 3
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(false)
   
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -256,7 +256,6 @@ export default function ConsultProfile(props) {
   const handleCloseDialog = () => {
     setOpenDialog(false)
   }
-
 
   const [user, setUser] = React.useState(undefined);
 
@@ -319,6 +318,19 @@ export default function ConsultProfile(props) {
         console.log(error)
       }
     )
+  }
+
+  const handleDeleteProfile = () => {
+    axios.delete('/profile/delete').then(
+      () => {
+        sessionStorage.clear();
+        props.history.push('/')
+      },
+      error => {
+        console.log(error)
+      }
+    )
+     
   }
     
 
@@ -385,11 +397,11 @@ export default function ConsultProfile(props) {
                 </>
               )}
               <List>
-                <ListItem button>
+                <ListItem button onClick={handleLogOut}>
                     <ListItemIcon>
                     <ExitToAppIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Cerrar Sesión" onClick={handleLogOut} />
+                    <ListItemText primary="Cerrar Sesión" />
                 </ListItem>
                 </List>          
             </Drawer>
@@ -497,7 +509,7 @@ export default function ConsultProfile(props) {
                       <Divider />
                     </>
                       ):null}
-                    {(user.educacion.length >=1)? (
+                    {(user.educacion.length >=1 || user.experiencia.length>=1)? (
                       <>
                     <Typography variant="h6" gutterBottom>
                       <br/>
@@ -650,7 +662,7 @@ export default function ConsultProfile(props) {
                 </Container>          
                 </Grid>
                 </>):null}
-                {/*<EliminarPerfilDialog content="¿Está seguro que deseas eliminar tu perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} handleDeleteProfile={handleDeleteProfile} open={openDialog}/>*/}
+                <EliminarPerfilDialog content="¿Está seguro que desea eliminar su perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} handleDeleteProfile={handleDeleteProfile} open={openDialog}/>
               </Container>
               <Copyright />
             </main>

@@ -128,12 +128,7 @@ module.exports={
             })
         }
 
-
-
-
-
-
-        
+       
         Promise.all(promiseArray)
         .then(function(){ res.send(200,{message:'El usuario se ha modificado correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));

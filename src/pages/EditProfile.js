@@ -193,7 +193,7 @@ const useStyles = makeStyles(theme => ({
 export default function Dashboard(props) {
   const classes = useStyles();
   const reviews = [1, 2];
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [value, setValue]=React.useState(4.8);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -234,13 +234,42 @@ export default function Dashboard(props) {
           console.log('consultar res',response)
 
           if(response.status === 200){
-            setUserInfo({...response.data[0], habilidades: response.data[0].freelancer.habilidades.join(), tiempoExperiencia: response.data[0].freelancer.tiempoExperiencia,idiomas: response.data[0].idiomas.join()}) 
-            setExperienciaArray(response.data[0].experiencia)
-            setEducacionArray(response.data[0].educacion)
-            setTypeFreelancer(verTipoFreelancerEnSelect(response.data[0].freelancer.tipoFreelancer))
-            setTypeSeniority(verTipoSeniorityEnSelect(response.data[0].freelancer.seniority))
+             
+             if(response.data[0].rol === 'freelancer'){
+            
+              setUserInfo({...response.data[0], tiempoExperiencia: response.data[0].freelancer.tiempoExperiencia})  
+
+             
+
+              setExperienciaArray(response.data[0].experiencia)
+              setEducacionArray(response.data[0].educacion)
+              setTypeFreelancer(verTipoFreelancerEnSelect(response.data[0].freelancer.tipoFreelancer))
+              setTypeSeniority(verTipoSeniorityEnSelect(response.data[0].freelancer.seniority))
+
+              let habilidades = response.data[0].freelancer.habilidades
+
+              if(habilidades !== null && habilidades !== undefined){
+                setUserInfo(oldState => ({...oldState, habilidades:  response.data[0].freelancer.habilidades.join()}))    
+              }
+
+              let idiomas = response.data[0].idiomas
+
+              if(idiomas !== null && idiomas !== undefined){
+                setUserInfo(oldState => ({...oldState, idiomas:  response.data[0].idiomas.join()}))
+              }
+
+            } else {
+              setUserInfo({...response.data[0]})
+
+              let idiomas = response.data[0].idiomas    
+
+              if(idiomas !== null && idiomas !== undefined){
+                setUserInfo(oldState => ({...oldState, idiomas:  response.data[0].idiomas.join()}))
+              }
+
+            }        
       
-          } 
+          } //status 200
           
       })
       .catch(error => {
@@ -257,41 +286,111 @@ export default function Dashboard(props) {
 
   const handleModification = () =>{
 
-      let nuevoTipoFreelancer = selectToStrTipoFreelancer[typeFreelancer]
-      let nuevoTipoSeniority = selectToStrTipoSeniority[typeSeniority]
-      let newExp = [...experienciaArray]
-      newExp = newExp.filter(exp => exp.id === false)
-      let modExp =[...experienciaArray]
-      modExp= modExp.filter(exp=> exp.id !== false)
+    if(camposValidos()){
+        let nuevoTipoFreelancer = selectToStrTipoFreelancer[typeFreelancer]
+        let nuevoTipoSeniority = selectToStrTipoSeniority[typeSeniority]
+        let newExp = [...experienciaArray]
+        newExp = newExp.filter(exp => exp.id === false)
+        let modExp =[...experienciaArray]
+        modExp= modExp.filter(exp=> exp.id !== false)
 
-      let newEdu = [...educacionArray]
-      newEdu = newEdu.filter(edu => edu.id === false)
-      let modEdu =[...educacionArray]
-      modEdu= modEdu.filter(edu=> edu.id !== false)
+        let newEdu = [...educacionArray]
+        newEdu = newEdu.filter(edu => edu.id === false)
+        let modEdu =[...educacionArray]
+        modEdu= modEdu.filter(edu=> edu.id !== false)
 
+        let data = {}
 
+        //nuevosIdiomas: userInfo.idiomas.split(','), nuevasHabilidades: userInfo.habilidades.split(','),
 
-
-     
-      axios({ method: 'put',
-        validateStatus: function(status) {
-          return status >= 200 && status < 500; 
-        },
-        url:`/profile/edit`, 
-        withCredentials:true,
-        data:{user: userInfo, experiencia: experienciaArray, nuevoTipoFreelancer:nuevoTipoFreelancer, nuevoTipoSeniority:nuevoTipoSeniority, nuevosIdiomas: userInfo.idiomas.split(','), nuevasHabilidades: userInfo.habilidades.split(','), deletedEducaciones: deletedEducaciones, deletedExperiencias:deletedExperiencias, modifiedEdu:modEdu, modifiedExp:modExp, newEdu:newEdu, newExp:newExp }
-      })
-      .then(response =>{
-          console.log('mod res',response)
-
-          if(response.status === 200){
-            props.history.push(`/profile/${userInfo.rol}`)
-          } 
+        if(userInfo.idiomas !== null && userInfo.idiomas !== undefined){
+          data.nuevosIdiomas = userInfo.idiomas.split(',')
+        }
+    
+        if(userInfo.rol==='freelancer'){
+          data = {user: userInfo, experiencia: experienciaArray, nuevoTipoFreelancer:nuevoTipoFreelancer, nuevoTipoSeniority:nuevoTipoSeniority, deletedEducaciones: deletedEducaciones, deletedExperiencias:deletedExperiencias, modifiedEdu:modEdu, modifiedExp:modExp, newEdu:newEdu, newExp:newExp }
           
-      })
-      .catch(error => {
-        console.log('error',error)
-      })
+          if( userInfo.habilidades !== null && userInfo.habilidades !== undefined){
+            data.nuevasHabilidades= userInfo.habilidades.split(',')
+          }
+
+        } else {
+          data = {user: userInfo}
+        }
+
+       
+        axios({ method: 'put',
+          validateStatus: function(status) {
+            return status >= 200 && status < 500; 
+          },
+          url:`/profile/edit`, 
+          withCredentials:true,
+          data: data
+        })
+        .then(response =>{
+            console.log('mod res',response)
+
+            if(response.status === 200){
+              props.history.push(`/profile/${userInfo.rol}`)
+            } 
+            
+        })
+        .catch(error => {
+          console.log('error',error)
+        })
+    }
+  }
+
+  const isNormalInteger = (str)=> {
+    return /^\+?(0|[1-9]\d*)$/.test(str);
+  }
+
+
+  const camposValidos = () => {
+    let valido = true
+    //TODO validar que exp[i] y edu[i] sean fechas validas
+
+    if(userInfo.nombre === ''){
+      alert('Campo nombre no puede ser vacío')
+      valido =false  
+    }
+
+
+    if(!isNormalInteger(userInfo.tiempoExperiencia)){
+      alert('El tiempo de experiencia debe ser numérico')
+      valido=false  
+    }
+
+    if(experienciaArray!==null && experienciaArray!== undefined && experienciaArray.length>=1){
+
+      let copyExp = [...experienciaArray]
+      
+      for (var i = 0; i < copyExp.length; i++) {       
+
+         if(!isNormalInteger(copyExp[i].anoInicio) || !isNormalInteger(copyExp[i].anoFin)){
+          valido=false
+          alert(`El año inicio y de fin de experiencia ${i+1} debe ser numérico`)
+          break
+        }
+      }
+  
+    }
+
+    if(educacionArray!==null && educacionArray!== undefined && educacionArray.length>=1){
+
+      let copyEdu = [...educacionArray]
+      
+      for (var i = 0; i < copyEdu.length; i++) {       
+         if(!isNormalInteger(copyEdu[i].anoInicio)|| !isNormalInteger(copyEdu[i].anoFin)){
+          valido=false
+          alert(`El año inicio y de fin de educación ${i+1} debe ser numérico`)
+          break
+        }
+      }
+  
+    }
+
+    return valido
   }
 
   const handleChangeTypeFreelancer = event => {
@@ -368,22 +467,16 @@ export default function Dashboard(props) {
   }
 
   const handleAddExperience = event => {
-    setExperienciaArray(oldExpArray => [...oldExpArray, {id:false, nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:'',anoFin:''}]);
+    setExperienciaArray(oldExpArray => [...oldExpArray, {id:false, nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:0,anoFin:0}]);
     
   };
 
   const handleAddEducacion= event => {
-     setEducacionArray(oldEduArray => [...oldEduArray, {id:false, tituloObtenido:'',institucion:'',anoInicio:'',anoFin:''}]);
+     setEducacionArray(oldEduArray => [...oldEduArray, {id:false, tituloObtenido:'',institucion:'',anoInicio:0,anoFin:0}]);
    
   };
 
 
-  function validaNumericos(event) {
-    if(event.charCode >=1950 && event.charCode <= 2100){
-      return true;
-     }
-     return false;        
-  }
   
   const handleDeleteExperience = indexExp => event => {
     
@@ -460,9 +553,19 @@ export default function Dashboard(props) {
             </IconButton>
           </div>
           <Divider />
+          {userInfo.rol === 'freelancer'?(
+          <>
           <List>{mainListItems}</List>
           <Divider />
           <List>{secondaryListItems}</List>
+          </>
+          ):(
+          <>
+          <List>{mainListItemsC}</List>
+          <Divider />
+          <List>{secondaryListItemsC}</List>
+          </>
+          )}
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
@@ -551,7 +654,9 @@ export default function Dashboard(props) {
                   inputProps={{ maxLength: 500 }}
                 />
                 </div>
-                
+
+                { userInfo.rol === 'freelancer'?(
+                <>
                 <div className={classes.addMarginBottom}>
                   <div className={classes.labelAndCaption}>
                   <Typography variant="subtitle1" gutterBottom>
@@ -859,6 +964,8 @@ export default function Dashboard(props) {
                 )})}
                 </>
                 ):null}
+                </>
+                ):null}
 
               {/*FIN EDU*/}
 
@@ -921,7 +1028,9 @@ export default function Dashboard(props) {
                     inputProps={{ maxLength: 80 }}
                   />
                 </div>  
-                  
+
+                {userInfo.rol==='freelancer'?( 
+                <>            
                  <div className={classes.addMarginBottom}>
                   <div className={classes.labelAndCaption}>
                     <Typography variant="subtitle1" gutterBottom>
@@ -941,12 +1050,13 @@ export default function Dashboard(props) {
                     name="tiempoExperiencia"
                     size="small"
                     value= {userInfo.tiempoExperiencia}
-                    inputProps={{ maxLength: 80 }}
+                    inputProps={{ maxLength: 3 }}
                     InputProps={{
                        endAdornment: <InputAdornment position="end">años</InputAdornment>,
                     }}
                   />
-                </div>  
+                </div>
+
 
                 <div className={classes.addMarginBottom}>
                   <FormControl className={classes.formControl}>
@@ -968,6 +1078,8 @@ export default function Dashboard(props) {
                     </Select>
                   </FormControl>
                 </div>
+                </>
+                 ):null}  
 
                   
                 <div className={classes.addMarginBottom}>
@@ -994,6 +1106,8 @@ export default function Dashboard(props) {
                   />
                 </div>  
 
+                {userInfo.rol==='freelancer'?(
+
                 <div className={classes.addMarginBottom}>
                   <FormControl className={classes.formControl}>
                     <InputLabel shrink id="label">
@@ -1014,6 +1128,7 @@ export default function Dashboard(props) {
                     </Select>
                   </FormControl>
                   </div>
+                  ):null}
 
                   <div className={classes.labelAndCaption}>
                     <Typography variant="subtitle1" gutterBottom>
