@@ -24,13 +24,65 @@ module.exports={
     },
 
     modificarPerfil(req,res){
-        model.Freelancer.update({
-            tiempoExperiencia:req.body.user.tiempoExperiencia,
-            tipoFreelancer: req.body.nuevoTipoFreelancer,
-            //status: req.body.user.status,
-            habilidades:req.body.nuevasHabilidades,
-            seniority:req.body.nuevoTipoSeniority
-        },{where: {usuarioId: req.user.id}})
+
+        /*Esto quedo asqueroso pero funciona*/
+
+        promiseArray=[]
+        promiseArray.push(
+            model.Freelancer.update({
+                tiempoExperiencia:req.body.user.tiempoExperiencia,
+                tipoFreelancer: req.body.nuevoTipoFreelancer,
+                //status: req.body.user.status,
+                habilidades:req.body.nuevasHabilidades,
+                seniority:req.body.nuevoTipoSeniority
+            },{where: {usuarioId: req.user.id}})
+        )
+
+        let deletedEdu = req.body.deletedEducaciones
+        if (deletedEdu.length>=1 && deletedEdu!== null && deletedEdu!==undefined){
+            deletedEdu.map( edu => {
+                promiseArray.push(
+                    model.Educacion.destroy({
+                        where:{
+                            id:edu
+                        }
+                    })
+                )//push
+            })
+        }
+
+        let newEdu = req.body.newEdu
+        if(newEdu.length>=1 && newEdu!== null && newEdu!==undefined){
+            newEdu.map( edu =>{
+                promiseArray.push(
+                    model.Educacion.create({
+                        freelancerId:req.user.id,
+                        tituloObtenido:edu.tituloObtenido,
+                        anoInicio:edu.anoInicio,
+                        anoFin:edu.anoFin,
+                        institucion:edu.institucion,
+                    })
+                )
+            })
+        }
+
+
+        let modEdu = req.body.modifiedEdu
+
+        if(modEdu.length>=1 && modEdu!== null && modEdu!==undefined){
+            modEdu.map( edu =>{
+                promiseArray.push(
+                    model.Educacion.update({
+                        tituloObtenido:edu.tituloObtenido,
+                        anoInicio:edu.anoInicio,
+                        anoFin:edu.anoFin,
+                        institucion:edu.institucion,
+                    },{where:{id:edu.id}})
+                )
+            })
+        }
+        
+        Promise.all(promiseArray)
         .then(function(){ res.send(200,{message:'El usuario se ha modificado correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
 

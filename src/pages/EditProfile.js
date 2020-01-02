@@ -253,10 +253,24 @@ export default function Dashboard(props) {
   const selectToStrTipoFreelancer = {1:'Desarrollador Web', 2:'Desarrollador Móvil',3:'Q/A',4:'Otros'};
   const selectToStrTipoSeniority = {1:'Junior', 2:'Mid-level',3:'Senior',4:'Experto'};
 
+
+
   const handleModification = () =>{
 
       let nuevoTipoFreelancer = selectToStrTipoFreelancer[typeFreelancer]
       let nuevoTipoSeniority = selectToStrTipoSeniority[typeSeniority]
+      let newExp = [...experienciaArray]
+      newExp = newExp.filter(exp => exp.id === false)
+      let modExp =[...experienciaArray]
+      modExp= modExp.filter(exp=> exp.id !== false)
+
+      let newEdu = [...educacionArray]
+      newEdu = newEdu.filter(edu => edu.id === false)
+      let modEdu =[...educacionArray]
+      modEdu= modEdu.filter(edu=> edu.id !== false)
+
+
+
 
      
       axios({ method: 'put',
@@ -265,7 +279,7 @@ export default function Dashboard(props) {
         },
         url:`/profile/edit`, 
         withCredentials:true,
-        data:{user: userInfo, experiencia: experienciaArray, nuevoTipoFreelancer:nuevoTipoFreelancer, nuevoTipoSeniority:nuevoTipoSeniority, nuevosIdiomas: userInfo.idiomas.split(','), nuevasHabilidades: userInfo.habilidades.split(',')}
+        data:{user: userInfo, experiencia: experienciaArray, nuevoTipoFreelancer:nuevoTipoFreelancer, nuevoTipoSeniority:nuevoTipoSeniority, nuevosIdiomas: userInfo.idiomas.split(','), nuevasHabilidades: userInfo.habilidades.split(','), deletedEducaciones: deletedEducaciones, deletedExperiencias:deletedExperiencias, modifiedEdu:modEdu, modifiedExp:modExp, newEdu:newEdu, newExp:newExp }
       })
       .then(response =>{
           console.log('mod res',response)
