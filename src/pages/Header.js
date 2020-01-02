@@ -254,16 +254,7 @@ export default function Header(props) {
     )
   }
 
-  React.useEffect(() => {
-       axios.post(`/user/see/all`)
-            .then((response) => {
-                 console.log('response perfil', response.data);
-                 setDevs(response.data);
-            }, (error) => {
-                console.log(error);
-        });
-     
-    }, []);
+ 
   
     const handleChange = event => {
       setBuscar(event.target.value);
@@ -371,11 +362,11 @@ if(props.type=="contractor"){
                 <List>{secondaryListItemsC}</List>
     
                 <List>
-                <ListItem button>
+                <ListItem button onClick={handleLogOut}>
                     <ListItemIcon>
                     <ExitToAppIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Cerrar Sesión" onClick={handleLogOut} />
+                    <ListItemText primary="Cerrar Sesión"  />
                 </ListItem>
                 </List>
             </Drawer>

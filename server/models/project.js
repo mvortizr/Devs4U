@@ -24,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {freezeTableName: true});
   Project.associate = function(models) {    
     Project.hasMany(models.ProjectStage, {as: 'etapasInfo',foreignKey:'proyectoId'})
+    Project.belongsTo(models.User,{as:'creador', foreignKey:'creadorId'})
+     Project.belongsTo(models.User,{as:'encargado', foreignKey:'encargadoId'})
     Project.belongsToMany(models.User, {through: 'IntPostulationProject', foreignKey: 'proyectoId', as: 'usuariosPostulados',otherKey: 'usuarioId'})
   };
   return Project;

@@ -31,7 +31,9 @@ module.exports={
     consultarProyecto(req,res){
         model.Project.findAll({
             where: {id: req.params.id},
-            include:[{model: model.ProjectStage, as:'etapasInfo'}]
+            include:[{model: model.ProjectStage, as:'etapasInfo'},
+            {model: model.User, as:'creador'},
+            {model:model.User,as:'encargado'}]
         })
         .then(function(proyecto){ res.status(200).send(proyecto)})
         .catch(err => res.status(400).json('Error: ' + err));

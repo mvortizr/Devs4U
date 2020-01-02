@@ -57,14 +57,8 @@ function App() {
 				<Route exact path='/project/manage/freelancer' render={ ()=> <GestProject type="developer"/>}/>
 				<Route exact path='/project/manage/contractor' render={ ()=> <GestProject type="contractor"/>}/>
 				{/* Consultar Proyecto Abierto */}
-				<Route exact path='/project/freelancer/open' render={ ()=> <ConsultProject type="developerSP"/>}/>
-				<Route exact path='/project/contractor/open' render={ ()=> <ConsultProject type="contractorSP"/>}/>
-				{/* Consultar Proyecto Propio en Ejecución*/}
-				<Route exact path='/project/freelancer' render={ ()=> <ConsultProject type="developerEj"/>}/>
-				<Route exact path='/project/contractor' render={ ()=> <ConsultProject type="contractorEj"/>}/>
-				{/* Consultar Proyecto Anonimo */}
-				<Route exact path='/view/project/freelancer' render={ ()=> <ConsultProject type="developer"/>}/>
-				<Route exact path='/view/project/contractor' render={ ()=> <ConsultProject type="contractor"/>}/>
+				<Route exact path='/project/view/:id' render={ (props)=> <ConsultProject {...props}/>}/>
+				
 
 			{/*Portafolio*/}	
 				{/* Consultar Portafolio Propio */}
