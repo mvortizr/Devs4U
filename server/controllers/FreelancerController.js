@@ -81,6 +81,58 @@ module.exports={
                 )
             })
         }
+
+        let deletedExp = req.body.deletedExperiencias
+        
+        if (deletedExp.length>=1 && deletedExp!== null && deletedExp!==undefined){
+            deletedExp.map( experiencia => {
+                promiseArray.push(
+                    model.Experiencia.destroy({
+                        where:{
+                            id:experiencia
+                        }
+                    })
+                )//push
+            })
+        }
+
+        let newExp = req.body.newExp
+        if(newExp.length>=1 && newExp!== null && newExp!==undefined){
+            newExp.map( exp =>{
+                promiseArray.push(
+                   model.Experiencia.create({
+                        freelancerId: req.user.id,
+                        nombreEmpresa: exp.nombreEmpresa,
+                        descripcion: exp.descripcion,
+                        cargo: exp.cargo,
+                        anoInicio: exp.anoInicio,
+                        anoFin: exp.anoFin
+                    })
+                )
+            })
+        }
+
+        let modExp= req.body.modifiedExp
+
+        if(modExp.length>=1 && modExp!== null && modExp!==undefined){
+            modExp.map( experiencia =>{
+                promiseArray.push(
+                    model.Experiencia.update({
+                        nombreEmpresa: experiencia.nombreEmpresa,
+                        descripcion: experiencia.descripcion,
+                        cargo: experiencia.cargo,
+                        anoInicio: experiencia.anoInicio,
+                        anoFin: experiencia.anoFin
+                    },{where:{id:experiencia.id}})
+                )
+            })
+        }
+
+
+
+
+
+
         
         Promise.all(promiseArray)
         .then(function(){ res.send(200,{message:'El usuario se ha modificado correctamente'})})
