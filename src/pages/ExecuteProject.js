@@ -151,7 +151,7 @@ const useStyles = makeStyles(theme => ({
   },
   but2: {
     marginTop: "20px",
-    marginLeft: "500px"
+    marginLeft: "50px"
   },
 }))
 
@@ -187,12 +187,6 @@ export default function ExecuteProject(props) {
                     <Grid item xs={12} md={12}>
                         <Divider/>
                     </Grid>
-                    <Button variant="contained" color="primary" className={classes.but}>
-                        Comenzar ejecución
-                    </Button>
-                    <Button variant="contained" className={classes.but2}>
-                        Cancelar
-                    </Button>
                     <Grid container spacing={4} className={classes.grid}>
                     {cards.map(card => (
                         <Grid item key={card} xs={12} sm={6} md={12}>
@@ -218,46 +212,14 @@ export default function ExecuteProject(props) {
                         </Grid>
                     ))}
                     </Grid>
-                </Container>
-                <Copyright />
-                </main>
-            </div>
-            );
-    }else{
-        return (
-            <div className={classes.root}>
-                <CssBaseline />
-                <Header type="developer"/>
-                <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                <Container className={classes.cardGrid} maxWidth="md">
-                    <Grid item xs={12} md={4}>
-                        <Typography component="h1" variant="h5" color="textPrimary" gutterBottom>
-                            Etapa: Abierto 
-                        </Typography>
-                    </Grid>
                     <Grid item xs={12} md={12}>
                         <Divider/>
-                    </Grid>
-                    <Grid container spacing={4} className={classes.grid}>
-                    {cards.map(card => (
-                        <Grid item key={card} xs={12} sm={6} md={12}>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent}>
-                            <Typography content="h2" variant="h6"> 
-                                <PersonIcon className={classes.text}/> Carlos Cristian Gomez 
-                                <Rating value={value} readOnly className={classes.text}/>
-                                <Button variant="contained" className={classes.text}>
-                                    Ver Portafolio
-                                </Button>
-                                <Button variant="contained" className={classes.text}>
-                                    Ver Perfil
-                                </Button>
-                            </Typography>
-                            </CardContent>
-                        </Card>
-                        </Grid>
-                    ))}
+                    <Button variant="contained" className={classes.but}>
+                        Cancelar
+                    </Button>
+                    <Button variant="contained" color="primary" className={classes.but}>
+                        Comenzar ejecución
+                    </Button>
                     </Grid>
                 </Container>
                 <Copyright />
