@@ -3,29 +3,32 @@ const multer=require('multer')
 
 module.exports={
     
-    crearProyecto(req,res){
-            model.Project.create({ 
-                titulo: req.body.titulo,
-                etapa: 0,
-                tipo: req.body.tipo,
-                descripcion: req.body.descripcion,
-                presupuesto: req.body.presupuesto,
-                creadorId: req.user.id,
-                encargadoId:0,
-                entregables: req.body.entregables,
-                visiblePortafolio:true,
-                objetivos:req.body.objetivos,
-                tecnologias:req.body.tecnologias,
-                adicionales:req.body.adicionales,
-                estadoReviewFreelancer:false,
-                estadoReviewContractor:false
-        },
-        {
-            include: [{ model: model.ProjectStage, as: 'etapasInfo', foreignKey:'proyectoId' }]
+       crearProyecto(req,res){
+        model.Project.create({ 
+            titulo: req.body.titulo,
+            etapa: 0,
+            tipo: req.body.tipo,
+            descripcion: req.body.descripcion,
+            presupuesto: req.body.presupuesto,
+            creadorId: req.user.id,
+            encargadoId:0,
+            etapasInfo:req.body.etapasInfo,//array
+            entregables: req.body.entregables,
+            visiblePortafolio:true,
+            objetivos:req.body.objetivos,
+            tecnologias:req.body.tecnologias,
+            adicionales:req.body.adicionales,
+        },{
+            include: [
+                { model: model.ProjectStage, as: 'etapasInfo', foreignKey:'proyectoId' }
+            ]
         })
-        .then(function(){res.status(200).send({ message:'El proyecto se ha creado correctamente'})   })
+        .then(function(usuario){
+            res.status(200).send({ message:'El proyecto se ha creado correctamente'})   
+        })
         .catch(err => res.status(400).json('Error: ' + err));
     },
+
 
     consultarProyecto(req,res){
         model.Project.findAll({

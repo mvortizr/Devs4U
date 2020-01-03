@@ -71,7 +71,7 @@ router.get('/list/contractors',contractorController.listarContractors)
 
 
 //Rutas CRUD de proyecto
-router.post('/project/create',ensureAuthenticated, projectController.crearProyecto)
+router.put('/project/create',ensureAuthenticated, projectController.crearProyecto)
 router.put('/project/edit/:id',ensureAuthenticated, projectController.modificarProyecto)
 router.get('/project/view/:id', ensureAuthenticated,projectController.consultarProyecto)
 router.delete('/project/cancel/:id', ensureAuthenticated,projectController.cancelarProyecto)

@@ -54,7 +54,7 @@ function App() {
 				{/* Crear */}
 				<Route exact path='/project/create' render={ (props)=> <CreateProject {...props}/>}/>
 				{/* Modificar */}
-				<Route exact path='/project/edit' render={ (props)=> <EditProject{...props}/>}/>
+				<Route exact path='/project/edit/:id' render={ (props)=> <EditProject{...props}/>}/>
 				{/* Consultar */}
 				<Route exact path='/project/manage/freelancer' render={ ()=> <GestProject type="developer"/>}/>
 				<Route exact path='/project/manage/contractor' render={ ()=> <GestProject type="contractor"/>}/>

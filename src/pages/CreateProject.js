@@ -198,7 +198,7 @@ const useStyles = makeStyles(theme => ({
 export default function CreateProject(props) {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
-  const [project,setProject]= React.useState({titulo:'',tipo:'',descripcion:'',presupuesto:'',entregables:'',objetivos:[],tecnologias:[],adicionales:[],etapasInfo:[]})
+  const [project,setProject]= React.useState({titulo:'',tipo:'',descripcion:'',presupuesto:'',entregables:'',objetivos:[],tecnologias:[],adicionales:[]})
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -289,7 +289,7 @@ export default function CreateProject(props) {
     console.log('data',data)
 
 
-    axios({ method: 'post',
+    axios({ method: 'put',
           validateStatus: function(status) {
             return status >= 200 && status < 500; 
           },

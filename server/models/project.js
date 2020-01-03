@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
     Project.belongsToMany(models.User, {through: 'IntPostulationProject', foreignKey: 'proyectoId', as: 'usuariosPostulados',otherKey: 'usuarioId'})
   };
 
-  Project.addHook('afterBulkUpdate', (project, options) => {
+  /*Project.addHook('afterBulkUpdate', (project, options) => {
     if(project.attributes.etapa!=undefined){
 
       Project.findAll({where: {id: project.where.id}})
@@ -92,7 +92,7 @@ module.exports = (sequelize, DataTypes) => {
           notifiacionController.crearNotificacion(notificacion)
       })
     }
-  });
+  });*/
 
 
   return Project;
