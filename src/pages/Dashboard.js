@@ -138,6 +138,7 @@ const useStyles = makeStyles(theme => ({
   },
   img: {
     width: 280,
+    height:280
   },
   details: {
     display: 'flex',
