@@ -19,6 +19,7 @@ import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox'
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { Link as DomLink} from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment'
 
 
 
@@ -199,6 +200,7 @@ export default function EditProject(props) {
   const projectId = props.match.params.id
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
+  const[savedEtapas,setSavedEtapas] = React.useState([])
   const [project,setProject]= React.useState({titulo:'',tipo:'',descripcion:'',presupuesto:'',entregables:'',objetivos:[],tecnologias:[],adicionales:[],etapasInfo:[]})
 
   const handleDrawerOpen = () => {
@@ -274,13 +276,13 @@ export default function EditProject(props) {
   }
 
   const submitToServer=() => {
-    let etapasInfo = [{numero:0, nombre:"abierto", deadline:selectedDateAbierto},
-            {numero:1, nombre:"ejecucion", deadline:selectedDateEjecucion},
-            {numero:2, nombre:"revision", deadline:selectedDateRevision}]
+    let etapasInfo = [{numero:0, nombre:"abierto", deadline:selectedDateAbierto, id: savedEtapas[0].id},
+            {numero:1, nombre:"ejecucion", deadline:selectedDateEjecucion, id: savedEtapas[1].id},
+            {numero:2, nombre:"revision", deadline:selectedDateRevision, id: savedEtapas[2].id}]
 
     let tecnologias = project.tecnologias
 
-    if(tecnologias !== ''){
+    if(tecnologias !== '' && !Array.isArray(tecnologias)){
       tecnologias= tecnologias.split(',')
     }
 
@@ -290,11 +292,11 @@ export default function EditProject(props) {
     console.log('data',data)
 
 
-    axios({ method: 'post',
+   axios({ method: 'put',
           validateStatus: function(status) {
             return status >= 200 && status < 500; 
           },
-          url:`/project/create`, 
+          url:`/project/edit/${projectId}`, 
           withCredentials:true,
           data: data
         })
@@ -325,7 +327,16 @@ export default function EditProject(props) {
           console.log('consultar res',response)
           if(response.status === 200){
    
-            
+            setProject(response.data[0])
+
+            let etapasInfo= response.data[0].etapasInfo
+
+            if(etapasInfo !== undefined && etapasInfo.length >=2){
+              setSelectedDateAbierto(new Date(etapasInfo[0].deadline))
+              setSelectedDateEjecucion(new Date(etapasInfo[1].deadline))
+              setSelectedDateRevision(new Date(etapasInfo[2].deadline))
+              setSavedEtapas(etapasInfo)
+            }
           } 
           
       })
@@ -578,7 +589,7 @@ export default function EditProject(props) {
                 onClick={submitToServer}
                 >
                 
-                Crear
+                Modificar
               </Button>
 
             <DomLink to="/project/manage/contractor" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>

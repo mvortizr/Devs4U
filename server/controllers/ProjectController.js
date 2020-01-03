@@ -53,7 +53,25 @@ module.exports={
         })
         .then(function(proyectoModificado){
             if(proyectoModificado[0]=='') res.status(400).json('No puede acceder a esta proyecto')
-            else res.status(200).send({message:'Se modifico el proyecto correctamente'})})
+            else {
+
+                etapas = req.body.etapasInfo
+
+                promiseArray=[]
+                etapas.map(  etapa => {       
+                    promiseArray.push(
+                        model.ProjectStage.update({
+                            deadline: etapa.deadline,
+                        },{where:{id:etapa.id}})
+                    )
+                });
+
+                Promise.all(promiseArray)
+                .then(function(){ res.status(200).send({message:'Se modificaron los datos correctamente'})})
+                .catch(err => res.status(400).json('Error: ' + err));
+
+            }
+        })
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
