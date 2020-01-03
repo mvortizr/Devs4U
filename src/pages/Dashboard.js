@@ -16,6 +16,10 @@ import Header from './Header'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import fotoPerfil from './images/fotoPerfil.png'
+import DevPagination from '../components/Pagination';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Link as DomLink} from 'react-router-dom';
+
 
 function Copyright() {
     return (
@@ -143,135 +147,104 @@ const useStyles = makeStyles(theme => ({
     backgroundColor:"#F41204",
     height: "50px"
 },
+  wrap:{
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    width:'200px',
+  }
 }))
 
 export default function Dashboard(props) {
   const classes = useStyles()
-  const [open, setOpen] = React.useState(true)
-
-  let history = useHistory()
-
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
-
-  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const [value, setValue] = React.useState(2);
-
   const [devs,setDevs] = React.useState(undefined);
-  const [projects,setProjects] = React.useState(undefined);
+  const [devPage, setDevPage] = React.useState(1) 
+  const [devTotalCount, setDevTotalCount] = React.useState(0) //TODO
+  const devPageSize = 6
+ 
 
-  const handleLogOut = () => {
-    console.log('logging out frontend')
-    axios.post('/logout').then(
-      () => {
-        history.push('/')
-      },
-      error => {
-        console.log(error)
-      }
-    )
+  const increaseDevPage = () => {
+      setDevPage(page => page + 1);
   }
+
+  const decreaseDevPage = () => {
+    if((devPage - 1) >=1){
+      setDevPage(page => page - 1);
+    }
+  }
+
 
   React.useEffect(() => {
-       axios.post(`/user/see/all`)
-            .then((response) => {
-                 console.log('response perfil', response.data);
-                 setDevs(response.data);
-            }, (error) => {
-                console.log(error);
-        });
-     
-    }, []);
+  
+      axios({ method: 'post',
+          validateStatus: function(status) {
+            return status >= 200 && status < 500; 
+          },
+          url:`/list/freelancers`, 
+          withCredentials:true,
+          data: { page:devPage , pageSize: devPageSize }
+        })
+        .then(response =>{
+            console.log('dashboard free res',response)
+            if(response.status === 200){
+ 
+                setDevs(response.data.rows)
+                setDevTotalCount(response.data.count)
 
-if(props.type=="contractor"){
-    // if(devs){
+            } 
+            
+        })
+        .catch(error => {
+          console.log('error',error)
+        })
+  
+  }, [devPage]);
+
+
+
     return (
       <div className={classes.root}>
         <CssBaseline />
         <Header type="contractor"/>
+        {devs?(
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container className={classes.cardGrid} maxWidth="md">
             {/* End hero unit */}
             <Grid container spacing={4}>
-            {cards.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  <CardActionArea>
-                    <CardMedia> 
-                      <img src={fotoPerfil} className={classes.img}/>
-                    </CardMedia>
-                    <div className={classes.details}>
-                      <CardContent className={classes.cardContent}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          <strong>Paula Gomez Ortiz</strong>
-                        </Typography>
-                        <Typography>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In a quam in lorem ullamcorper porta nec in risus.                   
-                        </Typography>
-                        <Rating name="read-only" value={value} readOnly />
-                      </CardContent>
-                    </div>
-                  </CardActionArea>
-                </Card>
-              </Grid>
+            {devs.map(card => ( 
+                <Grid item key={card.id} xs={12} sm={6} md={4}>
+                  <DomLink to={`/view/profile/${card.id}/freelancer`} style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                  <Card className={classes.card}>
+                    <CardActionArea>
+                      <CardMedia> 
+                        <img src={card.foto} className={classes.img}/>
+                      </CardMedia>
+                      <div className={classes.details}>
+                        <CardContent className={classes.cardContent}>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            <strong>{card.nombre}</strong>
+                          </Typography>
+                          <Typography className={classes.wrap}>
+                            {card.descripcionCorta}                  
+                          </Typography>
+                          <Rating name="read-only" value={card.calificacionesMedia} readOnly />
+                        </CardContent>
+                      </div>
+                    </CardActionArea>
+                  </Card>
+                   </DomLink>
+                </Grid>
             ))}
           </Grid>
+           <DevPagination color={"primary"} currentPage={devPage} pageSize={devPageSize} totalCount={devTotalCount} increasePage={increaseDevPage} decreasePage={decreaseDevPage}/>
           </Container>
           <Copyright />
         </main>
+         ):(<CircularProgress />)}
       </div>
     );
-    // } 
-    // else{
-    //   return <CircularProgress />;
-    // }
-}
-else{
-    // if(projects){
-        return (
-          <div className={classes.root}>
-            <CssBaseline />
-            <Header type="developer"/>
-            <main className={classes.content}>
-              <div className={classes.appBarSpacer} />
-              <Container className={classes.cardGrid} maxWidth="md">
-                {/* End hero unit */}
-                <Grid container spacing={4}>
-                  {cards.map(card => (
-                    <Grid item key={card} xs={12} sm={6} md={4}>
-                      <Card className={classes.card}>
-                        <CardActionArea>
-                          <CardMedia
-                          className={classes.media}
-                          />
-                          <div className={classes.details}>
-                            <CardContent className={classes.cardContent}>
-                              <Typography gutterBottom variant="h5" component="h2">
-                                <strong>Nombre del Proyecto</strong>
-                              </Typography>
-                              <Typography>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In a quam in lorem ullamcorper porta nec in risus.                   
-                              </Typography>
-                            </CardContent>
-                          </div>
-                        </CardActionArea>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Container>
-              <Copyright />
-            </main>
-          </div>
-        );
-        // } 
-        // else{
-        //   return <CircularProgress />;
-        // }
-    }
+  
+
+
 }

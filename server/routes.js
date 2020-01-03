@@ -66,7 +66,7 @@ router.get('/profile/education/edit/list',educacionController.modificarListaEduc
 //Consulta
 router.post('/freelancer/view/byId/:id',freelancerController.consultarPerfilFreelancer)
 router.post('/contractor/view/byId/:id',contractorController.consultarPerfilContractor)
-router.get('/list/freelancers',freelancerController.listarFreelancers)
+router.post('/list/freelancers',freelancerController.listarFreelancers)
 router.get('/list/contractors',contractorController.listarContractors)
 
 

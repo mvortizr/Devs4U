@@ -157,7 +157,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Dashboard(props) {
   const classes = useStyles()
-  const [open, setOpen] = React.useState(true)
+
 
   const [projectPage, setProjectPage] = React.useState(1) 
   const [projectTotalCount, setProjectTotalCount] = React.useState(0) //TODO
@@ -175,7 +175,7 @@ export default function Dashboard(props) {
   }
 
   //const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const [value, setValue] = React.useState(2);
+
 
   //const [d,setDevs] = React.useState(undefined);
   const [projects,setProjects] = React.useState(undefined);
