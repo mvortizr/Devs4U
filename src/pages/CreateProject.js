@@ -211,8 +211,48 @@ export default function CreateProject() {
   }
 
   const handleAddObjetives = () =>{
-    console.log('add objectives')
+    let objetivos = [...project.objetivos]
+    objetivos.push('')
+    setProject({...project, objetivos: objetivos})
+
   }
+
+  const handleRemoveObjetives = () =>{
+    let objetivos = [...project.objetivos]
+    objetivos.pop()
+    setProject({...project, objetivos: objetivos})
+
+  }
+
+   const handleAddAdicionales = () =>{
+    let adicionales = [...project.adicionales]
+    adicionales.push('')
+    setProject({...project, adicionales: adicionales})
+
+  }
+
+  const handleRemoveAdicionales = () =>{
+    let adicionales = [...project.adicionales]
+    adicionales.pop()
+    setProject({...project, adicionales: adicionales})
+  }
+
+  const handleChangeArray = name => e => {
+   
+      if(name==="objetivo"){
+        let objetivos = [...project.objetivos]
+        objetivos[e.target.dataset.id] = e.target.value
+        setProject({...project, objetivos: objetivos})
+      }
+      else if(name==="adicional"){
+        let adicionales = [...project.adicionales]
+        adicionales[e.target.dataset.id] = e.target.value
+        setProject({...project, adicionales: adicionales})
+      }
+     
+
+  }
+
 
   
   
@@ -296,26 +336,29 @@ export default function CreateProject() {
                     <AddIcon />                  
                   </IconButton>  
 
-                   <IconButton aria-label="add" color="primary" onClick={handleAddObjetives}>
+                   <IconButton aria-label="add" color="primary" onClick={handleRemoveObjetives}>
                     <IndeterminateCheckBoxIcon/>                  
                   </IconButton>  
 
                 </Grid>
+              {project.objetivos !== null && project.objetivos !== undefined && project.objetivos.length>=1?(
               <ul>
+              {project.objetivos.map( (obj, indexObj) => (
                 <li> 
                   <TextField
                     variant="outlined"
                     fullWidth
-                    onChange={handleChange}
+                    onChange={handleChangeArray('objetivo')}
                     name="descripcion"
                     placeholder="Objetivo"
-                    value= {project.descripcion}
+                    value= {project.objetivos[indexObj]}
                     size="small"
-                    inputProps={{ maxLength: 500 }}
+                    inputProps={{ maxLength: 500, 'data-id':indexObj}}
                   />
-                </li>
+                </li>))}
                 
               </ul>
+              ):null}
 
               <Grid
                   container
@@ -398,30 +441,35 @@ export default function CreateProject() {
                     <strong> Datos Adicionales </strong>
                   </Typography>
 
-                 <IconButton aria-label="add" color="primary" onClick={handleAddObjetives}>
+                 <IconButton aria-label="add" color="primary" onClick={handleAddAdicionales}>
                     <AddIcon />                  
                   </IconButton>  
 
-                   <IconButton aria-label="add" color="primary" onClick={handleAddObjetives}>
+                   <IconButton aria-label="add" color="primary" onClick={handleRemoveAdicionales}>
                     <IndeterminateCheckBoxIcon/>                  
                   </IconButton>  
 
                 </Grid>
+              {project.adicionales !== null && project.adicionales !== undefined && project.adicionales.length>=1?(
               <ul>
-                <li>
+              {project.adicionales.map( (obj, indexObj) => (
+                <li> 
                     <TextField
                       variant="outlined"
                       fullWidth
-                      onChange={handleChange}
+                      onChange={handleChangeArray('adicional')}
                       name="descripcion"
                       placeholder="Dato Adicional"
-                      value= {project.descripcion}
+                      value= {project.adicionales[indexObj]}
                       size="small"
-                      inputProps={{ maxLength: 500 }}
+                      inputProps={{ maxLength: 500,'data-id':indexObj }}
                     />
-                  </li>
-               
+                   </li>))}
+                
               </ul>
+              ):null}
+               
+             
 
               <Button
                 variant="contained"
