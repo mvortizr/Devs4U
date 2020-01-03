@@ -17,6 +17,8 @@ import AddIcon from '@material-ui/icons/AddCircle';
 import CloseIcon from '@material-ui/icons/Close';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import { KeyboardDatePicker } from "@material-ui/pickers";
+import { Link as DomLink} from 'react-router-dom';
+import axios from 'axios';
 
 
 
@@ -193,7 +195,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function CreateProject() {
+export default function CreateProject(props) {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
   const [project,setProject]= React.useState({titulo:'',tipo:'',descripcion:'',presupuesto:'',entregables:'',objetivos:[],tecnologias:[],adicionales:[],etapasInfo:[]})
@@ -268,6 +270,44 @@ export default function CreateProject() {
       }
      
 
+  }
+
+  const submitToServer=() => {
+    let etapasInfo = [{numero:0, nombre:"abierto", deadline:selectedDateAbierto},
+            {numero:1, nombre:"ejecucion", deadline:selectedDateEjecucion},
+            {numero:2, nombre:"revision", deadline:selectedDateRevision}]
+
+    let tecnologias = project.tecnologias
+
+    if(tecnologias !== ''){
+      tecnologias= tecnologias.split(',')
+    }
+
+
+    let data = {...project,etapasInfo:etapasInfo, tecnologias:tecnologias}
+
+    console.log('data',data)
+
+
+    axios({ method: 'post',
+          validateStatus: function(status) {
+            return status >= 200 && status < 500; 
+          },
+          url:`/project/create`, 
+          withCredentials:true,
+          data: data
+        })
+        .then(response =>{
+            console.log('create proj res',response)
+
+            if(response.status === 200){
+              props.history.push(`/project/manage/contractor`)
+            } 
+            
+        })
+        .catch(error => {
+          console.log('error',error)
+        })
   }
 
 
@@ -509,17 +549,23 @@ export default function CreateProject() {
                 id="botonCrear"
                 color="primary"
                 className={classes.button2}
-                href="/project/manage/contractor">
+                onClick={submitToServer}
+                >
+                
                 Crear
               </Button>
+
+            <DomLink to="/project/manage/contractor" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
               <Button
                 variant="contained"
                 color="inherit"
                 className={classes.button1}
-                href="/project/manage/contractor">
+                >
                 Cancelar
               </Button>
+            </DomLink>
             </Grid>
+            
             {/* End main content */}
 
             {/* Sidebar */}

@@ -52,7 +52,7 @@ function App() {
 				}}/>
 			{/*Proyecto*/}
 				{/* Crear */}
-				<Route exact path='/project/create' render={ ()=> <CreateProject/>}/>
+				<Route exact path='/project/create' render={ (props)=> <CreateProject {...props}/>}/>
 				{/* Modificar */}
 				<Route exact path='/project/edit' render={ (props)=> <EditProject{...props}/>}/>
 				{/* Consultar */}
