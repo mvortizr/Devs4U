@@ -1,4 +1,6 @@
 const model=require('../models');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 module.exports={
     postularseProyecto(req,res){

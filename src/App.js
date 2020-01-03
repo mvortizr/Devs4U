@@ -13,6 +13,7 @@ import CreateProject from './pages/CreateProject';
 import Dashboard from './pages/Dashboard'
 import DashboardFree from './pages/DashboardFree'
 import GestProject from './pages/GestProject'
+import GestProjectFree from './pages/GestProjectFree'
 import ConsultMyProfile from './pages/ConsultMyProfile'
 import ConsultProfile from './pages/ConsultProfile'
 import RateUser from './pages/RateUser'
@@ -57,7 +58,7 @@ function App() {
 				{/* Modificar */}
 				<Route exact path='/project/edit/:id' render={ (props)=> <EditProject{...props}/>}/>
 				{/* Consultar */}
-				<Route exact path='/project/manage/freelancer' render={ ()=> <GestProject type="developer"/>}/>
+				<Route exact path='/project/manage/freelancer' render={ (props)=> <GestProjectFree {...props}/>}/>
 				<Route exact path='/project/manage/contractor' render={ (props)=> <GestProject {...props}/>}/>
 				{/* Consultar Proyecto Abierto */}
 				<Route exact path='/project/view/:id' render={ (props)=> <ConsultProject {...props}/>}/>

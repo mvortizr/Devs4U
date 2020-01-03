@@ -1,5 +1,7 @@
 const model=require('../models');
 const multer=require('multer')
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 module.exports={
     
@@ -119,7 +121,7 @@ module.exports={
             limit:req.body.pageSize,
             where:{
                 encargadoId:req.user.id,
-                etapa:req.body.etapa
+                [Op.or]:req.body.etapas
             }
         }) .then(function(proyecto){
                 
