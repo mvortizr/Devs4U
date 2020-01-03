@@ -107,7 +107,6 @@ module.exports={
             limit:req.body.pageSize,
             where:{
                 creadorId:req.user.id,
-                etapa:req.body.etapa
             }
         }) 
         .then(function(proyecto){res.status(200).send(proyecto)})

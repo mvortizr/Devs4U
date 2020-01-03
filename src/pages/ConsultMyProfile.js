@@ -662,7 +662,7 @@ export default function ConsultProfile(props) {
                 </Container>          
                 </Grid>
                 </>):null}
-                <EliminarPerfilDialog content="¿Está seguro que desea eliminar su perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} handleDeleteProfile={handleDeleteProfile} open={openDialog}/>
+                <EliminarPerfilDialog content="¿Está seguro que desea eliminar su perfil?" title="Eliminar Perfil" handleCloseDialog={handleCloseDialog} handleDelete={handleDeleteProfile} open={openDialog}/>
               </Container>
               <Copyright />
             </main>

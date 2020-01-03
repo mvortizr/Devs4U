@@ -227,7 +227,7 @@ export default function Dashboard(props) {
                             <strong>{card.nombre}</strong>
                           </Typography>
                           <Typography className={classes.wrap}>
-                            {card.descripcionCorta}                  
+                            {card.descripcionCorta}              
                           </Typography>
                           <Rating name="read-only" value={card.calificacionesMedia} readOnly />
                         </CardContent>

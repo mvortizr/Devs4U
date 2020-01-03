@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import {Typography, Grid, CssBaseline, Container, Paper, Link, Button, Divider, Step, Stepper, StepLabel, Chip,CircularProgress} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as DomLink, Redirect } from 'react-router-dom';
+import EliminarProyectoDialog from '../components/Dialog'
 import Header from './Header'
 import Calendar from '@material-ui/icons/EventNote';
 import axios from 'axios'
@@ -163,6 +164,7 @@ export default function ConsultProject(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [activeStep, setActiveStep] = React.useState(4);
+  const [openDialog, setOpenDialog] = React.useState(false)
   const [steps,setSteps] = React.useState(['Abierto  17/12/2019', 'Ejecución  17/12/2019', 'Revisión  17/12/2019', 'Finalizado  17/12/2019'])
   //const steps = getSteps();
   const projectId = props.match.params.id
@@ -202,6 +204,35 @@ export default function ConsultProject(props) {
       })
      
     }, []);
+
+
+  
+  
+  const handleClickOpenDialog = ()=> {
+    setOpenDialog(true)
+  }
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false)
+  }
+
+
+  const handleDeleteProject = () =>{
+    
+    if(projectId!==undefined && projectId!==null){
+      axios.delete(`/project/cancel/${projectId}`).then(
+      (res) => {
+        console.log('delete proj res',res)
+        setOpenDialog(false)
+        alert('El proyecto se ha cancelado con éxito')
+        props.history.push(`/project/manage/contractor`)
+      },
+      error => {
+        console.log(error)
+      }
+    )
+    }
+  }
 
   //const getSteps =() => {
   //return ['Abierto  17/12/2019', 'Ejecución  17/12/2019', 'Revisión  17/12/2019', 'Finalizado  17/12/2019'];
@@ -294,10 +325,18 @@ export default function ConsultProject(props) {
                       
                       {(project.creador !== null) && (project.creador.id == myId) && (myRol==='contractor')?(
                         <>
-                        <Button variant="contained" color="primary" className={classes.buttonC}>
-                          Modificar
-                        </Button>
-                        <Button variant="contained" className={classes.buttonRe}>
+                         <DomLink
+                          to={`/project/edit/${projectId}`}
+                          style={{
+                            textDecoration: 'none',
+                            color: 'rgb(33,40,53)'
+                          }}>
+                          <Button variant="contained" color="primary" className={classes.buttonC}>
+                            Modificar
+                          </Button>
+                        </DomLink>
+
+                        <Button variant="contained" className={classes.buttonRe} onClick={handleClickOpenDialog}>
                           Cancelar
                         </Button>
 
@@ -387,6 +426,13 @@ export default function ConsultProject(props) {
                     </Grid>
                   </Container>
                   <Copyright />
+                    <EliminarProyectoDialog
+                      content="¿Está seguro que desea cancelar el proyecto?"
+                      title="Eliminar proyecto"
+                      handleCloseDialog={handleCloseDialog}
+                      open={openDialog}
+                      handleDelete={handleDeleteProject}
+                    />
                 </main>
                 ):<CircularProgress/>}
               </div>
