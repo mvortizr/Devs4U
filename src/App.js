@@ -11,6 +11,7 @@ import RecContraMail from './pages/RecContraMail';
 import EditProject from './pages/EditProject';
 import CreateProject from './pages/CreateProject';
 import Dashboard from './pages/Dashboard'
+import DashboardFree from './pages/DashboardFree'
 import GestProject from './pages/GestProject'
 import ConsultMyProfile from './pages/ConsultMyProfile'
 import ConsultProfile from './pages/ConsultProfile'
@@ -35,7 +36,7 @@ function App() {
 			<Route exact path='/password/set' render={ ()=> <RecContrasena/>}/>
 			<Route exact path='/password/recover' render={ ()=> <RecContraMail/>}/>
 			{/* Dashboard */}
-			<Route exact path='/dashboard/freelancer' render={ ()=> <Dashboard type="freelancer"/>}/>
+			<Route exact path='/dashboard/freelancer' render={ ()=> <DashboardFree />}/>
 			<Route exact path='/dashboard/contractor' render={ ()=> <Dashboard type="contractor"/>}/>
 			{/*Profile*/}
 				{/* Consultar Propio*/}

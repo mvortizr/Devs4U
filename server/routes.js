@@ -75,7 +75,7 @@ router.put('/project/create',ensureAuthenticated, projectController.crearProyect
 router.put('/project/edit/:id',ensureAuthenticated, projectController.modificarProyecto)
 router.get('/project/view/:id', ensureAuthenticated,projectController.consultarProyecto)
 router.delete('/project/cancel/:id', ensureAuthenticated,projectController.cancelarProyecto)
-router.get('/project/list/view', ensureAuthenticated,projectController.listarProyectos)
+router.post('/project/list/view', ensureAuthenticated,projectController.listarProyectos)
 router.get('/project/list/view/created', ensureAuthenticated,projectController.listarProyectosCreados)
 router.get('/project/list/view/worked', ensureAuthenticated,projectController.listarProyectosEncargados)
 router.post('/project/stage/change', ensureAuthenticated,projectController.cambiarEtapaProyecto)

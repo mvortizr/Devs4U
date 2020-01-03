@@ -95,7 +95,7 @@ module.exports={
         model.Project.findAndCountAll({
             offset:(req.body.page-1) * req.body.pageSize,
             limit:req.body.pageSize,
-            //where:req.body.query,
+            where:{etapa:0},
         }) 
         .then(function(proyecto){res.status(200).send(proyecto) })
         .catch(err => res.status(400).json('Error: ' + err));
