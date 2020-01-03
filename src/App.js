@@ -18,6 +18,8 @@ import RateUser from './pages/RateUser'
 import ExecuteProject from './pages/ExecuteProject'
 import ReviewProject from './pages/ReviewProject'
 import SendProject from './pages/SendProject'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 /* TODO manejar los roles*/
 function App() {
@@ -25,7 +27,7 @@ function App() {
   return (
     <Router>
 	    <Switch>
-
+	    	<MuiPickersUtilsProvider utils={DateFnsUtils}>
 			{/*Login and Register*/}
 			<Route exact path='/' render={ (props)=> <Login {...props}/>}/>
 			<Route exact path='/register' render={ (props)=> <Registration {...props}/>}/>
@@ -83,6 +85,7 @@ function App() {
 
 			{/*Not Found*/}
 			<Route component={NotFound} />
+			</MuiPickersUtilsProvider>
 
 	    </Switch>
     </Router>

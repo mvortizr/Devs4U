@@ -16,6 +16,7 @@ import Header from './Header'
 import AddIcon from '@material-ui/icons/AddCircle';
 import CloseIcon from '@material-ui/icons/Close';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
+import { KeyboardDatePicker } from "@material-ui/pickers";
 
 
 
@@ -186,6 +187,10 @@ const useStyles = makeStyles(theme => ({
   distanceYearInput:{
     marginRight:'25px'
   },
+  datePickers:{
+    maxWidth:'150px',
+    marginRight:'10px'
+  }
 }))
 
 export default function CreateProject() {
@@ -200,10 +205,22 @@ export default function CreateProject() {
     setOpen(false)
   }
 
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+  const [selectedDateAbierto, setSelectedDateAbierto] = React.useState(new Date());
+  const [selectedDateEjecucion, setSelectedDateEjecucion] = React.useState(new Date());
+  const [selectedDateRevision, setSelectedDateRevision] = React.useState(new Date());
+
   
-  const handleDateChange = date => {
-    setSelectedDate(date);
+  
+  const handleDateChangeAbierto = date => {
+    setSelectedDateAbierto(date);
+  };
+
+  const handleDateChangeEjecucion = date => {
+    setSelectedDateEjecucion(date);
+  };
+
+   const handleDateChangeRevision = date => {
+    setSelectedDateRevision(date);
   };
 
   const handleChange = e => {
@@ -262,6 +279,9 @@ export default function CreateProject() {
       <Header type="contractor"/>
       <main className={classes.content}>
       {console.log('estado project', project)}
+      {console.log('abierto', selectedDateAbierto)}
+      {console.log('revision', selectedDateRevision)}
+      {console.log('ejecucion', selectedDateEjecucion)}
         <div className={classes.appBarSpacer} />
          
         <Container className={classes.cardGrid} maxWidth="md">
@@ -371,39 +391,52 @@ export default function CreateProject() {
                     <strong> Fecha de etapas de proyecto</strong>
                   </Typography>
               </Grid>
-              <form className={classes.container} noValidate>
-                <TextField
-                  id="date1"
+
+              <div className={classes.addMarginBottomLonger}>
+                <KeyboardDatePicker
+                  clearable
+                  value={selectedDateAbierto}
                   label="Abierto"
-                  type="date"
-                  defaultValue="2017-05-24"
-                  className={classes.textField}
+                  placeholder="10/10/2018"
+                  onChange={date => setSelectedDateAbierto(date)}
+                  minDate={new Date()}
+                  format="dd/MM/yyyy"
+                  className={classes.datePickers}
                   InputLabelProps={{
-                    shrink: true,
-                  }}
+                      shrink: true,
+                    }}
                 />
-                <TextField
-                  id="date2"
+
+                <KeyboardDatePicker
+                  clearable
+                  value={selectedDateEjecucion}
                   label="Ejecución"
-                  type="date"
-                  defaultValue="2017-05-24"
-                  className={classes.textField}
+                  placeholder="10/10/2018"
+                  onChange={date => setSelectedDateEjecucion(date)}
+                  minDate={new Date()}
+                  format="dd/MM/yyyy"
+                  className={classes.datePickers}
                   InputLabelProps={{
-                    shrink: true,
-                  }}
+                      shrink: true,
+                    }}
                 />
-                
-                <TextField
-                  id="date3"
+
+                <KeyboardDatePicker
+                  clearable
+                  value={selectedDateRevision}
                   label="Revisión"
-                  type="date"
-                  defaultValue="2017-05-24"
-                  className={classes.textField}
+                  placeholder="10/10/2018"
+                  onChange={date => setSelectedDateRevision(date)}
+                  minDate={new Date()}
+                  format="dd/MM/yyyy"
+                  className={classes.datePickers}
                   InputLabelProps={{
-                    shrink: true,
-                  }}
+                      shrink: true,
+                    }}
                 />
-              </form>
+                </div>
+
+             
 
                 <div className={classes.addMarginBottom}>
                 <div className={classes.labelAndCaption}>
