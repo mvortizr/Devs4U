@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import Header from './Header'
 import EliminarProyectoDialog from '../components/Dialog'
 import { Link as DomLink } from 'react-router-dom'
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 function Copyright() {
   return (
@@ -172,14 +174,27 @@ if(props.type=="contractor"){
     return (
         <div className={classes.root}>
           <CssBaseline />
-          <Header type="contractor"/>
+          <Header type="contractor"/>      
+          
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Container className={classes.cardGrid} maxWidth="md">
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                Mi Proyectos
+                Mi Proyectos {'      '}
+                 <DomLink
+                    to="/project/create"
+                    style={{
+                      textDecoration: 'none',
+                      color: 'rgb(33,40,53)'
+                  }}>
+                                       
+                 <Fab color="primary" aria-label="add">
+                    <AddIcon />
+                </Fab>
+                </DomLink>
               </Typography>
               {/* End hero unit */}
+
               <Grid container spacing={4} className={classes.grid}>
                 {cards.map(card => (
                   <Grid item key={card} xs={12} sm={6} md={4}>
@@ -275,14 +290,7 @@ else{
                         <Link variant="body2">Consultar</Link>
                       </Button>
                     </DomLink>
-                    <Button
-                      size="small"
-                      className={classes.delete}
-                      onClick={handleClickOpenDialog}>
-                      <Link variant="body2" className={classes.delete}>
-                        Renunciar
-                      </Link>
-                    </Button>
+                    
                   </CardActions>
                 </Card>
               </Grid>

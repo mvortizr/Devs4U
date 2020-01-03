@@ -8,10 +8,20 @@ import {
   Link,
   Button,
   Paper,
-  TextField
+  TextField,
+  IconButton
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Header from './Header'
+import AddIcon from '@material-ui/icons/AddCircle';
+import CloseIcon from '@material-ui/icons/Close';
+import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
+
+
+
+
+
+
 
 
 function Copyright() {
@@ -63,6 +73,9 @@ const useStyles = makeStyles(theme => ({
   },
   menuButtonHidden: {
     display: 'none'
+  },
+  textField:{
+    marginRight:'20px'
   },
   title: {
     flexGrow: 1
@@ -146,58 +159,39 @@ const useStyles = makeStyles(theme => ({
   },
   grid:{
     marginTop:"50px"
-  }
+  },
+  addMarginBottom:{
+    marginBottom:'15px'
+  },
+  addMarginBottomLonger:{
+    marginBottom:'30px'
+  },
+  labelAndCaption:{
+    display:'flex',
+    alignItems:'center',
+  },
+  caption:{
+    marginLeft:'10px',
+  },
+  centerImage:{
+    marginLeft:'15%',
+  },
+  imageUser:{
+    maxWidth:'280px',
+    maxHeight:'250px'
+  },
+  wizardTitle:{
+    marginRight:'7px',
+  },
+  distanceYearInput:{
+    marginRight:'25px'
+  },
 }))
 
 export default function CreateProject() {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
-
-  function Comparar(a, b){
-    var año01 = a.substr(0,4);
-    var mes01 = a.substr(-5,2);
-    var dia01 = a.substr(8,9);
-    var año02 = b.substr(0,4);
-    var mes02 = b.substr(-5,2);
-    var dia02 = b.substr(8,9);
-    var año1 = parseInt(año01,10);
-    var mes1 = parseInt(mes01,10);
-    var dia1 = parseInt(dia01,10);
-    var año2 = parseInt(año02,10);
-    var mes2 = parseInt(mes02,10);
-    var dia2 = parseInt(dia02,10);
-    //Mismo día
-    if(año2 === año1){
-      if(mes2 === mes1){
-        if(dia2 >= dia1){
-          return true;
-        }
-        else{ return false; }
-      }
-      else if(mes2 > mes1) { return true; }
-      else { return false; }
-    }
-    else if(año2 > año1) { return true; }
-    else { return false; }
-  }
-
-  const handleCompare = () => {
-    var date1 = document.getElementById("date1").value;
-    var date2 = document.getElementById("date2").value;
-    var date3 = document.getElementById("date3").value;
-    var date4 = document.getElementById("date4").value;
-
-    if(Comparar(date1,date2) === true){
-      if(Comparar(date2,date3) === true){
-        if(Comparar(date3,date4) === true){
-          console.log('Las fechas están validadas')
-        }
-        else  { alert('Las etapas de Revisión y Finalizado tienen que ser continuas'); }
-      }
-      else  { alert('Las etapas de Ejecución y Revisión tienen que ser continuas'); }
-    }
-    else  { alert('Las etapas de Abierto y Ejecución tienen que ser continuas'); }
-  };
+  const [project,setProject]= React.useState({titulo:'',tipo:'',descripcion:'',presupuesto:'',entregables:'',objetivos:[],tecnologias:[],adicionales:[],etapasInfo:[]})
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -206,51 +200,134 @@ export default function CreateProject() {
     setOpen(false)
   }
 
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
   
-    const handleDateChange = date => {
-      setSelectedDate(date);
-    };
+  const handleDateChange = date => {
+    setSelectedDate(date);
+  };
+
+  const handleChange = e => {
+    setProject({ ...project, [e.target.name]: e.target.value })
+  }
+
+  const handleAddObjetives = () =>{
+    console.log('add objectives')
+  }
+
+  
   
   return (
     <div className={classes.root}>
       <CssBaseline />
       <Header type="contractor"/>
       <main className={classes.content}>
+      {console.log('estado project', project)}
         <div className={classes.appBarSpacer} />
          
         <Container className={classes.cardGrid} maxWidth="md">
         <Typography variant="h4" gutterBottom>
-                Creación del Proyecto
+                Crear Nuevo  Proyecto
               </Typography>
           <Grid container spacing={5} className={classes.mainGrid} className={classes.grid}>
             {/* Main content */}
             <Grid item xs={12} md={8}>
-              <Typography variant="h6" gutterBottom>
-                Nombre del Proyecto:
-              </Typography>
-              <TextField variant="outlined" fullWidth id="nombre" />
-              <Divider />
+              <div className={classes.addMarginBottom}>
+                <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Nombre del Projecto </strong>
 
-              <Typography variant="h6" gutterBottom>
-                Descripción
-              </Typography>
-              <TextField variant="outlined" fullWidth id="descripcion" />
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.caption}>
+                  *Requerido. 180 caracteres máximo
+                  </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="titulo"
+                  placeholder="Título del Proyecto"
+                  value= {project.titulo}
+                  size="small"
+                  inputProps={{ maxLength: 180 }}
+                />
+              </div>  
+              
+
+              <div className={classes.addMarginBottom}>
+                <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Descripción del Projecto </strong>
+
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.caption}>
+                  *Requerido. 500 caracteres máximo
+                  </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="descripcion"
+                  placeholder="Descripción del Proyecto"
+                  value= {project.descripcion}
+                  size="small"
+                  multiline
+                  rows="4"
+                  inputProps={{ maxLength: 500 }}
+                />
+              </div>  
               
 
               {/*Si queda tiempo, poner más bonito los objetivos */}
-              <Typography variant="h6" gutterBottom>
-                Objetivos
-              </Typography>
+
+                 <Grid
+                  container
+                  direction="row"
+                  alignItems="flex-end"
+                  className={classes.addMarginBottom}
+                >                                  
+                  <Typography variant="h6" gutterBottom className={classes.wizardTitle}>
+                  <br/>
+                    <strong> Objetivos </strong>
+                  </Typography>
+
+                 <IconButton aria-label="add" color="primary" onClick={handleAddObjetives}>
+                    <AddIcon />                  
+                  </IconButton>  
+
+                   <IconButton aria-label="add" color="primary" onClick={handleAddObjetives}>
+                    <IndeterminateCheckBoxIcon/>                  
+                  </IconButton>  
+
+                </Grid>
               <ul>
-                <li><TextField variant="outlined" fullWidth id="obj1" /></li>
-                <li><TextField variant="outlined" fullWidth id="obj2" /></li>
-                <li><TextField variant="outlined" fullWidth id="obj3" /></li>
+                <li> 
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    onChange={handleChange}
+                    name="descripcion"
+                    placeholder="Objetivo"
+                    value= {project.descripcion}
+                    size="small"
+                    inputProps={{ maxLength: 500 }}
+                  />
+                </li>
+                
               </ul>
 
-              <Typography variant="h6" gutterBottom>
-                Etapas del Proyecto
-              </Typography>
+              <Grid
+                  container
+                  direction="row"
+                  alignItems="flex-end"
+                  className={classes.addMarginBottom}
+                >                                  
+                  <Typography variant="h6" gutterBottom className={classes.wizardTitle}>
+                  <br/>
+                    <strong> Fecha de etapas de proyecto</strong>
+                  </Typography>
+              </Grid>
               <form className={classes.container} noValidate>
                 <TextField
                   id="date1"
@@ -272,8 +349,7 @@ export default function CreateProject() {
                     shrink: true,
                   }}
                 />
-              </form>
-              <form className={classes.container} noValidate>
+                
                 <TextField
                   id="date3"
                   label="Revisión"
@@ -284,32 +360,67 @@ export default function CreateProject() {
                     shrink: true,
                   }}
                 />
-                <TextField
-                  id="date4"
-                  label="Finalizado"
-                  type="date"
-                  defaultValue="2017-05-24"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
               </form>
 
-              <Typography variant="h6" gutterBottom>
-                Entregables (lo que debe entregarle el freelancer)
-              </Typography>
-              <TextField variant="outlined" fullWidth id="entregables" />
-              <Divider />
+                <div className={classes.addMarginBottom}>
+                <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Entregables </strong>
+
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.caption}>
+                  *Requerido. 500 caracteres máximo
+                  </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="entregables"
+                  placeholder="Descripción del Proyecto"
+                  value= {project.entregables}
+                  size="small"
+                  multiline
+                  rows="4"
+                  inputProps={{ maxLength: 500 }}
+                />
+              </div>  
 
               {/*Si queda tiempo, poner más bonito los objetivos */}
-              <Typography variant="h6" gutterBottom>
-                Datos Adicionales
-              </Typography>
+                <Grid
+                  container
+                  direction="row"
+                  alignItems="flex-end"
+                  className={classes.addMarginBottom}
+                >                                  
+                  <Typography variant="h6" gutterBottom className={classes.wizardTitle}>
+                  <br/>
+                    <strong> Datos Adicionales </strong>
+                  </Typography>
+
+                 <IconButton aria-label="add" color="primary" onClick={handleAddObjetives}>
+                    <AddIcon />                  
+                  </IconButton>  
+
+                   <IconButton aria-label="add" color="primary" onClick={handleAddObjetives}>
+                    <IndeterminateCheckBoxIcon/>                  
+                  </IconButton>  
+
+                </Grid>
               <ul>
-                <li><TextField variant="outlined" fullWidth id="datosA1" /></li>
-                <li><TextField variant="outlined" fullWidth id="datosA2" /></li>
-                <li><TextField variant="outlined" fullWidth id="datosA3" /></li>
+                <li>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      onChange={handleChange}
+                      name="descripcion"
+                      placeholder="Dato Adicional"
+                      value= {project.descripcion}
+                      size="small"
+                      inputProps={{ maxLength: 500 }}
+                    />
+                  </li>
+               
               </ul>
 
               <Button
@@ -317,7 +428,6 @@ export default function CreateProject() {
                 id="botonCrear"
                 color="primary"
                 className={classes.button2}
-                onClick={handleCompare}
                 href="/project/manage/contractor">
                 Crear
               </Button>
@@ -335,20 +445,68 @@ export default function CreateProject() {
             <Grid item xs={12} md={4}>
               <Paper elevation={0} className={classes.sidebarAboutBox}>     
 
-              <Typography variant="h6" gutterBottom>
-                Tipo de Proyecto
-              </Typography>
-              <TextField variant="outlined" fullWidth id="tipoProyecto" />
+               <div className={classes.addMarginBottom}>
+                 <Typography variant="subtitle1" gutterBottom>
+                      <strong>Tipo de Proyecto </strong>
 
-              <Typography variant="h6" gutterBottom>
-                Tecnologías a Usar
-              </Typography>
-              <TextField variant="outlined" fullWidth id="tecnologías" />
+                  </Typography>
+            
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="tipo"
+                  placeholder="Ej:Desarrollo Web, Documentación"
+                  value= {project.tipo}
+                  inputProps={{ maxLength: 500 }}
+                />
+              </div>  
 
-              <Typography variant="h6" gutterBottom>
-                Presupuesto
-              </Typography>
-              <TextField variant="outlined" fullWidth id="Presupuesto" />
+                <div className={classes.addMarginBottomLonger}>
+                
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Tecnologías a Usar </strong>
+
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.addMarginBottom}>
+                  Separadas por comas
+                  </Typography>
+                
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="tecnologias"
+                  placeholder="Ej: HTML,CSS, Java"
+                  value= {project.tecnologias}
+                  size="small"
+                  multiline
+                  rows="4"
+                  inputProps={{ maxLength: 500 }}
+                />
+              </div>  
+                <div className={classes.addMarginBottom}>
+                <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Presupuesto </strong>
+
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.caption}>
+                  numérico
+                  </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="presupuesto"
+                  placeholder="Presupuesto en Bs"
+                  value= {project.presupuesto}
+                  size="small"         
+                  inputProps={{ maxLength: 500 }}
+                />
+              </div>  
+             
             </Paper>
             </Grid>
           </Grid>
