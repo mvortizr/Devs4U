@@ -1,7 +1,11 @@
 const model = require('../models');
 const freelancerController = require('./FreelancerController')
 const contratistaController = require('./ContractorController')
+const experienciaController= require('./ExperienciaController')
+const educacionController=require('./EducacionController')
+const proyectoController=require('./ProjectController')
 const uploadImage = require('../middlewares/cloudinary');
+const reviewController=require('./ReviewController')
 
 
 
@@ -41,15 +45,27 @@ module.exports = {
     },
 
     eliminarPerfil(req, res) {
+        const id=req.user.id
         model.User.destroy({
             where: {
                 id: req.user.id
             }
         })
             .then(function () {
-                if (req.user.rol == 'freelancer') freelancerController.eliminarPerfil(req, res);
-                else if (req.user.rol == 'contractor') contratistaController.eliminarPerfil(req, res);
+                if (req.user.rol == 'freelancer') {
+                    freelancerController.eliminarPerfil(id)
+                    experienciaController.eliminarExperienciaDeUnUsuario(id)
+                    educacionController.eliminarEducacionDeUnUsuario(id)
+                    proyectoController.actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(id)
+                    //reviewController.eliminarReviewsDeUnUsuario(id)
+                }
+                else if (req.user.rol == 'contractor'){ 
+                    contratistaController.eliminarPerfil(req, res);
+                    proyectoController.eliminarProyectosDelContratista(req,res)
+                    reviewController.eliminarReviewsDeUnUsuario(id)
+                }
             })
+            .then(function(){res.status(200).send({ message:'Se elimino al usuario y toda su informacion exitosamente'})})
             .catch((error) => { res.status(400).send(error); });
     },
 
@@ -81,4 +97,15 @@ module.exports = {
 
     },
 
+    actualizarCalifiacionMedia(usuarioId,calificacion){
+        model.User.findAll({where: {id: usuarioId}})
+        .then(function(usuario){
+             if(usuario[0].calificacionesMedia!=0)calificacion=(usuario[0].calificacionesMedia+calificacion)/2})
+        .then(function(){
+            model.User.update({
+                calificacionesMedia: calificacion
+            },{where: {id: usuarioId}})
+        })
+   
+    }
 }

@@ -23,7 +23,10 @@ const freelancerController=require('./controllers/FreelancerController')
 const contractorController=require('./controllers/ContractorController')
 const reviewController=require('./controllers/ReviewController')
 const searchController = require('./controllers/SearchController')
+const projectStageController=require('./controllers/ProjecStageController')
+const notificacionController=require('./controllers/NotificacionController')
 //const projectController=require('./controllers/ProjectController');
+const archivoController=require('./controllers/ArchivoController')
 
 
 
@@ -43,23 +46,6 @@ router.delete('/profile/delete',ensureAuthenticated, userController.eliminarPerf
 router.get('/search/freelancer', searchController.BuscarPerfilFreelancer);
 router.get('/search/contractor', searchController.BuscarPerfilContratista);
 router.get('/search/project', searchController.BuscarProyecto);
-
-//Rutas CRUD de proyecto
-router.put('/project/create',ensureAuthenticated, projectController.crearProyecto)
-router.put('/project/edit/:id',ensureAuthenticated, projectController.modificarProyecto)
-router.get('/project/view/:id', ensureAuthenticated,projectController.consultarProyecto)
-router.delete('/project/cancel/:id', ensureAuthenticated,projectController.cancelarProyecto)
-router.get('/project/list/view', ensureAuthenticated,projectController.listarProyectos)
-router.get('/project/list/view/created', ensureAuthenticated,projectController.listarProyectosCreados)
-router.get('/project/list/view/worked', ensureAuthenticated,projectController.listarProyectosEncargados)
-router.post('/project/stage/change', ensureAuthenticated,projectController.cambiarEtapaProyecto)
-
-//Rutas postulaciones proyecto
-router.put('/project/postulation/do/', ensureAuthenticated,projectPostulationController.postularseProyecto)
-router.get('/project/postulation/list/',ensureAuthenticated,projectPostulationController.verUsuariosPostuladosProyecto)
-router.delete('/project/postulation/undo/',ensureAuthenticated,projectPostulationController.deshacerPostulacionProyecto)
-router.get('/freelancer/postulation/list',ensureAuthenticated,projectPostulationController.verProyectosPostuladosUsuario) //proyectos propios
-
 
 
 //Rutas experiencias usuario 
@@ -83,11 +69,58 @@ router.post('/contractor/view/byId/:id',contractorController.consultarPerfilCont
 router.get('/list/freelancers',freelancerController.listarFreelancers)
 router.get('/list/contractors',contractorController.listarContractors)
 
+
+//Rutas CRUD de proyecto
+router.post('/project/create',ensureAuthenticated, projectController.crearProyecto)
+router.put('/project/edit/:id',ensureAuthenticated, projectController.modificarProyecto)
+router.get('/project/view/:id', ensureAuthenticated,projectController.consultarProyecto)
+router.delete('/project/cancel/:id', ensureAuthenticated,projectController.cancelarProyecto)
+router.get('/project/list/view', ensureAuthenticated,projectController.listarProyectos)
+router.get('/project/list/view/created', ensureAuthenticated,projectController.listarProyectosCreados)
+router.get('/project/list/view/worked', ensureAuthenticated,projectController.listarProyectosEncargados)
+router.post('/project/stage/change', ensureAuthenticated,projectController.cambiarEtapaProyecto)
+router.post('/project/add/freelancer/incharge/:id',ensureAuthenticated,projectController.asignarFreelancerEncargado)
+router.post('/project/change/state/review/:id',ensureAuthenticated,projectController.actualizarElEstadoDelReviewDeUnUsuarioDelProyecto)
+
+
+
+//Archivos
+
+router.post('/project/upload/file',ensureAuthenticated, upload.single('image'),archivoController.subirArchivos)
+router.post('/project/download/file/:id',ensureAuthenticated,archivoController.descargarArchivos)
+router.post('/project/view/file/:id',ensureAuthenticated,archivoController.consultarArchivo)
+
 router.post('/review/add/:id',reviewController.agregarReview)
 router.post('/review/list/:id',reviewController.listarReviewsUsuario)
 router.post('/review/mine/list',reviewController.listarMisReviewsUsuario)
 router.post('/review/view/byId/:id',reviewController.consultarReview)
 
+//Rutas Cambiar Deadline
+
+router.post('/project/stage/chance/deadline/:id',ensureAuthenticated,projectStageController.modificarDeadline)
+
+
+
+//Rutas postulaciones proyecto
+router.put('/project/postulation/do/', ensureAuthenticated,projectPostulationController.postularseProyecto)
+router.get('/project/postulation/list/',ensureAuthenticated,projectPostulationController.verUsuariosPostuladosProyecto)
+router.delete('/project/postulation/undo/',ensureAuthenticated,projectPostulationController.deshacerPostulacionProyecto)
+router.get('/freelancer/postulation/list',ensureAuthenticated,projectPostulationController.verProyectosPostuladosUsuario) //proyectos propios
+
+
+
+
+//Review
+router.post('/review/add/:id',reviewController.agregarReview)
+router.get('/review/list/:id',reviewController.listarReviewsUsuario)
+router.post('/review/mine/list',reviewController.listarMisReviewsUsuario)
+router.get('/review/view/byId/:id',reviewController.consultarReview)
+
+
+//Notificaciones
+router.post('/notification/list',ensureAuthenticated,notificacionController.listarTodasLasNotificaciones)
+router.post('/notification/list/SinRevisar',ensureAuthenticated,notificacionController.listarNotificacionesSinRevisar)
+router.post('/notificacion/update/:id',ensureAuthenticated,notificacionController.marcarLeido)
 
 
 module.exports = router;

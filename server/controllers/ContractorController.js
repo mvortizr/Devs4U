@@ -4,7 +4,7 @@ module.exports={
 
     guardarUsuario(req,res,usuarioId){
         model.Contractor.create({usuarioId:usuarioId})
-        .then(function(){ res.status(200).send({message:'El usuario se ha creado correctamente'})})
+        .then(function(){  res.status(200).send({message:'El usuario se ha creado correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
@@ -14,7 +14,7 @@ module.exports={
             where: {id: req.user.id},
             include:['contractor']
         })
-        .then(function(contratista){ res.send(contratista)})
+        .then(function(contratista){  res.status(200).send(contratista)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -24,9 +24,7 @@ module.exports={
                 usuarioId: req.user.id
             }
         })
-        .then(function () {
-           res.send(200,{message:'Usuario eliminado exitosamente'})
-        })
+
         .catch((error) => { res.status(400).send(error); });
     },
 
@@ -38,12 +36,7 @@ module.exports={
             //include:['contractor']
         })
         .then(function(contractors){
-            res.status(400).send(contractors)
-            /*model.Contractor.count()
-            .then( function(count){ 
-                res.send({contractors:contractors, count:count})       
-            })
-            .catch(err => res.status(400).json('Error: ' + err));*/
+            res.status(200).send(contractors)
         })
         .catch(err => res.status(400).json('Error: ' + err));
     },
@@ -57,7 +50,7 @@ module.exports={
         })
         .then(function(contractor){
             if(contractor=='') res.status(400).json('Este id no esta asociado a un contractor')
-            else res.send(contractor)})
+            else res.status(200).send(contractor)})
         .catch(err => res.status(400).json('Error: ' + err));
     }
 

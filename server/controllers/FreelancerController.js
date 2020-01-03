@@ -17,9 +17,9 @@ module.exports={
     consultarPerfil(req,res){
         model.User.findAll({
             where: {id: req.user.id},
-            include:['freelancer','educacion','experiencia']
+            include:['freelancer','educacion','experiencia','proyectosEncargados']
         })
-        .then(function(freelancer){res.send(freelancer)})
+        .then(function(freelancer){res.status(200).send(freelancer)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -136,12 +136,8 @@ module.exports={
 
     },
     
-    eliminarPerfil(req,res){
-        model.Freelancer.destroy({
-            where: {usuarioId: req.user.id}
-        })
-        .then(function () {res.send(200,{message:'Usuario eliminado exitosamente'})})
-        .catch((error) => { res.status(400).send(error); });
+    eliminarPerfil(id){
+        model.Freelancer.destroy({where: {usuarioId: id}})
     },
 
     consultarPerfilFreelancer(req,res){
@@ -153,7 +149,7 @@ module.exports={
         })
         .then(function(freelancer){
             if(freelancer=='') res.status(400).json('Este id no esta asociado a un freelancer')
-            else res.send(freelancer)})
+            else res.status(200).send(freelancer)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -164,14 +160,7 @@ module.exports={
             where:{rol:'freelancer'},
             //include:['freelancer','educacion','experiencia']
         })
-        .then(function(freelancers){   
-            res.status(400).send(freelancers)    
-            /*model.Freelancer.count()
-            .then( function(count){ 
-                res.send({freelancers:freelancers, count:count})       
-            })
-            .catch(err => res.status(400).json('Error: ' + err));*/
-        })
+        .then(function(freelancers){res.status(200).send(freelancers)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
