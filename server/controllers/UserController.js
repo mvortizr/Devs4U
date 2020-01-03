@@ -1,26 +1,34 @@
 const model = require('../models');
 const freelancerController = require('./FreelancerController')
 const contratistaController = require('./ContractorController')
+const experienciaController= require('./ExperienciaController')
+const educacionController=require('./EducacionController')
+const proyectoController=require('./ProjectController')
 const uploadImage = require('../middlewares/cloudinary');
+const reviewController=require('./ReviewController')
 
 
 
 module.exports = {
     modificarPerfil(req, res) {
-        model.User.update({
-            nombre: req.body.nombre,
-            foto: req.body.foto,
-            apellido: req.body.apellido,
-            pais: req.body.pais,
-            ciudad: req.body.ciudad,
-            sobreMi: req.body.sobreMi,
-            descripcionCorta: req.body.descripcionCorta,
-            web: req.body.web,
-            linkedin: req.body.linkedin,
-            idiomas: req.body.idiomas,
-            facebook: req.body.facebook,
-            instagram: req.body.instagram,
-            twitter: req.body.twitter,
+
+        console.log('req',req.body.user)
+
+        
+       model.User.update({
+            nombre: req.body.user.nombre,
+            foto: req.body.user.foto,
+            //apellido: req.body.apellido,
+            pais: req.body.user.pais,
+            ciudad: req.body.user.ciudad,
+            sobreMi: req.body.user.sobreMi,
+            descripcionCorta: req.body.user.descripcionCorta,
+            web: req.body.user.web,
+            linkedin: req.body.user.linkedin,
+            idiomas: req.body.nuevosIdiomas,
+            facebook: req.body.user.facebook,
+            instagram: req.body.user.instagram,
+            twitter: req.body.user.twitter,
         }, { where: { id: req.user.id } })
 
             .then(function () {
@@ -37,15 +45,27 @@ module.exports = {
     },
 
     eliminarPerfil(req, res) {
+        const id=req.user.id
         model.User.destroy({
             where: {
                 id: req.user.id
             }
         })
             .then(function () {
-                if (req.user.rol == 'freelancer') freelancerController.eliminarPerfil(req, res);
-                else if (req.user.rol == 'contractor') contratistaController.eliminarPerfil(req, res);
+                if (req.user.rol == 'freelancer') {
+                    freelancerController.eliminarPerfil(id)
+                    experienciaController.eliminarExperienciaDeUnUsuario(id)
+                    educacionController.eliminarEducacionDeUnUsuario(id)
+                    proyectoController.actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(id)
+                    //reviewController.eliminarReviewsDeUnUsuario(id)
+                }
+                else if (req.user.rol == 'contractor'){ 
+                    contratistaController.eliminarPerfil(req, res);
+                    proyectoController.eliminarProyectosDelContratista(req,res)
+                    reviewController.eliminarReviewsDeUnUsuario(id)
+                }
             })
+            .then(function(){res.status(200).send({ message:'Se elimino al usuario y toda su informacion exitosamente'})})
             .catch((error) => { res.status(400).send(error); });
     },
 
@@ -53,42 +73,6 @@ module.exports = {
 
         console.log('req.file', req.file);
 
-<<<<<<< HEAD
-/////////////////
-    showId(req,res){
-        developerController.showId(req,res);
-    },
-    showAll(req,res){
-        developerController.showAll(req,res);
-    },
-    showSearch(req,res){
-        developerController.showSearch(req,res);
-    },
-
-    showContractorId(req,res){
-      model.User.findAll({
-        where: {
-         id:req.params.id
-        }
-      })
-      .then(function(user){    
-        res.send(user);
-      })
-      .catch(err => res.status(400).json('Error: ' + err));
-    },
-
-
-
-        /**
-         * Show the form for editing the specified resource.
-         */
-        /*edit(req,res){
-            if(req.user.rol=='developer')developerController.edit(req,res);
-        },
-    /**
-        * Update the specified resource in storage.
-     **/
-=======
         if (req.file) { /* Check if there is an image */
             uploadImage(req.file) /* If there is an image, upload it */
                 .then((result) => { /* If the upload is successful */
@@ -109,9 +93,19 @@ module.exports = {
                 message: 'No image file was uploaded'
             });
         }
->>>>>>> backend-v1
 
 
     },
 
+    actualizarCalifiacionMedia(usuarioId,calificacion){
+        model.User.findAll({where: {id: usuarioId}})
+        .then(function(usuario){
+             if(usuario[0].calificacionesMedia!=0)calificacion=(usuario[0].calificacionesMedia+calificacion)/2})
+        .then(function(){
+            model.User.update({
+                calificacionesMedia: calificacion
+            },{where: {id: usuarioId}})
+        })
+   
+    }
 }

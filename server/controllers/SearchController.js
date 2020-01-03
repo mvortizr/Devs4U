@@ -28,7 +28,7 @@ module.exports = {
 
                 //include:['freelancer']
             })
-            .then(function (resultado) { res.send(resultado) })
+            .then(function (resultado) { res.status(200).send(resultado) })
             .catch(err => res.status(400).json('Error: ' + err));
 
     },
@@ -56,7 +56,7 @@ module.exports = {
 
                 //include:['contractor']
             })
-            .then(function (resultado) { res.send(resultado) })
+            .then(function (resultado) { res.status(200).send(resultado) })
             .catch(err => res.status(400).json('Error: ' + err));
 
     },
@@ -73,7 +73,7 @@ module.exports = {
               
               }
           })
-          .then(function (resultado) { res.send(resultado) })
+          .then(function (resultado) { res.status(200).send(resultado) })
           .catch(err => res.status(400).json('Error: ' + err));
 
     },

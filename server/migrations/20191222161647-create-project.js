@@ -44,6 +44,12 @@ module.exports = {
       adicionales:{
         type: Sequelize.ARRAY(Sequelize.TEXT)
       },
+      estadoReviewContractor: {
+        type: Sequelize.BOOLEAN
+      },
+      estadoReviewFreelancer: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

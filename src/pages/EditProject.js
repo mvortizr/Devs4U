@@ -8,14 +8,25 @@ import {
   Link,
   Button,
   Paper,
-  TextField
+  TextField,
+  IconButton
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Header from './Header'
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
+import AddIcon from '@material-ui/icons/AddCircle';
+import CloseIcon from '@material-ui/icons/Close';
+import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import { Link as DomLink} from 'react-router-dom';
+import axios from 'axios';
+import moment from 'moment'
+
+
+
+
+
+
+
 
 function Copyright() {
   return (
@@ -34,41 +45,44 @@ const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
+    display: 'flex'
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: 24 // keep right padding when drawer closed
   },
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
-    ...theme.mixins.toolbar,
+    ...theme.mixins.toolbar
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+      duration: theme.transitions.duration.leavingScreen
+    })
   },
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: 36
   },
   menuButtonHidden: {
-    display: 'none',
+    display: 'none'
+  },
+  textField:{
+    marginRight:'20px'
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   drawerPaper: {
     position: 'relative',
@@ -76,92 +90,118 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   drawerPaperClose: {
     overflowX: 'hidden',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: theme.transitions.duration.leavingScreen
     }),
     width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
+      width: theme.spacing(9)
+    }
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
+    backgroundColor: theme.palette.background.paper,
     flexGrow: 1,
     height: '100vh',
-    overflow: 'auto',
+    overflow: 'auto'
   },
   container: {
     paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    paddingBottom: theme.spacing(4)
   },
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   fixedHeight: {
-    height: 240,
+    height: 240
   },
   icon: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(8, 0, 6)
   },
   heroButtons: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(4)
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingBottom: theme.spacing(8)
   },
   card: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   cardMedia: {
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '56.25%' // 16:9
   },
   cardContent: {
-    flexGrow: 1,
+    flexGrow: 1
   },
+
   markdown: {
     ...theme.typography.body2,
-    padding: theme.spacing(3, 0),
+    padding: theme.spacing(3, 0)
   },
-  formControl: {
-    margin: theme.spacing(1),
-    width: '250px',
+
+  button1: {
+    marginRight: '350px'
   },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
+  button2: {
+    margin: theme.spacing(1)
   },
-  buttonCan:{
-    backgroundColor: "#FF0000",
-    marginRight: "50px",
-    color: "#ffff"
+  grid:{
+    marginTop:"50px"
   },
-  buttonSave:{
-    backgroundColor: "#516FDE",
-    color: "#ffff",
-    marginRight: "50px",
+  addMarginBottom:{
+    marginBottom:'15px'
   },
+  addMarginBottomLonger:{
+    marginBottom:'30px'
+  },
+  labelAndCaption:{
+    display:'flex',
+    alignItems:'center',
+  },
+  caption:{
+    marginLeft:'10px',
+  },
+  centerImage:{
+    marginLeft:'15%',
+  },
+  imageUser:{
+    maxWidth:'280px',
+    maxHeight:'250px'
+  },
+  wizardTitle:{
+    marginRight:'7px',
+  },
+  distanceYearInput:{
+    marginRight:'25px'
+  },
+  datePickers:{
+    maxWidth:'150px',
+    marginRight:'10px'
+  }
 }))
 
-export default function CreateProject() {
+export default function EditProject(props) {
+  const projectId = props.match.params.id
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
-  const [type, setType] = React.useState('');
-  const inputLabel = React.useRef(null); 
+  const[savedEtapas,setSavedEtapas] = React.useState([])
+  const [project,setProject]= React.useState({titulo:'',tipo:'',descripcion:'',presupuesto:'',entregables:'',objetivos:[],tecnologias:[],adicionales:[],etapasInfo:[]})
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -170,186 +210,467 @@ export default function CreateProject() {
     setOpen(false)
   }
 
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-  
-    const handleDateChange = date => {
-      setSelectedDate(date);
-    };
+  const [selectedDateAbierto, setSelectedDateAbierto] = React.useState(new Date());
+  const [selectedDateEjecucion, setSelectedDateEjecucion] = React.useState(new Date());
+  const [selectedDateRevision, setSelectedDateRevision] = React.useState(new Date());
 
-  const handleChange = event => {
-    setType(event.target.value);
+  
+  
+  const handleDateChangeAbierto = date => {
+    setSelectedDateAbierto(date);
   };
+
+  const handleDateChangeEjecucion = date => {
+    setSelectedDateEjecucion(date);
+  };
+
+   const handleDateChangeRevision = date => {
+    setSelectedDateRevision(date);
+  };
+
+  const handleChange = e => {
+    setProject({ ...project, [e.target.name]: e.target.value })
+  }
+
+  const handleAddObjetives = () =>{
+    let objetivos = [...project.objetivos]
+    objetivos.push('')
+    setProject({...project, objetivos: objetivos})
+
+  }
+
+  const handleRemoveObjetives = () =>{
+    let objetivos = [...project.objetivos]
+    objetivos.pop()
+    setProject({...project, objetivos: objetivos})
+
+  }
+
+   const handleAddAdicionales = () =>{
+    let adicionales = [...project.adicionales]
+    adicionales.push('')
+    setProject({...project, adicionales: adicionales})
+
+  }
+
+  const handleRemoveAdicionales = () =>{
+    let adicionales = [...project.adicionales]
+    adicionales.pop()
+    setProject({...project, adicionales: adicionales})
+  }
+
+  const handleChangeArray = name => e => {
+   
+      if(name==="objetivo"){
+        let objetivos = [...project.objetivos]
+        objetivos[e.target.dataset.id] = e.target.value
+        setProject({...project, objetivos: objetivos})
+      }
+      else if(name==="adicional"){
+        let adicionales = [...project.adicionales]
+        adicionales[e.target.dataset.id] = e.target.value
+        setProject({...project, adicionales: adicionales})
+      }
+     
+
+  }
+
+  const submitToServer=() => {
+    let etapasInfo = [{numero:0, nombre:"abierto", deadline:selectedDateAbierto, id: savedEtapas[0].id},
+            {numero:1, nombre:"ejecucion", deadline:selectedDateEjecucion, id: savedEtapas[1].id},
+            {numero:2, nombre:"revision", deadline:selectedDateRevision, id: savedEtapas[2].id}]
+
+    let tecnologias = project.tecnologias
+
+    if(tecnologias !== '' && !Array.isArray(tecnologias)){
+      tecnologias= tecnologias.split(',')
+    }
+
+
+    let data = {...project,etapasInfo:etapasInfo, tecnologias:tecnologias}
+
+    console.log('data',data)
+
+
+   axios({ method: 'put',
+          validateStatus: function(status) {
+            return status >= 200 && status < 500; 
+          },
+          url:`/project/edit/${projectId}`, 
+          withCredentials:true,
+          data: data
+        })
+        .then(response =>{
+            console.log('create proj res',response)
+
+            if(response.status === 200){
+              props.history.push(`/project/manage/contractor`)
+            } 
+            
+        })
+        .catch(error => {
+          console.log('error',error)
+        })
+  } //fin submit to server
+
+  React.useEffect(() => {
+      axios({ method: 'get',
+        validateStatus: function(status) {
+          return status >= 200 && status < 500; 
+        },
+        url:`/project/view/${projectId}`, 
+        withCredentials:true
+      })
+      .then(response =>{
+
+        //moment('2019-11-03T05:00:00.000Z').utc().format('MM/DD/YYYY')
+          console.log('consultar res',response)
+          if(response.status === 200){
+   
+            setProject(response.data[0])
+
+            let etapasInfo= response.data[0].etapasInfo
+
+            if(etapasInfo !== undefined && etapasInfo.length >=2){
+              setSelectedDateAbierto(new Date(etapasInfo[0].deadline))
+              setSelectedDateEjecucion(new Date(etapasInfo[1].deadline))
+              setSelectedDateRevision(new Date(etapasInfo[2].deadline))
+              setSavedEtapas(etapasInfo)
+            }
+          } 
+          
+      })
+      .catch(error => {
+        console.log('error',error)
+      })
+     
+    }, []);
+
+
+
+  
   
   return (
     <div className={classes.root}>
       <CssBaseline />
       <Header type="contractor"/>
       <main className={classes.content}>
+      {console.log('estado project', project)}
+      {console.log('abierto', selectedDateAbierto)}
+      {console.log('revision', selectedDateRevision)}
+      {console.log('ejecucion', selectedDateEjecucion)}
         <div className={classes.appBarSpacer} />
          
         <Container className={classes.cardGrid} maxWidth="md">
         <Typography variant="h4" gutterBottom>
-                Creación de Proyecto
+                Editar Proyecto
               </Typography>
           <Grid container spacing={5} className={classes.mainGrid} className={classes.grid}>
             {/* Main content */}
-            <Grid item xs={12} md={7}>
-              <Typography variant="h6" gutterBottom>
-                Nombre del Proyecto:
-              </Typography>
-              <TextField
-              variant="outlined" 
-              fullWidth
-              defaultValue="Nombre del Proyecto"
-              inputProps={{ maxLength: 22 }}
-              />
-              <br/><Divider />
-              <Typography variant="h6" gutterBottom>
-                Descripción:
-              </Typography>
-              <TextField variant="outlined" fullWidth id="descripcion" defaultValue="Nsadotfcvrty"
-                  inputProps={{ maxLength: 180 }}/>
-              <br/>
-              <Grid item xs={12} md={12}>
-                    <Divider/>
-                  </Grid>
+            <Grid item xs={12} md={8}>
+              <div className={classes.addMarginBottom}>
+                <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Nombre del Projecto </strong>
 
-              {/*Si queda tiempo, poner más bonito los objetivos */}
-              <Typography variant="h6" gutterBottom>
-                Objetivos:
-              </Typography>
-              <ul>
-                <li><TextField variant="outlined" fullWidth id="obj1" defaultValue="objetivos"
-                  inputProps={{ maxLength: 180}}/></li> <br/>
-                <li><TextField variant="outlined" fullWidth id="obj2" defaultValue="objetivos"
-                  inputProps={{ maxLength: 180}}/></li> <br/>
-                <li><TextField variant="outlined" fullWidth id="obj3" defaultValue="objetivos"
-                  inputProps={{ maxLength: 180}}/></li>
-              </ul>
-
-
-
-
-              {/*VALIDAR LAS FECHAS */}
-              <Typography variant="h6" gutterBottom>
-                Etapas del Proyecto
-              </Typography>
-              <form className={classes.container} noValidate>
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.caption}>
+                  *Requerido. 180 caracteres máximo
+                  </Typography>
+                </div>
                 <TextField
-                  id="date1"
-                  label="Abierto"
-                  type="date"
-                  defaultValue="2017-05-24"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="titulo"
+                  placeholder="Título del Proyecto"
+                  value= {project.titulo}
+                  size="small"
+                  inputProps={{ maxLength: 180 }}
                 />
-                <TextField
-                  id="date2"
-                  label="Ejecución"
-                  type="date"
-                  defaultValue="2017-05-24"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </form>
-              <form className={classes.container} noValidate>
-                <TextField
-                  id="date3"
-                  label="Revisión"
-                  type="date"
-                  defaultValue="2017-05-24"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  id="date4"
-                  label="Finalizado"
-                  type="date"
-                  defaultValue="2017-05-24"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </form>
-
-              <Typography variant="h6" gutterBottom>
-                Entregables (lo que debe entregarle el freelancer)
-              </Typography>
-              <TextField variant="outlined" fullWidth id="entregables" defaultValue="JASBNDVUINBSUVIO"
-                  inputProps={{ maxLength: 180}}/>
-              <Divider /><br/>
-
-              {/*Si queda tiempo, poner más bonito los objetivos */}
-              <Typography variant="h6" gutterBottom>
-                Datos Adicionales
-              </Typography>
-              <ul>
-                <li><TextField variant="outlined" fullWidth id="datosA1" defaultValue="datos"
-                  inputProps={{ maxLength: 180}}/></li><br/>
-                <li><TextField variant="outlined" fullWidth id="datosA2" defaultValue="datos"
-                  inputProps={{ maxLength: 180}}/></li><br/>
-                <li><TextField variant="outlined" fullWidth id="datosA3" defaultValue="datos"
-                  inputProps={{ maxLength: 180}}/></li>
-              </ul>
-            </Grid>
-            <Grid>
-              <Divider orientation="vertical"/>
-            </Grid>
-            {/* End main content */}
-            {/* Sidebar */}
-            <Grid item xs={12} md={4}>
-              <Paper elevation={0} className={classes.sidebarAboutBox}>     
-              <FormControl className={classes.formControl}>
-                    <InputLabel shrink id="label">
-                      Tipo de Proyecto
-                    </InputLabel>
-                    <Select
-                      labelId="label"
-                      id="typefreelancer"
-                      value={type}
-                      onChange={handleChange}
-                      displayEmpty
-                      className={classes.selectEmpty}
-                    >
-                      <MenuItem value={1}>Web</MenuItem>
-                      <MenuItem value={2}>Desarrollador Móvil</MenuItem>
-                      <MenuItem value={3}>Q/A</MenuItem>
-                      <MenuItem value={4}>Otros</MenuItem>
-                    </Select>
-              </FormControl>
-              <Typography variant="h6" gutterBottom>
-                Tecnologías a Usar
-              </Typography>
-              <TextField variant="outlined" fullWidth id="tecnologías" defaultValue="datos"
-                  inputProps={{ maxLength: 22}}/>
-
-              <Typography variant="h6" gutterBottom>
-                Presupuesto
-              </Typography>
-              <TextField variant="outlined" type="number" defaultValue="datos"
-                  inputProps={{ maxLength: 22}} fullWidth id="Presupuesto" />
+              </div>  
               
+
+              <div className={classes.addMarginBottom}>
+                <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Descripción del Projecto </strong>
+
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.caption}>
+                  *Requerido. 500 caracteres máximo
+                  </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="descripcion"
+                  placeholder="Descripción del Proyecto"
+                  value= {project.descripcion}
+                  size="small"
+                  multiline
+                  rows="4"
+                  inputProps={{ maxLength: 500 }}
+                />
+              </div>  
+              
+
+              {/*Si queda tiempo, poner más bonito los objetivos */}
+
+                 <Grid
+                  container
+                  direction="row"
+                  alignItems="flex-end"
+                  className={classes.addMarginBottom}
+                >                                  
+                  <Typography variant="h6" gutterBottom className={classes.wizardTitle}>
+                  <br/>
+                    <strong> Objetivos </strong>
+                  </Typography>
+
+                 <IconButton aria-label="add" color="primary" onClick={handleAddObjetives}>
+                    <AddIcon />                  
+                  </IconButton>  
+
+                   <IconButton aria-label="add" color="primary" onClick={handleRemoveObjetives}>
+                    <IndeterminateCheckBoxIcon/>                  
+                  </IconButton>  
+
+                </Grid>
+              {project.objetivos !== null && project.objetivos !== undefined && project.objetivos.length>=1?(
+              <ul>
+              {project.objetivos.map( (obj, indexObj) => (
+                <li> 
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    onChange={handleChangeArray('objetivo')}
+                    name="descripcion"
+                    placeholder="Objetivo"
+                    value= {project.objetivos[indexObj]}
+                    size="small"
+                    inputProps={{ maxLength: 500, 'data-id':indexObj}}
+                  />
+                </li>))}
+                
+              </ul>
+              ):null}
+
+              <Grid
+                  container
+                  direction="row"
+                  alignItems="flex-end"
+                  className={classes.addMarginBottom}
+                >                                  
+                  <Typography variant="h6" gutterBottom className={classes.wizardTitle}>
+                  <br/>
+                    <strong> Fecha de etapas de proyecto</strong>
+                  </Typography>
+              </Grid>
+
+              <div className={classes.addMarginBottomLonger}>
+                <KeyboardDatePicker
+                  clearable
+                  value={selectedDateAbierto}
+                  label="Abierto"
+                  placeholder="10/10/2018"
+                  onChange={date => setSelectedDateAbierto(date)}
+                  minDate={new Date()}
+                  format="dd/MM/yyyy"
+                  className={classes.datePickers}
+                  InputLabelProps={{
+                      shrink: true,
+                    }}
+                />
+
+                <KeyboardDatePicker
+                  clearable
+                  value={selectedDateEjecucion}
+                  label="Ejecución"
+                  placeholder="10/10/2018"
+                  onChange={date => setSelectedDateEjecucion(date)}
+                  minDate={new Date()}
+                  format="dd/MM/yyyy"
+                  className={classes.datePickers}
+                  InputLabelProps={{
+                      shrink: true,
+                    }}
+                />
+
+                <KeyboardDatePicker
+                  clearable
+                  value={selectedDateRevision}
+                  label="Revisión"
+                  placeholder="10/10/2018"
+                  onChange={date => setSelectedDateRevision(date)}
+                  minDate={new Date()}
+                  format="dd/MM/yyyy"
+                  className={classes.datePickers}
+                  InputLabelProps={{
+                      shrink: true,
+                    }}
+                />
+                </div>
+
+             
+
+                <div className={classes.addMarginBottom}>
+                <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Entregables </strong>
+
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.caption}>
+                  *Requerido. 500 caracteres máximo
+                  </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="entregables"
+                  placeholder="Descripción del Proyecto"
+                  value= {project.entregables}
+                  size="small"
+                  multiline
+                  rows="4"
+                  inputProps={{ maxLength: 500 }}
+                />
+              </div>  
+
+              {/*Si queda tiempo, poner más bonito los objetivos */}
+                <Grid
+                  container
+                  direction="row"
+                  alignItems="flex-end"
+                  className={classes.addMarginBottom}
+                >                                  
+                  <Typography variant="h6" gutterBottom className={classes.wizardTitle}>
+                  <br/>
+                    <strong> Datos Adicionales </strong>
+                  </Typography>
+
+                 <IconButton aria-label="add" color="primary" onClick={handleAddAdicionales}>
+                    <AddIcon />                  
+                  </IconButton>  
+
+                   <IconButton aria-label="add" color="primary" onClick={handleRemoveAdicionales}>
+                    <IndeterminateCheckBoxIcon/>                  
+                  </IconButton>  
+
+                </Grid>
+              {project.adicionales !== null && project.adicionales !== undefined && project.adicionales.length>=1?(
+              <ul>
+              {project.adicionales.map( (obj, indexObj) => (
+                <li> 
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      onChange={handleChangeArray('adicional')}
+                      name="descripcion"
+                      placeholder="Dato Adicional"
+                      value= {project.adicionales[indexObj]}
+                      size="small"
+                      inputProps={{ maxLength: 500,'data-id':indexObj }}
+                    />
+                   </li>))}
+                
+              </ul>
+              ):null}
+               
+             
+
               <Button
                 variant="contained"
+                id="botonCrear"
                 color="primary"
                 className={classes.button2}
-                href="/project/manage/contractor">
-                Crear
+                onClick={submitToServer}
+                >
+                
+                Modificar
               </Button>
+
+            <DomLink to="/project/manage/contractor" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
               <Button
                 variant="contained"
                 color="inherit"
                 className={classes.button1}
-                href="/project/manage/contractor">
+                >
                 Cancelar
               </Button>
+            </DomLink>
+            </Grid>
+            
+            {/* End main content */}
+
+            {/* Sidebar */}
+            <Grid item xs={12} md={4}>
+              <Paper elevation={0} className={classes.sidebarAboutBox}>     
+
+               <div className={classes.addMarginBottom}>
+                 <Typography variant="subtitle1" gutterBottom>
+                      <strong>Tipo de Proyecto </strong>
+
+                  </Typography>
+            
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="tipo"
+                  placeholder="Ej:Desarrollo Web, Documentación"
+                  value= {project.tipo}
+                  inputProps={{ maxLength: 500 }}
+                />
+              </div>  
+
+                <div className={classes.addMarginBottomLonger}>
+                
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Tecnologías a Usar </strong>
+
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.addMarginBottom}>
+                  Separadas por comas
+                  </Typography>
+                
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="tecnologias"
+                  placeholder="Ej: HTML,CSS, Java"
+                  value= {project.tecnologias}
+                  size="small"
+                  multiline
+                  rows="4"
+                  inputProps={{ maxLength: 500 }}
+                />
+              </div>  
+                <div className={classes.addMarginBottom}>
+                <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Presupuesto </strong>
+
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.caption}>
+                  numérico
+                  </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  onChange={handleChange}
+                  name="presupuesto"
+                  placeholder="Presupuesto en Bs"
+                  value= {project.presupuesto}
+                  size="small"         
+                  inputProps={{ maxLength: 500 }}
+                />
+              </div>  
+             
             </Paper>
             </Grid>
           </Grid>

@@ -10,7 +10,7 @@ module.exports={
             anoInicio:req.body.anoInicio,
             anoFin:req.body.anoFin,
             institucion:req.body.institucion,
-        }).then(function(){ res.send(200,{message:'Se ha creado la educacion exitosamente'})})
+        }).then(function(){ res.status(200).send({message:'Se ha creado la educacion exitosamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -21,7 +21,9 @@ module.exports={
             anoFin:req.body.anoFin,
             institucion:req.body.institucion,
         },{where:{id:req.params.id, freelancerId:req.user.id}})
-        .then(function(){ res.send(200,{message:'Se modifico la educacion correctamente'})})
+        .then(function(educacionModificada){
+            if(educacionModificada[0]=='') res.status(400).json('No puede acceder a esta educacion')
+            else res.status(200).send({message:'Se modifico la educacion correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
@@ -32,13 +34,18 @@ module.exports={
                 freelancerId:req.user.id
             }
         })
-        .then(function(){ res.send(200,{message:'Se ha eliminado la educacion exitosamente'})})
+        .then(function(educacionEliminada){   
+            if(educacionEliminada=='') res.status(400).json('No puede acceder a esta educacion')
+            else res.status(200).send({message:'Se ha eliminado la educacion exitosamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
+    
     consultarListaEducacion(req,res){
-        model.Educacion.findAll({where:{freelancerId:req.user.id}})
-        .then(function(result){res.status(400).send(result)})
+        model.Educacion.findAll(
+            {where:{freelancerId:req.user.id},
+            include:['usuarioInfo']})
+        .then(function(result){res.status(200).send(result)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
     modificarListaEducacion(req,res){
@@ -57,8 +64,12 @@ module.exports={
         });
 
         Promise.all(promiseArray)
-        .then(function(){ res.send(200,{message:'Se modificaron los datos correctamente'})})
+        .then(function(){ res.status(200).send({message:'Se modificaron los datos correctamente'})})
         .catch(err => res.status(400).json('Error: ' + err));
     },
+
+    eliminarEducacionDeUnUsuario(id){
+        model.Educacion.destroy({where:{freelancerId:id}})
+    }
 
 }

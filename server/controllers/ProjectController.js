@@ -1,133 +1,9 @@
-<<<<<<< HEAD
-const model=require('../../models');
-module.exports={
-
-  myProjects(req,res) {
-    model.Project.findAll({
-        where: {
-            contractor: req.user.id
-        } 
-      })
-      .then(function(result) {
-        res.send(result)
-    })
-      .catch((error) => { res.status(400).send(error); });
-  },
-
-  seeById(req,res) {
-    model.Project.findAll({
-        where: {
-            id: req.params.id
-        } 
-      })
-      .then(function(result) {
-        res.send(result)
-    })
-      .catch((error) => { res.status(400).send(error); });
-  },
-
-  allProjects(req,res) {
-    model.Project.findAll({
-      })
-      .then(function(result) {
-        res.send(result)
-    })
-      .catch((error) => { res.status(400).send(error); });
-  },
-
-  allProjectsDeveloper(req,res) {
-    model.Project.findAll({
-      where: {
-            encargado: req.user.id
-        } 
-      })
-      .then(function(result) {
-        res.send(result)
-    })
-      .catch((error) => { res.status(400).send(error); });
-  },
-
-  postulate(req,res){
-    model.Project.findAll({
-      where: {
-            id: req.params.id
-        } 
-      })
-      .then(function(result) {
-        //console.log(result)
-        res.send(result.data.postulados)
-    })
-      .catch((error) => { res.status(400).send(error); });
-  },
-
-  create(req, res) {
-    console.log('creando proyecto')
-    console.log('req body',req.body)
-    model.Project.create({
-      name: req.body.name,
-      contractor: req.user.id,
-      description: req.body.description,
-      entregables: req.body.entregables,
-      tecnologies: req.body.tecnologies,
-      photo:req.body.photo,
-      postulados: req.body.postulados,
-      etapa: req.body.etapa,
-      additionals:req.body.additionals,
-      disponibilidad: req.body.disponibilidad,
-      iteraciones: req.body.iteraciones,
-      projectType: req.body.projectType
-    }).then(function () {
-      res.send({success:true})
-    })
-     .catch((error) => { res.status(400).send(error); });
-
-  },
-
-  modify(req,res){
-      model.Project.update({
-        name: req.body.name,
-        description: req.body.description,
-        entregables: req.body.entregables,
-        tecnologies: req.body.tecnologies,
-        photo:req.body.photo,
-        postulados: req.body.postulados,
-        etapa: req.body.etapa,
-        additionals:req.body.additionals,
-        disponibilidad: req.body.disponibilidad,
-        iteraciones: req.body.iteraciones,
-        projectType: req.body.projectType
-      }, {where: {id: req.params.id}}).then(function(){
-            res.send({success:true});
-        }).catch(err => res.send({error:err}));
-    },
-
- /* read(req,res){
-
-  }*/
-
-
-  cancel(req, res) {
-    model.Project
-    .destroy({
-        where: {
-            id: req.params.id
-        }
-    }).then(function () {
-      res.send({success:true})
-    })
-     .catch((error) => { res.status(400).send(error); });
-  },
-
-   
-   
-}
-
-=======
 const model=require('../models');
+const multer=require('multer')
 
 module.exports={
     
-    crearProyecto(req,res){
+       crearProyecto(req,res){
         model.Project.create({ 
             titulo: req.body.titulo,
             etapa: 0,
@@ -153,16 +29,16 @@ module.exports={
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
+
     consultarProyecto(req,res){
         model.Project.findAll({
             where: {id: req.params.id},
-            include:[{model: model.ProjectStage, as:'etapasInfo'}]
+            include:['etapasInfo','creador','encargado']
         })
         .then(function(proyecto){ res.status(200).send(proyecto)})
         .catch(err => res.status(400).json('Error: ' + err));
     },
 
-    //La fecha de las etapas no se actualiza aqui, si no en el gestor de etapas.
     modificarProyecto(req,res){
         model.Project.update({ 
             titulo: req.body.titulo,
@@ -173,36 +49,44 @@ module.exports={
             objetivos:req.body.objetivos,
             tecnologias:req.body.tecnologias,
             adicionales:req.body.adicionales,
-        },{ 
-            where: {id: req.params.id},
+        },{ where: {id: req.params.id,creadorId: req.user.id},
         })
-        .then(function(usuario){
-            res.status(200).send({ message:'El proyecto se ha modificado correctamente'})   
+        .then(function(proyectoModificado){
+            if(proyectoModificado[0]=='') res.status(400).json('No puede acceder a esta proyecto')
+            else {
+
+                etapas = req.body.etapasInfo
+
+                promiseArray=[]
+                etapas.map(  etapa => {       
+                    promiseArray.push(
+                        model.ProjectStage.update({
+                            deadline: etapa.deadline,
+                        },{where:{id:etapa.id}})
+                    )
+                });
+
+                Promise.all(promiseArray)
+                .then(function(){ res.status(200).send({message:'Se modificaron los datos correctamente'})})
+                .catch(err => res.status(400).json('Error: ' + err));
+
+            }
         })
         .catch(err => res.status(400).json('Error: ' + err));
 
     },
-
-  
+    
     cancelarProyecto(req,res){
         model.Project.destroy({ 
-            where: {
-                id: req.params.id
-            }
+            where: {id: req.params.id,creadorId: req.user.id}
         })
-        .then(function(){
-
-            model.ProjectStage.destroy({ 
-                where: {
-                    proyectoId: req.params.id
-                }
-            })
-            .then(function(){
-                
-                res.status(200).send({ message:'El proyecto se ha eliminado correctamente'})   
-            })
-            .catch(err => res.status(400).json('Error: ' + err));
-
+        .then(function(proyectoEliminado){
+            if(proyectoEliminado==1){
+                model.ProjectStage.destroy({ where: {proyectoId: req.params.id}})
+                .then(function(){res.status(200).send({ message:'El proyecto se ha eliminado correctamente'})})
+                .catch(err => res.status(400).json('Error: ' + err));}
+            else res.status(400).json('No puede acceder a esta proyecto')
+            
         })
         .catch(err => res.status(400).json('Error: ' + err));
     },
@@ -211,27 +95,24 @@ module.exports={
         model.Project.findAndCountAll({
             offset:(req.body.page-1) * req.body.pageSize,
             limit:req.body.pageSize,
-            where:req.body.query,
-        }) .then(function(proyecto){
-                
-                res.status(200).send(proyecto)   
-            })
-            .catch(err => res.status(400).json('Error: ' + err));
+            where:{etapa:0},
+        }) 
+        .then(function(proyecto){res.status(200).send(proyecto) })
+        .catch(err => res.status(400).json('Error: ' + err));
     },
+
     listarProyectosCreados(req,res){
         model.Project.findAndCountAll({
             offset:(req.body.page-1) * req.body.pageSize,
             limit:req.body.pageSize,
             where:{
                 creadorId:req.user.id,
-                etapa:req.body.etapa
             }
-        }) .then(function(proyecto){
-                
-                res.status(200).send(proyecto)   
-            })
-            .catch(err => res.status(400).json('Error: ' + err));
+        }) 
+        .then(function(proyecto){res.status(200).send(proyecto)})
+        .catch(err => res.status(400).json('Error: ' + err));
     },
+
     listarProyectosEncargados(req,res){
         model.Project.findAndCountAll({
             offset:(req.body.page-1) * req.body.pageSize,
@@ -246,15 +127,55 @@ module.exports={
             })
             .catch(err => res.status(400).json('Error: ' + err));
     },
+    
     cambiarEtapaProyecto(req,res){
         model.Project.update({
             etapa:req.body.nuevaEtapa,
-            where:{id:req.body.proyectoId},
-        }) .then(function(){               
-                res.status(200).send({ message:'La etapa se ha cambiado satisfactoriamente'})   
-            })
+        },{where:{id:req.body.proyectoId}})
+        .then(function(project){res.status(200).send({ message:'La etapa se ha cambiado satisfactoriamente'})})
+        .catch(err => res.status(400).json('Error: ' + err));
+    },
+
+    asignarFreelancerEncargado(req,res){
+        model.Project.update(
+            {encargadoId:req.params.id},
+            {where:{id:req.body.proyectoId}}) 
+        .then(function(){res.status(200).send({ message:'El freelancer ha sido asignado'})   })
+        .catch(err => res.status(400).json('Error: ' + err));
+    },
+
+
+    actualizarProyectosPorLaEliminacionDeLaCuentaDelFreelancerEncargado(id){
+        model.Project.update(
+            {where:{encargadoId:id}},
+            {encargadoId:0,
+            etapa:0})
+    },
+
+    eliminarProyectosDelContratista(req,res){
+        console.log('hola')
+        model.Project.findAll({where:{creadorId:req.user.id}}) 
+        .then(function(listaDeProyectos){for (let i=0; i < listaDeProyectos.length; i++) {model.ProjectStage.destroy({ where: { proyectoId: listaDeProyectos[i].id}})}})
+        .then(function(){ model.Project.destroy({ where: {creadorId: req.user.id}})})
+        //.catch(err => res.status(400).json('Error: ' + err));
+
+    },
+
+    actualizarElEstadoDelReviewDeUnUsuarioDelProyecto(req,res){
+        if(req.user.rol=='freelancer'){
+            model.Project.update({ 
+                estadoReviewFreelancer: true
+            },{ where: {id: req.params.id}})
+            .then(function(){res.status(200).send({ message:'El review del estado del proyecto de un freelancer se ha actualizado'})   })
+            .catch(err => res.status(400).json('Error: ' + err));
+        }
+        else if(req.user.rol=='contractor'){
+            model.Project.update({ 
+                estadoReviewContractor: true
+            },{ where: {id: req.params.id}})
+            .then(function(){res.status(200).send({ message:'El review del estado del proyecto de un contratista se ha actualizado'})   })
             .catch(err => res.status(400).json('Error: ' + err));
 
+        }
     }
 }
->>>>>>> backend-v1

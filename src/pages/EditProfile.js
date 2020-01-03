@@ -7,7 +7,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListaItemsFree';
 import { mainListItemsC, secondaryListItemsC } from './ListaItemsCont';
-import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -17,6 +16,13 @@ import Instagram from '@material-ui/icons/Instagram';
 import Facebook from '@material-ui/icons/Facebook';
 import Twitter from '@material-ui/icons/Twitter';
 import fotoPerfil from './images/fotoPerfil.png';
+import UploadImage from '../components/UploadImage'
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/AddCircle';
+import DeleteIcon from '@material-ui/icons/Delete';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import {LinkedIn as LinkedInIcon, Language as LanguageIcon} from '@material-ui/icons';
+import { Link as DomLink} from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -156,12 +162,38 @@ const useStyles = makeStyles(theme => ({
     color: "#ffff",
     marginRight: "50px",
   },
+  addMarginBottom:{
+    marginBottom:'15px'
+  },
+  addMarginBottomLonger:{
+    marginBottom:'30px'
+  },
+  labelAndCaption:{
+    display:'flex',
+    alignItems:'center',
+  },
+  caption:{
+    marginLeft:'10px',
+  },
+  centerImage:{
+    marginLeft:'15%',
+  },
+  imageUser:{
+    maxWidth:'280px',
+    maxHeight:'250px'
+  },
+  wizardTitle:{
+    marginRight:'7px',
+  },
+  distanceYearInput:{
+    marginRight:'25px'
+  },
 }));
 
 export default function Dashboard(props) {
   const classes = useStyles();
   const reviews = [1, 2];
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [value, setValue]=React.useState(4.8);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -171,78 +203,312 @@ export default function Dashboard(props) {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  /*FRONTEND INFO .. aqui debe mostrar los datos del usuario primero dentro de los textfields,
-  tienen que hacer que cada campo este linkeado a una variable del estado (ver registro),al usuario 
-  hacer click en el boton guardar cambios, ese estado se envia a el backend, les dejo una muestra del formato de eso
-  en dummy data*/ 
-
-  const dummyDataFree={
-    firstName:'hola',
-    lastName:'como',
-    aboutMe: 'estas',
-    photo:'blabalbal',
-    residence:'bababa',
-    socialNetworks: JSON.stringify({facebook:'facebook.com'}), //json
-    available:'yes papo',
-    experience:'nadaaa',
-    residence:'mi casita',
-    web: 'aynotengo.com',
-    developerType:'chimbo',
-    languages:['ingles','espanish'],
-    skills:['comer mocos', 'react'],
-    workHours: 3,
-  }
 
   const [user, setUser] = React.useState({});
   const [newUserInfo, setNewUserInfo] = React.useState({});
-  const [redirect, setRedirect]=React.useState(false);
-  const [type, setType] = React.useState('');
-  const inputLabel = React.useRef(null); 
+  const [redirect, setRedirect]= React.useState(false);
+  const [typeFreelancer, setTypeFreelancer] = React.useState('');
+  const [typeSeniority, setTypeSeniority] = React.useState('');
+  const [experienciaArray, setExperienciaArray] = React.useState([]);
+  const [deletedExperiencias, setDeletedExperiencias] = React.useState([]);
+  const [deletedEducaciones, setDeletedEducaciones] = React.useState([]);
+  //const [experienciaArray, setExperienciaArray] = React.useState([{id:false,nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:'',anoFin:''}, {id:false,nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:'',anoFin:''} ]);
+
+  const [educacionArray, setEducacionArray] = React.useState([]);
+  const [userInfo, setUserInfo] = React.useState({nombre:'',descripcionCorta:'',foto:'',sobreMi:'',habilidades:'',pais:'',ciudad:'',tiempoExperiencia:'',idiomas:'',instagram:'',facebook:'',twitter:'',linkedin:'',web:''});
+  
+  //const inputLabel = React.useRef(nconst [deletedExperiencias, setDeletedExperiencias] = React.useState([]);ull); 
+
+
+
 
   React.useEffect(() => {
-      axios.post(`/profile/developer`)
-          .then((response) => {
-                console.log('response perfil free modificar', response);
-                setUser(response.data.user);
-          }, (error) => {
-              console.log(error);
-      });
-    
-  }, []);
+      axios({ method: 'get',
+        validateStatus: function(status) {
+          return status >= 200 && status < 500; 
+        },
+        url:`/profile`, 
+        withCredentials:true
+      })
+      .then(response =>{
+          console.log('consultar res',response)
+
+          if(response.status === 200){
+             
+             if(response.data[0].rol === 'freelancer'){
+            
+              setUserInfo({...response.data[0], tiempoExperiencia: response.data[0].freelancer.tiempoExperiencia})  
+
+             
+
+              setExperienciaArray(response.data[0].experiencia)
+              setEducacionArray(response.data[0].educacion)
+              setTypeFreelancer(verTipoFreelancerEnSelect(response.data[0].freelancer.tipoFreelancer))
+              setTypeSeniority(verTipoSeniorityEnSelect(response.data[0].freelancer.seniority))
+
+              let habilidades = response.data[0].freelancer.habilidades
+
+              if(habilidades !== null && habilidades !== undefined){
+                setUserInfo(oldState => ({...oldState, habilidades:  response.data[0].freelancer.habilidades.join()}))    
+              }
+
+              let idiomas = response.data[0].idiomas
+
+              if(idiomas !== null && idiomas !== undefined){
+                setUserInfo(oldState => ({...oldState, idiomas:  response.data[0].idiomas.join()}))
+              }
+
+            } else {
+              setUserInfo({...response.data[0]})
+
+              let idiomas = response.data[0].idiomas    
+
+              if(idiomas !== null && idiomas !== undefined){
+                setUserInfo(oldState => ({...oldState, idiomas:  response.data[0].idiomas.join()}))
+              }
+
+            }        
+      
+          } //status 200
+          
+      })
+      .catch(error => {
+        console.log('error',error)
+      })
+     
+    }, []);
+
+
+  const selectToStrTipoFreelancer = {1:'Desarrollador Web', 2:'Desarrollador Móvil',3:'Q/A',4:'Otros'};
+  const selectToStrTipoSeniority = {1:'Junior', 2:'Mid-level',3:'Senior',4:'Experto'};
+
+
 
   const handleModification = () =>{
-    axios.post('/edit', dummyDataFree)
-            .then((response) => {
-                 console.log('response perfil free modify', response);
 
-                if(response.data.success){
-                   //FRONTEND INFO redireccionar como lo hice en el login
-                   setRedirect(true)
-                   alert('Ha modificado su perfil con exito')
-                 } else {
-                  alert('Hubo un error en su modificacion')
-                 }
-            }, (error) => {
-                console.log(error);
-        });
+    if(camposValidos()){
+        let nuevoTipoFreelancer = selectToStrTipoFreelancer[typeFreelancer]
+        let nuevoTipoSeniority = selectToStrTipoSeniority[typeSeniority]
+        let newExp = [...experienciaArray]
+        newExp = newExp.filter(exp => exp.id === false)
+        let modExp =[...experienciaArray]
+        modExp= modExp.filter(exp=> exp.id !== false)
+
+        let newEdu = [...educacionArray]
+        newEdu = newEdu.filter(edu => edu.id === false)
+        let modEdu =[...educacionArray]
+        modEdu= modEdu.filter(edu=> edu.id !== false)
+
+        let data = {}
+
+        //nuevosIdiomas: userInfo.idiomas.split(','), nuevasHabilidades: userInfo.habilidades.split(','),
+
+        if(userInfo.idiomas !== null && userInfo.idiomas !== undefined){
+          data.nuevosIdiomas = userInfo.idiomas.split(',')
+        }
+    
+        if(userInfo.rol==='freelancer'){
+          data = {user: userInfo, experiencia: experienciaArray, nuevoTipoFreelancer:nuevoTipoFreelancer, nuevoTipoSeniority:nuevoTipoSeniority, deletedEducaciones: deletedEducaciones, deletedExperiencias:deletedExperiencias, modifiedEdu:modEdu, modifiedExp:modExp, newEdu:newEdu, newExp:newExp }
+          
+          if( userInfo.habilidades !== null && userInfo.habilidades !== undefined){
+            data.nuevasHabilidades= userInfo.habilidades.split(',')
+          }
+
+        } else {
+          data = {user: userInfo}
+        }
+
+       
+        axios({ method: 'put',
+          validateStatus: function(status) {
+            return status >= 200 && status < 500; 
+          },
+          url:`/profile/edit`, 
+          withCredentials:true,
+          data: data
+        })
+        .then(response =>{
+            console.log('mod res',response)
+
+            if(response.status === 200){
+              props.history.push(`/profile/${userInfo.rol}`)
+            } 
+            
+        })
+        .catch(error => {
+          console.log('error',error)
+        })
+    }
   }
 
-  const handleChange = event => {
-    setType(event.target.value);
+  const isNormalInteger = (str)=> {
+    return /^\+?(0|[1-9]\d*)$/.test(str);
+  }
+
+
+  const camposValidos = () => {
+    let valido = true
+    //TODO validar que exp[i] y edu[i] sean fechas validas
+
+    if(userInfo.nombre === ''){
+      alert('Campo nombre no puede ser vacío')
+      valido =false  
+    }
+
+
+    if(!isNormalInteger(userInfo.tiempoExperiencia)){
+      alert('El tiempo de experiencia debe ser numérico')
+      valido=false  
+    }
+
+    if(experienciaArray!==null && experienciaArray!== undefined && experienciaArray.length>=1){
+
+      let copyExp = [...experienciaArray]
+      
+      for (var i = 0; i < copyExp.length; i++) {       
+
+         if(!isNormalInteger(copyExp[i].anoInicio) || !isNormalInteger(copyExp[i].anoFin)){
+          valido=false
+          alert(`El año inicio y de fin de experiencia ${i+1} debe ser numérico`)
+          break
+        }
+      }
+  
+    }
+
+    if(educacionArray!==null && educacionArray!== undefined && educacionArray.length>=1){
+
+      let copyEdu = [...educacionArray]
+      
+      for (var i = 0; i < copyEdu.length; i++) {       
+         if(!isNormalInteger(copyEdu[i].anoInicio)|| !isNormalInteger(copyEdu[i].anoFin)){
+          valido=false
+          alert(`El año inicio y de fin de educación ${i+1} debe ser numérico`)
+          break
+        }
+      }
+  
+    }
+
+    return valido
+  }
+
+  const handleChangeTypeFreelancer = event => {
+    setTypeFreelancer(event.target.value);
   };
 
-  function validaNumericos(event) {
-    if(event.charCode >=1950 && event.charCode <= 2100){
-      return true;
-     }
-     return false;        
+  const handleChangeTypeSeniority = event => {
+    setTypeSeniority(event.target.value);
+  };
+
+  const setNewFoto = fotolink => {
+
+    let newState = {...userInfo}
+    newState.foto = fotolink
+    setUserInfo(newState)
   }
 
-  if(props.type == "developer"){
+  const handleChange = name => e => {
+   
+      if(name==="experiencia"){
+        let exp = [...experienciaArray]
+        exp[e.target.dataset.id][e.target.name] = e.target.value
+        setExperienciaArray(exp) 
+      }
+      else if(name==="educacion"){
+        let edu = [...educacionArray]
+        edu[e.target.dataset.id][e.target.name] = e.target.value
+        setEducacionArray(edu) 
+      }
+      else {
+        setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
+      }
+
+  }
+
+  const verTipoFreelancerEnSelect= tipo => {
+    let tipoFreelancer
+      
+      switch (tipo) {
+        case 'Desarrollador Web':
+          tipoFreelancer = 1;
+          break;
+        case 'Desarrollador Móvil':
+          tipoFreelancer = 2;
+          break;
+        case 'Q/A':
+          tipoFreelancer = 3;
+          break;
+        default:
+          tipoFreelancer = 4;
+      }
+
+        return tipoFreelancer
+  }
+
+   const verTipoSeniorityEnSelect= tipo => {
+    let tipoSeniority
+      
+      switch (tipo) {
+        case 'Mid-level':
+          tipoSeniority = 2;
+          break;
+        case 'Senior':
+          tipoSeniority = 3;
+          break;
+        case 'Experto':
+          tipoSeniority = 4;
+          break;
+        default:
+          tipoSeniority = 1;
+      }
+
+        return tipoSeniority
+  }
+
+  const handleAddExperience = event => {
+    setExperienciaArray(oldExpArray => [...oldExpArray, {id:false, nombreEmpresa:'',descripcion:'',cargo:'',anoInicio:0,anoFin:0}]);
+    
+  };
+
+  const handleAddEducacion= event => {
+     setEducacionArray(oldEduArray => [...oldEduArray, {id:false, tituloObtenido:'',institucion:'',anoInicio:0,anoFin:0}]);
+   
+  };
+
+
+  
+  const handleDeleteExperience = indexExp => event => {
+    
+    if(experienciaArray[indexExp].id !== false){
+     setDeletedExperiencias(oldArray => [...oldArray, experienciaArray[indexExp].id]);
+    }
+    
+      let exp = [...experienciaArray]
+      exp.splice(indexExp,1)
+      setExperienciaArray(exp)
+ 
+  };
+
+  const handleDeleteEducacion = indexEdu => event => {
+    
+    if(educacionArray[indexEdu].id !== false){
+      setDeletedEducaciones(oldArray => [...oldArray, educacionArray[indexEdu].id]);
+    }
+    
+      let edu = [...educacionArray]
+      edu.splice(indexEdu,1)
+      setEducacionArray(edu)
+  };
+ 
     return (
       <div className={classes.root}>
         <CssBaseline />
-        {redirect && <Redirect to={'/profile/freelancer'} push={true} />}
+        {console.log('experienciaArray',experienciaArray)}
+        {console.log('userInfo',userInfo)}
+        {console.log('educacionArray',educacionArray)}
+        {console.log('deletedEducaciones', deletedEducaciones)}
+
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
           <Toolbar className={classes.toolbar}>
 
@@ -258,9 +524,11 @@ export default function Dashboard(props) {
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               Perfil
             </Typography>
-            <Button type="button" variant="contained" className={classes.buttonCan}>
-              Cancelar
-            </Button>
+            <DomLink to={`/profile/${userInfo.rol}`} style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+              <Button type="button" variant="contained" className={classes.buttonCan}>
+                Cancelar
+              </Button>
+            </DomLink>
             <Button type="button" variant="contained" className={classes.buttonSave} onClick={handleModification} >
               Guardar Cambios
             </Button>
@@ -285,9 +553,19 @@ export default function Dashboard(props) {
             </IconButton>
           </div>
           <Divider />
+          {userInfo.rol === 'freelancer'?(
+          <>
           <List>{mainListItems}</List>
           <Divider />
           <List>{secondaryListItems}</List>
+          </>
+          ):(
+          <>
+          <List>{mainListItemsC}</List>
+          <Divider />
+          <List>{secondaryListItemsC}</List>
+          </>
+          )}
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
@@ -295,207 +573,492 @@ export default function Dashboard(props) {
           <Grid container spacing={5} className={classes.mainGrid}>
               {/* Main content */}
               <Grid item xs={12} md={4}>
-                <img src={fotoPerfil}/>
-                <Typography variant="h8" gutterBottom>
+                <img src={userInfo.foto} className={classes.imageUser}/>
+                
                   {/*Cambiar por link para adjuntar imagen */}
-                  Cambiar foto de perfil
-                </Typography>
+                  <div >
+                  <UploadImage changeFotoLink={setNewFoto}/>
+                  </div>
+                  
+               
               </Grid>
               <Grid item xs={12} md={8}>
-              <Typography variant="h6" gutterBottom>
-                  Nombre de Usuario:
-                </Typography>
+
+              <div className={classes.addMarginBottom}>
+                <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                      <strong>Nombre de Usuario </strong>
+
+                  </Typography>
+                  <Typography variant="caption" gutterBottom className={classes.caption}>
+                  *Requerido. 180 caracteres máximo
+                  </Typography>
+                </div>
                 <TextField
                   variant="outlined"
                   fullWidth
                   id="nombre"
-                  defaultValue="Nombre del Usuario"
-                  inputProps={{ maxLength: 22 }}
+                  onChange={handleChange()}
+                  name="nombre"
+                  placeholder="Nombre del Usuario"
+                  value= {userInfo.nombre}
+                  size="small"
+                  inputProps={{ maxLength: 180 }}
                 />
-                <Divider />
-                <Typography variant="h6" gutterBottom>
-                  Descripción Corta:
+              </div>  
+               <div className={classes.labelAndCaption}>
+                <Typography variant="subtitle1" gutterBottom>
+                  <strong>Descripción Corta</strong>
                 </Typography>
+                 <Typography variant="caption" gutterBottom className={classes.caption}>
+                  250 caracteres máximo
+                  </Typography>
+                </div>
                 <TextField
                   variant="outlined"
                   fullWidth
+                  multiline
+                  rows="4"
                   id="descripcion"
-                  defaultValue="Información Personal"
-                  inputProps={{ maxLength: 22 }}
+                  onChange={handleChange()}
+                  name="descripcionCorta"
+                  value= {userInfo.descripcionCorta}
+                  placeholder="Información Personal"
+                  inputProps={{ maxLength: 250 }}
                 />
               </Grid>
               <Grid item xs={12} md={12}>
                 <Divider/>
               </Grid>
               <Grid item xs={12} md={7}>
-                <Typography variant="h6" gutterBottom>
-                  Sobre mí:
+
+              <div className={classes.addMarginBottom}>
+              <div className={classes.labelAndCaption}>
+                <Typography variant="subtitle1" gutterBottom>
+                  <strong> Sobre mí </strong>
                 </Typography>
+                 <Typography variant="caption" gutterBottom className={classes.caption}>
+                  600 caracteres máximo
+                  </Typography>
+                </div>
                 <TextField
                   variant="outlined"
                   fullWidth
                   id="sobreMi"
-                  defaultValue="Información Personal"
-                  inputProps={{ maxLength: 180 }}
+                  multiline
+                  placeholder="Información Personal"
+                  onChange={handleChange()}
+                  value= {userInfo.sobreMi}
+                  name="sobreMi"
+                  rows="5"
+                  inputProps={{ maxLength: 500 }}
                 />
+                </div>
+
+                { userInfo.rol === 'freelancer'?(
+                <>
+                <div className={classes.addMarginBottom}>
+                  <div className={classes.labelAndCaption}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    <strong> Habilidades </strong>
+                  </Typography>
+                   <Typography variant="caption" gutterBottom className={classes.caption}>
+                    Separadas por comas. 600 caracteres máximo
+                    </Typography>
+                  </div>
+
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      rows="2"
+                      id="habilidades"
+                      onChange={handleChange()}
+                      value= {userInfo.habilidades}
+                      name="habilidades"
+                      placeholder="Ej: Python,C,JavaScript..."
+                      inputProps={{ maxLength: 300 }}
+                    />
+                </div>
                 <Divider />
-                <Typography variant="h6" gutterBottom>
-                <br/>
-                  Habilidades:
+
+                <Grid
+                  container
+                  direction="row"
+                  alignItems="flex-end"
+                  className={classes.addMarginBottom}
+                >                                  
+                  <Typography variant="h6" gutterBottom className={classes.wizardTitle}>
+                  <br/>
+                    <strong> Experiencia</strong>
+                  </Typography>
+
+                 <IconButton aria-label="add" color="primary" onClick={handleAddExperience}>
+                    <AddIcon />                  
+                  </IconButton>  
+
+                </Grid>     
+
+                {/*Comienzo experiencia COMIENZOEXP */}          
+
+
+                { experienciaArray.length>=1?(
+                <>
+                {experienciaArray.map( (exp,indexExp) => {
+
+                  return (
+                    <>
+                 <Grid
+                  container
+                  direction="row"
+                  alignItems="flex-end"
+                  
+                >         
+                <Typography variant="subtitle1" gutterBottom>
+                        <strong>Experiencia {indexExp + 1} </strong>
                 </Typography>
+                <IconButton aria-label="delete" color="primary" onClick={handleDeleteExperience(indexExp)}>
+                    <DeleteIcon  fontSize="small" />                  
+                </IconButton>  
+                </Grid>
+
+                <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Nombre de la Empresa </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    100 caracteres máximo
+                    </Typography>
+                  </div>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    inputProps={{ maxLength: 100,'data-id':indexExp }}  
+                    placeholder="Nombre de la Empresa"  
+                    onChange={handleChange('experiencia')}
+                    name="nombreEmpresa" 
+                    value={exp.nombreEmpresa}
+                    key={`nombre-${indexExp}`}          
+                  />
+                </div>
+
+
+               <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Cargo</strong>
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    100 caracteres máximo
+                    </Typography>
+                  </div>
                 <TextField
                   variant="outlined"
                   fullWidth
-                  id="habilidades"
-                  defaultValue="habilidad1, habilidad2, ..."
-                  inputProps={{ maxLength: 180 }}
+                  size="small"
+                  inputProps={{ maxLength: 100,'data-id':indexExp, value:exp.cargo }}  
+                  placeholder="Título del Cargo"
+                  onChange={handleChange('experiencia')}
+                  name="cargo"  
+                  value= {exp.cargo}
+                  key={`cargo-${indexExp}`}   
                 />
+              </div>
+
+                <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Tiempo transcurrido</strong>
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    Año de inicio y final. Use 0 para indicar "Actualidad".
+                    </Typography>
+                </div>
+                
+                  <TextField
+                  id="outlined-number"          
+                  variant="outlined"
+                  size="small"
+                  width="50%"
+                  placeholder="Año de inicio"
+                  inputProps={{ maxLength: 4 ,'data-id':indexExp, value:exp.anoInicio}}
+                  className={classes.distanceYearInput}
+                  onChange={handleChange('experiencia')}
+                  name="anoInicio"
+                  value= {exp.anoInicio}
+                  key={`ini-${indexExp}`} 
+                  />
+                  <TextField
+                  id="outlined-number"
+                  variant="outlined"
+                  size="small"
+                  width="50%"
+                  placeholder="Año de fin"
+                  inputProps={{ maxLength: 4 ,'data-id':indexExp, value:exp.anoFin}}
+                  onChange={handleChange('experiencia')}
+                  name="anoFin"
+                  key={`fin-${indexExp}`}
+                  value= {exp.anoFin} 
+                  />
+               
+                <br/>
+                </div>
+                
+
+                 <div className={classes.addMarginBottomLonger}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Descripción</strong>
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    400 caracteres máximo
+                    </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  rows="2"
+                  inputProps={{ maxLength: 400 ,'data-id':indexExp}}
+                  onChange={handleChange('experiencia')}
+                  name="descripcion"
+                  value={exp.descripcion}
+                  key={`des-${indexExp}`} 
+                />
+                </div>
+                </>
+                )})}
+                 </>
+                 ):null}
+
                 <Divider />
-                <Typography variant="h6" gutterBottom>
+      
+               
+
+                {/*Fin experiencia FINEXP*/} 
+
+                 <Grid
+                  container
+                  direction="row"
+                  alignItems="flex-end"
+                  className={classes.addMarginBottom}
+                >                                  
+                  <Typography variant="h6" gutterBottom className={classes.wizardTitle}>
+                  <br/>
+                    <strong> Educación </strong>
+                  </Typography>
+
+                 <IconButton aria-label="add" color="primary" onClick={handleAddEducacion}>
+                    <AddIcon />                  
+                  </IconButton>  
+
+                </Grid>  
+
+              {/*COMIENZOEDU*/}
+              { educacionArray.length>=1?(
+                <>
+                {educacionArray.map( (edu,indexEdu) => {
+
+                  return (
+                    <>
+                 <Grid
+                  container
+                  direction="row"
+                  alignItems="flex-end"
+                  
+                >         
+                <Typography variant="subtitle1" gutterBottom>
+                        <strong>Educación {indexEdu+1} </strong>
+                </Typography>
+                <IconButton aria-label="delete" color="primary" onClick={handleDeleteEducacion(indexEdu)}>
+                    <DeleteIcon  fontSize="small" />                  
+                </IconButton>  
+                </Grid>
+             
+
+                <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Nombre de la Institución </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    100 caracteres máximo
+                    </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  inputProps={{ maxLength: 100,'data-id':indexEdu }}
+                  onChange={handleChange('educacion')}
+                  name="institucion"
+                  value= {edu.institucion}
+                  placeholder="Nombre de la Institución"    
+                />
+                </div>
+
+                <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Título Obtenido </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    100 caracteres máximo
+                    </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  inputProps={{ maxLength: 100, 'data-id':indexEdu }}
+                  placeholder="Título Obtenido"
+                  value= {edu.tituloObtenido}
+                  onChange={handleChange('educacion')}
+                  name="tituloObtenido"    
+                />
+                </div>
+
+
+               <div className={classes.addMarginBottom}>
+                   <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle2" gutterBottom>
+                        <strong>Tiempo transcurrido</strong>
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                    Año de inicio y final. Use 0 para indicar "Actualidad".
+                    </Typography>
+                </div>
+                
+                  <TextField
+                  id="outlined-number"          
+                  variant="outlined"
+                  size="small"
+                  width="50%"
+                  placeholder="Año de inicio"
+                  inputProps={{ maxLength: 4,'data-id':indexEdu }}
+                  className={classes.distanceYearInput}
+                  onChange={handleChange('educacion')}
+                  name="anoInicio"
+                  value= {edu.anoInicio}
+                  />
+                  <TextField
+                  id="outlined-number"
+                  variant="outlined"
+                  size="small"
+                  width="50%"
+                  placeholder="Año de fin"
+                  inputProps={{ maxLength: 4, 'data-id':indexEdu }}
+                  onChange={handleChange('educacion')}
+                  name="anoFin"
+                  value= {edu.anoFin}
+                  />
+               
                 <br/>
-                  Experiencia:
-                </Typography>
-                <Typography variant="h7" gutterBottom>
-                  Nombre de la Empresa:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Lorem ipsum"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Typography variant="h7" gutterBottom>
-                  Título del Cargo:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Lorem ipsum"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Typography variant="h9" gutterBottom>
-                  Período de Tiempo:
-                </Typography>
+                </div>
+                </>
+                )})}
+                </>
+                ):null}
+                </>
+                ):null}
+
+              {/*FIN EDU*/}
 
 
-
-
-
-                {/*HACER VALIDACIONES DE FECHA */}
-                <Divider />
-                <TextField
-                id="outlined-number"
-                defaultValue="0"
-                inputProps={{ maxLength: 4 }}
-                type="number"
-                min="0"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
-                />
-                <TextField
-                id="outlined-number"
-                defaultValue="0"
-                inputProps={{ maxLength: 4 }}
-                type="number"
-                min="0"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
-                />
-                <br/>
-                <Typography variant="h7" gutterBottom>
-                  Descripción:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Lorem ipsum"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Divider />
-                <Typography variant="h6" gutterBottom>
-                <br/>
-                  Educación:
-                </Typography>
-                <Typography variant="h7" gutterBottom>
-                  Nombre de la Institución:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Lorem ipsum"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Typography variant="h7" gutterBottom>
-                  Título Obtenido:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Lorem ipsum"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Typography variant="h9" gutterBottom>
-                  Período de Tiempo:   
-                </Typography>
-                <Divider variant="middle" />
-                <TextField
-                id="outlined-number"
-                defaultValue="0"
-                inputProps={{ maxLength: 4 }}
-                type="number"
-                min="0"
-                onkeypress='return validaNumericos(event)'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
-                />
-                <TextField
-                id="outlined-number"
-                defaultValue="0"
-                inputProps={{ maxLength: 4 }}
-                type="number"
-                min="0"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
-                />
               </Grid>
+              
+
               <Grid>
                 <Divider orientation="vertical"/>
               </Grid>
               {/* End main content */}
               {/* Sidebar */}
               <Grid item xs={12} md={4}>
-                <Paper elevation={0} className={classes.sidebarAboutBox}>
+                
                   <Typography variant="h6" gutterBottom>
-                    Información General
+                    <strong> Información General </strong>
                   </Typography>
-                  <Typography paragraph>
-                      País y Ciudad 
-                      <TextField
-                      variant="outlined"
-                      fullWidth
-                      defaultValue="Caracas, Venezuela"
-                      inputProps={{ maxLength: 22 }}
-                      />
-                  </Typography>
-                  <Typography paragraph>
-                      Años de Experiencia
-                      <TextField
-                      variant="outlined"
-                      fullWidth
-                      id="horasTrabajo"
-                      type="number"
-                      defaultValue="99"
-                      inputProps={{ maxLength: 2 }}
-                      />
-                  </Typography>
+
+
+                 <div className={classes.addMarginBottom}>
+                  <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle1" gutterBottom>
+                        <strong>País </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                     80 caracteres máximo
+                    </Typography>
+                  </div>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="País"
+                    onChange={handleChange()}
+                    name="pais"
+                    size="small"
+                    inputProps={{ maxLength: 80 }}
+                    value= {userInfo.pais}
+                  />
+                </div>  
+
+                <div className={classes.addMarginBottom}>
+                  <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle1" gutterBottom>
+                        <strong>Ciudad </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                     80 caracteres máximo
+                    </Typography>
+                  </div>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Ciudad"
+                    onChange={handleChange()}
+                    name="ciudad"
+                    size="small"
+                    value= {userInfo.ciudad}
+                    inputProps={{ maxLength: 80 }}
+                  />
+                </div>  
+
+                {userInfo.rol==='freelancer'?( 
+                <>            
+                 <div className={classes.addMarginBottom}>
+                  <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle1" gutterBottom>
+                        <strong>Experiencia </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                     numérico
+                    </Typography>
+                  </div>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="nombre"
+                    placeholder="Experiencia"
+                    onChange={handleChange()}
+                    name="tiempoExperiencia"
+                    size="small"
+                    value= {userInfo.tiempoExperiencia}
+                    inputProps={{ maxLength: 3 }}
+                    InputProps={{
+                       endAdornment: <InputAdornment position="end">años</InputAdornment>,
+                    }}
+                  />
+                </div>
+
+
+                <div className={classes.addMarginBottom}>
                   <FormControl className={classes.formControl}>
                     <InputLabel shrink id="label">
                       Tipo de freelancer
@@ -503,26 +1066,49 @@ export default function Dashboard(props) {
                     <Select
                       labelId="label"
                       id="typefreelancer"
-                      value={type}
-                      onChange={handleChange}
+                      value={typeFreelancer}
+                      onChange={handleChangeTypeFreelancer}
                       displayEmpty
                       className={classes.selectEmpty}
                     >
-                      <MenuItem value={1}>Web</MenuItem>
+                      <MenuItem value={1}>Desarrollador Web</MenuItem>
                       <MenuItem value={2}>Desarrollador Móvil</MenuItem>
                       <MenuItem value={3}>Q/A</MenuItem>
                       <MenuItem value={4}>Otros</MenuItem>
                     </Select>
                   </FormControl>
-                  <Typography paragraph>
-                      Idiomas:
-                      <TextField
-                      variant="outlined"
-                      fullWidth
-                      defaultValue="Muchos xd"
-                      inputProps={{ maxLength: 22 }}
-                      />
-                  </Typography>
+                </div>
+                </>
+                 ):null}  
+
+                  
+                <div className={classes.addMarginBottom}>
+                  <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle1" gutterBottom>
+                        <strong>Idiomas </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                     Separados por comas
+                    </Typography>
+                  </div>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    onChange={handleChange()}
+                    name="idiomas"
+                    multiline
+                    rows="3"
+                    placeholder="Idiomas"
+                    value= {userInfo.idiomas}
+                    size="small"
+                    inputProps={{ maxLength: 180 }}
+                  />
+                </div>  
+
+                {userInfo.rol==='freelancer'?(
+
+                <div className={classes.addMarginBottom}>
                   <FormControl className={classes.formControl}>
                     <InputLabel shrink id="label">
                       Seniority
@@ -530,8 +1116,8 @@ export default function Dashboard(props) {
                     <Select
                       labelId="label"
                       id="typefreelancer"
-                      value={type}
-                      onChange={handleChange}
+                      value={typeSeniority}
+                      onChange={handleChangeTypeSeniority}
                       displayEmpty
                       className={classes.selectEmpty}
                     >
@@ -541,31 +1127,98 @@ export default function Dashboard(props) {
                       <MenuItem value={4}>Experto</MenuItem>
                     </Select>
                   </FormControl>
-                  <Typography variant="h6" gutterBottom>
-                    Links
-                  </Typography>
-                  <Instagram/>
-                  <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Instagram"
-                  inputProps={{ maxLength: 22 }}
-                  />
-                  <Facebook/>
-                  <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Facebook"
-                  inputProps={{ maxLength: 22 }}
-                  />
-                  <Twitter/>
-                  <TextField
-                  variant="outlined"
-                  fullWidth
-                  defaultValue="Twitter"
-                  inputProps={{ maxLength: 22 }}
-                  />
-                </Paper>
+                  </div>
+                  ):null}
+
+                  <div className={classes.labelAndCaption}>
+                    <Typography variant="subtitle1" gutterBottom>
+                        <strong>Links </strong>
+
+                    </Typography>
+                    <Typography variant="caption" gutterBottom className={classes.caption}>
+                     Enlaces en su perfil
+                    </Typography>
+                  </div>
+                  
+                  <div className={classes.addMarginBottom}>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Instagram"
+                    inputProps={{ maxLength: 180 }}
+                    onChange={handleChange()}
+                    name="instagram"
+                    value= {userInfo.instagram}
+                    size="small"
+                    InputProps={{
+                         startAdornment: <InputAdornment position="start"><Instagram/></InputAdornment>,
+                      }}
+                    />
+                  </div>
+                  
+                  <div className={classes.addMarginBottom}>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    onChange={handleChange()}
+                    name="facebook"
+                    placeholder="Facebook"
+                    value= {userInfo.facebook}
+                    inputProps={{ maxLength: 180 }}
+                    size="small"
+                    InputProps={{
+                         startAdornment: <InputAdornment position="start"><Facebook/></InputAdornment>,
+                      }}
+                    />
+                  </div>
+                  
+                  <div className={classes.addMarginBottom}>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Twitter"
+                    onChange={handleChange()}
+                    name="twitter"
+                    value= {userInfo.twitter}
+                    inputProps={{ maxLength: 180 }}
+                    size="small"
+                    InputProps={{
+                         startAdornment: <InputAdornment position="start"><Twitter/></InputAdornment>,
+                      }}
+                    />
+                  </div>
+                  <div className={classes.addMarginBottom}>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="LinkedIn"
+                    onChange={handleChange()}
+                    name="linkedin"
+                    value= {userInfo.linkedin}
+                    inputProps={{ maxLength: 180 }}
+                    size="small"
+                    InputProps={{
+                         startAdornment: <InputAdornment position="start"><LinkedInIcon/></InputAdornment>,
+                      }}
+                    />
+                  </div>
+
+                  <div className={classes.addMarginBottom}>
+                    <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Web"
+                    onChange={handleChange()}
+                    name="web"
+                    value= {userInfo.web}
+                    inputProps={{ maxLength: 180 }}
+                    size="small"
+                    InputProps={{
+                         startAdornment: <InputAdornment position="start"><LanguageIcon/></InputAdornment>,
+                      }}
+                    />
+                  </div>
+                
               </Grid>
               {/* End sidebar */}
             </Grid>
@@ -574,154 +1227,6 @@ export default function Dashboard(props) {
         </main>
       </div>
     );
-  }
-  else{
-    return (
-      <div className={classes.root}>
-        <CssBaseline />
-        {redirect && <Redirect to={'/profile/contractor'} push={true} />}
-        <AppBar
-          position="absolute"
-          className={clsx(classes.appBar, open && classes.appBarShift)}>
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(
-                classes.menuButton,
-                open && classes.menuButtonHidden
-              )}>
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}>
-              Perfil
-            </Typography>
-
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleModification}
-                className={classes.button}>
-                Guardar Cambios
-              </Button>        
   
-            <IconButton color="inherit">
-              {/*badgeContent muestra la cantidad de notificaciones*/}
-              <Badge badgeContent={0} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-          }}
-          open={open}>
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <List>{mainListItemsC}</List>
-          <Divider />
-          <List>{secondaryListItemsC}</List>
-        </Drawer>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Container className={classes.cardGrid} maxWidth="md">
-            <Grid container spacing={5} className={classes.mainGrid}>
-              {/* Main content */}
-              <Grid item xs={12} md={4}>
-                <img src={fotoPerfil}/>
-                <Typography variant="h8" gutterBottom>
-                  {/*Cambiar por link para adjuntar imagen */}
-                  Cambiar foto de perfil
-                </Typography>
-              </Grid>
-              <Grid item xs={12} md={7}>
-              <Typography variant="h6" gutterBottom>
-                  Nombre de Usuario:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  id="nombre"
-                  defaultValue="Nombre del Usuario"
-                  inputProps={{ maxLength: 22 }}
-                />
-                <Divider />
-                <Typography variant="h6" gutterBottom>
-                  Descripción Corta:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  id="descripcion"
-                  defaultValue="Información Personal"
-                  inputProps={{ maxLength: 22 }}
-                />
-              </Grid>
-              <Grid item xs={12} md={12}>
-                <Divider/>
-              </Grid>
-              <Grid item xs={12} md={7}>
-                <Typography variant="h6" gutterBottom>
-                  Sobre mí:
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  id="sobreMi"
-                  defaultValue="Información Personal"
-                  inputProps={{ maxLength: 180 }}
-                />
-              </Grid>
-              <Grid>
-                <Divider orientation="vertical"/>
-              </Grid>
-              {/* End main content */}
-              {/* Sidebar */}
-              <Grid item xs={12} md={4}>
-                <Paper elevation={0} className={classes.sidebarAboutBox}>
-                  <Typography variant="h6" gutterBottom>
-                    Información General
-                  </Typography>
-                  <Typography paragraph>
-                      País y Ciudad 
-                      <TextField
-                      variant="outlined"
-                      fullWidth
-                      defaultValue="Caracas, Venezuela"
-                      inputProps={{ maxLength: 22 }}
-                      />
-                  </Typography>
-                  <Typography paragraph>
-                      Idiomas:
-                      <TextField
-                      variant="outlined"
-                      fullWidth
-                      defaultValue="Muchos xd"
-                      inputProps={{ maxLength: 22 }}
-                      />
-                  </Typography>
-                </Paper>
-              </Grid>
-              {/* End sidebar */}
-            </Grid>
-          </Container>
-          <Copyright />
-        </main>
-      </div>
-    )
-  }
+ 
 }

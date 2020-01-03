@@ -8,19 +8,19 @@ import ConsultProject from './pages/ConsultProject';
 import RecContrasena from './pages/RecContrasena';
 import EditProfile from './pages/EditProfile';
 import RecContraMail from './pages/RecContraMail';
-import PerfilConsulFree from './pages/PerfilConsulFree';
-import ConsultProjectViewCont from './pages/ConsultProjectViewCont'
-import ConsultProjectPortfolio from './pages/ConsultProjectPortfolio';
 import EditProject from './pages/EditProject';
-import ConsultProjectInDevelopment from './pages/ConsultProjectInDevelopment';
 import CreateProject from './pages/CreateProject';
-import TestBackend from './pages/TestBackend';
 import Dashboard from './pages/Dashboard'
+import DashboardFree from './pages/DashboardFree'
 import GestProject from './pages/GestProject'
+import ConsultMyProfile from './pages/ConsultMyProfile'
 import ConsultProfile from './pages/ConsultProfile'
-
-
-import ProjectProcess from './pages/ProjectProcess';
+import RateUser from './pages/RateUser'
+import ExecuteProject from './pages/ExecuteProject'
+import ReviewProject from './pages/ReviewProject'
+import SendProject from './pages/SendProject'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 /* TODO manejar los roles*/
 function App() {
@@ -28,48 +28,40 @@ function App() {
   return (
     <Router>
 	    <Switch>
-	    
-	    <Route exact path='/test' render={ ()=> <TestBackend/>}/>
-
+	    	<MuiPickersUtilsProvider utils={DateFnsUtils}>
 			{/*Login and Register*/}
-			<Route exact path='/' render={ ()=> <Login />}/>
-			<Route exact path='/register' render={ ()=> <Registration/>}/>
+			<Route exact path='/' render={ (props)=> <Login {...props}/>}/>
+			<Route exact path='/register' render={ (props)=> <Registration {...props}/>}/>
 			{/*Recuperar Contraseña*/}
 			<Route exact path='/password/set' render={ ()=> <RecContrasena/>}/>
 			<Route exact path='/password/recover' render={ ()=> <RecContraMail/>}/>
 			{/* Dashboard */}
-			<Route exact path='/dashboard/developer' render={ ()=> <Dashboard type="developer"/>}/>
+			<Route exact path='/dashboard/freelancer' render={ ()=> <DashboardFree />}/>
 			<Route exact path='/dashboard/contractor' render={ ()=> <Dashboard type="contractor"/>}/>
 			{/*Profile*/}
 				{/* Consultar Propio*/}
-				<Route exact path='/profile/freelancer' render={ ()=> <ConsultProfile type="developer"/>}/>
-				<Route exact path='/profile/contractor' render={ ()=> <ConsultProfile type="contractor"/>}/>
+				<Route exact path='/profile/freelancer' render={ (props)=> <ConsultMyProfile {...props}/>}/>
+				<Route exact path='/profile/contractor' render={ (props)=> <ConsultMyProfile {...props} />}/>
 				{/* Consultar Anonimo */}
-				<Route exact path='/developer/view/profile/freelancer' render={ ()=> <ConsultProfile type="developerDev"/>}/>
-				<Route exact path='/developer/view/profile/contractor' render={ ()=> <ConsultProfile type="developerCont"/>}/>	
-				<Route exact path='/contractor/view/profile/freelancer' render={ ()=> <ConsultProfile type="contractorDev"/>}/>
-				<Route exact path='/contractor/view/profile/contractor' render={ ()=> <ConsultProfile type="contractorCont"/>}/>
+				<Route exact path='/view/profile/:id/:rol' render={ (props)=> <ConsultProfile {...props}/>}/>
 				{/* Modificar */}
-				<Route exact path='/profile/modify/free' render={ ()=> <EditProfile type="developer"/>}/>
-				<Route exact path='/profile/modify/cont' render={ ()=> <EditProfile type="contractor"/>}/>
-
+				<Route exact path='/profile/modify' render={ (props)=> <EditProfile {...props}/>}/>
+				
+				<Route path={['/http:', '/https:']} component={props => {
+					window.location.replace(props.location.pathname.substr(1)) // substr(1) removes the preceding '/'
+					return null
+				}}/>
 			{/*Proyecto*/}
 				{/* Crear */}
-				<Route exact path='/project/create' render={ ()=> <CreateProject/>}/>
+				<Route exact path='/project/create' render={ (props)=> <CreateProject {...props}/>}/>
 				{/* Modificar */}
-				<Route exact path='/project/edit' render={ ()=> <EditProject/>}/>
+				<Route exact path='/project/edit/:id' render={ (props)=> <EditProject{...props}/>}/>
 				{/* Consultar */}
 				<Route exact path='/project/manage/freelancer' render={ ()=> <GestProject type="developer"/>}/>
-				<Route exact path='/project/manage/contractor' render={ ()=> <GestProject type="contractor"/>}/>
+				<Route exact path='/project/manage/contractor' render={ (props)=> <GestProject {...props}/>}/>
 				{/* Consultar Proyecto Abierto */}
-				<Route exact path='/project/freelancer/open' render={ ()=> <ConsultProject type="developerSP"/>}/>
-				<Route exact path='/project/contractor/open' render={ ()=> <ConsultProject type="contractorSP"/>}/>
-				{/* Consultar Proyecto Propio en Ejecución*/}
-				<Route exact path='/project/freelancer' render={ ()=> <ConsultProject type="developerEj"/>}/>
-				<Route exact path='/project/contractor' render={ ()=> <ConsultProject type="contractorEj"/>}/>
-				{/* Consultar Proyecto Anonimo */}
-				<Route exact path='/view/project/freelancer' render={ ()=> <ConsultProject type="developer"/>}/>
-				<Route exact path='/view/project/contractor' render={ ()=> <ConsultProject type="contractor"/>}/>
+				<Route exact path='/project/view/:id' render={ (props)=> <ConsultProject {...props}/>}/>
+				
 
 			{/*Portafolio*/}	
 				{/* Consultar Portafolio Propio */}
@@ -78,8 +70,23 @@ function App() {
 				<Route exact path='/view/portafolio/contractor' render={ ()=> <ConsultPortfolio type="contractor"/>}/>
 				<Route exact path='/view/portafolio/freelancer' render={ ()=> <ConsultPortfolio type="dev"/>}/>
 
+			{/* Ejecutar Proyecto */}
+				<Route exact path='/developer/postulates' render={ ()=> <ExecuteProject type="developer"/>}/>
+				<Route exact path='/contractor/postulates' render={ ()=> <ExecuteProject type="contractor"/>}/>
+
+			{/* Entregar Proyecto */}
+			<Route exact path='/developer/project/send' render={ ()=> <SendProject/>}/>
+
+			{/* Revisar Proyecto */}
+				<Route exact path='/contractor/project/review' render={ ()=> <ReviewProject />}/>
+		
+			{/* Calificar Usuario */}
+				<Route exact path='/developer/rate' render={ ()=> <RateUser type="developer"/>}/>
+				<Route exact path='/contractor/rate' render={ ()=> <RateUser type="contractor"/>}/>
+
 			{/*Not Found*/}
 			<Route component={NotFound} />
+			</MuiPickersUtilsProvider>
 
 	    </Switch>
     </Router>

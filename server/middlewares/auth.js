@@ -3,12 +3,12 @@ module.exports = {
       if (req.isAuthenticated()) {
         return next();
       }
-      res.send({error:'El usuario no está registrado'});
+      res.status(400).send({error:'El usuario no está registrado'});
     },
     forwardAuthenticated: function(req, res, next) {
       if (!req.isAuthenticated()) {
         return next();
       }
-      res.send({error:'No está autenticado'}); 
+      res.status(400).send({error:'El usuario no está registrado'});
     }
   };

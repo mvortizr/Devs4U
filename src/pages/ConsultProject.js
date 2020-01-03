@@ -1,10 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
-import {Typography, Grid, CssBaseline, Container, Paper, Link, Button, Divider, Step, Stepper, StepLabel, Chip} from '@material-ui/core';
+import {Typography, Grid, CssBaseline, Container, Paper, Link, Button, Divider, Step, Stepper, StepLabel, Chip,CircularProgress} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as DomLink, Redirect } from 'react-router-dom';
+import EliminarProyectoDialog from '../components/Dialog'
 import Header from './Header'
 import Calendar from '@material-ui/icons/EventNote';
+import axios from 'axios'
+import moment from 'moment'
 
 function Copyright() {
   return (
@@ -155,477 +158,102 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-function getSteps() {
-  return ['Abierto  17/12/2019', 'Ejecución  17/12/2019', 'Revisión  17/12/2019', 'Finalizado  17/12/2019'];
-}
+
 
 export default function ConsultProject(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const [activeStep, setActiveStep] = React.useState(4);
+  const [openDialog, setOpenDialog] = React.useState(false)
+  const [steps,setSteps] = React.useState(['Abierto  17/12/2019', 'Ejecución  17/12/2019', 'Revisión  17/12/2019', 'Finalizado  17/12/2019'])
+  //const steps = getSteps();
+  const projectId = props.match.params.id
+  const [project, setProject] =React.useState('');
+  const myRol= sessionStorage.getItem('rol');
+  const myId= sessionStorage.getItem('userId');
+
+  const handleDisablePostulation =() => {
+    return 'hola'
+  }
+  
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  // const postID = props.match.params.id;
-  // const[postInfo,setPostInfo]=React.useState(undefined);
-  // const[postContractorName, setPostContractorName] = React.useState('');
-  // const[postContractorId, setPostContractorId] = React.useState(undefined);
+   React.useEffect(() => {
+      axios({ method: 'get',
+        validateStatus: function(status) {
+          return status >= 200 && status < 500; 
+        },
+        url:`/project/view/${projectId}`, 
+        withCredentials:true
+      })
+      .then(response =>{
 
-  // React.useEffect(() => {
+        //moment('2019-11-03T05:00:00.000Z').utc().format('MM/DD/YYYY')
+          console.log('consultar res',response)
+          if(response.status === 200){
+            setProject(response.data[0]) 
+            setActiveStep(response.data[0].etapa)
+            let etapasInfo= response.data[0].etapasInfo
+            setSteps([`Abierto  ${moment(etapasInfo[0].deadline).format('DD/MM/YYYY')}`, `Ejecución  ${moment(etapasInfo[1].deadline).format('DD/MM/YYYY')}`, `Revisión  ${moment(etapasInfo[2].deadline).format('DD/MM/YYYY')}`, `Finalizado `])
+            
+          } 
+          
+      })
+      .catch(error => {
+        console.log('error',error)
+      })
+     
+    }, []);
+
+
+  
+  
+  const handleClickOpenDialog = ()=> {
+    setOpenDialog(true)
+  }
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false)
+  }
+
+
+  const handleDeleteProject = () =>{
     
-  //     axios.post(`/project/id/${postID}`)
-  //           .then((response) => {
-  //               console.log('response perfil', response.data[0]);
-  //               setPostInfo(response.data[0])
-  //               setPostContractorId(response.data[0].contractor)
-  //           }, (error) => {
-  //               console.log(error);
-  //       });
-     
-  //   }, []);
-   
-  //  React.useEffect(() => {
-  //     axios.post(`/user/see/contractor/byId/${postContractorId}`)
-  //           .then((response) => {
-  //                console.log('contractor name', response.data[0]);
-  //                setPostContractorName(response.data[0].firstName);
-  //               // setPostInfo(response.data[0])
-  //           }, (error) => {
-  //               console.log(error);
-  //     });
-     
-  //   }, [postContractorId,postContractorName]);
+    if(projectId!==undefined && projectId!==null){
+      axios.delete(`/project/cancel/${projectId}`).then(
+      (res) => {
+        console.log('delete proj res',res)
+        setOpenDialog(false)
+        alert('El proyecto se ha cancelado con éxito')
+        props.history.push(`/project/manage/contractor`)
+      },
+      error => {
+        console.log(error)
+      }
+    )
+    }
+  }
 
-  if(props.type=="developerEj"){
-    // if(postInfo){
-      return (
-        <div className={classes.root}>
-          <CssBaseline />
-          {/* {console.log('post info', postInfo)} */}
-          <Header type="developer"/>
-          <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
-            <Container className={classes.cardGrid} maxWidth="md">
-            <Grid container spacing={5} className={classes.mainGrid}>
-                {/* Main content */}
-                <Grid item xs={12} md={7}>
-                  <Typography variant="h3" gutterBottom>
-                    Proyecto Web Devs4U
-                  </Typography>
-                  <br/>
-                  <Typography variant="h6" gutterBottom>
-                    <br/>
-                    <strong>Descripción</strong>
-                  </Typography>
-                  <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
-                    Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                  </Typography>
-                  <Divider/>
-                  <Typography variant="h6" gutterBottom>
-                    <br/>
-                    <strong>Objetivos</strong>
-                  </Typography>
-                  <Typography paragraph>
-                    <li>
-                      <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                    </li>
-                    <li>
-                      <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                    </li>
-                    <li>
-                      <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                    </li>
-                  </Typography>
-                  <Typography variant="h6" gutterBottom>
-                    <br/>
-                    <strong>Etapas de Proyecto</strong>
-                  </Typography>
-                  <div>
-                    <Stepper activeStep={activeStep} alternativeLabel>
-                      {steps.map(label => (
-                        <Step key={label}>
-                          <StepLabel>{label}</StepLabel>
-                        </Step>
-                      ))}
-                    </Stepper>
-                  </div> 
-                  <Typography variant="h6" gutterBottom>
-                    <br/>
-                    <strong>Entregables</strong>
-                  </Typography>
-                  <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                  </Typography>
-                  <Typography variant="h6" gutterBottom>
-                    <br/>
-                    <strong>Datos Adicionales</strong>
-                  </Typography>
-                  <Typography paragraph>
-                    <li>
-                      <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                    </li>
-                    <li>
-                      <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                    </li>
-                  </Typography>
-                </Grid>
-                <Grid>
-                  <Divider orientation="vertical"/>
-                </Grid>
-                {/* End main content */}
-                {/* Sidebar */}
-                <Grid item xs={12} md={4}>
-                  <Button variant="contained" className={classes.buttonF}>
-                    Coordinar
-                  </Button>
-                  <Button variant="contained" className={classes.buttonF}>
-                    Entregar
-                  </Button>
-                  <Button variant="contained" className={classes.buttonRe}>
-                    Renunciar
-                  </Button>
-                  <br/>
-                  <br/>
-                  <Divider/>
-                  <Divider/>
-                  <Typography paragraph>
-                    <br/>
-                    <strong>Contratista</strong>
-                    <br/>
-                    María Perez de Ovalles
-                  </Typography>
-                  <Typography paragraph>
-                    <br/>
-                    <strong>Desarrollador</strong>
-                    <br/>
-                    María V Ortiz
-                  </Typography>
-                  <Divider />
-                  <Typography paragraph>
-                    <br/>
-                    <strong>Tipo de Proyecto</strong>
-                    <br/>
-                    Desarrollo Web
-                  </Typography>
-                  <Typography paragraph>
-                    <br/>
-                    <strong>Tecnologías Requeridas</strong>
-                  </Typography>
-                  <div className={classes.root2}>
-                    <Chip label="HTML"/>
-                    <Chip label="CSS"/>
-                    <Chip label="Bootstrap"/>
-                    <Chip label="JavaScript"/>
-                    <Chip label="PHP"/>
-                    <Chip label="C#"/>
-                  </div>
-                  <Typography paragraph>
-                    <br/>
-                    <strong>Presupuesto</strong>
-                    <br/>
-                    $1000 - $2000
-                  </Typography>
-                  <Divider />
-                </Grid>
-                {/* End sidebar */}
-              </Grid>
-            </Container>
-            <Copyright />
-          </main>
-        </div>
-      );
-      // } else {
-      //    return <CircularProgress />;
-      // }
-  }else{
-    if(props.type=="developerSP"){
-      // if(postInfo){
-      return (
-        <div className={classes.root}>
-          <CssBaseline />
-          {/* {console.log('post info', postInfo)} */}
-          <Header type="developer"/>
-          <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
-            <Container className={classes.cardGrid} maxWidth="md">
-            <Grid container spacing={5} className={classes.mainGrid}>
-                {/* Main content */}
-                <Grid item xs={12} md={7}>
-                  <Typography variant="h3" gutterBottom>
-                    Proyecto Web Devs4U
-                  </Typography>
-                  <br/>
-                  <Typography variant="h6" gutterBottom>
-                    <br/>
-                    <strong>Descripción</strong>
-                  </Typography>
-                  <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
-                    Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                  </Typography>
-                  <Divider/>
-                  <Typography variant="h6" gutterBottom>
-                    <br/>
-                    <strong>Objetivos</strong>
-                  </Typography>
-                  <Typography paragraph>
-                    <li>
-                      <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                    </li>
-                    <li>
-                      <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                    </li>
-                    <li>
-                      <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                    </li>
-                  </Typography>
-                  <Typography variant="h6" gutterBottom>
-                    <br/>
-                    <strong>Etapas de Proyecto</strong>
-                  </Typography>
-                  <div>
-                    <Stepper activeStep={activeStep} alternativeLabel>
-                      {steps.map(label => (
-                        <Step key={label}>
-                          <StepLabel>{label}</StepLabel>
-                        </Step>
-                      ))}
-                    </Stepper>
-                  </div> 
-                  <Typography variant="h6" gutterBottom>
-                    <br/>
-                    <strong>Entregables</strong>
-                  </Typography>
-                  <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                  </Typography>
-                  <Typography variant="h6" gutterBottom>
-                    <br/>
-                    <strong>Datos Adicionales</strong>
-                  </Typography>
-                  <Typography paragraph>
-                    <li>
-                      <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                    </li>
-                    <li>
-                      <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                    </li>
-                  </Typography>
-                </Grid>
-                <Grid>
-                  <Divider orientation="vertical"/>
-                </Grid>
-                {/* End main content */}
-                {/* Sidebar */}
-                <Grid item xs={12} md={4}>
-                  <Button variant="contained" className={classes.buttonF}>
-                    Postularse
-                  </Button>
-                  <br/>
-                  <br/>
-                  <Divider/>
-                  <Typography paragraph>
-                    <br/>
-                    <strong>Contratista</strong>
-                    <br/>
-                    María Perez de Ovalles
-                  </Typography>
-                  <Divider />
-                  <Typography paragraph>
-                    <br/>
-                    <strong>Tipo de Proyecto</strong>
-                    <br/>
-                    Desarrollo Web
-                  </Typography>
-                  <Typography paragraph>
-                    <br/>
-                    <strong>Tecnologías Requeridas</strong>
-                  </Typography>
-                  <div className={classes.root2}>
-                    <Chip label="HTML"/>
-                    <Chip label="CSS"/>
-                    <Chip label="Bootstrap"/>
-                    <Chip label="JavaScript"/>
-                    <Chip label="PHP"/>
-                    <Chip label="C#"/>
-                  </div>
-                  <Typography paragraph>
-                    <br/>
-                    <strong>Presupuesto</strong>
-                    <br/>
-                    $1000 - $2000
-                  </Typography>
-                  <Divider />
-                </Grid>
-                {/* End sidebar */}
-              </Grid>
-            </Container>
-            <Copyright />
-          </main>
-        </div>
-      );
-      // } else {
-      //    return <CircularProgress />;
-      // }
-    }else{
-      if(props.type=="developer"){
-        // if(postInfo){
-          return (
-            <div className={classes.root}>
-              <CssBaseline />
-              {/* {console.log('post info', postInfo)} */}
-              <Header type="developer"/>
-              <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                <Container className={classes.cardGrid} maxWidth="md">
-                <Grid container spacing={5} className={classes.mainGrid}>
-                    {/* Main content */}
-                    <Grid item xs={12} md={7}>
-                      <Typography variant="h3" gutterBottom>
-                        Proyecto Web Devs4U
-                      </Typography>
-                      <br/>
-                      <Typography variant="h6" gutterBottom>
-                        <br/>
-                        <strong>Descripción</strong>
-                      </Typography>
-                      <Typography paragraph>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
-                        Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                        Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                      </Typography>
-                      <Divider/>
-                      <Typography variant="h6" gutterBottom>
-                        <br/>
-                        <strong>Objetivos</strong>
-                      </Typography>
-                      <Typography paragraph>
-                        <li>
-                          <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                        </li>
-                        <li>
-                          <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                        </li>
-                        <li>
-                          <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                        </li>
-                      </Typography>
-                      <Typography variant="h6" gutterBottom>
-                        <br/>
-                        <strong>Etapas de Proyecto</strong>
-                      </Typography>
-                      <div>
-                        <Stepper activeStep={activeStep} alternativeLabel>
-                          {steps.map(label => (
-                            <Step key={label}>
-                              <StepLabel>{label}</StepLabel>
-                            </Step>
-                          ))}
-                        </Stepper>
-                      </div> 
-                      <Typography variant="h6" gutterBottom>
-                        <br/>
-                        <strong>Entregables</strong>
-                      </Typography>
-                      <Typography paragraph>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                      </Typography>
-                      <Typography variant="h6" gutterBottom>
-                        <br/>
-                        <strong>Datos Adicionales</strong>
-                      </Typography>
-                      <Typography paragraph>
-                        <li>
-                          <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                        </li>
-                        <li>
-                          <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                        </li>
-                      </Typography>
-                    </Grid>
-                    <Grid>
-                      <Divider orientation="vertical"/>
-                    </Grid>
-                    {/* End main content */}
-                    {/* Sidebar */}
-                    <Grid item xs={12} md={4}>
-                      <Typography paragraph>
-                        <br/>
-                        <strong>Contratista</strong>
-                        <br/>
-                        María Perez de Ovalles
-                      </Typography>
-                      <Typography paragraph>
-                        <br/>
-                        <strong>Desarrollador</strong>
-                        <br/>
-                        María V Ortiz
-                      </Typography>
-                      <Divider />
-                      <Typography paragraph>
-                        <br/>
-                        <strong>Tipo de Proyecto</strong>
-                        <br/>
-                        Desarrollo Web
-                      </Typography>
-                      <Typography paragraph>
-                        <br/>
-                        <strong>Tecnologías Requeridas</strong>
-                      </Typography>
-                      <div className={classes.root2}>
-                        <Chip label="HTML"/>
-                        <Chip label="CSS"/>
-                        <Chip label="Bootstrap"/>
-                        <Chip label="JavaScript"/>
-                        <Chip label="PHP"/>
-                        <Chip label="C#"/>
-                      </div>
-                      <Typography paragraph>
-                        <br/>
-                        <strong>Presupuesto</strong>
-                        <br/>
-                        $1000 - $2000
-                      </Typography>
-                      <Divider />
-                    </Grid>
-                    {/* End sidebar */}
-                  </Grid>
-                </Container>
-                <Copyright />
-              </main>
-            </div>
-          );
-          // } else {
-          //    return <CircularProgress />;
-          // }
-      }else{
-        if(props.type=="contractorSP"){
-          // if(postInfo){
-            return (
+  //const getSteps =() => {
+  //return ['Abierto  17/12/2019', 'Ejecución  17/12/2019', 'Revisión  17/12/2019', 'Finalizado  17/12/2019'];
+ // }
+
+ return (
               <div className={classes.root}>
                 <CssBaseline />
                 {/* {console.log('post info', postInfo)} */}
-                <Header type="contractor"/>
+                <Header type={myRol}/>
+                {console.log('myRol', myRol)}
+                { project!== '' && project!== undefined? (
                 <main className={classes.content}>
                   <div className={classes.appBarSpacer} />
                   <Container className={classes.cardGrid} maxWidth="md">
                   <Grid container spacing={5} className={classes.mainGrid}>
                       {/* Main content */}
+                      
                       <Grid item xs={12} md={7}>
                         <Typography variant="h3" gutterBottom>
-                          Proyecto Web Devs4U
+                          {project.titulo}
                         </Typography>
                         <br/>
                         <Typography variant="h6" gutterBottom>
@@ -633,27 +261,25 @@ export default function ConsultProject(props) {
                           <strong>Descripción</strong>
                         </Typography>
                         <Typography paragraph>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
-                          Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                          Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                          {project.descripcion}
                         </Typography>
                         <Divider/>
-                        <Typography variant="h6" gutterBottom>
-                          <br/>
-                          <strong>Objetivos</strong>
-                        </Typography>
-                        <Typography paragraph>
-                          <li>
-                            <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                          </li>
-                          <li>
-                            <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                          </li>
-                          <li>
-                            <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                          </li>
-                        </Typography>
+                        {project.objetivos!== undefined && project.objetivos.length>=1?(
+                          <>
+                            <Typography variant="h6" gutterBottom>
+                              <br/>
+                              <strong>Objetivos</strong>
+                            </Typography>
+                            <Typography paragraph>
+                            {project.objetivos.map(obj => (
+                               <li>
+                                <Typography variant="subtitle1" component="span">{obj}</Typography> 
+                              </li>
+                              ))}
+                             
+                            </Typography>
+                          </>
+                        ):null}
                         <Typography variant="h6" gutterBottom>
                           <br/>
                           <strong>Etapas de Proyecto</strong>
@@ -672,20 +298,22 @@ export default function ConsultProject(props) {
                           <strong>Entregables</strong>
                         </Typography>
                         <Typography paragraph>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+                         {project.entregables}
                         </Typography>
-                        <Typography variant="h6" gutterBottom>
-                          <br/>
-                          <strong>Datos Adicionales</strong>
-                        </Typography>
-                        <Typography paragraph>
-                          <li>
-                            <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                          </li>
-                          <li>
-                            <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                          </li>
-                        </Typography>
+                        {project.adicionales !== undefined && project.adicionales.length>=1?(
+                          <>
+                            <Typography variant="h6" gutterBottom>
+                              <br/>
+                              <strong>Datos Adicionales</strong>
+                            </Typography>
+                            <Typography paragraph>
+                            {project.adicionales.map( adicional => (
+                              <li>
+                                <Typography variant="subtitle1" component="span">{adicional}</Typography> 
+                              </li>
+                              ))}
+                            </Typography>
+                          </>):null}
                       </Grid>
                       <Grid>
                         <Divider orientation="vertical"/>
@@ -693,55 +321,104 @@ export default function ConsultProject(props) {
                       {/* End main content */}
                       {/* Sidebar */}
                       <Grid item xs={12} md={4}>
-                        <Button variant="contained" color="primary" className={classes.buttonC}>
-                          Modificar
-                        </Button>
-                        <Button variant="contained" className={classes.buttonRe}>
+
+                      
+                      {(project.creador !== null) && (project.creador.id == myId) && (myRol==='contractor')?(
+                        <>
+                         <DomLink
+                          to={`/project/edit/${projectId}`}
+                          style={{
+                            textDecoration: 'none',
+                            color: 'rgb(33,40,53)'
+                          }}>
+                          <Button variant="contained" color="primary" className={classes.buttonC}>
+                            Modificar
+                          </Button>
+                        </DomLink>
+
+                        <Button variant="contained" className={classes.buttonRe} onClick={handleClickOpenDialog}>
                           Cancelar
                         </Button>
+
+
+                        { project.etapa === 0?(
                         <Button variant="contained" color="primary" className={classes.buttonC}>
-                          Postulados
+                          Ejecutar
+                        </Button>):null}
+
+                        { project.etapa === 2?(
+                        <Button variant="contained" color="primary" className={classes.buttonC}>
+                          Revisar
+                        </Button>):null}
+
+                        </>
+                        ):null}
+
+                        {project.etapa === 0 && myRol==='freelancer'?(
+                        <Button variant="contained" color="primary" className={classes.buttonC}>
+                          Postularse
+                        </Button>):null}
+                        
+
+                        { project.etapa === 1 && myRol==='freelancer' && project.encargado!== null && project.encargado.id===myId? (
+                        <Button variant="contained" color="primary" className={classes.buttonC} disable={handleDisablePostulation}>
+                         Entregar 
                         </Button>
+                        ):null}
+
+
+                      {/*Agregar condicion de los booleanos de proyecto*/}
+                        { project.etapa === 3?(
+                        <Button variant="contained" color="primary" className={classes.buttonC}>
+                          Calificar
+                        </Button>):null}
+
                         <br/>
                         <br/>
                         <Divider/>
-                        <Divider/>
+                      
+
+                        {project.creador !== null? (
                         <Typography paragraph>
                           <br/>
                           <strong>Contratista</strong>
                           <br/>
-                          María Perez de Ovalles
+                          {project.creador.nombre}
                         </Typography>
+                        ):null}
+                        {project.encargado !== null? (
                         <Typography paragraph>
                           <br/>
                           <strong>Desarrollador</strong>
                           <br/>
-                          María V Ortiz
-                        </Typography>
+                          {project.encargado.nombre}
+                        </Typography>):null}
                         <Divider />
                         <Typography paragraph>
                           <br/>
                           <strong>Tipo de Proyecto</strong>
                           <br/>
-                          Desarrollo Web
+                          {project.tipo}
                         </Typography>
-                        <Typography paragraph>
-                          <br/>
-                          <strong>Tecnologías Requeridas</strong>
-                        </Typography>
-                        <div className={classes.root2}>
-                          <Chip label="HTML"/>
-                          <Chip label="CSS"/>
-                          <Chip label="Bootstrap"/>
-                          <Chip label="JavaScript"/>
-                          <Chip label="PHP"/>
-                          <Chip label="C#"/>
-                        </div>
+                        {project.tecnologias !== undefined && project.tecnologias.length >=1? (
+                          <>
+                          <Typography paragraph>
+                            <br/>
+                            <strong>Tecnologías Requeridas</strong>
+                          </Typography>
+
+                          <div className={classes.root2}>
+                          {project.tecnologias.map( tech => (
+                            <Chip label={tech}/>
+                            ))}
+                          </div>
+                        </>
+                        ):null}
                         <Typography paragraph>
                           <br/>
                           <strong>Presupuesto</strong>
                           <br/>
-                          $1000 - $2000
+                          {`${project.presupuesto} Bs`}
                         </Typography>
                         <Divider />
                       </Grid>
@@ -749,291 +426,22 @@ export default function ConsultProject(props) {
                     </Grid>
                   </Container>
                   <Copyright />
+                    <EliminarProyectoDialog
+                      content="¿Está seguro que desea cancelar el proyecto?"
+                      title="Eliminar proyecto"
+                      handleCloseDialog={handleCloseDialog}
+                      open={openDialog}
+                      handleDelete={handleDeleteProject}
+                    />
                 </main>
+                ):<CircularProgress/>}
               </div>
             );
-            // } else {
-            //    return <CircularProgress />;
-            // }
-        }else{
-          if(props.type=="contractorEj"){
-            // if(postInfo){
-              return (
-                <div className={classes.root}>
-                  <CssBaseline />
-                  {/* {console.log('post info', postInfo)} */}
-                  <Header type="contractor"/>
-                  <main className={classes.content}>
-                    <div className={classes.appBarSpacer} />
-                    <Container className={classes.cardGrid} maxWidth="md">
-                    <Grid container spacing={5} className={classes.mainGrid}>
-                        {/* Main content */}
-                        <Grid item xs={12} md={7}>
-                          <Typography variant="h3" gutterBottom>
-                            Proyecto Web Devs4U
-                          </Typography>
-                          <br/>
-                          <Typography variant="h6" gutterBottom>
-                            <br/>
-                            <strong>Descripción</strong>
-                          </Typography>
-                          <Typography paragraph>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
-                            Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                            Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                          </Typography>
-                          <Divider/>
-                          <Typography variant="h6" gutterBottom>
-                            <br/>
-                            <strong>Objetivos</strong>
-                          </Typography>
-                          <Typography paragraph>
-                            <li>
-                              <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                            </li>
-                            <li>
-                              <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                            </li>
-                            <li>
-                              <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                            </li>
-                          </Typography>
-                          <Typography variant="h6" gutterBottom>
-                            <br/>
-                            <strong>Etapas de Proyecto</strong>
-                          </Typography>
-                          <div>
-                            <Stepper activeStep={activeStep} alternativeLabel>
-                              {steps.map(label => (
-                                <Step key={label}>
-                                  <StepLabel>{label}</StepLabel>
-                                </Step>
-                              ))}
-                            </Stepper>
-                          </div> 
-                          <Typography variant="h6" gutterBottom>
-                            <br/>
-                            <strong>Entregables</strong>
-                          </Typography>
-                          <Typography paragraph>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                          </Typography>
-                          <Typography variant="h6" gutterBottom>
-                            <br/>
-                            <strong>Datos Adicionales</strong>
-                          </Typography>
-                          <Typography paragraph>
-                            <li>
-                              <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                            </li>
-                            <li>
-                              <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                            </li>
-                          </Typography>
-                        </Grid>
-                        <Grid>
-                          <Divider orientation="vertical"/>
-                        </Grid>
-                        {/* End main content */}
-                        {/* Sidebar */}
-                        <Grid item xs={12} md={4}>
-                          <Button variant="contained" color="primary" className={classes.buttonC}>
-                            Modificar
-                          </Button>
-                          <Button variant="contained" className={classes.buttonRe}>
-                            Cancelar
-                          </Button>
-                          <Button variant="contained" color="primary" className={classes.buttonC}>
-                            Coordinar
-                          </Button>
-                          <br/>
-                          <br/>
-                          <Divider/>
-                          <Divider/>
-                          <Typography paragraph>
-                            <br/>
-                            <strong>Contratista</strong>
-                            <br/>
-                            María Perez de Ovalles
-                          </Typography>
-                          <Typography paragraph>
-                            <br/>
-                            <strong>Desarrollador</strong>
-                            <br/>
-                            María V Ortiz
-                          </Typography>
-                          <Divider />
-                          <Typography paragraph>
-                            <br/>
-                            <strong>Tipo de Proyecto</strong>
-                            <br/>
-                            Desarrollo Web
-                          </Typography>
-                          <Typography paragraph>
-                            <br/>
-                            <strong>Tecnologías Requeridas</strong>
-                          </Typography>
-                          <div className={classes.root2}>
-                            <Chip label="HTML"/>
-                            <Chip label="CSS"/>
-                            <Chip label="Bootstrap"/>
-                            <Chip label="JavaScript"/>
-                            <Chip label="PHP"/>
-                            <Chip label="C#"/>
-                          </div>
-                          <Typography paragraph>
-                            <br/>
-                            <strong>Presupuesto</strong>
-                            <br/>
-                            $1000 - $2000
-                          </Typography>
-                          <Divider />
-                        </Grid>
-                        {/* End sidebar */}
-                      </Grid>
-                    </Container>
-                    <Copyright />
-                  </main>
-                </div>
-              );
-              // } else {
-              //    return <CircularProgress />;
-              // }
-          }else{
-            // if(postInfo){
-              return (
-                <div className={classes.root}>
-                  <CssBaseline />
-                  {/* {console.log('post info', postInfo)} */}
-                  <Header type="contractor"/>
-                  <main className={classes.content}>
-                    <div className={classes.appBarSpacer} />
-                    <Container className={classes.cardGrid} maxWidth="md">
-                    <Grid container spacing={5} className={classes.mainGrid}>
-                        {/* Main content */}
-                        <Grid item xs={12} md={7}>
-                          <Typography variant="h3" gutterBottom>
-                            Proyecto Web Devs4U
-                          </Typography>
-                          <br/>
-                          <Typography variant="h6" gutterBottom>
-                            <br/>
-                            <strong>Descripción</strong>
-                          </Typography>
-                          <Typography paragraph>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. 
-                            Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                            Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                          </Typography>
-                          <Divider/>
-                          <Typography variant="h6" gutterBottom>
-                            <br/>
-                            <strong>Objetivos</strong>
-                          </Typography>
-                          <Typography paragraph>
-                            <li>
-                              <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                            </li>
-                            <li>
-                              <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                            </li>
-                            <li>
-                              <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                            </li>
-                          </Typography>
-                          <Typography variant="h6" gutterBottom>
-                            <br/>
-                            <strong>Etapas de Proyecto</strong>
-                          </Typography>
-                          <div>
-                            <Stepper activeStep={activeStep} alternativeLabel>
-                              {steps.map(label => (
-                                <Step key={label}>
-                                  <StepLabel>{label}</StepLabel>
-                                </Step>
-                              ))}
-                            </Stepper>
-                          </div> 
-                          <Typography variant="h6" gutterBottom>
-                            <br/>
-                            <strong>Entregables</strong>
-                          </Typography>
-                          <Typography paragraph>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
-                          </Typography>
-                          <Typography variant="h6" gutterBottom>
-                            <br/>
-                            <strong>Datos Adicionales</strong>
-                          </Typography>
-                          <Typography paragraph>
-                            <li>
-                              <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                            </li>
-                            <li>
-                              <Typography variant="h6" component="span">Lorem ipsum dolor sit amet</Typography> 
-                            </li>
-                          </Typography>
-                        </Grid>
-                        <Grid>
-                          <Divider orientation="vertical"/>
-                        </Grid>
-                        {/* End main content */}
-                        {/* Sidebar */}
-                        <Grid item xs={12} md={4}>
-                          <Typography paragraph>
-                            <br/>
-                            <strong>Contratista</strong>
-                            <br/>
-                            María Perez de Ovalles
-                          </Typography>
-                          <Typography paragraph>
-                            <br/>
-                            <strong>Desarrollador</strong>
-                            <br/>
-                            María V Ortiz
-                          </Typography>
-                          <Divider />
-                          <Typography paragraph>
-                            <br/>
-                            <strong>Tipo de Proyecto</strong>
-                            <br/>
-                            Desarrollo Web
-                          </Typography>
-                          <Typography paragraph>
-                            <br/>
-                            <strong>Tecnologías Requeridas</strong>
-                          </Typography>
-                          <div className={classes.root2}>
-                            <Chip label="HTML"/>
-                            <Chip label="CSS"/>
-                            <Chip label="Bootstrap"/>
-                            <Chip label="JavaScript"/>
-                            <Chip label="PHP"/>
-                            <Chip label="C#"/>
-                          </div>
-                          <Typography paragraph>
-                            <br/>
-                            <strong>Presupuesto</strong>
-                            <br/>
-                            $1000 - $2000
-                          </Typography>
-                          <Divider />
-                        </Grid>
-                        {/* End sidebar */}
-                      </Grid>
-                    </Container>
-                    <Copyright />
-                  </main>
-                </div>
-              );
-              // } else {
-              //    return <CircularProgress />;
-              // }
-          }
-        }
-      }
-    }
-  }
-}
+
+
+
+
+
+
+
+ }

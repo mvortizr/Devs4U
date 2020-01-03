@@ -11,7 +11,7 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 export const mainListItems = (
   <div>
-  <Link to="/dashboard/developer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+  <Link to="/dashboard/freelancer" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
