@@ -7,6 +7,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { useHistory } from 'react-router-dom'
+import queryString from 'query-string'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -96,13 +97,16 @@ export default function CustomizedInputBase() {
 
   const handleSearchSubmit = e => {
     e.preventDefault() 
-    // /search/profile/:query
-    // /search/project/:query
-
+    // /search/profile?name=query
+    // /search/project?name=query
+    let query ={name:search}
+    let searchRoute = queryString.stringify(query)
+    console.log('searchRoute',searchRoute)
+    
     if(selectBuscar===1){
-      history.push(`/search/profile/${search}`)
+      history.push({pathname: '/search/profile', search: searchRoute})
     } else {
-      history.push(`/search/project/${search}`)
+      history.push({pathname: '/search/project', search: searchRoute})
     }
 
   }

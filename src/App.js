@@ -19,6 +19,8 @@ import ConsultProfile from './pages/ConsultProfile'
 import RateUser from './pages/RateUser'
 import ExecuteProject from './pages/ExecuteProject'
 import ReviewProject from './pages/ReviewProject'
+import SearchProfile from './pages/SearchProfile'
+import SearchProject from './pages/SearchProject'
 import SendProject from './pages/SendProject'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -62,6 +64,13 @@ function App() {
 				<Route exact path='/project/manage/contractor' render={ (props)=> <GestProject {...props}/>}/>
 				{/* Consultar Proyecto Abierto */}
 				<Route exact path='/project/view/:id' render={ (props)=> <ConsultProject {...props}/>}/>
+
+			{/*Buscador*/ }
+				<Route  path='/search/profile' render={ (props)=> <SearchProfile {...props}/>}/>
+				<Route  path='/search/project' render={ (props)=> <SearchProject {...props}/>}/>
+
+
+
 				
 
 			{/*Portafolio*/}	
@@ -84,6 +93,7 @@ function App() {
 			{/* Calificar Usuario */}
 				<Route exact path='/developer/rate' render={ ()=> <RateUser type="developer"/>}/>
 				<Route exact path='/contractor/rate' render={ ()=> <RateUser type="contractor"/>}/>
+
 
 			{/*Not Found*/}
 			<Route component={NotFound} />
