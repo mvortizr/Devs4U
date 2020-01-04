@@ -230,6 +230,11 @@ export default function GestProject(props) {
 
               {projects?(
                <>
+                {projects.length<1?(
+                  <Typography gutterBottom variant="subtitle1" component="h2">
+                  Aún no posees proyectos para gestionar
+                  </Typography>
+                ):null}
               <Grid container spacing={4} className={classes.grid}>
                 {projects.map(card => (
 

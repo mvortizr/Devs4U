@@ -363,27 +363,16 @@ export default function ConsultProfile(props) {
 
                       {user.rol==='freelancer' && myRol==='contractor'?(
                         <>
-                      <DomLink to="#" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}></DomLink>
-                      <Button  variant="contained" color="primary" className={classes.button} >
-                        Invitar 
-                      </Button>
 
-                      <DomLink to="#" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}></DomLink>
+                      <DomLink to={`/view/portafolio/${user.id}`} style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                       <Button  variant="contained" color="primary" className={classes.button} >
                         Portafolio
                       </Button>
+                      </DomLink>
                       </>
                       ):null}
 
-                      {user.rol==='contractor' && myRol==='freelancer'?(
-                        <>
-                      <DomLink to="#" style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}></DomLink>
-                      <Button  variant="contained" color="primary" className={classes.button} >
-                        Proyectos 
-                      </Button>
-                      </>
-                      ):null}
-
+                   
                       {user.web !== ''? (
                       <Button  href={`/http://${user.web}`} variant="contained" color="primary" className={classes.button} >
                          Web
@@ -532,18 +521,7 @@ export default function ConsultProfile(props) {
                     </Typography>
                     <Divider />
                       </>):null}
-                    <Typography paragraph>
-                      <br/>
-                      <strong>Estadísticas</strong> 
-                    </Typography>
-                    <Typography paragraph>
-                      13 Proyectos Culminados
-                    </Typography><Typography paragraph>
-                      2 Proyectos en Curso
-                    </Typography>
-                    <Typography paragraph>
-                      4.8 Reputación
-                    </Typography>
+                
                   </Grid>
                   {/* End sidebar */}
                 </Grid>

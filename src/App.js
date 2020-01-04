@@ -4,6 +4,7 @@ import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import ConsultPortfolio from './pages/ConsultPortfolio';
+import ConsultMyPortfolio from './pages/ConsultMyPortfolio';
 import ConsultProject from './pages/ConsultProject';
 import RecContrasena from './pages/RecContrasena';
 import EditProfile from './pages/EditProfile';
@@ -75,10 +76,10 @@ function App() {
 
 			{/*Portafolio*/}	
 				{/* Consultar Portafolio Propio */}
-				<Route exact path='/portafolio' render={ ()=> <ConsultPortfolio type="developer"/>}/>
+				<Route exact path='/portafolio' render={ ()=> <ConsultMyPortfolio />}/>
 				{/* Consultar Portafolio Anonimo */}
-				<Route exact path='/view/portafolio/contractor' render={ ()=> <ConsultPortfolio type="contractor"/>}/>
-				<Route exact path='/view/portafolio/freelancer' render={ ()=> <ConsultPortfolio type="dev"/>}/>
+				<Route exact path='/view/portafolio/:id' render={ (props)=> <ConsultPortfolio {...props}/>}/>
+				
 
 			{/* Ejecutar Proyecto */}
 				<Route exact path='/developer/postulates' render={ ()=> <ExecuteProject type="developer"/>}/>

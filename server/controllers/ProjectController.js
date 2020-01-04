@@ -179,5 +179,36 @@ module.exports={
             .catch(err => res.status(400).json('Error: ' + err));
 
         }
-    }
+    },
+    ocultarDePortafolio(req,res){
+            model.Project.update({ 
+                visiblePortafolio: false
+            },{ where: {id: req.body.id}})
+            .then(function(){res.status(200).send({ message:'El proyecto se ocultará del portafolio'})   })
+            .catch(err => res.status(400).json('Error: ' + err));       
+    },
+    mostrarEnPortafolio(req,res){
+            model.Project.update({ 
+                visiblePortafolio: true
+            },{ where: {id: req.body.id}})
+            .then(function(){res.status(200).send({ message:'El proyecto se mostrará en portafolio'})   })
+            .catch(err => res.status(400).json('Error: ' + err));       
+    },
+    mostrarPortafolioDeFreelancer(req,res){
+        console.log('mostrar portafolio req  ', req.body)
+           model.Project.findAndCountAll({
+            offset:(req.body.page-1) * req.body.pageSize,
+            limit:req.body.pageSize,
+            where:{
+                encargadoId:req.body.freelancerId,
+                etapa:3,
+                visiblePortafolio:true
+            }
+        }) .then(function(proyecto){             
+                res.status(200).send(proyecto)   
+            })
+            .catch(err => res.status(400).json('Error: ' + err));      
+    },
+
+
 }

@@ -176,7 +176,6 @@ export default function ConsultPortfolio(props) {
   const [projectTotalCount, setProjectTotalCount] = React.useState(0) 
   const [projects,setProjects] = React.useState(undefined);
   const projectPageSize = 9
-  let freelancerId = props.match.params.id
 
   const increaseProjectPage = () => {
       setProjectPage(page => page + 1);
@@ -188,7 +187,53 @@ export default function ConsultPortfolio(props) {
     }
   }
 
+  const handleHidePortafolio = projectId => {
+      
+      axios({ method: 'post',
+          validateStatus: function(status) {
+            return status >= 200 && status < 500; 
+          },
+          url:`/project/portfolio/hide`, 
+          withCredentials:true,
+          data: { id: projectId }
+        })
+        .then(response =>{
+            console.log('handleHidePortafolio res',response)
+            if(response.status === 200){
  
+              alert('El proyecto se ocultará del portafolio')
+              window.location.reload(); 
+            } 
+            
+        })
+        .catch(error => {
+          console.log('error',error)
+        })
+  }
+
+  const handleShowPortafolio = projectId => {
+      
+      axios({ method: 'post',
+          validateStatus: function(status) {
+            return status >= 200 && status < 500; 
+          },
+          url:`/project/portfolio/show`, 
+          withCredentials:true,
+          data: { id: projectId }
+        })
+        .then(response =>{
+            console.log('handleShowPortafolio res',response)
+            if(response.status === 200){
+ 
+              alert('El proyecto se mostrará en el portafolio')
+              window.location.reload(); 
+            } 
+            
+        })
+        .catch(error => {
+          console.log('error',error)
+        })
+  }
 
  React.useEffect(() => {
   
@@ -196,9 +241,9 @@ export default function ConsultPortfolio(props) {
           validateStatus: function(status) {
             return status >= 200 && status < 500; 
           },
-          url:`/project/portfolio/list`, 
+          url:`/project/list/view/worked`, 
           withCredentials:true,
-          data: { page:projectPage , pageSize: projectPageSize, freelancerId: parseInt(freelancerId,10) }
+          data: { page:projectPage , pageSize: projectPageSize, etapas: [{etapa:3}] }
         })
         .then(response =>{
             console.log('consult portf res',response)
@@ -223,14 +268,14 @@ export default function ConsultPortfolio(props) {
         <div className={classes.appBarSpacer} />
         <Container className={classes.cardGrid} maxWidth="md">
           <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-            Portafolio
+            Gestión de Portafolio
           </Typography>
           {/* End hero unit */}
           {projects?(
                <>
                 {projects.length<1?(
                   <Typography gutterBottom variant="subtitle1" component="h2">
-                  El freelancer no posee ningún proyecto finalizado para mostrar
+                  Aún no posees proyectos finalizados
                   </Typography>
                 ):null}
           <Grid container spacing={4} className={classes.grid}>
@@ -245,13 +290,21 @@ export default function ConsultPortfolio(props) {
                       <strong className={classes.text}>{card.titulo.length <=30?(card.titulo):(card.titulo.slice(0, 30)+'...')} </strong>
                      
                     </Typography>
-                    
+                    <div>
                      <DomLink to={`/project/view/${card.id}`} style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
                       <Button variant="contained" className={classes.text2}>
                         Ver 
                       </Button>
                       </DomLink>
-                   
+                      { card.visiblePortafolio?(
+                       <Button variant="contained" className={classes.text2} onClick={e => handleHidePortafolio(card.id)}>
+                        Ocultar de Portafolios
+                      </Button>):(
+                       <Button variant="contained" className={classes.text2} onClick={e => handleShowPortafolio(card.id)}>
+                        Mostrar en Portafolios
+                      </Button>)
+                      }
+                    </div>
                   </CardContent>
                 </Card>
               </Grid>

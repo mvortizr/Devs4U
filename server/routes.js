@@ -82,6 +82,9 @@ router.post('/project/list/view/worked', ensureAuthenticated,projectController.l
 router.post('/project/stage/change', ensureAuthenticated,projectController.cambiarEtapaProyecto)
 router.post('/project/add/freelancer/incharge/:id',ensureAuthenticated,projectController.asignarFreelancerEncargado)
 router.post('/project/change/state/review/:id',ensureAuthenticated,projectController.actualizarElEstadoDelReviewDeUnUsuarioDelProyecto)
+router.post('/project/portfolio/hide',ensureAuthenticated,projectController.ocultarDePortafolio)
+router.post('/project/portfolio/show',ensureAuthenticated,projectController.mostrarEnPortafolio)
+router.post('/project/portfolio/list',ensureAuthenticated,projectController.mostrarPortafolioDeFreelancer)
 
 
 

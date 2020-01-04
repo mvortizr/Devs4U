@@ -610,18 +610,6 @@ export default function ConsultProfile(props) {
                     </Typography>
                     <Divider />
                       </>):null}
-                    <Typography paragraph>
-                      <br/>
-                      <strong>Estadísticas</strong> 
-                    </Typography>
-                    <Typography paragraph>
-                      13 Proyectos Culminados
-                    </Typography><Typography paragraph>
-                      2 Proyectos en Curso
-                    </Typography>
-                    <Typography paragraph>
-                      4.8 Reputación
-                    </Typography>
                   </Grid>
                   {/* End sidebar */}
                 </Grid>
