@@ -200,7 +200,7 @@ const Registration = props => {
 
   const children = [
     <ToggleButton value="freelancer" className={classes.button} on>
-      Soy Desarrollador
+      Soy Freelancer
     </ToggleButton>,
     <ToggleButton value="contractor" className={classes.button}>
       Soy Contratista

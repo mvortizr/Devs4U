@@ -36,6 +36,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
+import SearchBar from '../components/Searchbar';
 
 const drawerWidth = 240
 
@@ -217,8 +218,8 @@ export default function Header(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   let history = useHistory();
-  const [buscar, setBuscar] = React.useState('');
-  const [search, setSearch] = useState(String)
+ 
+  
   const [open2, setOpen2] = React.useState(false);
   var cards = [1, 2, 3]
   const [devs,setDevs] = React.useState(undefined);
@@ -244,31 +245,14 @@ export default function Header(props) {
     axios.post('/logout').then(
       () => {
         history.push('/')
-        sessionStorage.removeItem('rol');
-        sessionStorage.removeItem('nombre');
-        sessionStorage.removeItem('foto');
+        sessionStorage.clear()
       },
       error => {
         console.log(error)
       }
     )
   }
-
  
-  
-    const handleChange = event => {
-      setBuscar(event.target.value);
-    };
-
-    let redir = () => {
-      if(props.type=="contractor"){
-        window.location.href = `/search/contractor`;
-        //window.location.href = `/search/contractor${search}`;
-      }
-      else{
-        window.location.href = `/search/freelancer`;
-      }
-    }  
 
 if(props.type=="contractor"){
         return (
@@ -298,8 +282,10 @@ if(props.type=="contractor"){
                     Devs4U
                 </Typography>
 
+                <SearchBar/>
+
                 {/*Buscador*/}
-                <form className={classes.searchbar} onSubmit={e => e.preventDefault() || redir()}>
+                {/*<form className={classes.searchbar} onSubmit={e => e.preventDefault() || redir()}>
                   <div className={classes.searchIcon}>
                     <SearchIcon />
                   </div>
@@ -317,7 +303,7 @@ if(props.type=="contractor"){
                   <MenuItem value="">Buscar Perfil</MenuItem>
                   <MenuItem value={1}>Buscar Proyecto</MenuItem>
                 </Select>
-              </form>
+              </form>*/}
               
                   <Divider/>
                 <IconButton onClick={handleClickOpen} color="inherit">
@@ -401,8 +387,10 @@ if(props.type=="contractor"){
                     Devs4U
                   </Typography>
                   
+
+                  <SearchBar/>
                 {/*Buscador*/}
-                <form className={classes.searchbar} onSubmit={e => e.preventDefault() || redir()}>
+                {/*<form className={classes.searchbar} onSubmit={e => e.preventDefault() || redir()}>
                   <div className={classes.searchIcon}>
                     <SearchIcon />
                   </div>
@@ -420,7 +408,7 @@ if(props.type=="contractor"){
                   <MenuItem value="">Buscar Perfil</MenuItem>
                   <MenuItem value={1}>Buscar Proyecto</MenuItem>
                 </Select>
-              </form>
+              </form>*/}
 
                   <IconButton color="inherit">
                     {/*badgeContent muestra la cantidad de notificaciones*/}
@@ -447,11 +435,11 @@ if(props.type=="contractor"){
                 <Divider />
                 <List>{secondaryListItems}</List>
                 <List>
-                  <ListItem button>
+                  <ListItem button onClick={handleLogOut}>
                     <ListItemIcon>
                       <ExitToAppIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Cerrar Sesión" onClick={handleLogOut} />
+                    <ListItemText primary="Cerrar Sesión"  />
                   </ListItem>
                 </List>
               </Drawer>

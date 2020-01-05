@@ -77,4 +77,30 @@ module.exports = {
           .catch(err => res.status(400).json('Error: ' + err));
 
     },
+
+    BuscarUsuario(req, res) {
+        model.User.findAndCountAll(
+            {
+              offset:(req.body.page-1) * req.body.pageSize,
+              limit:req.body.pageSize,
+                where: {
+                    [Op.or]: [
+                        {
+                          nombre: {
+                            [Op.iLike]: `%${req.body.query}%`
+                          }
+                        },
+                        {
+                          apellido: {
+                            [Op.iLike]: `%${req.body.query}%`
+                          }
+                        }
+                    ],
+                },
+                //include:['freelancer']
+            })
+            .then(function (resultado) { res.status(200).send(resultado) })
+            .catch(err => res.status(400).json('Error: ' + err));
+
+    },
 }

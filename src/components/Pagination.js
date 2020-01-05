@@ -23,10 +23,6 @@ export default function Pagination(props) {
     return (
         <div className={classes.root}>
         <ButtonGroup aria-label="outlined primary button group">
-            {console.log('totalPages',totalPages)}
-            {console.log('currentPage',props.currentPage)}
-            {console.log('totalCount',props.totalCount)}
-            {console.log('pageSize',props.pageSize)}
             <Button color={props.color} disabled={props.currentPage <= 1?true:false} onClick={props.decreasePage}> {'<'}</Button>
             <Button color={props.color} disabled={props.currentPage >= totalPages?true:false} onClick={props.increasePage}> {'>'} </Button>
         </ButtonGroup>

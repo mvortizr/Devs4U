@@ -1,4 +1,6 @@
 const model=require('../models');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 module.exports={
     postularseProyecto(req,res){
@@ -25,7 +27,9 @@ module.exports={
     },
 
     verUsuariosPostuladosProyecto(req,res){
-        model.IntPostulationProject.findAll({
+        model.IntPostulationProject.findAndCountAll({
+            offset:(req.body.page-1) * req.body.pageSize,
+            limit:req.body.pageSize,
             where: {proyectoId: req.body.proyectoId},
             include:[{model: model.User}]
         })
@@ -40,7 +44,15 @@ module.exports={
         })
         .then(function(freelancer){ res.status(200).send(freelancer)})
         .catch(err => res.status(400).json('Error: ' + err));
-    }
+    },
+    verSiEstoyPostuladoProyecto(req,res){
+        model.IntPostulationProject.findAll({
+            where: {proyectoId: req.body.proyectoId, usuarioId: req.user.id},
+            include:[{model: model.User}]
+        })
+        .then(function(freelancer){ res.status(200).send(freelancer)})
+        .catch(err => res.status(400).json('Error: ' + err));
+    },
 
 
 }
