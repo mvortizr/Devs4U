@@ -317,6 +317,7 @@ export default function ConsultProject(props) {
                 {/* {console.log('post info', postInfo)} */}
                 <Header type={myRol}/>
                 {console.log('myRol', myRol)}
+                {console.log('myId', myId)}
                 {console.log('estoyPostulado', estoyPostulado)}
                 { project!== '' && project!== undefined? (
                 <main className={classes.content}>
@@ -447,10 +448,17 @@ export default function ConsultProject(props) {
                         </Button>):null}
                         
 
-                        { project.etapa === 1 && myRol==='freelancer' && project.encargado!== null && project.encargado.id===myId? (
+                        { (project.etapa ===1) && (myRol==='freelancer') && (project.encargado!== null) && (project.encargado.id == myId) ? (
+                         <DomLink
+                            to={`/project/freelancer/send/${projectId}`}
+                            style={{
+                              textDecoration: 'none',
+                              color: 'rgb(33,40,53)'
+                            }}>
                         <Button variant="contained" color="primary" className={classes.buttonC} >
                          Entregar 
                         </Button>
+                        </DomLink>
                         ):null}
 
 

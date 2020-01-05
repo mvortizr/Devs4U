@@ -5,12 +5,20 @@ module.exports={
 
     subirArchivos(req,res){
         console.log(req.file)
-        model.archivo.create({
-            projectId: req.body.projectId,
+        promiseArray=[]
+        
+        promiseArray.push(model.archivo.create({
+            projectId: req.params.id,
             filePath: req.file.filename
-        })
+        }))
+
+        promiseArray.push(model.Project.update({
+            etapa:2,
+        },{where:{id:req.params.id}}))
+
+        Promise.all(promiseArray)
         .then(function(archivo){
-            res.status(200).send({ message:'El Archivo se ha creado correctamente'})   
+            res.status(200).send({ message:'La etapa se ha cambiado correctamente'})   
         })
     },
 

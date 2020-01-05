@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Link as DomLink } from 'react-router-dom'
 import Header from './Header'
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile'
+import axios from 'axios'
 
 function Copyright() {
   return (
@@ -130,7 +131,9 @@ const useStyles = makeStyles(theme => ({
     paddingTop: '56.25%' // 16:9
   },
   cardContent: {
-    flexGrow: 1
+    flexGrow: 1,
+    display:'flex',
+    justifyContent:'space-between'
   },
   media:{
     backgroundColor:"#FFC100",
@@ -164,18 +167,81 @@ const useStyles = makeStyles(theme => ({
   input: {
     display: 'none',
   },
+  centerButton:{
+    display:'flex',
+    justifyContent:'center'
+  },
+   wrap:{
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    width:'250px',
+  }
 }))
 
-export default function ReviewProject() {
-    const classes = useStyles()
-    var cards = [1, 2, 3]
-    const [checked, setChecked] = React.useState(true);
+export default function ReviewProject(props) {
+  const classes = useStyles();
+  const [image, setImage] = React.useState({preview: '', raw: ''})
+  const[imageName,setImageName] = React.useState(undefined)
+  const projectId = props.match.params.id
+  
+  const handleChange = (e) => {
+    
+    setImage({
+      preview: URL.createObjectURL(e.target.files[0]),
+      raw: e.target.files[0]
+    })
+
+    setImageName(e.target.files[0].name)
+  }
+
+  const handleDeleteFile= () => {
+    setImage({preview: '', raw: ''})
+    setImageName(undefined)
+  }
+
+  const handleUpload = async (e) => {
+    e.preventDefault()
+
+    console.log('uploading')
+
+
+      const formData = new FormData()
+      formData.append('image', image.raw)
+      //console.log('formData',formData)
+      try {
+        //await axios.put('/profile/addphoto', {image: image.raw}, config)
+        axios({ method: 'post',
+          validateStatus: function(status) {
+            return status >= 200 && status < 500; 
+          },
+          url:`/project/upload/file/${projectId}`, 
+          withCredentials:true,
+          data:formData,
+        })
+        .then(response =>{
+            console.log('upload res',response)
+
+            if(response.status === 200 || response.status === 201 ){
+              alert('El archivo se ha cargado correctamente')
+              props.history.push(`/project/view/${projectId}`)
+                 
+            } 
+            
+        })
+        
+      } catch (error) {
+        console.log(error.response)
+      }
+    
+  }
   
     return (
         <div className={classes.root}>
             <CssBaseline />
             <Header type="developer"/>
             <main className={classes.content}>
+            {console.log('image', image)}
             <div className={classes.appBarSpacer} />
             <Container className={classes.cardGrid} maxWidth="md">
                 <Grid item xs={12} md={4}>
@@ -185,49 +251,73 @@ export default function ReviewProject() {
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Typography component="h1" variant="h6" color="textPrimary" gutterBottom>
-                        Para promover el proyecto a la etapa de revisión, debe cargar los archivos entregables del proyecto.
+                        Para promover el proyecto a la etapa de revisión, debe cargar los archivos entregables del proyecto en formato zip o rar
                     </Typography>
                     <br/>
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Divider/>
                 </Grid>
+                <form onSubmit={handleUpload}> 
                 <input
-                  accept=".pdf, .png,.jpg"
+                  accept=".zip,.rar"
                   className={classes.input}
                   id="contained-button-file"
                   multiple
+                  onChange={handleChange}
                   type="file"
                 />
-                <label htmlFor="contained-button-file">
-                  <Button variant="contained" className={classes.but} component="span">
-                    Adjuntar Archivo
-                  </Button>
-                </label>
-                <Grid container spacing={4} className={classes.grid}>
-                {cards.map(card => (
-                    <Grid item key={card} xs={12} sm={6} md={12}>
-                    <Card className={classes.card}>
-                        <CardContent className={classes.cardContent}>
-                        <Typography content="h2" variant="h6"> 
-                            <InsertDriveFileIcon className={classes.text}/>Archivo1.html
-                            <strong className={classes.text}>99.9Mb/99.9Mb</strong>
-                            <Button variant="contained" className={classes.butelm}>
-                                Eliminar
-                            </Button>
-                        </Typography>
-                        </CardContent>
-                    </Card>
-                    </Grid>
-                ))}
-                </Grid>
+
+              <DomLink
+                to={`/project/view/${projectId}`}
+                  style={{
+                          textDecoration: 'none',
+                          color: 'rgb(33,40,53)'
+              }}>
+                
                 <Button variant="contained" className={classes.butcan}>
                     Cancelar
                 </Button>
-                <Button variant="contained" className={classes.butac}>
-                    Realizar Entrega
-                </Button>
+
+              </DomLink>
+                <label htmlFor="contained-button-file">            
+                  <Button variant="contained" className={classes.butac} component="span">
+                    Adjuntar Archivo 
+                  </Button>
+                </label>
+                {imageName?(
+                <>
+                <Grid container spacing={4} className={classes.grid}>
+                  
+                    <Grid item key={imageName} xs={12} sm={6} md={12}>
+                    <Card className={classes.card}>
+                        <CardContent className={classes.cardContent}>
+                        <Typography content="h2" variant="h6" className={classes.wrap}> 
+                            {imageName}
+                        </Typography>
+                          <Button variant="contained" className={classes.butelm} onClick={handleDeleteFile}>
+                                Eliminar
+                            </Button>
+                        </CardContent>
+                    </Card>
+                    </Grid>
+                
+                </Grid>
+                
+                <div className={classes.centerButton}>
+                  <Button variant="contained" className={classes.butac} type="submit">
+                      Realizar Entrega
+                  </Button>
+                </div>
+
+                </>
+
+                ):null}
+               
+                
+                </form>
             </Container>
+
             <Copyright />
             </main>
         </div>

@@ -86,7 +86,7 @@ function App() {
 				
 
 			{/* Entregar Proyecto */}
-			<Route exact path='/developer/project/send' render={ ()=> <SendProject/>}/>
+			<Route exact path='/project/freelancer/send/:id' render={ (props)=> <SendProject {...props}/>}/>
 
 			{/* Revisar Proyecto */}
 				<Route exact path='/contractor/project/review' render={ ()=> <ReviewProject />}/>
