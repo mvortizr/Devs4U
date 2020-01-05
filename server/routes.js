@@ -106,10 +106,11 @@ router.post('/project/stage/chance/deadline/:id',ensureAuthenticated,projectStag
 
 
 //Rutas postulaciones proyecto
-router.put('/project/postulation/do/', ensureAuthenticated,projectPostulationController.postularseProyecto)
-router.get('/project/postulation/list/',ensureAuthenticated,projectPostulationController.verUsuariosPostuladosProyecto)
-router.delete('/project/postulation/undo/',ensureAuthenticated,projectPostulationController.deshacerPostulacionProyecto)
-router.get('/freelancer/postulation/list',ensureAuthenticated,projectPostulationController.verProyectosPostuladosUsuario) //proyectos propios
+router.put('/project/postulation/do', ensureAuthenticated,projectPostulationController.postularseProyecto)
+router.post('/project/postulation/list/',ensureAuthenticated,projectPostulationController.verUsuariosPostuladosProyecto)
+router.delete('/project/postulation/undo',ensureAuthenticated,projectPostulationController.deshacerPostulacionProyecto)
+router.post('/freelancer/postulation/list',ensureAuthenticated,projectPostulationController.verProyectosPostuladosUsuario) 
+router.post('/freelancer/postulation/check',ensureAuthenticated,projectPostulationController.verSiEstoyPostuladoProyecto) //proyectos propios
 
 
 

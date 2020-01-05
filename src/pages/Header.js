@@ -435,11 +435,11 @@ if(props.type=="contractor"){
                 <Divider />
                 <List>{secondaryListItems}</List>
                 <List>
-                  <ListItem button>
+                  <ListItem button onClick={handleLogOut}>
                     <ListItemIcon>
                       <ExitToAppIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Cerrar Sesión" onClick={handleLogOut} />
+                    <ListItemText primary="Cerrar Sesión"  />
                   </ListItem>
                 </List>
               </Drawer>

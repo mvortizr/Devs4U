@@ -17,6 +17,13 @@ import EliminarProyectoDialog from '../components/Dialog'
 import { Link as DomLink } from 'react-router-dom'
 import Header from './Header'
 import PersonIcon from '@material-ui/icons/Person'
+import DevPagination from '../components/Pagination';
+import axios from 'axios'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Radio from '@material-ui/core/Radio';
+
+
+
 
 function Copyright() {
   return (
@@ -133,7 +140,9 @@ const useStyles = makeStyles(theme => ({
     paddingTop: '56.25%' // 16:9
   },
   cardContent: {
-    flexGrow: 1
+    flexGrow: 1,
+    display:'flex',
+    justifyContent:'space-between'
   },
   media:{
     backgroundColor:"#FFC100",
@@ -153,78 +162,168 @@ const useStyles = makeStyles(theme => ({
     marginTop: "20px",
     marginLeft: "50px"
   },
+  bottomButtons:{
+     display: 'flex',
+    justifyContent: 'center',
+  }
 }))
 
 export default function ExecuteProject(props) {
-    const classes = useStyles()
-    var cards = [1, 2, 3, 4, 5]
-    const [checked, setChecked] = React.useState(true);
-    const [value, setValue] = React.useState(2);
+  const classes = useStyles()
+  const [checked, setChecked] = React.useState(true);
+  const [selectedDev, setSelectedDev] = React.useState(0);
+  const projectId = props.match.params.id
+  const [devs,setDevs] = React.useState(undefined);
+  const [devPage, setDevPage] = React.useState(1) 
+  const [devTotalCount, setDevTotalCount] = React.useState(0) //TODO
+  const devPageSize = 6
+    
+  const handleChange = event => {
+    setSelectedDev(event.target.value);
+  };
 
-    const handleChange = event => {
-        setChecked(event.target.checked);
-    };
+  const increaseDevPage = () => {
+      setDevPage(page => page + 1);
+  }
 
-    if(props.type=="contractor"){
-        return (
-            <div className={classes.root}>
-                <CssBaseline />
-                <Header type="contractor"/>
-                <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                <Container className={classes.cardGrid} maxWidth="md">
-                    <Grid item xs={12} md={4}>
-                        <Typography component="h1" variant="h5" color="textPrimary" gutterBottom>
-                            Etapa: Abierto 
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                        <Typography component="h1" variant="h6" color="textPrimary" gutterBottom>
-                            Para promover el proyecto a la etapa de ejecución, seleccione un desarrollador encargado entre la lista de postulantes 
-                        </Typography>
-                        <br/>
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                        <Divider/>
-                    </Grid>
-                    <Grid container spacing={4} className={classes.grid}>
-                    {cards.map(card => (
-                        <Grid item key={card} xs={12} sm={6} md={12}>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent}>
-                            <Typography content="h2" variant="h6"> 
-                                <Checkbox
-                                    onChange={handleChange}
-                                    value="secundary"
-                                    color="primary"
-                                />
-                                <PersonIcon className={classes.text}/> Carlos Cristian Gomez 
-                                <Rating value={value} readOnly className={classes.text}/>
-                                <Button variant="contained" className={classes.text}>
-                                    Ver Portafolio
-                                </Button>
-                                <Button variant="contained" className={classes.text}>
-                                    Ver Perfil
-                                </Button>
-                            </Typography>
-                            </CardContent>
-                        </Card>
-                        </Grid>
-                    ))}
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                        <Divider/>
-                    <Button variant="contained" className={classes.but}>
-                        Cancelar
-                    </Button>
-                    <Button variant="contained" color="primary" className={classes.but}>
-                        Comenzar ejecución
-                    </Button>
-                    </Grid>
-                </Container>
-                <Copyright />
-                </main>
-            </div>
-            );
+  const decreaseDevPage = () => {
+    if((devPage - 1) >=1){
+      setDevPage(page => page - 1);
     }
+  }
+
+
+    React.useEffect(() => {
+  
+      axios({ method: 'post',
+          validateStatus: function(status) {
+            return status >= 200 && status < 500; 
+          },
+          url:`/project/postulation/list/`, 
+          withCredentials:true,
+          data: { page:devPage , pageSize: devPageSize, proyectoId: projectId}
+        })
+        .then(response =>{
+            console.log('ejecutar proj res',response)
+            if(response.status === 200){
+ 
+                setDevs(response.data.rows)
+                setDevTotalCount(response.data.count)
+
+            } 
+            
+        })
+        .catch(error => {
+          console.log('error',error)
+        })
+  
+    }, [devPage]);
+
+const handleExecuteProject = () => {
+  if(selectedDev !== 0){
+     axios({ method: 'post',
+          validateStatus: function(status) {
+            return status >= 200 && status < 500; 
+          },
+          url:`/project/add/freelancer/incharge/${selectedDev}`, 
+          withCredentials:true,
+          data: {proyectoId: projectId}
+        })
+        .then(response =>{
+            console.log('ejecutar proj res',response)
+            if(response.status === 200){
+                
+               alert('Se ha cambiado la etapa de proyecto a ejecución')
+               props.history.push(`/project/view/${projectId}`)
+
+            } 
+            
+        })
+        .catch(error => {
+          console.log('error',error)
+    })
+  } else {
+    alert('Debe seleccionar un freelancer')
+  }
+}
+
+   
+return (
+    <div className={classes.root}>
+        <CssBaseline />
+        <Header type="contractor"/>
+        <main className={classes.content}>
+        {console.log('selectedDev',selectedDev)}
+        <div className={classes.appBarSpacer} />
+        <Container className={classes.cardGrid} maxWidth="md">
+            <Grid item xs={12} md={4}>
+                <Typography component="h1" variant="h5" color="textPrimary" gutterBottom>
+                    Etapa: Abierto 
+                </Typography>
+            </Grid>
+            <Grid item xs={12} md={12}>
+                <Typography component="h1" variant="h6" color="textPrimary" gutterBottom>
+                    Para promover el proyecto a la etapa de ejecución, seleccione un desarrollador encargado entre la lista de postulantes 
+                </Typography>
+                <br/>
+            </Grid>
+            <Grid item xs={12} md={12}>
+                <Divider/>
+            </Grid>
+            { devs?(
+            <Grid container spacing={4} className={classes.grid}>
+            {devs.map(card => (
+                <Grid item key={card.User.id} xs={12} sm={6} md={12}>
+                <Card className={classes.card}>
+                    <CardContent className={classes.cardContent}>
+                    <Typography content="h2" variant="h6"> 
+                        <Radio
+                            checked={selectedDev == card.User.id}
+                            onChange={handleChange}
+                            value={card.User.id}
+                            name="radio-button-demo"
+                        />
+                         {card.User.nombre}
+                        <Rating value={card.User.calificacionesMedia} readOnly className={classes.text}/>
+                       
+                       
+                    </Typography>
+                    <div>
+                     <DomLink to={`/view/portafolio/${card.User.id}`} style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                        <Button variant="contained" className={classes.text}>
+                            Ver Portafolio
+                        </Button>
+                        </DomLink>
+
+                        <DomLink to={`/view/profile/${card.User.id}/${card.User.rol}`} style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+                        <Button variant="contained" className={classes.text}>
+                            Ver Perfil
+                        </Button>
+                         </DomLink>
+                    </div>
+                    </CardContent>
+                </Card>
+                </Grid>
+            ))}
+            </Grid>): (<CircularProgress/>)}
+            <DevPagination color={"primary"} currentPage={devPage} pageSize={devPageSize} totalCount={devTotalCount} increasePage={increaseDevPage} decreasePage={decreaseDevPage}/>
+            
+            <Divider/>
+
+            <Grid item xs={12} md={12} className={classes.bottomButtons}>              
+            <DomLink to={`/project/view/${projectId}`} style={{ textDecoration: 'none',color: 'rgb(33,40,53)' }}>
+            <Button variant="contained" className={classes.but}>
+                Cancelar
+            </Button>
+            </DomLink>
+            <Button variant="contained" color="primary" className={classes.but} onClick={handleExecuteProject}>
+                Comenzar ejecución
+            </Button>
+            </Grid>
+        </Container>
+        <Copyright />
+        </main>
+    </div>
+    );
+    
 }

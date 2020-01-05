@@ -293,9 +293,6 @@ export default function ConsultProfile(props) {
   }, [reviewPage]);
 
   
-    
-
-  
 
   if(user){
         return (
@@ -378,6 +375,8 @@ export default function ConsultProfile(props) {
                          Web
                       </Button>
                        ):null}
+                
+
                     </Box>
                   </Grid>
                  

@@ -165,6 +165,7 @@ export default function ConsultProject(props) {
   const [open, setOpen] = React.useState(true);
   const [activeStep, setActiveStep] = React.useState(4);
   const [openDialog, setOpenDialog] = React.useState(false)
+  const [estoyPostulado, setEstoyPostulado] = React.useState(false)
   const [steps,setSteps] = React.useState(['Abierto  17/12/2019', 'Ejecución  17/12/2019', 'Revisión  17/12/2019', 'Finalizado  17/12/2019'])
   //const steps = getSteps();
   const projectId = props.match.params.id
@@ -172,9 +173,7 @@ export default function ConsultProject(props) {
   const myRol= sessionStorage.getItem('rol');
   const myId= sessionStorage.getItem('userId');
 
-  const handleDisablePostulation =() => {
-    return 'hola'
-  }
+ 
   
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -205,7 +204,81 @@ export default function ConsultProject(props) {
      
     }, []);
 
+    React.useEffect(() => {
+      axios({ method: 'post',
+        validateStatus: function(status) {
+          return status >= 200 && status < 500; 
+        },
+        url:`/freelancer/postulation/check`, 
+        withCredentials:true,
+        data:{proyectoId: projectId}
+      })
+      .then(response =>{
 
+        //moment('2019-11-03T05:00:00.000Z').utc().format('MM/DD/YYYY')
+          console.log('postulation res',response)
+          if(response.status === 200){
+            if(response.data.length<1){
+              setEstoyPostulado(false)
+            }else{
+              setEstoyPostulado(true)
+            }   
+          } 
+          
+      })
+      .catch(error => {
+        console.log('error',error)
+      })
+     
+    }, []);
+
+  const handleDoPostulation = ()=> {
+    axios({ method: 'put',
+        validateStatus: function(status) {
+          return status >= 200 && status < 500; 
+        },
+        url:`/project/postulation/do`, 
+        withCredentials:true,
+        data:{proyectoId: projectId}
+      })
+      .then(response =>{
+
+        //moment('2019-11-03T05:00:00.000Z').utc().format('MM/DD/YYYY')
+          console.log('postulation res',response)
+          if(response.status === 200){
+            setEstoyPostulado(true)
+            alert('Ha hecho su postulación correctamente')
+          } 
+          
+      })
+      .catch(error => {
+        console.log('error',error)
+      })
+  }
+  
+  const handleUndoPostulation = ()=> {
+    axios({ method: 'delete',
+        validateStatus: function(status) {
+          return status >= 200 && status < 500; 
+        },
+        url:`/project/postulation/undo`, 
+        withCredentials:true,
+        data:{proyectoId: projectId}
+      })
+      .then(response =>{
+
+        //moment('2019-11-03T05:00:00.000Z').utc().format('MM/DD/YYYY')
+          console.log('postulation res',response)
+          if(response.status === 200){
+            setEstoyPostulado(false)
+            alert('Ha retirado su postulación correctamente')
+          } 
+          
+      })
+      .catch(error => {
+        console.log('error',error)
+      })
+  }
   
   
   const handleClickOpenDialog = ()=> {
@@ -244,6 +317,7 @@ export default function ConsultProject(props) {
                 {/* {console.log('post info', postInfo)} */}
                 <Header type={myRol}/>
                 {console.log('myRol', myRol)}
+                {console.log('estoyPostulado', estoyPostulado)}
                 { project!== '' && project!== undefined? (
                 <main className={classes.content}>
                   <div className={classes.appBarSpacer} />
@@ -342,9 +416,17 @@ export default function ConsultProject(props) {
 
 
                         { project.etapa === 0?(
-                        <Button variant="contained" color="primary" className={classes.buttonC}>
-                          Ejecutar
-                        </Button>):null}
+                          <DomLink
+                            to={`/project/execute/${projectId}`}
+                            style={{
+                              textDecoration: 'none',
+                              color: 'rgb(33,40,53)'
+                            }}>
+                          <Button variant="contained" color="primary" className={classes.buttonC}>
+                            Ejecutar
+                          </Button>
+                          </DomLink>
+                        ):null}
 
                         { project.etapa === 2?(
                         <Button variant="contained" color="primary" className={classes.buttonC}>
@@ -354,14 +436,19 @@ export default function ConsultProject(props) {
                         </>
                         ):null}
 
-                        {project.etapa === 0 && myRol==='freelancer'?(
-                        <Button variant="contained" color="primary" className={classes.buttonC}>
+                        {project.etapa === 0 && myRol==='freelancer' && !estoyPostulado?(
+                        <Button variant="contained" color="primary" className={classes.buttonC} onClick={handleDoPostulation}>
                           Postularse
+                        </Button>):null}
+
+                         {project.etapa === 0 && myRol==='freelancer' && estoyPostulado?(
+                        <Button variant="contained" color="primary" className={classes.buttonC} onClick={handleUndoPostulation}>
+                          Deshacer Postulación
                         </Button>):null}
                         
 
                         { project.etapa === 1 && myRol==='freelancer' && project.encargado!== null && project.encargado.id===myId? (
-                        <Button variant="contained" color="primary" className={classes.buttonC} disable={handleDisablePostulation}>
+                        <Button variant="contained" color="primary" className={classes.buttonC} >
                          Entregar 
                         </Button>
                         ):null}

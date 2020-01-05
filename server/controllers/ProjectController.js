@@ -140,7 +140,8 @@ module.exports={
 
     asignarFreelancerEncargado(req,res){
         model.Project.update(
-            {encargadoId:req.params.id},
+            {encargadoId:req.params.id,
+                etapa:1},
             {where:{id:req.body.proyectoId}}) 
         .then(function(){res.status(200).send({ message:'El freelancer ha sido asignado'})   })
         .catch(err => res.status(400).json('Error: ' + err));
