@@ -2,6 +2,8 @@
 
 Devs4U is a web application that connects freelancers with contractors and allows them to manage their projects. It still needs lots of refactor, tests and deployment. Basically is a work in progress. 
 
+Node version 8.10.0
+
 
 ### To install the repository 
 
