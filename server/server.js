@@ -25,7 +25,7 @@ app.use(cookieSession({
 
 app.use(passport.initialize());
 app.use(passport.session());
-require('../config/passport')(passport);
+require('./config/passport')(passport);
 
 app.use(morgan('dev'));
     
