@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/Grupo8IngSoftUcab/Devs4U.git"
   },
+  "engines": {
+    "node": "10.13.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
