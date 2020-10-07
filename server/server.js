@@ -10,7 +10,7 @@ const cookieSession = require('cookie-session');
 const morgan = require('morgan')
 
 
-const publicPath = path.join(__dirname, '..', 'public');
+const publicPath = path.join(__dirname, '..','client', 'public');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));

@@ -1,0 +1,21 @@
+{
+  "name": "Devs4U",
+  "version": "1.0.0",
+  "description": "Devs4U is a web application that connects freelancers with contractors and allows them to manage their projects. It still needs lots of refactor, tests and deployment. Basically is a work in progress.",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd server && yarn && yarn start",
+    "heroku-postbuild": "cd client && yarn && yarn run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Grupo8IngSoftUcab/Devs4U.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Grupo8IngSoftUcab/Devs4U/issues"
+  },
+  "homepage": "https://github.com/Grupo8IngSoftUcab/Devs4U#readme"
+}
